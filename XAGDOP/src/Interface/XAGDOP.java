@@ -6,6 +6,7 @@
  */
 package src.Interface;
 
+
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -206,7 +207,7 @@ public class XAGDOP extends JFrame{
 	public static void main(String args[]){
 		
 		
-		
+		/*
 		
 		if (args!=null && args.length > 0)
 		{
@@ -225,7 +226,7 @@ public class XAGDOP extends JFrame{
 			Bundle.setCurrentLocale(Locale.FRENCH);
 		}
 		
-		
+		*/
 		XAGDOP frame = new XAGDOP();
 	}
 	
