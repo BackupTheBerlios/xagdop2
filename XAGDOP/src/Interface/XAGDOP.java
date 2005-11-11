@@ -9,6 +9,7 @@ package src.Interface;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Locale;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -123,7 +124,7 @@ public class XAGDOP extends JFrame{
 		pan.add(pan2,BorderLayout.CENTER);
 		projet.addActionListener (new ouvrirIprojet());
 		equipe.addActionListener (new ouvrirIUser());
-		setTitle(/*Bundle.getText(*/"main.title"/*)*/);
+		//setTitle(Bundle.getText("main.title"));
 		setSize(700, 400);
 		setVisible(true);
 	}
@@ -203,6 +204,28 @@ public class XAGDOP extends JFrame{
 	}
 	
 	public static void main(String args[]){
+		
+		
+		
+		
+		if (args!=null && args.length > 0)
+		{
+			if ((args[0]).equals("french") ) 
+			{
+				Bundle.setCurrentLocale(Locale.FRENCH);
+			}
+			else if ( (args[0]).equals("english") ) 
+			{
+				Bundle.setCurrentLocale(Locale.ENGLISH); 
+			}
+		
+		}
+		else
+		{
+			Bundle.setCurrentLocale(Locale.FRENCH);
+		}
+		
+		
 		XAGDOP frame = new XAGDOP();
 	}
 	
