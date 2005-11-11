@@ -2,7 +2,6 @@ package src.Interface;
 
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Point;
 import java.awt.TextArea;
@@ -18,7 +17,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import src.Controleur.*;
+
+
 public class IProjet extends JFrame{
+	
+	//private CProject cpro = new CProject();
 	
 	private static IProjet IP = null;
 	
@@ -29,9 +33,9 @@ public class IProjet extends JFrame{
 	
 	
 	private void init(){
-		TextField np;
+		TextField np = new TextField(30);
 
-		TextArea desc;
+		TextArea desc= new TextArea(4,30);
 				
 		setTitle("Creer un projet");
 		setSize(300, 400);
@@ -51,16 +55,16 @@ public class IProjet extends JFrame{
 		JLabel nomProjet = new JLabel("Nom du projet");
 		nomProjet.setToolTipText("<HTML><BODY BGCOLOR=#E3E3E3><FONT COLOR=#0000AB>Nom du projet sur le depot SubVersion</FONT></BODY></HTML>") ;
 		projetTopContainer.add(nomProjet);
-		projetTopContainer.add(np = new TextField(30));
+		projetTopContainer.add(np);
 		projetTopContainer.add(new JLabel("Description du projet"));
-		projetTopContainer.add(desc = new TextArea(4,30));
+		projetTopContainer.add(desc );
 		
 		JButton valider = new JButton("valider");
 		valider.addActionListener(new ActionListener()
 				{
 				    public void actionPerformed(ActionEvent e)
 				    {
-					//nouveauProjet();
+					CProject.nouveauProjet();
 				    }
 				}) ;
 
