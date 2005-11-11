@@ -33,9 +33,9 @@ public class IProjet extends JFrame{
 	
 	
 	private void init(){
-		TextField np = new TextField(30);
+		final TextField np = new TextField(30);
 
-		TextArea desc= new TextArea(4,30);
+		final TextArea desc= new TextArea(4,30);
 				
 		setTitle("Creer un projet");
 		setSize(300, 400);
@@ -52,7 +52,7 @@ public class IProjet extends JFrame{
 		projetTopContainer.add(Box.createHorizontalStrut(15)) ;
 
 
-		JLabel nomProjet = new JLabel("Nom du projet");
+		final JLabel nomProjet = new JLabel("Nom du projet");
 		nomProjet.setToolTipText("<HTML><BODY BGCOLOR=#E3E3E3><FONT COLOR=#0000AB>Nom du projet sur le depot SubVersion</FONT></BODY></HTML>") ;
 		projetTopContainer.add(nomProjet);
 		projetTopContainer.add(np);
@@ -64,7 +64,7 @@ public class IProjet extends JFrame{
 				{
 				    public void actionPerformed(ActionEvent e)
 				    {
-					CProject.nouveauProjet();
+					CProject.nouveauProjet(np.getText(),desc.getText());
 				    }
 				}) ;
 
