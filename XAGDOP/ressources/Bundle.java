@@ -17,7 +17,7 @@ public class Bundle
 
   
   static private final String BASENAME = "label";
-  static private ResourceBundle bundle = ResourceBundle.getBundle(Bundle.BASENAME, Locale.getDefault());
+  static private ResourceBundle bundle = ResourceBundle.getBundle(Bundle.BASENAME, Locale.ENGLISH);
 
   static public void setCurrentLocale(Locale locale)
   {
