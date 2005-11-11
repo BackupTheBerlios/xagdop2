@@ -17,8 +17,12 @@ public class CProject {
 	/*
 	 * Methode de la classe
 	 */
-	
-	
+	/*
+	public void nouveauProjet()
+	{
+		
+	}
+	*/
 	
 	
 	
