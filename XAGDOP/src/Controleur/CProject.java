@@ -21,10 +21,15 @@ public class CProject {
 	 * Methode de la classe
 	 */
 	
-	public static void nouveauProjet()
+	public static void nouveauProjet(String nomProjet,String descriptionProjet)
 	{
 		//Creation du projet sur le depot
-		JOptionPane.showMessageDialog(null ,"Projet Bien crée" , "Validation" , 1) ;
+		
+		
+		
+		
+		
+		JOptionPane.showMessageDialog(null ,"Le projet "+nomProjet+" a bien été crée ", "Validation" , 1) ;
 
 	}
 	
