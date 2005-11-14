@@ -65,34 +65,16 @@ public class SvnDisplayRepositoryTree {
      * args parameter is used to obtain a repository location URL, user's
      * account name & password to authenticate him to the server.
      */
-    public static void main(String[] args) {
-        /*
-         * default values:
-         */
-        String url = "http://72.9.228.230:8080/svn/jsvn/branches/jorunal";
-        String name = "anonymous";
-        String password = "anonymous";
+	 protected String url = "svn://marine.edu.ups-tlse.fr/XAGDOP";
+	 protected String name = "m1isb4";
+	 protected String password = "Pro1etBE";
+
+    public SvnDisplayRepositoryTree() {
+       
+    }
  
-        /*
-         * initializes the library (it must be done before ever using the
-         * library itself)
-         */
-        setupLibrary();
-        if (args != null) {
-            /*
-             * obtains a repository location URL
-             */
-            url = (args.length >= 1) ? args[0] : url;
-            /*
-             * obtains an account name (will be used to authenticate the user to
-             * the server)
-             */
-            name = (args.length >= 2) ? args[1] : name;
-            /*
-             * obtains a password
-             */
-            password = (args.length >= 3) ? args[2] : password;
-        }
+    public SVNRepository connect(){
+    	setupLibrary();
         SVNRepository repository = null;
         try {
             /*
@@ -158,35 +140,20 @@ public class SvnDisplayRepositoryTree {
              * Displays the repository tree at the current path - "" (what means
              * the path/to/repository directory)
              */
-            listEntries(repository, "");
-        } catch (SVNException svne) {
+           } catch (SVNException svne) {
             System.err.println("error while listing entries: "
                     + svne.getMessage());
             System.exit(1);
         }
-        /*
-         * Gets the latest revision number of the repository
-         */
-        long latestRevision = -1;
-        try {
-            latestRevision = repository.getLatestRevision();
-        } catch (SVNException svne) {
-            System.err
-                    .println("error while fetching the latest repository revision: "
-                            + svne.getMessage());
-            System.exit(1);
-        }
-        System.out.println("");
-        System.out.println("---------------------------------------------");
-        System.out.println("Repository latest revision: " + latestRevision);
-        System.exit(0);
+    	
+    	return repository;
     }
- 
+    
     /*
      * Initializes the library to work with a repository either via svn:// 
      * (and svn+ssh://) or via http:// (and https://)
      */
-    private static void setupLibrary() {
+    public  void setupLibrary() {
         /*
          * for DAV (over http and https)
          */
@@ -208,7 +175,7 @@ public class SvnDisplayRepositoryTree {
      * is a part of the URL used to create an SVNRepository instance);
      *  
      */
-    private static void listEntries(SVNRepository repository, String path)
+    public  Collection listEntries(SVNRepository repository, String path)
             throws SVNException {
         /*
          * Gets the contents of the directory specified by path at the latest
@@ -227,6 +194,9 @@ public class SvnDisplayRepositoryTree {
          */
         Collection entries = repository.getDir(path, -1, null,
                 (Collection) null);
+        	
+        return entries;
+        /*
         Iterator iterator = entries.iterator();
         while (iterator.hasNext()) {
             SVNDirEntry entry = (SVNDirEntry) iterator.next();
@@ -236,10 +206,10 @@ public class SvnDisplayRepositoryTree {
             /*
              * Checking up if the entry is a directory.
              */
-            if (entry.getKind() == SVNNodeKind.DIR) {
+          /*  if (entry.getKind() == SVNNodeKind.DIR) {
                 listEntries(repository, (path.equals("")) ? entry.getName()
                         : path + "/" + entry.getName());
             }
-        }
+        }*/
     }
 }

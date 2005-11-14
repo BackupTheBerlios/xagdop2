@@ -1,6 +1,13 @@
 package src.Controleur;
 
+import java.util.Collection;
+
 import javax.swing.JOptionPane;
+
+import org.tmatesoft.svn.core.SVNException;
+import org.tmatesoft.svn.core.io.SVNRepository;
+
+import src.Svn.SvnDisplayRepositoryTree;
 
 public class CProject {
 	/*
@@ -13,7 +20,7 @@ public class CProject {
 	/*
 	 * Constructeur
 	 */
-	public CProject(){
+	public CProject(String projectName,String descriptionProjet){
 		
 	}
 	
@@ -21,7 +28,7 @@ public class CProject {
 	 * Methode de la classe
 	 */
 	
-	public static void newProject(String projectName,String descriptionProjet)
+	public void newProject(String projectName,String descriptionProjet)
 	{
 		//Creation du projet sur le depot
 		
@@ -29,11 +36,23 @@ public class CProject {
 		
 		
 		
-		JOptionPane.showMessageDialog(null ,"Le projet "+projectName+" a bien ?t? cr?e ", "Validation" , 1) ;
+		JOptionPane.showMessageDialog(null ,"Le projet "+projectName+" a bien ete cree ", "Validation" , 1) ;
 
 	}
 	
-	
-	
-	
+	public boolean existProject(String projectName){
+		Collection isIn;
+		SvnDisplayRepositoryTree SvnExist = new SvnDisplayRepositoryTree();
+		SVNRepository repository = SvnExist.connect();
+		
+		try {
+			isIn = SvnExist.listEntries(repository,".");
+			
+		} catch (SVNException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return true;
+	}	
 }

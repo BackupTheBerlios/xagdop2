@@ -71,7 +71,9 @@ public class IProject extends JFrame{
 				{
 				    public void actionPerformed(ActionEvent e)
 				    {
-					CProject.newProject(TFNp.getText(),TADesc.getText());
+				    	CProject project= new CProject(TFNp.getText(),TADesc.getText());
+		    	
+					
 				    }
 				}) ;
 
