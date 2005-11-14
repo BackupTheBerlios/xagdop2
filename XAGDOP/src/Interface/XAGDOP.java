@@ -10,7 +10,7 @@ package src.Interface;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Locale;
+//import java.util.Locale;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -26,7 +26,7 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
-import ressources.Bundle;
+//import ressources.Bundle;
 
 /**
  * @author tyriaux
@@ -63,7 +63,7 @@ public class XAGDOP extends JFrame{
 	
 	private void init(){
 		
-		String[] columnNames ={"Version", "Date Modification", "Commentaire"};
+		
 		JPanel pan = (JPanel)this.getContentPane();
 		JPanel pan2 = new JPanel(new BorderLayout());
 		pan.setLayout(new BorderLayout());
@@ -127,7 +127,7 @@ public class XAGDOP extends JFrame{
 		equipe.addActionListener (new ouvrirIUser());
 		//setTitle(Bundle.getText("main.title"));
 		setSize(700, 400);
-		setVisible(true);
+		
 	}
 	
 	class MyTableModel extends AbstractTableModel {
@@ -200,34 +200,18 @@ public class XAGDOP extends JFrame{
 	class ouvrirIPreferences implements ActionListener { 
 		public void actionPerformed (ActionEvent e)  {
 			IPreferences preferences = IPreferences.getIPref();
-	}
+			preferences.setVisible(true);
+			}
 
 	}
 	
 	public static void main(String args[]){
 		
 		
-		/*
-		
-		if (args!=null && args.length > 0)
-		{
-			if ((args[0]).equals("french") ) 
-			{
-				Bundle.setCurrentLocale(Locale.FRENCH);
-			}
-			else if ( (args[0]).equals("english") ) 
-			{
-				Bundle.setCurrentLocale(Locale.ENGLISH); 
-			}
-		
-		}
-		else
-		{
-			Bundle.setCurrentLocale(Locale.FRENCH);
-		}
-		
-		*/
+		//Bundle.setCurrentLocale(Locale.FRENCH);
+	
 		XAGDOP frame = new XAGDOP();
+		frame.setVisible(true);
 	}
 	
 }

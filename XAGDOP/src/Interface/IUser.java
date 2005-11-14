@@ -4,6 +4,10 @@ import javax.swing.JFrame;
 
 public class IUser extends JFrame{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3992012367920054698L;
 	private static IUser IU = null;
 	
 	private IUser(){
