@@ -77,9 +77,11 @@ public class XAGDOP extends JFrame{
 		menuBar.add(menu4);
 		menuBar.add(menu5);
 		
+
 		commit.setIcon(new ImageIcon("../../ressources/Icon/envoyer.gif"));
 		update.setIcon(new ImageIcon("../../ressources/Icon/fleche.jpg"));
 		projet.setIcon(new ImageIcon("../../ressources/Icon/synch.jpg"));
+
 		
 		menuBar2.add(commit);
 		menuBar2.add(update);
