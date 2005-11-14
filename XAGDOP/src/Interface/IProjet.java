@@ -31,8 +31,8 @@ public class IProjet extends JFrame{
 	private static IProjet IP = null;
 	protected TextField TFNp; 
 	protected TextArea TADesc;
-	protected JLabel JlabelNomProjet;
-	protected JPanel JPanelProjetTopContainer;
+	protected JLabel JlabelNameProject;
+	protected JPanel JPanelProjectTopContainer;
 
 	private IProjet(){
 		init();
@@ -46,44 +46,44 @@ public class IProjet extends JFrame{
 				
 		setTitle("Creer un projet");
 		setSize(300, 400);
-		JPanelProjetTopContainer = new JPanel() ;
+		JPanelProjectTopContainer = new JPanel() ;
 		
 			
 		
-		JPanelProjetTopContainer.setLayout(new FlowLayout(FlowLayout.LEFT)) ;
+		JPanelProjectTopContainer.setLayout(new FlowLayout(FlowLayout.LEFT)) ;
 		
 
 		    
-		JPanelProjetTopContainer.setBorder(BorderFactory.createEtchedBorder()) ;
+		JPanelProjectTopContainer.setBorder(BorderFactory.createEtchedBorder()) ;
 		//projetTopContainer.setBackground(black) ;
-		JPanelProjetTopContainer.add(Box.createHorizontalStrut(15)) ;
+		JPanelProjectTopContainer.add(Box.createHorizontalStrut(15)) ;
 
 
-		JlabelNomProjet = new JLabel("Nom du projet");
-		JlabelNomProjet.setToolTipText("<HTML><BODY BGCOLOR=#E3E3E3><FONT COLOR=#0000AB>Nom du projet sur le depot SubVersion</FONT></BODY></HTML>") ;
-		JPanelProjetTopContainer.add(JlabelNomProjet);
-		JPanelProjetTopContainer.add(TFNp);
-		JPanelProjetTopContainer.add(new JLabel("Description du projet"));
-		JPanelProjetTopContainer.add(TADesc);
+		JlabelNameProject = new JLabel("Nom du projet");
+		JlabelNameProject.setToolTipText("<HTML><BODY BGCOLOR=#E3E3E3><FONT COLOR=#0000AB>Nom du projet sur le depot SubVersion</FONT></BODY></HTML>") ;
+		JPanelProjectTopContainer.add(JlabelNameProject);
+		JPanelProjectTopContainer.add(TFNp);
+		JPanelProjectTopContainer.add(new JLabel("Description du projet"));
+		JPanelProjectTopContainer.add(TADesc);
 		
-		JButton valider = new JButton("valider");
+		JButton valider = new JButton("valideSr");
 		valider.addActionListener(new ActionListener()
 				{
 				    public void actionPerformed(ActionEvent e)
 				    {
-					CProject.nouveauProjet(TFNp.getText(),TADesc.getText());
+					CProject.newProject(TFNp.getText(),TADesc.getText());
 				    }
 				}) ;
 
-		JPanelProjetTopContainer.add(valider);
+		JPanelProjectTopContainer.add(valider);
 		
 		//Creation de la fenetre
 		setResizable(true) ;
 
 		setDefaultCloseOperation (WindowConstants.HIDE_ON_CLOSE) ;
 		
-		JPanelProjetTopContainer.setBorder(BorderFactory.createEtchedBorder()) ;
-		getContentPane().add(JPanelProjetTopContainer , BorderLayout.CENTER) ;
+		JPanelProjectTopContainer.setBorder(BorderFactory.createEtchedBorder()) ;
+		getContentPane().add(JPanelProjectTopContainer , BorderLayout.CENTER) ;
 		setLocation(new Point(500 , 200)) ;
 
 

@@ -43,15 +43,15 @@ public class XAGDOP extends JFrame{
 	JPanel panel = new JPanel();
 	JMenuBar menuBar = new JMenuBar();
 	JMenuBar menuBar2 = new JMenuBar();
-	JButton commit = new JButton("Commit");
-	JButton update = new JButton("update");
-	JButton projet = new JButton("Creer Projet");
-	JButton equipe = new JButton("Affecter Equipe");
+	JButton commit = new JButton("");
+	JButton update = new JButton("");
+	JButton projet = new JButton("");
+	JButton equipe = new JButton("");
 	JTable tableVersion;
 	
 	JMenu menu1 = new JMenu("Fichier");
 	JMenu menu2 = new JMenu("Edition");
-	JMenu menu3 = new JMenu("Paramètres");
+	JMenu menu3 = new JMenu("Param??tres");
 	JMenu menu4 = new JMenu("A propos");
 	JMenu menu5 = new JMenu("?");
 	JTree tree;
@@ -77,9 +77,9 @@ public class XAGDOP extends JFrame{
 		menuBar.add(menu4);
 		menuBar.add(menu5);
 		
-		commit.setIcon(new ImageIcon("../Icon/envoyer.gif"));
-		update.setIcon(new ImageIcon("../Icon/fleche.jpg"));
-		projet.setIcon(new ImageIcon("../Icon/synch.jpg"));
+		commit.setIcon(new ImageIcon("../../ressources/Icon/envoyer.gif"));
+		update.setIcon(new ImageIcon("../../ressources/Icon/fleche.jpg"));
+		projet.setIcon(new ImageIcon("../../ressources/Icon/synch.jpg"));
 		
 		menuBar2.add(commit);
 		menuBar2.add(update);
@@ -152,9 +152,9 @@ public class XAGDOP extends JFrame{
 	    	data[1][2]="Maj des rubriques";
 	    	data[2][2]="Creation";
 	    	
-	    	data[0][3]="Jérémy";
-	    	data[1][3]="Rémy";
-	    	data[2][3]="Rémy";
+	    	data[0][3]="J??r??my";
+	    	data[1][3]="R??my";
+	    	data[2][3]="R??my";
 	    	
 	    }
 	    
