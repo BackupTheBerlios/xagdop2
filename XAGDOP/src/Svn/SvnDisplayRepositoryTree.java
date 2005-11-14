@@ -76,13 +76,12 @@ public class SvnDisplayRepositoryTree extends SvnConnect{
 		 password = _password;
 	 }
     
-    public static boolean existProject(String projectName){
+    public boolean existProject(String projectName){
 		Collection isIn;
-		SvnDisplayRepositoryTree SvnExist = new SvnDisplayRepositoryTree();
-		SVNRepository repository = SvnExist.connect();
+		SVNRepository repository = connect();
 		
 		try {
-			isIn = SvnExist.listEntries(repository,".");
+			isIn = listEntries(repository,".");
 			//String path =".";
 			Iterator iterator = isIn.iterator();
 	        while (iterator.hasNext()) {

@@ -33,7 +33,8 @@ public class CProject {
 	
 	public int createProject(){
 		int error = 0;
-		if(SvnDisplayRepositoryTree.existProject(projectName)==false){
+		SvnDisplayRepositoryTree project = new SvnDisplayRepositoryTree();
+		if(project.existProject(projectName)==false){
 			SvnCommit svnC = new SvnCommit();
 			if((error = svnC.createProject(projectName, description))==0){
 				JOptionPane.showMessageDialog(null ,"Le projet "+projectName+" a bien été crée ", "Validation" , 1) ;
