@@ -184,7 +184,7 @@ public class XAGDOP extends JFrame{
 
 	class ouvrirIprojet implements ActionListener { 
 		public void actionPerformed (ActionEvent e)  {
-			IProjet projet = IProjet.getIP();
+			IProject projet = IProject.getIP();
 			projet.setVisible(true);
 	}
 

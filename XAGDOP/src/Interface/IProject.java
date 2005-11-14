@@ -20,7 +20,7 @@ import javax.swing.WindowConstants;
 import src.Controleur.*;
 
 
-public class IProjet extends JFrame{
+public class IProject extends JFrame{
 	
 	//private CProject cpro = new CProject();
 	
@@ -28,13 +28,13 @@ public class IProjet extends JFrame{
 	 * 
 	 */
 	private static final long serialVersionUID = 1560367300092065010L;
-	private static IProjet IP = null;
+	private static IProject IP = null;
 	protected TextField TFNp; 
 	protected TextArea TADesc;
 	protected JLabel JlabelNameProject;
 	protected JPanel JPanelProjectTopContainer;
 
-	private IProjet(){
+	private IProject(){
 		init();
 	}
 	
@@ -93,9 +93,9 @@ public class IProjet extends JFrame{
 	/**
 	 * @return Returns the singleton.
 	 */
-	public static IProjet getIP() {
+	public static IProject getIP() {
 		if (IP==null){
-			IP = new IProjet(); 
+			IP = new IProject(); 
 		}
 		
 		return IP;
