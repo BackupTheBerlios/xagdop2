@@ -2,6 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path=""/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/users/iupisi/m1isi7/IUP/BE/javasvn.jar"/>
+	<classpathentry kind="lib" path="/home/nephos/IUP/BE/XAGDOP/javasvn.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>

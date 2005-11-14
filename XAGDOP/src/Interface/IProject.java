@@ -71,9 +71,12 @@ public class IProject extends JFrame{
 				{
 				    public void actionPerformed(ActionEvent e)
 				    {
-				    	CProject project= new CProject(TFNp.getText(),TADesc.getText());
-		    	
-					
+				    	CProject project= new CProject(TFNp.getText(),TADesc.getText());			    	
+				    	if(project.createProject()==0){
+				    		TADesc.setText("");
+				    		TFNp.setText("");
+				    	}
+				    	IP.setVisible(false);
 				    }
 				}) ;
 

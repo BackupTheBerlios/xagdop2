@@ -60,121 +60,46 @@ import org.tmatesoft.svn.core.wc.SVNWCUtil;
  * --------------------------------------------- 
  * Repository latest revision: 645
  */
-public class SvnDisplayRepositoryTree {
+public class SvnDisplayRepositoryTree extends SvnConnect{
     /*
      * args parameter is used to obtain a repository location URL, user's
      * account name & password to authenticate him to the server.
      */
-	 protected String url = "svn://marine.edu.ups-tlse.fr/XAGDOP";
-	 protected String name = "m1isb4";
-	 protected String password = "Pro1etBE";
-
+	 
     public SvnDisplayRepositoryTree() {
        
     }
  
-    public SVNRepository connect(){
-    	setupLibrary();
-        SVNRepository repository = null;
-        try {
-            /*
-             * Creates an instance of SVNRepository to work with the repository.
-             * All user's requests to the repository are relative to the
-             * repository location used to create this SVNRepository.
-             * SVNURL is a wrapper for URL strings that refer to repository locations.
-             */
-            repository = SVNRepositoryFactory.create(SVNURL.parseURIEncoded(url));
-        } catch (SVNException svne) {
-            /*
-             * Perhaps a malformed URL is the cause of this exception
-             */
-            System.err
-                    .println("error while creating an SVNRepository for location '"
-                            + url + "': " + svne.getMessage());
-            System.exit(1);
-        }
- 
-        /*
-         * User's authentication information is provided via an ISVNAuthenticationManager
-         * instance. SVNWCUtil creates a default usre's authentication manager given user's
-         * name and password.
-         */
-        ISVNAuthenticationManager authManager = SVNWCUtil.createDefaultAuthenticationManager(name, password);
- 
-        /*
-         * Sets the manager of the user's authentication information that will 
-         * be used to authenticate the user to the server (if needed) during 
-         * operations handled by the SVNRepository.
-         */
-        repository.setAuthenticationManager(authManager);
-        try {
-            /*
-             * Checks up if the specified path/to/repository part of the URL
-             * really corresponds to a directory. If doesn't the program exits.
-             * SVNNodeKind is that one who says what is located at a path in a
-             * revision. -1 means the latest revision.
-             */
-            SVNNodeKind nodeKind = repository.checkPath("", -1);
-            if (nodeKind == SVNNodeKind.NONE) {
-                System.err.println("There is no entry at '" + url + "'.");
-                System.exit(1);
-            } else if (nodeKind == SVNNodeKind.FILE) {
-                System.err.println("The entry at '" + url + "' is a file while a directory was expected.");
-                System.exit(1);
-            }
-            /*
-             * getRepositoryRoot returns the actual root directory where the
-             * repository was created
-             */
-            System.out.println("Repository Root: "
-                    + repository.getRepositoryRoot());
-            /*
-             * getRepositoryUUID returns Universal Unique IDentifier (UUID) - an
-             * identifier of the repository
-             */
-            System.out.println("Repository UUID: "
-                    + repository.getRepositoryUUID());
-            System.out.println("");
- 
-            /*
-             * Displays the repository tree at the current path - "" (what means
-             * the path/to/repository directory)
-             */
-           } catch (SVNException svne) {
-            System.err.println("error while listing entries: "
-                    + svne.getMessage());
-            System.exit(1);
-        }
-    	
-    	return repository;
-    }
+    public SvnDisplayRepositoryTree(String _url, String _name, String _password){
+		 url = _url;
+		 name = _name;
+		 password = _password;
+	 }
     
-    /*
-     * Initializes the library to work with a repository either via svn:// 
-     * (and svn+ssh://) or via http:// (and https://)
-     */
-    public  void setupLibrary() {
-        /*
-         * for DAV (over http and https)
-         */
-        DAVRepositoryFactory.setup();
- 
-        /*
-         * for SVN (over svn and svn+ssh)
-         */
-        SVNRepositoryFactoryImpl.setup();
-    }
- 
-    /*
-     * Called recursively to obtain all entries that make up the repository tree
-     * repository - an SVNRepository which interface is used to carry out the
-     * request, in this case it's a request to get all entries in the directory
-     * located at the path parameter;
-     * 
-     * path is a directory path relative to the repository location path (that
-     * is a part of the URL used to create an SVNRepository instance);
-     *  
-     */
+    public static boolean existProject(String projectName){
+		Collection isIn;
+		SvnDisplayRepositoryTree SvnExist = new SvnDisplayRepositoryTree();
+		SVNRepository repository = SvnExist.connect();
+		
+		try {
+			isIn = SvnExist.listEntries(repository,".");
+			//String path =".";
+			Iterator iterator = isIn.iterator();
+	        while (iterator.hasNext()) {
+	            SVNDirEntry entry = (SVNDirEntry) iterator.next();
+	            if(projectName.equals(entry.getName()))
+	            	return true;
+	        }
+			
+		} catch (SVNException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return false;
+	}	
+    
+    
     public  Collection listEntries(SVNRepository repository, String path)
             throws SVNException {
         /*
