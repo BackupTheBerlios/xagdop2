@@ -54,7 +54,7 @@ public class XAGDOP extends JFrame{
 	JMenu menu3 = new JMenu("Param??tres");
 	JMenu menu4 = new JMenu("A propos");
 	JMenu menu5 = new JMenu("?");
-	JTree tree;
+	IProjectTree tree;
 	
 	public XAGDOP(){
 		init();
@@ -90,7 +90,7 @@ public class XAGDOP extends JFrame{
 		
 		
 		
-		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Projets");
+		/*DefaultMutableTreeNode root = new DefaultMutableTreeNode("Projets");
 		DefaultTreeModel model = new DefaultTreeModel(root);	
 		
 		DefaultMutableTreeNode child1 = new DefaultMutableTreeNode("Projet2");
@@ -112,7 +112,8 @@ public class XAGDOP extends JFrame{
 
 		tree  = new JTree(model);
 		tree.setAutoscrolls(true);
-		tree.setBorder(BorderUIResource.getEtchedBorderUIResource()  );
+		tree.setBorder(BorderUIResource.getEtchedBorderUIResource()  );*/
+		tree = new IProjectTree();
 		tableVersion = new JTable(new MyTableModel());
 		//tableVersion = new JTable(new String[8][3],columnNames);
 		

@@ -1,15 +1,7 @@
 package src.Controleur;
 
-import java.util.Collection;
-import java.util.Iterator;
 
 import javax.swing.JOptionPane;
-
-import org.tmatesoft.svn.core.SVNDirEntry;
-import org.tmatesoft.svn.core.SVNException;
-import org.tmatesoft.svn.core.SVNNodeKind;
-import org.tmatesoft.svn.core.io.SVNRepository;
-
 import src.Svn.SvnCommit;
 import src.Svn.SvnDisplayRepositoryTree;
 
