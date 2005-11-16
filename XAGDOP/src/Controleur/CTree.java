@@ -4,6 +4,7 @@ package src.Controleur;
 
 import java.awt.Component;
 import java.util.Collection;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -58,35 +59,7 @@ public class CTree implements TreeModel
 		if( mRoot == null || mRoot.getUserObject() != root )
 		{	
 			
-			SvnConnect svnC = new SvnConnect();
-			svnC.setupLibrary();
-			SVNRepository repository = svnC.connect(); 
-	        
-			SvnDisplayRepositoryTree listeroot = new SvnDisplayRepositoryTree();
-			Collection liste_p;
-			try
-			{
-				liste_p = listeroot.listEntries(repository, "");
-				
-				//Vector vecteur_noeuds = new Vector(liste_p);
-				
-				Iterator iterator = liste_p.iterator();
-		        while (iterator.hasNext()) {
-		            SVNDirEntry entry = (SVNDirEntry) iterator.next();
-		            mRoot.add(new CTreeNode(entry.getName(), false));
-		        }
-
-				
-				
-				Object[] path = {mRoot};
-				fireTreeNodesInserted(this, path, null, null);
-			}
-			catch (SVNException svne)
-			{
-				System.out.println("Exception SVNException!!");
-				System.out.println(svne.toString());
-				System.out.println(svne.getMessage());
-			}
+			
 			
 		}
 	}
@@ -289,17 +262,17 @@ public class CTree implements TreeModel
 		CTreeNode node = null;
 		CTreeNode parent = null;
 		
-	    if (elements.length < 1)
-	        return ;
-	    
-	    if(elements == null || parents == null || elements.length != parents.length) 
-	        return;
-	    
-	    for (int i = 0; i < elements.length; i++)
-        {
-	        //	      retrieve the node identify by his ID
-	        node = (CTreeNode)findWithID(((Identity)elements[i]).getID());
-	        //	      retrieve his parents
+		if (elements.length < 1)
+			return ;
+		
+		if(elements == null || parents == null || elements.length != parents.length) 
+			return;
+		
+		for (int i = 0; i < elements.length; i++)
+		{
+			//	      retrieve the node identify by his ID
+			node = (CTreeNode)findWithID(((Identity)elements[i]).getID());
+			//	      retrieve his parents
 			parent = (CTreeNode)findWithID(((Identity)parents[i]).getID());
 			
 			if( node == null )
@@ -308,10 +281,53 @@ public class CTree implements TreeModel
 			}
 			if( parent != null )
 			{	
-					parent.remove(node) ; 
+				parent.remove(node) ; 
 				// insert the element 
 				fireTreeNodesRemoved( this, parent.getPath(), new int[]{ parent.getIndex(node) }, new Object[]{ node });
 			}	    
+		}
+	}
+	
+	public void refresh(){
+		SvnConnect svnC = new SvnConnect();
+		SVNRepository repository = svnC.connect(); 
+		
+		SvnDisplayRepositoryTree listeroot = new SvnDisplayRepositoryTree();
+		Collection liste_p;
+		try
+		{
+			liste_p = listeroot.listEntries(repository, "");
+			
+			//Vector vecteur_noeuds = new Vector(liste_p);
+			
+			Iterator iterator = liste_p.iterator();
+			Enumeration child;
+			SVNDirEntry entry;
+			boolean exist=false;
+			while (iterator.hasNext()) {
+				child = mRoot.children();
+				entry = (SVNDirEntry) iterator.next();
+				
+				while(child.hasMoreElements()){
+					if(((CTreeNode)child.nextElement()).getName().equals(entry.getName())){
+						exist=true;
+						break;
+						}
+					else
+						exist=false;
+				}
+				if(!exist)
+					mRoot.add(new CTreeNode(entry.getName(), false));
+			}
+			
+			Object[] path = {mRoot};
+			fireTreeNodesInserted(this, path, null, null);
+		}
+		catch (SVNException svne)
+		{
+			System.out.println("Exception SVNException!!");
+			System.out.println(svne.toString());
+			System.out.println(svne.getMessage());
 		}
 	}
 	
