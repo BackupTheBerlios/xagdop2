@@ -87,7 +87,7 @@ public class XAGDOP extends JFrame{
 					public void actionPerformed(ActionEvent e) {
 						// TODO Auto-generated method stub
 						tree.removeAll();
-						((CTree)tree.getModel()).setRoot(null);
+						((CTree)tree.getModel()).refresh();
 					}
 					
 				}
