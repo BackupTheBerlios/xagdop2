@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import ressources.Bundle;
 import src.Controleur.*;
 
 
@@ -44,7 +45,7 @@ public class IProject extends JFrame{
 		TADesc= new TextArea(4,30);
 		
 				
-		setTitle("Creer un projet");
+		setTitle(Bundle.getText("iproject.title"));
 		setSize(300, 400);
 		JPanelProjectTopContainer = new JPanel() ;
 		
@@ -55,14 +56,14 @@ public class IProject extends JFrame{
 		JPanelProjectTopContainer.add(Box.createHorizontalStrut(15)) ;
 
 
-		JlabelNameProject = new JLabel("Nom du projet");
-		JlabelNameProject.setToolTipText("<HTML><BODY BGCOLOR=#E3E3E3><FONT COLOR=#0000AB>Nom du projet sur le depot SubVersion</FONT></BODY></HTML>") ;
+		JlabelNameProject = new JLabel(Bundle.getText("iproject.label.projectname"));
+		JlabelNameProject.setToolTipText(Bundle.getText("iproject.tooltip.projectname")) ;
 		JPanelProjectTopContainer.add(JlabelNameProject);
 		JPanelProjectTopContainer.add(TFNp);
-		JPanelProjectTopContainer.add(new JLabel("Description du projet"));
+		JPanelProjectTopContainer.add(new JLabel(Bundle.getText("iproject.label.description")));
 		JPanelProjectTopContainer.add(TADesc);
 		
-		JButton valider = new JButton("valideSr");
+		JButton valider = new JButton(Bundle.getText("iproject.button.ok"));
 		valider.addActionListener(new ActionListener()
 				{
 				    public void actionPerformed(ActionEvent e)
