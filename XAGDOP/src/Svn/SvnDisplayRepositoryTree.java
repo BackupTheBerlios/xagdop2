@@ -116,8 +116,7 @@ public class SvnDisplayRepositoryTree extends SvnConnect{
          * doesn't provide its own Collection instance and uses the one returned
          * by getDir.
          */
-        Collection entries = repository.getDir(path, -1, null,
-                (Collection) null);
+        Collection entries = repository.getDir(path, -1, null, (Collection) null);
         	
         return entries;
         /*

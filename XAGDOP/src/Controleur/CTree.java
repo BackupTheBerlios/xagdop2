@@ -3,6 +3,8 @@ package src.Controleur;
 
 
 import java.awt.Component;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.swing.Icon;
@@ -21,8 +23,15 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
+import org.tmatesoft.svn.core.SVNDirEntry;
+import org.tmatesoft.svn.core.SVNException;
+import org.tmatesoft.svn.core.io.SVNRepository;
+
 import src.Identity;
 import src.Interface.ICentralPanel;
+import src.Svn.SvnConnect;
+import src.Svn.SvnDisplayRepositoryTree;
+
 
 /**
  * This adapter allows to display the working project list in a JTree
@@ -32,11 +41,11 @@ import src.Interface.ICentralPanel;
 public class CTree implements TreeModel
 {
     private EventListenerList mListenerList = new EventListenerList();
-    private CTreeNode mRoot = new CTreeNode("project", false);
+    private CTreeNode mRoot = new CTreeNode("Projets", false);; 
     
     public CTree()
     {
-        super();
+        super();       
     }
     
     /**
@@ -48,9 +57,37 @@ public class CTree implements TreeModel
 	{
 		if( mRoot == null || mRoot.getUserObject() != root )
 		{	
-			mRoot = new CTreeNode(root, false);
-			Object[] path = {mRoot};
-			fireTreeNodesInserted(this, path, null, null);
+			
+			SvnConnect svnC = new SvnConnect();
+			svnC.setupLibrary();
+			SVNRepository repository = svnC.connect(); 
+	        
+			SvnDisplayRepositoryTree listeroot = new SvnDisplayRepositoryTree();
+			Collection liste_p;
+			try
+			{
+				liste_p = listeroot.listEntries(repository, "");
+				
+				//Vector vecteur_noeuds = new Vector(liste_p);
+				
+				Iterator iterator = liste_p.iterator();
+		        while (iterator.hasNext()) {
+		            SVNDirEntry entry = (SVNDirEntry) iterator.next();
+		            mRoot.add(new CTreeNode(entry.getName(), false));
+		        }
+
+				
+				
+				Object[] path = {mRoot};
+				fireTreeNodesInserted(this, path, null, null);
+			}
+			catch (SVNException svne)
+			{
+				System.out.println("Exception SVNException!!");
+				System.out.println(svne.toString());
+				System.out.println(svne.getMessage());
+			}
+			
 		}
 	}
     

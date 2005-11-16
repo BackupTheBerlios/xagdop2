@@ -48,11 +48,7 @@ public class IProject extends JFrame{
 		setSize(300, 400);
 		JPanelProjectTopContainer = new JPanel() ;
 		
-			
-		
 		JPanelProjectTopContainer.setLayout(new FlowLayout(FlowLayout.LEFT)) ;
-		
-
 		    
 		JPanelProjectTopContainer.setBorder(BorderFactory.createEtchedBorder()) ;
 		//projetTopContainer.setBackground(black) ;

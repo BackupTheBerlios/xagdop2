@@ -8,6 +8,7 @@ package src.Interface;
 
 
 import java.awt.BorderLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 //import java.util.Locale;
@@ -26,6 +27,8 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
+import src.Controleur.CTree;
+
 //import ressources.Bundle;
 
 /**
@@ -43,10 +46,11 @@ public class XAGDOP extends JFrame{
 	JPanel panel = new JPanel();
 	JMenuBar menuBar = new JMenuBar();
 	JMenuBar menuBar2 = new JMenuBar();
-	JButton commit = new JButton("");
-	JButton update = new JButton("");
-	JButton projet = new JButton("");
-	JButton equipe = new JButton("");
+	JButton commit = new JButton(new ImageIcon("ressources/Icon/envoyer.jpg"));
+	JButton update = new JButton(new ImageIcon("ressources/Icon/update.jpg"));
+
+	JButton projet = new JButton(new ImageIcon("ressources/Icon/synch.jpg"));
+	JButton equipe = new JButton(new ImageIcon("ressources/Icon/equipe.jpeg"));
 	JTable tableVersion;
 	
 	JMenu menu1 = new JMenu("Fichier");
@@ -68,9 +72,26 @@ public class XAGDOP extends JFrame{
 		JPanel pan2 = new JPanel(new BorderLayout());
 		pan.setLayout(new BorderLayout());
 		
-		
+		update.setMargin(new Insets(0,0,0,0));
+		update.setToolTipText("Update");
+		commit.setMargin(new Insets(0,0,0,0));
+		commit.setToolTipText("Commit");
+		projet.setMargin(new Insets(0,0,0,0));
+		projet.setToolTipText("Cr?er Projet");
+		equipe.setMargin(new Insets(0,0,0,0));
+		equipe.setToolTipText("Affecter Equipe");
 	
-		
+		update.addActionListener(new ActionListener()
+				{
+
+					public void actionPerformed(ActionEvent e) {
+						// TODO Auto-generated method stub
+						tree.removeAll();
+						((CTree)tree.getModel()).setRoot(null);
+					}
+					
+				}
+			);
 		menuBar.add(menu1);
 		menuBar.add(menu2);
 		menuBar.add(menu3);
@@ -78,9 +99,6 @@ public class XAGDOP extends JFrame{
 		menuBar.add(menu5);
 		
 
-		commit.setIcon(new ImageIcon("../../ressources/Icon/envoyer.gif"));
-		update.setIcon(new ImageIcon("../../ressources/Icon/fleche.jpg"));
-		projet.setIcon(new ImageIcon("../../ressources/Icon/synch.jpg"));
 
 		
 		menuBar2.add(commit);
