@@ -42,24 +42,25 @@ public class IProject extends JFrame{
 	
 	private void init(){
 		TFNp = new TextField(30);
-		TADesc= new TextArea(4,30);
+		TADesc= new TextArea(4,31);
 		
 				
 		setTitle(Bundle.getText("iproject.title"));
-		setSize(300, 400);
+		setSize(261, 235);
 		JPanelProjectTopContainer = new JPanel() ;
 		
 		JPanelProjectTopContainer.setLayout(new FlowLayout(FlowLayout.LEFT)) ;
 		    
 		JPanelProjectTopContainer.setBorder(BorderFactory.createEtchedBorder()) ;
 		//projetTopContainer.setBackground(black) ;
-		JPanelProjectTopContainer.add(Box.createHorizontalStrut(15)) ;
+		//JPanelProjectTopContainer.add(Box.createHorizontalStrut(15)) ;
 
-
+		JPanelProjectTopContainer.add(Box.createHorizontalStrut(72)) ;
 		JlabelNameProject = new JLabel(Bundle.getText("iproject.label.projectname"));
 		JlabelNameProject.setToolTipText(Bundle.getText("iproject.tooltip.projectname")) ;
 		JPanelProjectTopContainer.add(JlabelNameProject);
 		JPanelProjectTopContainer.add(TFNp);
+		JPanelProjectTopContainer.add(Box.createHorizontalStrut(72)) ;
 		JPanelProjectTopContainer.add(new JLabel(Bundle.getText("iproject.label.description")));
 		JPanelProjectTopContainer.add(TADesc);
 		
@@ -76,7 +77,7 @@ public class IProject extends JFrame{
 				    	IP.setVisible(false);
 				    }
 				}) ;
-
+		JPanelProjectTopContainer.add(Box.createHorizontalStrut(80)) ;
 		JPanelProjectTopContainer.add(valider);
 		
 		//Creation de la fenetre
