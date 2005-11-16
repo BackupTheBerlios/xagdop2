@@ -320,11 +320,8 @@ public class CTree implements TreeModel
 				
 				
 				
-				if(toRemove){
-					node.remove(tmp);
-				
-					
-			
+				if(toRemove)
+					node.remove(tmp);		
 			}
 
 			
