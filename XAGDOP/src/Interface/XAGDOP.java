@@ -12,6 +12,7 @@ import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Locale;
 //import java.util.Locale;
 
 import javax.swing.BorderFactory;
@@ -30,6 +31,8 @@ import javax.swing.plaf.BorderUIResource;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+
+import ressources.Bundle;
 import src.Controleur.CTree;
 import src.Controleur.CTreeNode;
 
@@ -59,7 +62,7 @@ public class XAGDOP extends JFrame{
 	
 	JMenu menu1 = new JMenu("Fichier");
 	JMenu menu2 = new JMenu("Edition");
-	JMenu menu3 = new JMenu("Param??tres");
+	JMenu menu3 = new JMenu("Parametres");
 	JMenu menu4 = new JMenu("A propos");
 	JMenu menu5 = new JMenu("?");
 	IProjectTree tree;
@@ -110,36 +113,10 @@ public class XAGDOP extends JFrame{
 		menuBar2.add(projet);
 		menuBar2.add(equipe);
 		
-		
-		
-		/*DefaultMutableTreeNode root = new DefaultMutableTreeNode("Projets");
-		DefaultTreeModel model = new DefaultTreeModel(root);	
-		
-		DefaultMutableTreeNode child1 = new DefaultMutableTreeNode("Projet2");
-		DefaultMutableTreeNode child = new DefaultMutableTreeNode("Projet1");
-		DefaultMutableTreeNode child2 = new DefaultMutableTreeNode("fichiers.apes");
-		DefaultMutableTreeNode child3 = new DefaultMutableTreeNode("fichiers.pog");
-		DefaultMutableTreeNode child4 = new DefaultMutableTreeNode("fichier.pre");
-		//DefaultMutableTreeNode child5 = new DefaultMutableTreeNode("bla");
-		child.add(child2);
-		child.add(child3);
-		//child.add(child4);
-		
-		//child1.add(child2);
-		//child1.add(child3);
-		child1.add(child4);
-		
-		root.add(child);
-		root.add(child1);
-
-		tree  = new JTree(model);
-		tree.setAutoscrolls(true);
-		tree.setBorder(BorderUIResource.getEtchedBorderUIResource()  );*/
-		
+	
 		
 		tableVersion = new JTable(new MyTableModel());
-		//tableVersion = new JTable(new String[8][3],columnNames);
-		
+			
 		tableVersion.setBorder(BorderUIResource.getBlackLineBorderUIResource()  );
 		
 		tree = new IProjectTree();
@@ -158,7 +135,7 @@ public class XAGDOP extends JFrame{
 		pan.add(pan2,BorderLayout.CENTER);
 		projet.addActionListener (new ouvrirIprojet());
 		equipe.addActionListener (new ouvrirIUser());
-		//setTitle(Bundle.getText("main.title"));
+		setTitle(Bundle.getText("main.title"));
 		setSize(700, 400);
 		
 	}
@@ -185,9 +162,9 @@ public class XAGDOP extends JFrame{
 	    	data[1][2]="Maj des rubriques";
 	    	data[2][2]="Creation";
 	    	
-	    	data[0][3]="J??r??my";
-	    	data[1][3]="R??my";
-	    	data[2][3]="R??my";
+	    	data[0][3]="Jeremy";
+	    	data[1][3]="Remy";
+	    	data[2][3]="Remy";
 	    	
 	    }
 	    
@@ -241,7 +218,7 @@ public class XAGDOP extends JFrame{
 	public static void main(String args[]){
 		
 		
-		//Bundle.setCurrentLocale(Locale.FRENCH);
+		Bundle.setCurrentLocale(Locale.FRENCH);
 	
 		XAGDOP frame = new XAGDOP();
 		frame.setVisible(true);
