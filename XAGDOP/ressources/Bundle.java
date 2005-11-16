@@ -12,11 +12,11 @@ import java.util.*;
 public class Bundle
 {
  
-  static public final String DATA_DIRECTORY = ".";
+  static public final String DATA_DIRECTORY = "ressources/";
   static public final String DATA_FILE_EXTENSION = "properties";
 
   
-  static private final String BASENAME = "label";
+  static private final String BASENAME = "ressources/label";
   static private ResourceBundle bundle = ResourceBundle.getBundle(Bundle.BASENAME, Locale.ENGLISH);
 
   static public void setCurrentLocale(Locale locale)
