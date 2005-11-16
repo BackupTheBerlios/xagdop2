@@ -28,6 +28,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 import src.Controleur.CTree;
+import src.Controleur.CTreeNode;
 
 //import ressources.Bundle;
 
@@ -87,7 +88,7 @@ public class XAGDOP extends JFrame{
 					public void actionPerformed(ActionEvent e) {
 						// TODO Auto-generated method stub
 						tree.removeAll();
-						((CTree)tree.getModel()).refresh();
+						((CTree)tree.getModel()).refresh((CTreeNode)((CTree)tree.getModel()).getRoot());
 					}
 					
 				}
