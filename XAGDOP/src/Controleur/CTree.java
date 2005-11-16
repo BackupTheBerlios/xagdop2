@@ -288,24 +288,52 @@ public class CTree implements TreeModel
 		}
 	}
 	
-	public void refresh(){
+	public void refresh(CTreeNode node){
+		//node.removeAllChildren();
 		SvnConnect svnC = new SvnConnect();
-		SVNRepository repository = svnC.connect(); 
-		
+		SVNRepository repository = svnC.connect(); 	
 		SvnDisplayRepositoryTree listeroot = new SvnDisplayRepositoryTree();
-		Collection liste_p;
 		try
 		{
-			liste_p = listeroot.listEntries(repository, "");
+			Collection liste_p = listeroot.listEntries(repository, "");	
 			
-			//Vector vecteur_noeuds = new Vector(liste_p);
-			
-			Iterator iterator = liste_p.iterator();
-			Enumeration child;
+			Iterator iterator;
+			Enumeration child = node.children();
 			SVNDirEntry entry;
+			boolean toRemove=true;
+			
+			//Suppression de ceux qui ont disparus
+			while (child.hasMoreElements()) {
+				iterator = liste_p.iterator();
+				CTreeNode tmp = (CTreeNode)child.nextElement();
+				
+				while(iterator.hasNext()){
+					entry = (SVNDirEntry) iterator.next();
+					System.out.println(tmp.getName()+" : "+entry.getName());
+					if(entry.getName().equals(tmp.getName())){
+						toRemove=false;
+						break;
+					}		
+					else
+						toRemove=true;
+				}
+				
+				
+				
+				if(toRemove){
+					node.remove(tmp);
+				
+					
+			
+			}
+
+			
+			iterator = liste_p.iterator();
 			boolean exist=false;
+			
+			//Ajout des nouveaux
 			while (iterator.hasNext()) {
-				child = mRoot.children();
+				child = node.children();
 				entry = (SVNDirEntry) iterator.next();
 				
 				while(child.hasMoreElements()){
@@ -316,11 +344,19 @@ public class CTree implements TreeModel
 					else
 						exist=false;
 				}
-				if(!exist)
-					mRoot.add(new CTreeNode(entry.getName(), false));
+				
+				
+				
+				if(!exist){
+					node.add(new CTreeNode(entry.getName(), false));
+					exist = false;
+				}
+			
 			}
 			
-			Object[] path = {mRoot};
+			
+			
+			Object[] path = {node};
 			fireTreeNodesInserted(this, path, null, null);
 		}
 		catch (SVNException svne)
