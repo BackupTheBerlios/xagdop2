@@ -8,25 +8,28 @@ package src.Interface;
 
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 //import java.util.Locale;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTree;
+import javax.swing.border.Border;
 import javax.swing.plaf.BorderUIResource;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-
 import src.Controleur.CTree;
 import src.Controleur.CTreeNode;
 
@@ -132,16 +135,24 @@ public class XAGDOP extends JFrame{
 		tree  = new JTree(model);
 		tree.setAutoscrolls(true);
 		tree.setBorder(BorderUIResource.getEtchedBorderUIResource()  );*/
-		tree = new IProjectTree();
+		
+		
 		tableVersion = new JTable(new MyTableModel());
 		//tableVersion = new JTable(new String[8][3],columnNames);
 		
 		tableVersion.setBorder(BorderUIResource.getBlackLineBorderUIResource()  );
 		
+		tree = new IProjectTree();
+		JScrollPane mScroll = new JScrollPane();
+		mScroll.setPreferredSize(new Dimension(150,450));
 		
+		//Create the tree
+		Border border = BorderFactory.createLoweredBevelBorder();
+		tree.setBorder(border);
+		mScroll.getViewport().add(tree);
 		
 		pan2.add(new JScrollPane(tableVersion), BorderLayout.CENTER);
-		pan2.add(tree, BorderLayout.WEST);
+		pan2.add(mScroll, BorderLayout.WEST);
 		pan2.add(menuBar2, BorderLayout.NORTH);
 		pan.add(menuBar, BorderLayout.NORTH);
 		pan.add(pan2,BorderLayout.CENTER);

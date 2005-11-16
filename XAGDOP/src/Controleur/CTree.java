@@ -42,7 +42,7 @@ import src.Svn.SvnDisplayRepositoryTree;
 public class CTree implements TreeModel
 {
     private EventListenerList mListenerList = new EventListenerList();
-    private CTreeNode mRoot = new CTreeNode("Projets", false);; 
+    private CTreeNode mRoot = new CTreeNode("", false); 
     
     public CTree()
     {
@@ -58,9 +58,7 @@ public class CTree implements TreeModel
 	{
 		if( mRoot == null || mRoot.getUserObject() != root )
 		{	
-			
-			
-			
+			mRoot = root;
 		}
 	}
     
@@ -341,9 +339,7 @@ public class CTree implements TreeModel
 					else
 						exist=false;
 				}
-				
-				
-				
+	
 				if(!exist){
 					node.add(new CTreeNode(entry.getName(), false));
 					exist = false;
