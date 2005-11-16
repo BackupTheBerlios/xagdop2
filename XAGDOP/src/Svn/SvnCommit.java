@@ -10,34 +10,27 @@ import java.util.Map;
  
 import org.tmatesoft.svn.core.SVNCommitInfo;
 import org.tmatesoft.svn.core.SVNException;
-import org.tmatesoft.svn.core.SVNNodeKind;
-import org.tmatesoft.svn.core.SVNURL;
-import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
-import org.tmatesoft.svn.core.internal.io.dav.DAVRepositoryFactory;
-import org.tmatesoft.svn.core.internal.io.svn.SVNRepositoryFactoryImpl;
 import org.tmatesoft.svn.core.io.ISVNEditor;
 import org.tmatesoft.svn.core.io.ISVNWorkspaceMediator;
 import org.tmatesoft.svn.core.io.SVNRepository;
-import org.tmatesoft.svn.core.io.SVNRepositoryFactory;
 import org.tmatesoft.svn.core.io.diff.SVNDiffWindow;
 import org.tmatesoft.svn.core.io.diff.SVNDiffWindowBuilder;
-import org.tmatesoft.svn.core.wc.SVNWCUtil;
+
  
 
 public class SvnCommit extends SvnConnect{
  
-	 public SvnCommit(String _url, String _name, String _password){
-		 url = _url;
-		 name = _name;
-		 password = _password;
+	 public SvnCommit(String url, String name, String password){
+		 super(url,name,password);
 	 }
-	 public SvnCommit(){}
+	 public SvnCommit(){
+		 super();
+	 }
 	
 	
    
     public int createProject(String projectName, String description) {
     	String dirPath = projectName;
-        setupLibrary();
         SVNRepository repository = connect();    
         ISVNEditor editor = null;
         SVNCommitInfo commitInfo = null;
@@ -58,7 +51,7 @@ public class SvnCommit extends SvnConnect{
         } catch (SVNException svne) {
             System.err
                     .println("error while getting a commit editor for the location '"
-                            + url + "': " + svne.getMessage());
+                            + _url + "': " + svne.getMessage());
             System.exit(1);
         }
  

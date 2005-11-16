@@ -16,64 +16,17 @@ import java.util.Iterator;
  
 import org.tmatesoft.svn.core.SVNDirEntry;
 import org.tmatesoft.svn.core.SVNException;
-import org.tmatesoft.svn.core.SVNNodeKind;
-import org.tmatesoft.svn.core.SVNURL;
-import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
-import org.tmatesoft.svn.core.internal.io.dav.DAVRepositoryFactory;
-import org.tmatesoft.svn.core.internal.io.svn.SVNRepositoryFactoryImpl;
 import org.tmatesoft.svn.core.io.SVNRepository;
-import org.tmatesoft.svn.core.io.SVNRepositoryFactory;
-import org.tmatesoft.svn.core.wc.SVNWCUtil;
  
-/*
- * This example shows how to get the repository tree at the latest (HEAD)
- * revision starting with the directory that is the path/to/repository part of
- * the repository location URL. The main point is SVNRepository.getDir() method
- * that is called recursively for each directory (till the end of the tree).
- * getDir collects all entries located inside a directory and returns them as a
- * java.util.Collection. As an example here's one of the program layouts (for
- * the default url used in the program ):
- * 
- * Repository Root: /svn/jsvn 
- * Repository UUID: 0a862816-5deb-0310-9199-c792c6ae6c6e
- * 
- * /rss2.php (author:alex; revision:345) 
- * /build.html (author:alex; revision:406)
- * /feed (author:alex; revision:210)
- * /feed/rss_util.php (author:alex; revision:210) 
- * /feed/lgpl.txt (author:alex; revision:33)
- * /feed/feedcreator.class.php (author:alex; revision:33) 
- * /feed/rss.php
- * (author:alex; revision:33) 
- * /ant.html (author:alex; revision:193)
- * /license.html (author:alex; revision:193) 
- * /status.html (author:alex; revision:439) 
- * /usage.html (author:alex; revision:301) 
- * /logging.html (author:alex; revision:397) 
- * /.htaccess (author:alex; revision:51)
- * /subclipse.html (author:alex; revision:406) 
- * /index.php (author:alex; revision:535) 
- * /plugin.xml (author:alex; revision:208) 
- * /rss.php (author:alex; revision:345) 
- * /list.html (author:alex; revision:535)
- * 
- * --------------------------------------------- 
- * Repository latest revision: 645
- */
+
 public class SvnDisplayRepositoryTree extends SvnConnect{
-    /*
-     * args parameter is used to obtain a repository location URL, user's
-     * account name & password to authenticate him to the server.
-     */
-	 
+   
     public SvnDisplayRepositoryTree() {
-       
+       super();
     }
  
-    public SvnDisplayRepositoryTree(String _url, String _name, String _password){
-		 url = _url;
-		 name = _name;
-		 password = _password;
+    public SvnDisplayRepositoryTree(String url, String name, String password){
+		 super(url, name, password );
 	 }
     
     public boolean existProject(String projectName){
