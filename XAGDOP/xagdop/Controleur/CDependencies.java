@@ -1,5 +1,5 @@
-package src.Controleur;
-public class CPreferences {
+package xagdop.Controleur;
+public class CDependencies {
 	/*
 	 * 
 	 * Attributs de la classe
@@ -10,7 +10,7 @@ public class CPreferences {
 	/*
 	 * Constructeur
 	 */
-	public CPreferences(){
+	public CDependencies(){
 		
 	}
 	

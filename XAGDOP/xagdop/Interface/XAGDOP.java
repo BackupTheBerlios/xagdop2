@@ -4,7 +4,7 @@
  * TODO To change the template for this generated file go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-package src.Interface;
+package xagdop.Interface;
 
 
 import java.awt.BorderLayout;
@@ -13,7 +13,6 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Locale;
-//import java.util.Locale;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -22,19 +21,15 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTree;
 import javax.swing.border.Border;
 import javax.swing.plaf.BorderUIResource;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
 
-import ressources.Bundle;
-import src.Controleur.CTree;
-import src.Controleur.CTreeNode;
+import xagdop.Controleur.CTree;
+import xagdop.Controleur.CTreeNode;
+import xagdop.ressources.Bundle;
 
 //import ressources.Bundle;
 
@@ -53,11 +48,11 @@ public class XAGDOP extends JFrame{
 	JPanel panel = new JPanel();
 	JMenuBar menuBar = new JMenuBar();
 	JMenuBar menuBar2 = new JMenuBar();
-	JButton commit = new JButton(new ImageIcon("ressources/Icon/envoyer.jpg"));
-	JButton update = new JButton(new ImageIcon("ressources/Icon/update.jpg"));
-
-	JButton projet = new JButton(new ImageIcon("ressources/Icon/synch.jpg"));
-	JButton equipe = new JButton(new ImageIcon("ressources/Icon/equipe.jpeg"));
+	
+	JButton commit;
+	JButton update;
+	JButton projet;
+	JButton equipe;
 	JTable tableVersion;
 	
 	JMenu menu1 = new JMenu("Fichier");
@@ -75,6 +70,15 @@ public class XAGDOP extends JFrame{
 	private void init(){
 		
 		
+		java.net.URL imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/envoyer.jpg");
+		commit = new JButton(new ImageIcon(imageURL));
+		imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/equipe.jpeg");
+		equipe = new JButton(new ImageIcon(imageURL));
+		imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/synch.jpg");
+		projet = new JButton(new ImageIcon(imageURL));
+		imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/update.jpg");
+		update = new JButton(new ImageIcon(imageURL));		
+		
 		JPanel pan = (JPanel)this.getContentPane();
 		JPanel pan2 = new JPanel(new BorderLayout());
 		pan.setLayout(new BorderLayout());
@@ -84,7 +88,7 @@ public class XAGDOP extends JFrame{
 		commit.setMargin(new Insets(0,0,0,0));
 		commit.setToolTipText("Commit");
 		projet.setMargin(new Insets(0,0,0,0));
-		projet.setToolTipText("Cr?er Projet");
+		projet.setToolTipText("Creer Projet");
 		equipe.setMargin(new Insets(0,0,0,0));
 		equipe.setToolTipText("Affecter Equipe");
 	
@@ -137,6 +141,7 @@ public class XAGDOP extends JFrame{
 		equipe.addActionListener (new ouvrirIUser());
 		setTitle(Bundle.getText("main.title"));
 		setSize(700, 400);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 	}
 	

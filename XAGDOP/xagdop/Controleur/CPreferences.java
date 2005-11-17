@@ -1,5 +1,5 @@
-package src.Controleur;
-public class CUser {
+package xagdop.Controleur;
+public class CPreferences {
 	/*
 	 * 
 	 * Attributs de la classe
@@ -10,7 +10,7 @@ public class CUser {
 	/*
 	 * Constructeur
 	 */
-	public CUser(){
+	public CPreferences(){
 		
 	}
 	

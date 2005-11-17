@@ -1,4 +1,4 @@
-package src.Svn;
+package xagdop.Svn;
 
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNNodeKind;
@@ -13,6 +13,7 @@ public class SvnConnect {
 	protected String _url = "svn://marine.edu.ups-tlse.fr/users/iupisi/m1isb4/svn/XAGDOP";
 	protected String _name = "XAGDOP";
 	protected String _password = "blabla";
+	
 	
 	
 	public SvnConnect(String url, String name, String password){

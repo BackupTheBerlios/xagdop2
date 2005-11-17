@@ -9,7 +9,7 @@
  * newer version instead, at your option.
  * ====================================================================
  */
-package src.Svn;
+package xagdop.Svn;
  
 import java.util.Collection;
 import java.util.Iterator;

@@ -1,4 +1,4 @@
-package ressources;
+package xagdop.ressources;
 /*
 ** Author	: Jeremy Tyriaux
 */
@@ -12,11 +12,11 @@ import java.util.*;
 public class Bundle
 {
  
-  static public final String DATA_DIRECTORY = "ressources/";
+  static public final String DATA_DIRECTORY = "xagdop/ressources/";
   static public final String DATA_FILE_EXTENSION = "properties";
 
   
-  static private final String BASENAME = "ressources/label";
+  static private final String BASENAME = "xagdop/ressources/label";
   static private ResourceBundle bundle = ResourceBundle.getBundle(Bundle.BASENAME, Locale.ENGLISH);
 
   static public void setCurrentLocale(Locale locale)

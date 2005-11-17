@@ -1,5 +1,5 @@
-package src.Controleur;
-public class CFile {
+package xagdop.Controleur;
+public class CUser {
 	/*
 	 * 
 	 * Attributs de la classe
@@ -10,7 +10,7 @@ public class CFile {
 	/*
 	 * Constructeur
 	 */
-	public CFile(){
+	public CUser(){
 		
 	}
 	

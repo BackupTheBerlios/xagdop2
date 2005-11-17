@@ -1,5 +1,5 @@
 
-package src.Controleur;
+package xagdop.Controleur;
 
 
 import java.awt.Component;
@@ -28,10 +28,10 @@ import org.tmatesoft.svn.core.SVNDirEntry;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.io.SVNRepository;
 
-import src.Identity;
-import src.Interface.ICentralPanel;
-import src.Svn.SvnConnect;
-import src.Svn.SvnDisplayRepositoryTree;
+import xagdop.Identity;
+import xagdop.Interface.ICentralPanel;
+import xagdop.Svn.SvnConnect;
+import xagdop.Svn.SvnDisplayRepositoryTree;
 
 
 /**
@@ -307,7 +307,7 @@ public class CTree implements TreeModel
 				
 				while(iterator.hasNext()){
 					entry = (SVNDirEntry) iterator.next();
-					System.out.println(tmp.getName()+" : "+entry.getName());
+					//System.out.println(tmp.getName()+" : "+entry.getName());
 					if(entry.getName().equals(tmp.getName())){
 						toRemove=false;
 						break;

@@ -1,4 +1,4 @@
-package src.Interface;
+package xagdop.Interface;
 
 import java.awt.Component;
 import java.awt.event.InputEvent;
@@ -20,9 +20,8 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-
-import src.Controleur.CTree;
-import src.Controleur.CTreeNode;
+import xagdop.Controleur.CTree;
+import xagdop.Controleur.CTreeNode;
 
 
 public class IProjectTree extends JTree implements  TreeModelListener

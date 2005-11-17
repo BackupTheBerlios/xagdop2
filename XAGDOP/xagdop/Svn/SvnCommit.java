@@ -1,4 +1,4 @@
-package src.Svn;
+package xagdop.Svn;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

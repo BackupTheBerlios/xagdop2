@@ -1,10 +1,11 @@
 
-package src.Controleur;
+package xagdop.Controleur;
 
 import java.io.Serializable;
 
 import javax.swing.tree.DefaultMutableTreeNode;
-import src.Identity;
+
+import xagdop.Identity;
 
 
 /**

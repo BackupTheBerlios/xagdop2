@@ -1,5 +1,5 @@
-package src.Controleur;
-public class CDependencies {
+package xagdop.Controleur;
+public class CFile {
 	/*
 	 * 
 	 * Attributs de la classe
@@ -10,7 +10,7 @@ public class CDependencies {
 	/*
 	 * Constructeur
 	 */
-	public CDependencies(){
+	public CFile(){
 		
 	}
 	

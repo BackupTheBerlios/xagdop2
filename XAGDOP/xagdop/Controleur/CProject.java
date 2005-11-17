@@ -1,9 +1,9 @@
-package src.Controleur;
+package xagdop.Controleur;
 
 
 import javax.swing.JOptionPane;
-import src.Svn.SvnCommit;
-import src.Svn.SvnDisplayRepositoryTree;
+import xagdop.Svn.SvnCommit;
+import xagdop.Svn.SvnDisplayRepositoryTree;
 
 public class CProject {
 	/*

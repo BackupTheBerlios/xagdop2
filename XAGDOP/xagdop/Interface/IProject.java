@@ -1,4 +1,4 @@
-package src.Interface;
+package xagdop.Interface;
 
 
 import java.awt.BorderLayout;
@@ -17,8 +17,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import ressources.Bundle;
-import src.Controleur.*;
+import xagdop.Controleur.CProject;
+import xagdop.ressources.Bundle;
 
 
 public class IProject extends JFrame{

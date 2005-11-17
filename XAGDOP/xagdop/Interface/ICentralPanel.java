@@ -1,4 +1,4 @@
-package src.Interface;
+package xagdop.Interface;
 
 public class ICentralPanel {
 
