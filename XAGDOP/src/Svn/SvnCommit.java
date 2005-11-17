@@ -71,7 +71,7 @@ public class SvnCommit extends SvnConnect{
 			} catch (SVNException inner) {
 			}
 		}
-		System.out.println("The directory was added.");
+		//System.out.println("The directory was added.");
 		/*
 		 * Displaying the commit info.
 		 */

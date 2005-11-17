@@ -77,13 +77,13 @@ public class SvnConnect {
 			 * getRepositoryRoot returns the actual root directory where the
 			 * repository was created
 			 */
-			System.out.println("Repository Root: "
+		/*	System.out.println("Repository Root: "
 					+ repository.getRepositoryRoot());
 			/*
 			 * getRepositoryUUID returns Universal Unique IDentifier (UUID) - an
 			 * identifier of the repository
 			 */
-			System.out.println("Repository UUID: "
+			/*System.out.println("Repository UUID: "
 					+ repository.getRepositoryUUID());
 			System.out.println("");
 			
