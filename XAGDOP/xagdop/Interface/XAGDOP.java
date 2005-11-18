@@ -57,16 +57,30 @@ public class XAGDOP extends JFrame{
 	JButton equipe;
 	JTable tableVersion;
 	
-	JMenu menu1 = new JMenu("Fichier");
+	/*
+	 * Initialisation of Menu
+	 * 
+	 */
+	JMenu menuFile = new JMenu("Fichier");
 		JMenuItem fileMenuQuit = new JMenuItem(Bundle.getText("main.menu.file.quit"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/menu_quit.gif"))) ;
-	JMenu menu2 = new JMenu("Edition");
-	JMenu menu3 = new JMenu("Parametres");
+	JMenu menuEdite = new JMenu("Edition");
+		JMenuItem menuEditeCommit = new JMenuItem(Bundle.getText("main.menu.edite.commit"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/envoyer.jpg")));
+		JMenuItem menuEditeUpdate = new JMenuItem(Bundle.getText("main.menu.edite.update"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/update.jpg")));
+		JMenuItem menuEditeCheck = new JMenuItem(Bundle.getText("main.menu.edite.checkout"));
+	JMenu menuConf = new JMenu("Parametres");
 	JMenu menuProjet = new JMenu("Projet");
 		JMenuItem menuProjetTeam = new JMenuItem(Bundle.getText("main.menu.project.team"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/equipe.jpeg")));
 		JMenuItem menuProjetCreate = new JMenuItem(Bundle.getText("main.menu.project.newProject"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/synch.jpg")));
+		JMenuItem menuProjetDelete = new JMenuItem(Bundle.getText("main.menu.project.delProject"));
+	JMenu menuHelp = new JMenu("?");
+		JMenuItem menuHelpAbout = new JMenuItem(Bundle.getText("main.menu.help.about"));
 		
-	JMenu menu4 = new JMenu("A propos");
-	JMenu menu5 = new JMenu("?");
+		//End of Menu Initialisation
+		
+		
+		
+		
+		
 	IProjectTree tree;
 	
 	public XAGDOP(){
@@ -99,20 +113,10 @@ public class XAGDOP extends JFrame{
 		equipe.setMargin(new Insets(0,0,0,0));
 		equipe.setToolTipText(Bundle.getText("main.menu.project.team"));
 	
-		update.addActionListener(new ActionListener()
-				{
-
-					public void actionPerformed(ActionEvent e) {
-						// TODO Auto-generated method stub
-						tree.removeAll();
-						((CTree)tree.getModel()).refresh((CTreeNode)((CTree)tree.getModel()).getRoot());
-					}
-					
-				}
-			);
+		update.addActionListener(new actionUpdate());
 		
-		menu1.setMnemonic('F') ;
-		menu2.setMnemonic('E') ;
+		menuFile.setMnemonic('F') ;
+		menuEdite.setMnemonic('E') ;
 		
 		fileMenuQuit.setMnemonic('Q') ;
 		fileMenuQuit.addActionListener(new ActionListener()
@@ -127,17 +131,40 @@ public class XAGDOP extends JFrame{
 			  
 		    }
 		    }) ;
-		menuProjetTeam.addActionListener(new ouvrirIUser());
-		menuProjetCreate.addActionListener(new ouvrirIprojet());
 		
-		menu1.add(fileMenuQuit) ;
-		menu2.add(menuProjetTeam);
-		menu2.add(menuProjetCreate);
-		menuBar.add(menu1);
-		menuBar.add(menu2);
-		menuBar.add(menu3);
-		menuBar.add(menu4);
-		menuBar.add(menu5);
+		
+		
+		
+		
+		menuProjetTeam.addActionListener(new ouvrirIUser());
+		menuProjetTeam.setMnemonic('T');
+		menuProjetCreate.addActionListener(new ouvrirIprojet());
+		menuProjetCreate.setMnemonic('C');
+		
+		menuEditeUpdate.addActionListener(new actionUpdate());
+		menuEditeUpdate.setMnemonic('T');
+//TODO FonctionCommit		menuEditeCommit.addActionListener(new actionUpdate());
+		menuEditeCommit.setMnemonic('C');
+//TODO FonctionCheck		menuEditeCheck.addActionListener(new actionUpdate());
+		menuEditeCheck.setMnemonic('K');
+		
+		menuFile.add(fileMenuQuit);
+		menuProjet.add(menuProjetTeam);
+		menuProjet.add(menuProjetCreate);
+		menuProjet.add(menuProjetDelete);
+		menuEdite.add(menuEditeUpdate);
+		menuEdite.add(menuEditeCommit);
+		menuEdite.add(menuEditeCheck);
+		
+		
+		
+		
+		
+		menuBar.add(menuFile);
+		menuBar.add(menuEdite);
+		menuBar.add(menuProjet);
+		menuBar.add(menuConf);
+		menuBar.add(menuHelp);
 		
 
 
@@ -242,6 +269,12 @@ public class XAGDOP extends JFrame{
 
 	}
 
+	class actionUpdate implements ActionListener {
+		public void actionPerformed(ActionEvent e){
+			tree.removeAll();
+			((CTree)tree.getModel()).refresh((CTreeNode)((CTree)tree.getModel()).getRoot());
+		}
+	}
 	class ouvrirIPreferences implements ActionListener { 
 		public void actionPerformed (ActionEvent e)  {
 			IPreferences preferences = IPreferences.getIPref();
