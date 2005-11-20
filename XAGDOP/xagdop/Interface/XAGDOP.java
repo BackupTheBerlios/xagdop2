@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 import java.util.Locale;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -56,6 +57,7 @@ public class XAGDOP extends JFrame{
 	JButton update;
 	JButton projet;
 	JButton equipe;
+	JButton delProject;
 	JTable tableVersion;
 	
 	/*
@@ -72,7 +74,7 @@ public class XAGDOP extends JFrame{
 	JMenu menuProjet = new JMenu("Projet");
 	JMenuItem menuProjetTeam = new JMenuItem(Bundle.getText("main.menu.project.team"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/equipe.jpeg")));
 	JMenuItem menuProjetCreate = new JMenuItem(Bundle.getText("main.menu.project.newProject"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/synch.jpg")));
-	JMenuItem menuProjetDelete = new JMenuItem(Bundle.getText("main.menu.project.delProject"));
+	JMenuItem menuProjetDelete = new JMenuItem(Bundle.getText("main.menu.project.delProject"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/supprimer.gif")));
 	JMenu menuHelp = new JMenu(Bundle.getText("main.menu.help"));
 		JMenuItem menuHelpAbout = new JMenuItem(Bundle.getText("main.menu.help.about"));
 	
@@ -98,6 +100,8 @@ public class XAGDOP extends JFrame{
 		equipe = new JButton(new ImageIcon(imageURL));
 		imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/synch.jpg");
 		projet = new JButton(new ImageIcon(imageURL));
+		imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/supprimer.gif");
+		delProject = new JButton(new ImageIcon(imageURL));
 		imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/update.jpg");
 		update = new JButton(new ImageIcon(imageURL));		
 		
@@ -111,6 +115,8 @@ public class XAGDOP extends JFrame{
 		commit.setToolTipText("Commit");
 		projet.setMargin(new Insets(0,0,0,0));
 		projet.setToolTipText(Bundle.getText("main.menu.project.newProject"));
+		delProject.setMargin(new Insets(0,0,0,0));
+		delProject.setToolTipText(Bundle.getText("main.menu.project.delProject"));
 		equipe.setMargin(new Insets(0,0,0,0));
 		equipe.setToolTipText(Bundle.getText("main.menu.project.team"));
 		
@@ -141,6 +147,8 @@ public class XAGDOP extends JFrame{
 		menuProjetTeam.setMnemonic('T');
 		menuProjetCreate.addActionListener(new ouvrirIprojet());
 		menuProjetCreate.setMnemonic('C');
+		menuProjetDelete.setMnemonic('E');
+		menuProjetDelete.addActionListener(new delProject());
 		
 		menuEditeUpdate.addActionListener(new actionUpdate());
 		menuEditeUpdate.setMnemonic('T');
@@ -195,7 +203,9 @@ public class XAGDOP extends JFrame{
 		
 		menuBar2.add(commit);
 		menuBar2.add(update);
+		menuBar2.add(Box.createHorizontalStrut(45)) ;
 		menuBar2.add(projet);
+		menuBar2.add(delProject);
 		menuBar2.add(equipe);
 		
 		
@@ -220,6 +230,7 @@ public class XAGDOP extends JFrame{
 		pan.add(pan2,BorderLayout.CENTER);
 		projet.addActionListener (new ouvrirIprojet());
 		equipe.addActionListener (new ouvrirIUser());
+		delProject.addActionListener(new delProject());
 		setTitle(Bundle.getText("main.title"));
 		setSize(700, 400);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -304,8 +315,16 @@ public class XAGDOP extends JFrame{
 			IPreferences preferences = IPreferences.getIPref();
 			preferences.setVisible(true);
 		}
-		
 	}
+	
+	class delProject implements ActionListener { 
+			public void actionPerformed (ActionEvent e)  {
+				JOptionPane.showMessageDialog(null ,"blabla bouton supprimer","Blabla" , 1) ;
+				
+			}
+	}
+	
+	
 	
 	public static void main(String args[]){
 		

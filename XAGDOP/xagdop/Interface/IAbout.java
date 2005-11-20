@@ -38,10 +38,7 @@ public class IAbout extends JFrame{
 		
 
 		logo.setPreferredSize(new Dimension(200 , 134)) ;
-		JLabel prout=new JLabel("Salut");
-		logoContainer.add(prout);
 		logoContainer.add(logo);
-		
 		logoContainer.add(closeButton);
 		this.getContentPane().add(logoContainer) ;
 		
