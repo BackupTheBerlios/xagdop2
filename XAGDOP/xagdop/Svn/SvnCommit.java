@@ -129,6 +129,10 @@ public class SvnCommit extends SvnConnect{
 		
 	}
 	
+	
+	
+	
+	
 	public SVNCommitInfo addFile(String dirPath, String filePath, String description) throws SVNException, FileNotFoundException, IOException {
 		ISVNEditor editor = null;
 		String urlFile ="/home/nephos/" + filePath;
@@ -238,36 +242,32 @@ public class SvnCommit extends SvnConnect{
 	/*
 	 * This method performs committing file modifications.
 	 */
-	private  SVNCommitInfo modifyFile(ISVNEditor editor, String dirPath,
-			String filePath, byte[] newData) throws SVNException {
-		/*
-		 * Always called first. Opens the current root directory. It  means  all
-		 * modifications will be applied to this directory until  a  next  entry
-		 * (located inside the root) is opened/added.
-		 * 
-		 * -1 - revision is HEAD
-		 */
+	public  SVNCommitInfo modifyFile(String dirPath, String filePath, String description) throws SVNException, FileNotFoundException, IOException {
+		ISVNEditor editor = null;
+		String urlFile ="/home/nephos/" + filePath;
+		long deltaLength = 0 ;
+		editor = repository.getCommitEditor(description,new WorkspaceMediator());
+		
+		FileInputStream data = new FileInputStream(urlFile);
+		deltaLength = data.available();
+		
+		
+		
 		editor.openRoot(-1);
+		
+		
+		editor.openDir(dirPath,-1);
+		
+		editor.addFile(dirPath+"/"+filePath, null, -1);
+		
+		
 		/*
-		 * Opens a next subdirectory (in this example program it's the directory
-		 * added  in  the  last  commit).  Since this moment all changes will be
-		 * applied to this directory.
-		 * 
-		 * dirPath is relative to the root directory.
-		 * -1 - revision is HEAD
+		 * The next steps are directed to applying delta to the  file  (that  is 
+		 * the full contents of the file in this case).
 		 */
-		editor.openDir(dirPath, -1);
-		/*
-		 * Opens the file added in the previous commit.
-		 * 
-		 * filePath is also defined as a relative path to the root directory.
-		 */
-		editor.openFile(filePath, -1);
-		/*
-		 * The next steps are directed to applying and writing the file delta.
-		 */
-		editor.applyTextDelta(filePath, null);
-		long deltaLength = newData.length;
+		
+		editor.applyTextDelta(dirPath+"/"+filePath, null);
+		
 		/*
 		 * Creating  a  new  diff  window  (provided  the  size  of the delta  - 
 		 * deltaLength) that will contain instructions of applying the delta  to
@@ -275,21 +275,27 @@ public class SvnCommit extends SvnConnect{
 		 */
 		SVNDiffWindow diffWindow = SVNDiffWindowBuilder
 		.createReplacementDiffWindow(deltaLength);
+		
 		/*
 		 * Gets an OutputStream where the delta will be written to.
 		 */
-		OutputStream os = editor.textDeltaChunk(filePath, diffWindow);
+		OutputStream os = null;
+		
+		os = editor.textDeltaChunk(dirPath+"/"+filePath, diffWindow);
 		try {
 			/*
-			 * If there's non-empty file delta this code writes the delta to the
+			 * If the file is not empty this code writes the file delta  to  the
 			 * OutputStream.
 			 */
+			byte[] toWrite = new byte[1];
 			for (int i = 0; i < deltaLength; i++) {
-				os.write(newData[i]);
+				data.read(toWrite);
+				os.write(toWrite);
 			}
 		} catch (IOException ioe) {
 			System.err.println("An i/o error while writing the delta bytes: "
 					+ ioe.getMessage());
+			throw ioe;
 		} finally {
 			/*
 			 * Don't forget to close the stream after you have written the delta!
@@ -298,31 +304,37 @@ public class SvnCommit extends SvnConnect{
 				try {
 					os.close();
 				} catch (IOException ioeInternal) {
-					//
+					throw ioeInternal;
 				}
 			}
 		}
 		
+		data.close();
+		
 		/*
 		 * Finally closes the delta when all the bytes are already written. From
-		 * this point the previously defined diff window 'knows'  how  to  apply 
-		 * the delta to the file.
+		 * this  point  the previously defined diff window 'knows' how to  apply 
+		 * the delta to the file (that will be created in the repository).
 		 */
-		editor.textDeltaEnd(filePath);
+		
+		editor.textDeltaEnd(dirPath+"/"+filePath);
+		
 		
 		/*
-		 * Closes the file.
+		 * Closes the new added file.
 		 */
-		editor.closeFile(filePath, null);
+		
+		editor.closeFile(dirPath+"/"+filePath, null);
 		
 		/*
-		 * Closes the directory.
+		 * Closes the new added directory.
 		 */
+		
 		editor.closeDir();
-		
 		/*
 		 * Closes the root directory.
 		 */
+		
 		editor.closeDir();
 		
 		/*
@@ -331,83 +343,14 @@ public class SvnCommit extends SvnConnect{
 		 * the server for committing. As a result the server sends the new
 		 * commit information.
 		 */
+		
+		
 		return editor.closeEdit();
 	}
 	
-	/*
-	 * This method performs committing a deletion of a directory.
-	 */
-	private  SVNCommitInfo deleteDir(ISVNEditor editor, String dirPath)
-	throws SVNException {
-		/*
-		 * Always called first. Opens the current root directory. It  means  all
-		 * modifications will be applied to this directory until  a  next  entry
-		 * (located inside the root) is opened/added.
-		 * 
-		 * -1 - revision is HEAD
-		 */
-		editor.openRoot(-1);
-		/*
-		 * Deletes the subdirectory with all its contents.
-		 * 
-		 * dirPath is relative to the root directory.
-		 */
-		editor.deleteEntry(dirPath, -1);
-		/*
-		 * Closes the root directory.
-		 */
-		editor.closeDir();
-		/*
-		 * This is the final point in all editor handling. Only now all that new
-		 * information previously described with the editor's methods is sent to
-		 * the server for committing. As a result the server sends the new
-		 * commit information.
-		 */
-		return editor.closeEdit();
-	}
 	
-	/*
-	 * This  method  performs how a directory in the repository can be copied to
-	 * branch.
-	 */
-	private SVNCommitInfo copyDir(ISVNEditor editor, String destDirPath,
-			String srcDirPath, long revision) throws SVNException {
-		/*
-		 * Always called first. Opens the current root directory. It  means  all
-		 * modifications will be applied to this directory until  a  next  entry
-		 * (located inside the root) is opened/added.
-		 * 
-		 * -1 - revision is HEAD
-		 */
-		editor.openRoot(-1);
-		/*
-		 * Adds a new directory that is a copy of the existing one.
-		 * 
-		 * srcDirPath   -  the  source  directory  path (relative  to  the  root 
-		 * directory).
-		 * 
-		 * destDirPath - the destination directory path where the source will be
-		 * copied to (relative to the root directory).
-		 * 
-		 * revision    - the number of the source directory revision. 
-		 */
-		editor.addDir(destDirPath, srcDirPath, revision);
-		/*
-		 * Closes the just added copy of the directory.
-		 */
-		editor.closeDir();
-		/*
-		 * Closes the root directory.
-		 */
-		editor.closeDir();
-		/*
-		 * This is the final point in all editor handling. Only now all that new
-		 * information previously described with the editor's methods is sent to
-		 * the server for committing. As a result the server sends the new
-		 * commit information.
-		 */
-		return editor.closeEdit();
-	}
+	
+
 	
 	/*
 	 * This method is used to print out new information about the last
