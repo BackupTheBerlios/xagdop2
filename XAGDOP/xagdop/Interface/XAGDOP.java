@@ -73,8 +73,8 @@ public class XAGDOP extends JFrame{
 	JMenuItem menuProjetTeam = new JMenuItem(Bundle.getText("main.menu.project.team"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/equipe.jpeg")));
 	JMenuItem menuProjetCreate = new JMenuItem(Bundle.getText("main.menu.project.newProject"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/synch.jpg")));
 	JMenuItem menuProjetDelete = new JMenuItem(Bundle.getText("main.menu.project.delProject"));
-	JMenu menuHelp = new JMenu("?");
-	JMenuItem menuHelpAbout = new JMenuItem(Bundle.getText("main.menu.help.about"));
+	JMenu menuHelp = new JMenu(Bundle.getText("main.menu.help"));
+		JMenuItem menuHelpAbout = new JMenuItem(Bundle.getText("main.menu.help.about"));
 	
 	//End of Menu Initialisation
 	
@@ -149,6 +149,28 @@ public class XAGDOP extends JFrame{
 //		TODO FonctionCheck		menuEditeCheck.addActionListener(new actionUpdate());
 		menuEditeCheck.setMnemonic('K');
 		
+		menuHelpAbout.addActionListener(new ActionListener()
+				{
+			public void actionPerformed(ActionEvent e)
+			{
+				IAbout iabout = IAbout.getIA();
+				iabout.setVisible(true);
+				
+			}
+				}) ;
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		menuFile.add(fileMenuQuit);
 		menuProjet.add(menuProjetTeam);
 		menuProjet.add(menuProjetCreate);
@@ -156,6 +178,7 @@ public class XAGDOP extends JFrame{
 		menuEdite.add(menuEditeUpdate);
 		menuEdite.add(menuEditeCommit);
 		menuEdite.add(menuEditeCheck);
+		menuHelp.add(menuHelpAbout);
 		
 		
 		
