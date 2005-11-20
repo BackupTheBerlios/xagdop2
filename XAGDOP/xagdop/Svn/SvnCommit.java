@@ -2,6 +2,8 @@ package xagdop.Svn;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -19,19 +21,20 @@ import org.tmatesoft.svn.core.io.diff.SVNDiffWindowBuilder;
 
 
 public class SvnCommit extends SvnConnect{
-	
+	SVNRepository repository;
 	public SvnCommit(String url, String name, String password){
 		super(url,name,password);
+		repository = connect();    
 	}
 	public SvnCommit(){
 		super();
+		repository = connect();    
 	}
 	
 	
 	
-	public int createProject(String projectName, String description) {
+	public SVNCommitInfo createProject(String projectName, String description) {
 		String dirPath = projectName;
-		SVNRepository repository = connect();    
 		ISVNEditor editor = null;
 		SVNCommitInfo commitInfo = null;
 		
@@ -75,8 +78,8 @@ public class SvnCommit extends SvnConnect{
 		/*
 		 * Displaying the commit info.
 		 */
-		printCommitInfo(commitInfo);
-		return 0;
+		//printCommitInfo(commitInfo);
+		return commitInfo;
 		
 	}
 	
@@ -126,16 +129,32 @@ public class SvnCommit extends SvnConnect{
 		
 	}
 	
-	private SVNCommitInfo addFile(ISVNEditor editor, String dirPath, String filePath, byte[] data) throws SVNException {
+	public SVNCommitInfo addFile(String dirPath, String filePath, String description) throws SVNException, FileNotFoundException, IOException {
+		ISVNEditor editor = null;
+		String urlFile ="/home/nephos/" + filePath;
+		long deltaLength = 0 ;
+		editor = repository.getCommitEditor(description,new WorkspaceMediator());
+		
+		FileInputStream data = new FileInputStream(urlFile);
+		deltaLength = data.available();
+		
+		
+		
 		editor.openRoot(-1);
+		
+		
 		editor.openDir(dirPath,-1);
-		editor.addFile(filePath, null, -1);
+		
+		editor.addFile(dirPath+"/"+filePath, null, -1);
+		
+		
 		/*
 		 * The next steps are directed to applying delta to the  file  (that  is 
 		 * the full contents of the file in this case).
 		 */
-		editor.applyTextDelta(filePath, null);
-		long deltaLength = data.length;
+		
+		editor.applyTextDelta(dirPath+"/"+filePath, null);
+		
 		/*
 		 * Creating  a  new  diff  window  (provided  the  size  of the delta  - 
 		 * deltaLength) that will contain instructions of applying the delta  to
@@ -143,22 +162,30 @@ public class SvnCommit extends SvnConnect{
 		 */
 		SVNDiffWindow diffWindow = SVNDiffWindowBuilder
 		.createReplacementDiffWindow(deltaLength);
+		
 		/*
 		 * Gets an OutputStream where the delta will be written to.
 		 */
-		OutputStream os = editor.textDeltaChunk(filePath, diffWindow);
+		OutputStream os = null;
+		
+		os = editor.textDeltaChunk(dirPath+"/"+filePath, diffWindow);
+		
+		int test = (int)deltaLength/1024;
 		
 		try {
 			/*
 			 * If the file is not empty this code writes the file delta  to  the
 			 * OutputStream.
 			 */
+			byte[] toWrite = new byte[1];
 			for (int i = 0; i < deltaLength; i++) {
-				os.write(data[i]);
+				data.read(toWrite);
+				os.write(toWrite);
 			}
 		} catch (IOException ioe) {
 			System.err.println("An i/o error while writing the delta bytes: "
 					+ ioe.getMessage());
+			throw ioe;
 		} finally {
 			/*
 			 * Don't forget to close the stream after you have written the delta!
@@ -167,42 +194,54 @@ public class SvnCommit extends SvnConnect{
 				try {
 					os.close();
 				} catch (IOException ioeInternal) {
-					//
+					throw ioeInternal;
 				}
 			}
 		}
+		
+		data.close();
 		
 		/*
 		 * Finally closes the delta when all the bytes are already written. From
 		 * this  point  the previously defined diff window 'knows' how to  apply 
 		 * the delta to the file (that will be created in the repository).
 		 */
-		editor.textDeltaEnd(filePath);
+		
+		editor.textDeltaEnd(dirPath+"/"+filePath);
+		
+		
 		/*
 		 * Closes the new added file.
 		 */
-		editor.closeFile(filePath, null);
+		
+		editor.closeFile(dirPath+"/"+filePath, null);
+		
 		/*
 		 * Closes the new added directory.
 		 */
+		
 		editor.closeDir();
 		/*
 		 * Closes the root directory.
 		 */
+		
 		editor.closeDir();
+		
 		/*
 		 * This is the final point in all editor handling. Only now all that new
 		 * information previously described with the editor's methods is sent to
 		 * the server for committing. As a result the server sends the new
 		 * commit information.
 		 */
+		
+		
 		return editor.closeEdit();
 	}
 	
 	/*
 	 * This method performs committing file modifications.
 	 */
-	private static SVNCommitInfo modifyFile(ISVNEditor editor, String dirPath,
+	private  SVNCommitInfo modifyFile(ISVNEditor editor, String dirPath,
 			String filePath, byte[] newData) throws SVNException {
 		/*
 		 * Always called first. Opens the current root directory. It  means  all
@@ -301,7 +340,7 @@ public class SvnCommit extends SvnConnect{
 	/*
 	 * This method performs committing a deletion of a directory.
 	 */
-	private static SVNCommitInfo deleteDir(ISVNEditor editor, String dirPath)
+	private  SVNCommitInfo deleteDir(ISVNEditor editor, String dirPath)
 	throws SVNException {
 		/*
 		 * Always called first. Opens the current root directory. It  means  all
@@ -334,7 +373,7 @@ public class SvnCommit extends SvnConnect{
 	 * This  method  performs how a directory in the repository can be copied to
 	 * branch.
 	 */
-	private static SVNCommitInfo copyDir(ISVNEditor editor, String destDirPath,
+	private SVNCommitInfo copyDir(ISVNEditor editor, String destDirPath,
 			String srcDirPath, long revision) throws SVNException {
 		/*
 		 * Always called first. Opens the current root directory. It  means  all
@@ -377,7 +416,7 @@ public class SvnCommit extends SvnConnect{
 	 * This method is used to print out new information about the last
 	 * successful commit.
 	 */
-	private static void printCommitInfo(SVNCommitInfo commitInfo) {
+	private void printCommitInfo(SVNCommitInfo commitInfo) {
 		/*
 		 * The author of the last commit.
 		 */

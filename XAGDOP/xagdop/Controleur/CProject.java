@@ -2,6 +2,9 @@ package xagdop.Controleur;
 
 
 import javax.swing.JOptionPane;
+
+import org.tmatesoft.svn.core.SVNCommitInfo;
+
 import xagdop.Svn.SvnCommit;
 import xagdop.Svn.SvnDisplayRepositoryTree;
 
@@ -30,7 +33,8 @@ public class CProject {
 		{
 		if(project.existProject(projectName)==false){
 			SvnCommit svnC = new SvnCommit();
-			if((error = svnC.createProject(projectName, description))==0){
+			SVNCommitInfo report = svnC.createProject(projectName, description);
+			if(report.getError()!=null){
 				JOptionPane.showMessageDialog(null ,"Le projet "+projectName+" a bien ete cree ", "Validation" , 1) ;
 				return error;
 			}

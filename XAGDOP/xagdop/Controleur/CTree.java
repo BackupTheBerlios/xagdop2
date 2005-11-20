@@ -26,6 +26,7 @@ import javax.swing.tree.TreePath;
 
 import org.tmatesoft.svn.core.SVNDirEntry;
 import org.tmatesoft.svn.core.SVNException;
+import org.tmatesoft.svn.core.SVNNodeKind;
 import org.tmatesoft.svn.core.io.SVNRepository;
 
 import xagdop.Identity;
@@ -287,14 +288,12 @@ public class CTree implements TreeModel
 	}
 	
 	public void refresh(CTreeNode node){
-		//node.removeAllChildren();
-		SvnConnect svnC = new SvnConnect();
-		SVNRepository repository = svnC.connect(); 	
-		SvnDisplayRepositoryTree listeroot = new SvnDisplayRepositoryTree();
+		final SvnDisplayRepositoryTree listeroot = new SvnDisplayRepositoryTree();
+		final SVNRepository repository = listeroot.connect();
+		//System.out.println(node.getName());
 		try
-		{
-			Collection liste_p = listeroot.listEntries(repository, "");	
-			
+		{	
+			Collection liste_p = listeroot.listEntries(repository, node.getName());
 			Iterator iterator;
 			Enumeration child = node.children();
 			SVNDirEntry entry;
@@ -331,19 +330,31 @@ public class CTree implements TreeModel
 				child = node.children();
 				entry = (SVNDirEntry) iterator.next();
 				
+				
 				while(child.hasMoreElements()){
-					if(((CTreeNode)child.nextElement()).getName().equals(entry.getName())){
+					CTreeNode tmp = (CTreeNode)child.nextElement();
+					
+					if(tmp.getName().equals(entry.getName())){
 						exist=true;
+						if(entry.getKind() == SVNNodeKind.DIR){
+							refresh(tmp);
+						}
 						break;
 						}
 					else
 						exist=false;
 				}
-	
+				
+				
 				if(!exist){
-					node.add(new CTreeNode(entry.getName(), false));
+					CTreeNode tmp = new CTreeNode(entry.getName(), false);
+					node.add(tmp);
+					if(entry.getKind() == SVNNodeKind.DIR){
+						refresh(tmp);
+					}
 					exist = false;
 				}
+				
 			
 			}
 			

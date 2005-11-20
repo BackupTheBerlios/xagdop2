@@ -31,6 +31,7 @@ import javax.swing.table.AbstractTableModel;
 
 import xagdop.Controleur.CTree;
 import xagdop.Controleur.CTreeNode;
+import xagdop.Svn.SvnConnect;
 import xagdop.ressources.Bundle;
 
 //import ressources.Bundle;
@@ -42,7 +43,7 @@ import xagdop.ressources.Bundle;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class XAGDOP extends JFrame{
-
+	
 	/**
 	 * 
 	 */
@@ -62,25 +63,25 @@ public class XAGDOP extends JFrame{
 	 * 
 	 */
 	JMenu menuFile = new JMenu("Fichier");
-		JMenuItem fileMenuQuit = new JMenuItem(Bundle.getText("main.menu.file.quit"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/menu_quit.gif"))) ;
+	JMenuItem fileMenuQuit = new JMenuItem(Bundle.getText("main.menu.file.quit"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/menu_quit.gif"))) ;
 	JMenu menuEdite = new JMenu("Edition");
-		JMenuItem menuEditeCommit = new JMenuItem(Bundle.getText("main.menu.edite.commit"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/envoyer.jpg")));
-		JMenuItem menuEditeUpdate = new JMenuItem(Bundle.getText("main.menu.edite.update"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/update.jpg")));
-		JMenuItem menuEditeCheck = new JMenuItem(Bundle.getText("main.menu.edite.checkout"));
+	JMenuItem menuEditeCommit = new JMenuItem(Bundle.getText("main.menu.edite.commit"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/envoyer.jpg")));
+	JMenuItem menuEditeUpdate = new JMenuItem(Bundle.getText("main.menu.edite.update"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/update.jpg")));
+	JMenuItem menuEditeCheck = new JMenuItem(Bundle.getText("main.menu.edite.checkout"));
 	JMenu menuConf = new JMenu("Parametres");
 	JMenu menuProjet = new JMenu("Projet");
-		JMenuItem menuProjetTeam = new JMenuItem(Bundle.getText("main.menu.project.team"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/equipe.jpeg")));
-		JMenuItem menuProjetCreate = new JMenuItem(Bundle.getText("main.menu.project.newProject"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/synch.jpg")));
-		JMenuItem menuProjetDelete = new JMenuItem(Bundle.getText("main.menu.project.delProject"));
+	JMenuItem menuProjetTeam = new JMenuItem(Bundle.getText("main.menu.project.team"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/equipe.jpeg")));
+	JMenuItem menuProjetCreate = new JMenuItem(Bundle.getText("main.menu.project.newProject"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/synch.jpg")));
+	JMenuItem menuProjetDelete = new JMenuItem(Bundle.getText("main.menu.project.delProject"));
 	JMenu menuHelp = new JMenu("?");
-		JMenuItem menuHelpAbout = new JMenuItem(Bundle.getText("main.menu.help.about"));
-		
-		//End of Menu Initialisation
-		
-		
-		
-		
-		
+	JMenuItem menuHelpAbout = new JMenuItem(Bundle.getText("main.menu.help.about"));
+	
+	//End of Menu Initialisation
+	
+	
+	
+	
+	
 	IProjectTree tree;
 	
 	public XAGDOP(){
@@ -90,7 +91,7 @@ public class XAGDOP extends JFrame{
 	
 	private void init(){
 		
-		
+		SvnConnect.setupLibrary();
 		java.net.URL imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/envoyer.jpg");
 		commit = new JButton(new ImageIcon(imageURL));
 		imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/equipe.jpeg");
@@ -112,7 +113,7 @@ public class XAGDOP extends JFrame{
 		projet.setToolTipText(Bundle.getText("main.menu.project.newProject"));
 		equipe.setMargin(new Insets(0,0,0,0));
 		equipe.setToolTipText(Bundle.getText("main.menu.project.team"));
-	
+		
 		update.addActionListener(new actionUpdate());
 		
 		menuFile.setMnemonic('F') ;
@@ -120,17 +121,17 @@ public class XAGDOP extends JFrame{
 		
 		fileMenuQuit.setMnemonic('Q') ;
 		fileMenuQuit.addActionListener(new ActionListener()
-		    {
+				{
 			public void actionPerformed(ActionEvent e)
 			{
-			    int confirmQuit = JOptionPane.showConfirmDialog(null , Bundle.getText("main.confirmQuit.label") , Bundle.getText("main.confirmQuit.title") , JOptionPane.YES_NO_OPTION);
- 			    if (confirmQuit == JOptionPane.OK_OPTION )
-					{
-					    System.exit(0) ;
-					}
-			  
-		    }
-		    }) ;
+				int confirmQuit = JOptionPane.showConfirmDialog(null , Bundle.getText("main.confirmQuit.label") , Bundle.getText("main.confirmQuit.title") , JOptionPane.YES_NO_OPTION);
+				if (confirmQuit == JOptionPane.OK_OPTION )
+				{
+					System.exit(0) ;
+				}
+				
+			}
+				}) ;
 		
 		
 		
@@ -143,9 +144,9 @@ public class XAGDOP extends JFrame{
 		
 		menuEditeUpdate.addActionListener(new actionUpdate());
 		menuEditeUpdate.setMnemonic('T');
-//TODO FonctionCommit		menuEditeCommit.addActionListener(new actionUpdate());
+//		TODO FonctionCommit		menuEditeCommit.addActionListener(new actionUpdate());
 		menuEditeCommit.setMnemonic('C');
-//TODO FonctionCheck		menuEditeCheck.addActionListener(new actionUpdate());
+//		TODO FonctionCheck		menuEditeCheck.addActionListener(new actionUpdate());
 		menuEditeCheck.setMnemonic('K');
 		
 		menuFile.add(fileMenuQuit);
@@ -166,18 +167,18 @@ public class XAGDOP extends JFrame{
 		menuBar.add(menuConf);
 		menuBar.add(menuHelp);
 		
-
-
+		
+		
 		
 		menuBar2.add(commit);
 		menuBar2.add(update);
 		menuBar2.add(projet);
 		menuBar2.add(equipe);
 		
-	
+		
 		
 		tableVersion = new JTable(new MyTableModel());
-			
+		
 		tableVersion.setBorder(BorderUIResource.getBlackLineBorderUIResource()  );
 		
 		tree = new IProjectTree();
@@ -203,72 +204,72 @@ public class XAGDOP extends JFrame{
 	}
 	
 	class MyTableModel extends AbstractTableModel {
-	
-	    /**
+		
+		/**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
 		private String[] columnNames ={"Version", "Date Modification", "Commentaires", "Auteur"};
-	    private String[][]data  = new String[8][4];
-
-	    public MyTableModel(){
-	    	data[0][0]="1.7";
-	    	data[1][0]="1.4";
-	    	data[2][0]="1.0";
-	    	
-	    	data[0][1]="24/10/2005";
-	    	data[1][1]="12/10/2005";
-	    	data[2][1]="01/10/2005";
-	    	
-	    	data[0][2]="Correction orthographique";
-	    	data[1][2]="Maj des rubriques";
-	    	data[2][2]="Creation";
-	    	
-	    	data[0][3]="Jeremy";
-	    	data[1][3]="Remy";
-	    	data[2][3]="Remy";
-	    	
-	    }
-	    
-	    public int getColumnCount() {
-	        return columnNames.length;
-	    }
-
-	    public int getRowCount() {
-	        return data.length;
-	    }
-
-	    public String getColumnName(int col) {
-	  	        return columnNames[col];
-	    }
-
-	    public Object getValueAt(int row, int col) {
-	        return data[row][col];
-	    }
-
-	    public Class getColumnClass(int c) {
-	        return String.class;
-	    }
-
+		private String[][]data  = new String[8][4];
+		
+		public MyTableModel(){
+			data[0][0]="1.7";
+			data[1][0]="1.4";
+			data[2][0]="1.0";
+			
+			data[0][1]="24/10/2005";
+			data[1][1]="12/10/2005";
+			data[2][1]="01/10/2005";
+			
+			data[0][2]="Correction orthographique";
+			data[1][2]="Maj des rubriques";
+			data[2][2]="Creation";
+			
+			data[0][3]="Jeremy";
+			data[1][3]="Remy";
+			data[2][3]="Remy";
+			
+		}
+		
+		public int getColumnCount() {
+			return columnNames.length;
+		}
+		
+		public int getRowCount() {
+			return data.length;
+		}
+		
+		public String getColumnName(int col) {
+			return columnNames[col];
+		}
+		
+		public Object getValueAt(int row, int col) {
+			return data[row][col];
+		}
+		
+		public Class getColumnClass(int c) {
+			return String.class;
+		}
+		
 	}
 	
-
-
+	
+	
 	class ouvrirIprojet implements ActionListener { 
 		public void actionPerformed (ActionEvent e)  {
 			IProject projet = IProject.getIP();
 			projet.setVisible(true);
-	}
-
+		}
+		
 	}
 	class ouvrirIUser implements ActionListener { 
 		public void actionPerformed (ActionEvent e)  {
 			IUser user = IUser.getIU();
 			user.setVisible(true);
+		}
+		
 	}
-
-	}
-
+	
 	class actionUpdate implements ActionListener {
 		public void actionPerformed(ActionEvent e){
 			tree.removeAll();
@@ -279,15 +280,15 @@ public class XAGDOP extends JFrame{
 		public void actionPerformed (ActionEvent e)  {
 			IPreferences preferences = IPreferences.getIPref();
 			preferences.setVisible(true);
-			}
-
+		}
+		
 	}
 	
 	public static void main(String args[]){
 		
 		
 		Bundle.setCurrentLocale(Locale.FRENCH);
-	
+		
 		XAGDOP frame = new XAGDOP();
 		frame.setVisible(true);
 	}

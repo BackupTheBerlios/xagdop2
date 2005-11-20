@@ -30,7 +30,7 @@ public class IProjectTree extends JTree implements  TreeModelListener
 	public IProjectTree()
 	{
 		super(new CTree());
-		setEditable(false);
+		setEditable(true);
 		getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		ITreeCellRenderer renderer = new ITreeCellRenderer();
 		setCellRenderer(renderer);

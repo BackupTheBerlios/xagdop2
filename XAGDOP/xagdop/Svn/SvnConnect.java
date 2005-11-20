@@ -20,10 +20,10 @@ public class SvnConnect {
 		_url = url;
 		_name = name;
 		_password = password;
-		setupLibrary();
+		//setupLibrary();
 	}
 	public SvnConnect(){
-		setupLibrary();
+		//setupLibrary();
 	}
 	
 	public SVNRepository connect(){
@@ -106,7 +106,7 @@ public class SvnConnect {
 	 * Initializes the library to work with a repository either via svn:// 
 	 * (and svn+ssh://) or via http:// (and https://)
 	 */
-	public  void setupLibrary() {
+	public static void setupLibrary() {
 		
 		/*
 		 * for SVN (over svn and svn+ssh)
