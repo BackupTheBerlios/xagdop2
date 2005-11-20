@@ -169,9 +169,6 @@ public class SvnCommit extends SvnConnect{
 		OutputStream os = null;
 		
 		os = editor.textDeltaChunk(dirPath+"/"+filePath, diffWindow);
-		
-		int test = (int)deltaLength/1024;
-		
 		try {
 			/*
 			 * If the file is not empty this code writes the file delta  to  the
