@@ -147,9 +147,9 @@ public class XAGDOP extends JFrame{
 		
 		
 		
-		menuProjetTeam.addActionListener(new ouvrirIUser());
+		menuProjetTeam.addActionListener(new openIUser());
 		menuProjetTeam.setMnemonic('T');
-		menuProjetCreate.addActionListener(new ouvrirIprojet());
+		menuProjetCreate.addActionListener(new openIprojet());
 		menuProjetCreate.setMnemonic('C');
 		menuProjetDelete.setMnemonic('E');
 		menuProjetDelete.addActionListener(new delProject());
@@ -232,8 +232,8 @@ public class XAGDOP extends JFrame{
 		pan2.add(menuBar2, BorderLayout.NORTH);
 		pan.add(menuBar, BorderLayout.NORTH);
 		pan.add(pan2,BorderLayout.CENTER);
-		projet.addActionListener (new ouvrirIprojet());
-		equipe.addActionListener (new ouvrirIUser());
+		projet.addActionListener (new openIprojet());
+		equipe.addActionListener (new openIUser());
 		delProject.addActionListener(new delProject());
 		setTitle(Bundle.getText("main.title"));
 		setSize(700, 400);
@@ -293,14 +293,14 @@ public class XAGDOP extends JFrame{
 	
 	
 	
-	class ouvrirIprojet implements ActionListener { 
+	class openIprojet implements ActionListener { 
 		public void actionPerformed (ActionEvent e)  {
 			IProject projet = IProject.getIP();
 			projet.setVisible(true);
 		}
 		
 	}
-	class ouvrirIUser implements ActionListener { 
+	class openIUser implements ActionListener { 
 		public void actionPerformed (ActionEvent e)  {
 			IUser user = IUser.getIU();
 			user.setVisible(true);
@@ -314,7 +314,7 @@ public class XAGDOP extends JFrame{
 	
 		}
 	}
-	class ouvrirIPreferences implements ActionListener { 
+	class openIPreferences implements ActionListener { 
 		public void actionPerformed (ActionEvent e)  {
 			IPreferences preferences = IPreferences.getIPref();
 			preferences.setVisible(true);
@@ -323,7 +323,9 @@ public class XAGDOP extends JFrame{
 	
 	class delProject implements ActionListener { 
 			public void actionPerformed (ActionEvent e)  {
-				JOptionPane.showMessageDialog(null ,"blabla bouton supprimer","Blabla" , 1) ;
+				
+				String projectName = tree.getSelectedNode().getName();
+				
 				
 			}
 	}

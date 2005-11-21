@@ -33,7 +33,7 @@ public class IAbout extends JFrame{
 	private void init(){
 		
 		setTitle(Bundle.getText("iabout.title"));
-		setSize(500, 500);
+		setSize(536, 500);
 	
 		
 
