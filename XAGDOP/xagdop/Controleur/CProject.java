@@ -8,6 +8,8 @@ import org.tmatesoft.svn.core.SVNException;
 
 import xagdop.Svn.SvnCommit;
 import xagdop.Svn.SvnDisplayRepositoryTree;
+import xagdop.Svn.SvnRemove;
+
 
 public class CProject {
 	/*
@@ -76,4 +78,33 @@ public class CProject {
 	}
 	
 	
+	/* Fonction supprimant un projet  */
+	public int deleteProject(){
+		int error = 0;
+		SVNCommitInfo report;
+		SvnRemove svnR;
+		try {
+			svnR = new SvnRemove();
+		} catch (SVNException e) {
+			JOptionPane.showMessageDialog(null ,"Impossible de se connecter au server subversion", "Validation" , 1) ;
+			e.printStackTrace();
+			return 1;
+		}
+		String path = "/"+projectName;
+	
+		try {
+			report = svnR.deleteDir(path);
+		} catch (SVNException e) {
+			JOptionPane.showMessageDialog(null ,"Impossible de se connecter au server subversion", "Validation" , 1) ;
+			e.printStackTrace();
+			return 1;
+		}
+		if(report.getError()!=null){
+			JOptionPane.showMessageDialog(null ,"Le projet "+projectName+" n'a pu etre supprimer ", "Validation" , 1) ;
+			return error;
+		}
+		JOptionPane.showMessageDialog(null ,"Le projet "+projectName+" est supprime", "Validation" , 1) ;
+		
+		return error;
+	}
 }
