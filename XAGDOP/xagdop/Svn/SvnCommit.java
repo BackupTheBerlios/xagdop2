@@ -20,15 +20,14 @@ import org.tmatesoft.svn.core.io.diff.SVNDiffWindowBuilder;
 
 
 
-public class SvnCommit extends SvnConnect{
+public class SvnCommit{
 	SVNRepository repository;
-	public SvnCommit(String url, String name, String password){
-		super(url,name,password);
-		repository = connect();    
+	public SvnCommit(String url, String name, String password) throws SVNException{
+		repository = SvnConnect.getInstance(url,name,password).getRepository();
+		
 	}
-	public SvnCommit(){
-		super();
-		repository = connect();    
+	public SvnCommit() throws SVNException{
+		repository = SvnConnect.getInstance().getRepository();
 	}
 	
 	
@@ -51,8 +50,12 @@ public class SvnCommit extends SvnConnect{
 		try {
 			editor = repository.getCommitEditor(description,new WorkspaceMediator());
 		} catch (SVNException svne) {
-			System.err.println("error while getting a commit editor for the location '"
-					+ _url + "': " + svne.getMessage());
+			try{
+				return editor.closeEdit();
+			} catch (SVNException e) {
+				e.printStackTrace();
+				System.exit(0);
+			}
 		}
 		
 		
@@ -70,15 +73,12 @@ public class SvnCommit extends SvnConnect{
 				 * editor must be aborted to behave in a  right  way in order to
 				 * the breakdown won't cause any unstability.
 				 */
-				editor.abortEdit();
+				return editor.closeEdit();
 			} catch (SVNException inner) {
+				System.exit(0);
 			}
 		}
-		//System.out.println("The directory was added.");
-		/*
-		 * Displaying the commit info.
-		 */
-		//printCommitInfo(commitInfo);
+		
 		return commitInfo;
 		
 	}
@@ -118,12 +118,7 @@ public class SvnCommit extends SvnConnect{
 		 * Closes the root directory.
 		 */
 		editor.closeDir();
-		/*
-		 * This is the final point in all editor handling. Only now all that new
-		 * information previously described with the editor's methods is sent to
-		 * the server for committing. As a result the server sends the new
-		 * commit information.
-		 */
+		
 		return editor.closeEdit();
 		
 		
@@ -164,8 +159,7 @@ public class SvnCommit extends SvnConnect{
 		 * deltaLength) that will contain instructions of applying the delta  to
 		 * the file in the repository.
 		 */
-		SVNDiffWindow diffWindow = SVNDiffWindowBuilder
-		.createReplacementDiffWindow(deltaLength);
+		SVNDiffWindow diffWindow = SVNDiffWindowBuilder.createReplacementDiffWindow(deltaLength);
 		
 		/*
 		 * Gets an OutputStream where the delta will be written to.
@@ -227,14 +221,6 @@ public class SvnCommit extends SvnConnect{
 		 */
 		
 		editor.closeDir();
-		
-		/*
-		 * This is the final point in all editor handling. Only now all that new
-		 * information previously described with the editor's methods is sent to
-		 * the server for committing. As a result the server sends the new
-		 * commit information.
-		 */
-		
 		
 		return editor.closeEdit();
 	}
@@ -273,8 +259,7 @@ public class SvnCommit extends SvnConnect{
 		 * deltaLength) that will contain instructions of applying the delta  to
 		 * the file in the repository.
 		 */
-		SVNDiffWindow diffWindow = SVNDiffWindowBuilder
-		.createReplacementDiffWindow(deltaLength);
+		SVNDiffWindow diffWindow = SVNDiffWindowBuilder.createReplacementDiffWindow(deltaLength);
 		
 		/*
 		 * Gets an OutputStream where the delta will be written to.
@@ -336,43 +321,11 @@ public class SvnCommit extends SvnConnect{
 		 */
 		
 		editor.closeDir();
-		
-		/*
-		 * This is the final point in all editor handling. Only now all that new
-		 * information previously described with the editor's methods is sent to
-		 * the server for committing. As a result the server sends the new
-		 * commit information.
-		 */
-		
-		
+	
 		return editor.closeEdit();
 	}
 	
-	
-	
 
-	
-	/*
-	 * This method is used to print out new information about the last
-	 * successful commit.
-	 */
-	private void printCommitInfo(SVNCommitInfo commitInfo) {
-		/*
-		 * The author of the last commit.
-		 */
-		System.out.println("The last author:" + commitInfo.getAuthor());
-		/*
-		 * The time moment when the changes were committed.
-		 */
-		System.out.println("Date:" + commitInfo.getDate().toString());
-		/*
-		 * And the new committed revision.
-		 */
-		System.out.println("Committed to revision "
-				+ commitInfo.getNewRevision());
-		System.out.println("");
-	}
-	
 	/*
 	 * This class is to be used for temporary storage allocations needed  by  an
 	 * ISVNEditor to write file delta that will be supplied  to  the  repository

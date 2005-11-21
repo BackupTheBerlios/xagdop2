@@ -18,16 +18,14 @@ import org.tmatesoft.svn.core.io.SVNRepository;
 
 
 
-public class SvnRemove extends SvnConnect {
+public class SvnRemove {
 	
 	SVNRepository repository;
-	public SvnRemove(String url, String name, String password){
-		super(url,name,password);
-		repository = connect();    
+	public SvnRemove(String url, String name, String password) throws SVNException{
+		repository = SvnConnect.getInstance(url,name,password).getRepository();
 	}
-	public SvnRemove(){
-		super();
-		repository = connect();    
+	public SvnRemove()throws SVNException{
+		repository = SvnConnect.getInstance().getRepository();
 	}
 	
 	public  SVNCommitInfo removeFile(String dirPath, String filePath) throws SVNException{
@@ -36,8 +34,12 @@ public class SvnRemove extends SvnConnect {
 		try {
 			editor = repository.getCommitEditor("",new WorkspaceMediator());
 		} catch (SVNException svne) {
-			System.err.println("error while getting a commit editor for the location '"
-					+ _url + "': " + svne.getMessage());
+			try{
+				return editor.closeEdit();
+			} catch (SVNException e) {
+				e.printStackTrace();
+				System.exit(0);
+			}
 		}
 		
 		

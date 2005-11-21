@@ -19,20 +19,18 @@ import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.io.SVNRepository;
  
 
-public class SvnDisplayRepositoryTree extends SvnConnect{
-   
-    public SvnDisplayRepositoryTree() {
-       super();
+public class SvnDisplayRepositoryTree{
+	SVNRepository repository;
+    public SvnDisplayRepositoryTree() throws SVNException {
+    	repository = SvnConnect.getInstance().getRepository();
     }
  
-    public SvnDisplayRepositoryTree(String url, String name, String password){
-		 super(url, name, password );
+    public SvnDisplayRepositoryTree(String url, String name, String password) throws SVNException{
+    	repository = SvnConnect.getInstance(url,name,password).getRepository();
 	 }
     
     public boolean existProject(String projectName){
 		Collection isIn;
-		SVNRepository repository = connect();
-		
 		try {
 			isIn = listEntries(repository,".");
 			//String path =".";
@@ -72,20 +70,6 @@ public class SvnDisplayRepositoryTree extends SvnConnect{
         Collection entries = repository.getDir(path, -1, null, (Collection) null);
         	
         return entries;
-        /*
-        Iterator iterator = entries.iterator();
-        while (iterator.hasNext()) {
-            SVNDirEntry entry = (SVNDirEntry) iterator.next();
-            System.out.println("/" + (path.equals("") ? "" : path + "/")
-                    + entry.getName() + " (author:" + entry.getAuthor()
-                    + "; revision:" + entry.getRevision() + ")");
-            /*
-             * Checking up if the entry is a directory.
-             */
-          /*  if (entry.getKind() == SVNNodeKind.DIR) {
-                listEntries(repository, (path.equals("")) ? entry.getName()
-                        : path + "/" + entry.getName());
-            }
-        }*/
+       
     }
 }

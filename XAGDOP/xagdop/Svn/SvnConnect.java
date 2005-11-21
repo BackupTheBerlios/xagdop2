@@ -1,5 +1,6 @@
 package xagdop.Svn;
 
+
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNNodeKind;
 import org.tmatesoft.svn.core.SVNURL;
@@ -13,21 +14,43 @@ public class SvnConnect {
 	protected String _url = "svn://marine.edu.ups-tlse.fr/users/iupisi/m1isb4/svn/XAGDOP";
 	protected String _name = "XAGDOP";
 	protected String _password = "blabla";
+	protected SVNRepository repository = null;
+	protected static SvnConnect svnC = null;
 	
 	
-	
-	public SvnConnect(String url, String name, String password){
+	private SvnConnect(String url, String name, String password) throws SVNException{
 		_url = url;
 		_name = name;
 		_password = password;
-		//setupLibrary();
+		setupLibrary();
+		repository = connect();
 	}
-	public SvnConnect(){
-		//setupLibrary();
+	private SvnConnect()throws SVNException{
+		setupLibrary();
+		repository = connect();
 	}
 	
-	public SVNRepository connect(){
-		SVNRepository repository = null;
+	public static SvnConnect getInstance() throws SVNException{
+		if(svnC == null)
+			return new SvnConnect();
+		
+		return svnC;
+	}
+	
+	public static SvnConnect getInstance(String url, String name, String password) throws SVNException{
+		if(svnC == null)
+			return new SvnConnect(url,  name,  password);
+		
+		return svnC;
+	}
+	
+	public SVNRepository reconnect()throws SVNException{
+		repository = connect();
+		return repository;
+	}
+	
+	private SVNRepository connect() throws SVNException{
+		
 		try {
 			/*
 			 * Creates an instance of SVNRepository to work with the repository.
@@ -43,7 +66,7 @@ public class SvnConnect {
 			System.err
 			.println("error while creating an SVNRepository for location '"
 					+ _url + "': " + svne.getMessage());
-			System.exit(1);
+			throw svne;
 		}
 		
 		/*
@@ -74,28 +97,11 @@ public class SvnConnect {
 				System.err.println("The entry at '" + _url + "' is a file while a directory was expected.");
 				//System.exit(1);
 			}
-			/*
-			 * getRepositoryRoot returns the actual root directory where the
-			 * repository was created
-			 */
-		/*	System.out.println("Repository Root: "
-					+ repository.getRepositoryRoot());
-			/*
-			 * getRepositoryUUID returns Universal Unique IDentifier (UUID) - an
-			 * identifier of the repository
-			 */
-			/*System.out.println("Repository UUID: "
-					+ repository.getRepositoryUUID());
-			System.out.println("");
-			
-			/*
-			 * Displays the repository tree at the current path - "" (what means
-			 * the path/to/repository directory)
-			 */
+		
 		} catch (SVNException svne) {
 			System.err.println("error while listing entries: "
 					+ svne.getMessage());
-			//System.exit(1);
+			throw svne;
 		}
 		
 		return repository;
@@ -112,6 +118,9 @@ public class SvnConnect {
 		 * for SVN (over svn and svn+ssh)
 		 */
 		SVNRepositoryFactoryImpl.setup();
+	}
+	public SVNRepository getRepository(){
+		return repository;
 	}
 	public String getName() {
 		return _name;
