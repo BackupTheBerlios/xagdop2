@@ -135,7 +135,7 @@ public class SvnCommit extends SvnConnect{
 	
 	public SVNCommitInfo addFile(String dirPath, String filePath, String description) throws SVNException, FileNotFoundException, IOException {
 		ISVNEditor editor = null;
-		String urlFile ="/home/nephos/" + filePath;
+		String urlFile ="~" +dirPath+"/" +filePath;
 		long deltaLength = 0 ;
 		editor = repository.getCommitEditor(description,new WorkspaceMediator());
 		
@@ -244,7 +244,7 @@ public class SvnCommit extends SvnConnect{
 	 */
 	public  SVNCommitInfo modifyFile(String dirPath, String filePath, String description) throws SVNException, FileNotFoundException, IOException {
 		ISVNEditor editor = null;
-		String urlFile ="/home/nephos/" + filePath;
+		String urlFile ="~" +dirPath+"/" +filePath;
 		long deltaLength = 0 ;
 		editor = repository.getCommitEditor(description,new WorkspaceMediator());
 		
