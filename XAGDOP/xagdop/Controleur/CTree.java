@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import javax.swing.JTree;
@@ -31,6 +32,7 @@ import org.tmatesoft.svn.core.io.SVNRepository;
 
 import xagdop.Identity;
 import xagdop.Interface.ICentralPanel;
+
 import xagdop.Svn.SvnConnect;
 import xagdop.Svn.SvnDisplayRepositoryTree;
 
@@ -288,8 +290,23 @@ public class CTree implements TreeModel
 	}
 	
 	public void refresh(CTreeNode node){
-		final SvnDisplayRepositoryTree listeroot = new SvnDisplayRepositoryTree();
-		final SVNRepository repository = listeroot.connect();
+		SvnDisplayRepositoryTree listeroot;
+		try {
+			listeroot = new SvnDisplayRepositoryTree();
+		} catch (SVNException e) {
+			JOptionPane.showMessageDialog(null ,"Impossible de se connecter au server subversion", "Validation" , 1) ;
+			e.printStackTrace();
+			return;
+		}
+		
+		SVNRepository repository;
+		try {
+			repository = SvnConnect.getInstance().getRepository();
+		} catch (SVNException e) {
+			JOptionPane.showMessageDialog(null ,"Impossible de se connecter au server subversion", "Validation" , 1) ;
+			e.printStackTrace();
+			return;
+		}
 		//System.out.println(node.getName());
 		try
 		{	
