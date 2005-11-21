@@ -28,9 +28,10 @@ public class CProject {
 	
 	public int createProject(){
 		int error = 0;
-		SvnDisplayRepositoryTree project = new SvnDisplayRepositoryTree();
+		
 		if((projectName.equals("")==false))
 		{
+		SvnDisplayRepositoryTree project = new SvnDisplayRepositoryTree();
 		if(project.existProject(projectName)==false){
 			SvnCommit svnC = new SvnCommit();
 			SVNCommitInfo report = svnC.createProject(projectName, description);
