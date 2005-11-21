@@ -65,18 +65,22 @@ public class XAGDOP extends JFrame{
 	 * 
 	 */
 	JMenu menuFile = new JMenu("Fichier");
-		JMenuItem fileMenuQuit = new JMenuItem(Bundle.getText("main.menu.file.quit"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/menu_quit.gif"))) ;
+	JMenuItem fileMenuQuit = new JMenuItem(Bundle.getText("main.menu.file.quit"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/menu_quit.gif"))) ;
+	
 	JMenu menuEdite = new JMenu("Edition");
-		JMenuItem menuEditeCommit = new JMenuItem(Bundle.getText("main.menu.edite.commit"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/envoyer.jpg")));
-		JMenuItem menuEditeUpdate = new JMenuItem(Bundle.getText("main.menu.edite.update"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/reload.png")));
-		JMenuItem menuEditeCheck = new JMenuItem(Bundle.getText("main.menu.edite.checkout"));
+	JMenuItem menuEditeCommit = new JMenuItem(Bundle.getText("main.menu.edite.commit"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/envoyer.jpg")));
+	JMenuItem menuEditeUpdate = new JMenuItem(Bundle.getText("main.menu.edite.update"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/reload.png")));
+	JMenuItem menuEditeCheck = new JMenuItem(Bundle.getText("main.menu.edite.checkout"));
+	
 	JMenu menuConf = new JMenu("Parametres");
+	
 	JMenu menuProjet = new JMenu("Projet");
-		JMenuItem menuProjetTeam = new JMenuItem(Bundle.getText("main.menu.project.team"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/equipe.jpeg")));
-		JMenuItem menuProjetCreate = new JMenuItem(Bundle.getText("main.menu.project.newProject"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/new-tab.png")));
-		JMenuItem menuProjetDelete = new JMenuItem(Bundle.getText("main.menu.project.delProject"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/supprimer.gif")));
+	JMenuItem menuProjetTeam = new JMenuItem(Bundle.getText("main.menu.project.team"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/equipe.jpeg")));
+	JMenuItem menuProjetCreate = new JMenuItem(Bundle.getText("main.menu.project.newProject"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/new-tab.png")));
+	JMenuItem menuProjetDelete = new JMenuItem(Bundle.getText("main.menu.project.delProject"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/supprimer.gif")));
+	
 	JMenu menuHelp = new JMenu(Bundle.getText("main.menu.help"));
-		JMenuItem menuHelpAbout = new JMenuItem(Bundle.getText("main.menu.help.about"));
+	JMenuItem menuHelpAbout = new JMenuItem(Bundle.getText("main.menu.help.about"));
 	
 	//End of Menu Initialisation
 	

@@ -22,7 +22,7 @@ public class IAbout extends JFrame{
 	private static final long serialVersionUID = 4083774665179672609L;
 	private static IAbout IA = null;
 	JPanel logoContainer=new JPanel();
-	JLabel logo = new JLabel(new ImageIcon("/xagdop/ressources/Icon/LogoXAGDOP.jpg")) ;
+	JLabel logo = new JLabel(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/LogoXAGDOP.jpg"))) ;
 	JButton closeButton = new JButton(Bundle.getText("iabout.button.close"));
 	
 	private IAbout(){
@@ -37,7 +37,7 @@ public class IAbout extends JFrame{
 	
 		
 
-		logo.setPreferredSize(new Dimension(200 , 134)) ;
+		//logo.setPreferredSize(new Dimension(200 , 134)) ;
 		logoContainer.add(logo);
 		logoContainer.add(closeButton);
 		this.getContentPane().add(logoContainer) ;
