@@ -26,10 +26,12 @@ import xagdop.Controleur.CTreeNode;
 
 public class IProjectTree extends JTree implements  TreeModelListener
 {
+	protected CTreeNode selectedNode; 
 	
 	public IProjectTree()
 	{
 		super(new CTree());
+		selectedNode = (CTreeNode) getModel().getRoot();
 		setEditable(true);
 		getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		ITreeCellRenderer renderer = new ITreeCellRenderer();
@@ -68,6 +70,7 @@ public class IProjectTree extends JTree implements  TreeModelListener
 				else if(selRow != -1 && e.getClickCount()==1)
 				{
 					e.consume();
+					selectedNode = (CTreeNode)selPath.getLastPathComponent();
 					/*SoapCentralPanel centralPanel = associatePanel(selPath.getLastPathComponent());
 					((SoapFrame)Context.getInstance().getTopLevelFrame()).openCentralPanel(centralPanel);
 				}
@@ -90,6 +93,10 @@ public class IProjectTree extends JTree implements  TreeModelListener
 		{
 			getModel().addTreeModelListener(this);
 		}
+	}
+	
+	public CTreeNode getSelectedNode(){
+		return selectedNode;
 	}
 	
 	public void setModel(TreeModel newModel)

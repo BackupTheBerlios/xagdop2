@@ -310,8 +310,8 @@ public class XAGDOP extends JFrame{
 	
 	class actionUpdate implements ActionListener {
 		public void actionPerformed(ActionEvent e){
-			tree.removeAll();
-			((CTree)tree.getModel()).refresh((CTreeNode)((CTree)tree.getModel()).getRoot());
+			((CTree)tree.getModel()).refresh(tree.getSelectedNode());
+	
 		}
 	}
 	class ouvrirIPreferences implements ActionListener { 
