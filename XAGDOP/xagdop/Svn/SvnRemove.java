@@ -57,7 +57,7 @@ public class SvnRemove {
 	
 
 	
-	public  SVNCommitInfo deleteDir(ISVNEditor editor, String dirPath)
+	public  SVNCommitInfo deleteDir( String dirPath)
 	throws SVNException {
 		/*
 		 * Always called first. Opens the current root directory. It  means  all
