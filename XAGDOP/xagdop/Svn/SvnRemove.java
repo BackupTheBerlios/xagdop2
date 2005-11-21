@@ -59,6 +59,19 @@ public class SvnRemove {
 	
 	public  SVNCommitInfo deleteDir( String dirPath)
 	throws SVNException {
+		ISVNEditor editor  = null;
+
+		try {
+			editor = repository.getCommitEditor("",new WorkspaceMediator());
+		} catch (SVNException svne) {
+			try{
+				return editor.closeEdit();
+			} catch (SVNException e) {
+				e.printStackTrace();
+				System.exit(0);
+			}
+		}
+		
 		/*
 		 * Always called first. Opens the current root directory. It  means  all
 		 * modifications will be applied to this directory until  a  next  entry
