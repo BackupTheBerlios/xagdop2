@@ -58,6 +58,7 @@ public class XAGDOP extends JFrame{
 	JButton projet;
 	JButton equipe;
 	JButton delProject;
+	JButton preferences;
 	JTable tableVersion;
 	
 	/*
@@ -73,7 +74,7 @@ public class XAGDOP extends JFrame{
 	JMenuItem menuEditeCheck = new JMenuItem(Bundle.getText("main.menu.edite.checkout"));
 	
 	JMenu menuConf = new JMenu(Bundle.getText("main.menu.parameters"));
-	JMenuItem menuConfPreferences = new JMenuItem(Bundle.getText("main.menu.parameters.preferences"));
+	JMenuItem menuConfPreferences = new JMenuItem(Bundle.getText("main.menu.parameters.preferences"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/tools.jpg")));
 	
 	JMenu menuProjet = new JMenu(Bundle.getText("main.menu.project"));
 	JMenuItem menuProjetTeam = new JMenuItem(Bundle.getText("main.menu.project.team"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/equipe.jpeg")));
@@ -109,6 +110,8 @@ public class XAGDOP extends JFrame{
 		delProject = new JButton(new ImageIcon(imageURL));
 		imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/reload.png");
 		update = new JButton(new ImageIcon(imageURL));		
+		imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/tools.jpg");
+		preferences = new JButton(new ImageIcon(imageURL));		
 		
 		JPanel pan = (JPanel)this.getContentPane();
 		JPanel pan2 = new JPanel(new BorderLayout());
@@ -124,6 +127,8 @@ public class XAGDOP extends JFrame{
 		delProject.setToolTipText(Bundle.getText("main.menu.project.delProject"));
 		equipe.setMargin(new Insets(0,0,0,0));
 		equipe.setToolTipText(Bundle.getText("main.menu.project.team"));
+		preferences.setMargin(new Insets(0,0,0,0));
+		preferences.setToolTipText(Bundle.getText("main.menu.paramaters.preferences"));
 		
 		update.addActionListener(new actionUpdate());
 		
@@ -162,6 +167,10 @@ public class XAGDOP extends JFrame{
 //		TODO FonctionCheck		menuEditeCheck.addActionListener(new actionUpdate());
 		menuEditeCheck.setMnemonic('K');
 		
+		menuConfPreferences.addActionListener(new openIPreferences());
+		menuConfPreferences.setMnemonic('P');
+		
+		
 		menuHelpAbout.addActionListener(new ActionListener()
 				{
 			public void actionPerformed(ActionEvent e)
@@ -192,7 +201,7 @@ public class XAGDOP extends JFrame{
 		menuEdite.add(menuEditeCommit);
 		menuEdite.add(menuEditeCheck);
 		menuHelp.add(menuHelpAbout);
-		
+		menuConf.add(menuConfPreferences);
 		
 		
 		
@@ -212,7 +221,8 @@ public class XAGDOP extends JFrame{
 		menuBar2.add(projet);
 		menuBar2.add(delProject);
 		menuBar2.add(equipe);
-		
+		menuBar2.add(Box.createHorizontalStrut(45)) ;
+		menuBar2.add(preferences);
 		
 		
 		tableVersion = new JTable(new MyTableModel());
@@ -236,6 +246,7 @@ public class XAGDOP extends JFrame{
 		projet.addActionListener (new openIprojet());
 		equipe.addActionListener (new openIUser());
 		delProject.addActionListener(new delProject());
+		preferences.addActionListener(new openIPreferences());
 		setTitle(Bundle.getText("main.title"));
 		setSize(700, 400);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
