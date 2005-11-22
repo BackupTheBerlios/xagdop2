@@ -24,23 +24,25 @@ public class SvnConnect {
 		_password = password;
 		setupLibrary();
 		repository = connect();
+		System.out.println("Bla");
 	}
 	private SvnConnect()throws SVNException{
 		setupLibrary();
 		repository = connect();
+		System.out.println("Bla");
 	}
 	
 	public static SvnConnect getInstance() throws SVNException{
 		if(svnC == null)
-			return new SvnConnect();
+			svnC = new SvnConnect();
 		
 		return svnC;
 	}
 	
 	public static SvnConnect getInstance(String url, String name, String password) throws SVNException{
 		if(svnC == null)
-			return new SvnConnect(url,  name,  password);
-		
+			svnC =  new SvnConnect(url,  name,  password);
+	
 		return svnC;
 	}
 	
@@ -68,7 +70,7 @@ public class SvnConnect {
 					+ _url + "': " + svne.getMessage());
 			throw svne;
 		}
-		
+	
 		/*
 		 * User's authentication information is provided via an ISVNAuthenticationManager
 		 * instance. SVNWCUtil creates a default usre's authentication manager given user's
@@ -82,6 +84,7 @@ public class SvnConnect {
 		 * operations handled by the SVNRepository.
 		 */
 		repository.setAuthenticationManager(authManager);
+		
 		try {
 			/*
 			 * Checks up if the specified path/to/repository part of the URL

@@ -68,7 +68,6 @@ public class SvnDisplayRepositoryTree{
          * by getDir.
          */
         Collection entries = repository.getDir(path, -1, null, (Collection) null);
-        	
         return entries;
        
     }
