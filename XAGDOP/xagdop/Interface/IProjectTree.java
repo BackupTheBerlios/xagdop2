@@ -62,32 +62,34 @@ public class IProjectTree extends JTree implements  TreeModelListener
 	
 	public class PopupListener extends MouseAdapter {
 		private JPopupMenu popup = null;
-		private JMenuItem menuUpdate = new JMenuItem("Update");
+		private JMenuItem menuRefresh = new JMenuItem(Bundle.getText("tree.popup.menu.refresh"));
+		private JMenuItem menuUpdate = new JMenuItem(Bundle.getText("tree.popup.menu.update"));
+		private JMenuItem menuCommit = new JMenuItem(Bundle.getText("tree.popup.menu.commit"));
+		private JMenuItem menuRename = new JMenuItem(Bundle.getText("tree.popup.menu.rename"));
+		private JMenuItem menuDelete = new JMenuItem(Bundle.getText("tree.popup.menu.delete"));
+		private JMenuItem menuProperty = new JMenuItem(Bundle.getText("tree.popup.menu.property"));
 		
 		public PopupListener(JPopupMenu pop) {
 			
 			popup = pop;
 			
 			//menuUpdate.addActionListener(this);
-			popup.add(Bundle.getText("tree.popup.menu.refresh"));
+			popup.add(menuRefresh);
 			popup.addSeparator();
-			popup.add(Bundle.getText("tree.popup.menu.update"));
-			popup.add(Bundle.getText("tree.popup.menu.commit"));
+			popup.add(menuUpdate);
+			popup.add(menuCommit);
 			popup.addSeparator();
-			popup.add(Bundle.getText("tree.popup.menu.rename"));
-			popup.add(Bundle.getText("tree.popup.menu.delete"));
+			popup.add(menuRename);
+			popup.add(menuDelete);
 			popup.addSeparator();
-			popup.add(Bundle.getText("tree.popup.menu.property"));
+			popup.add(menuProperty);
 
 		}
 		
 		public void mouseReleased(MouseEvent me) {
 			TreePath pathClicked = getPathForLocation(me.getX(),me.getY());
-			DefaultMutableTreeNode node = (DefaultMutableTreeNode)getLastSelectedPathComponent();
-			/*
-			TreeNode parent = node.getParent();
-			Object nodeInfo = node.getUserObject(); 
-			*/
+			//DefaultMutableTreeNode node = (DefaultMutableTreeNode)getLastSelectedPathComponent();
+			
 			int selRow = getRowForLocation(me.getX(), me.getY());
 			if(selRow != -1){
 				
@@ -97,7 +99,14 @@ public class IProjectTree extends JTree implements  TreeModelListener
 				}
 			}
 			
-			getSelectionModel().addSelectionPath(new TreePath(node.getPath()));
+			
+			
+			//getSelectionModel().addSelectionPath(new TreePath(node.getPath()));
+			
+			if ((SwingUtilities.isLeftMouseButton(me))&&(!isPathSelected(pathClicked))) {		
+					selectedNode = (CTreeNode)getModel().getRoot();		
+					clearSelection();
+			} 
 			
 			if ((SwingUtilities.isRightMouseButton(me))&&(isPathSelected(pathClicked))) {		
 					popup.show(me.getComponent(), me.getX(), me.getY());				
