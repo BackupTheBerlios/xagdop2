@@ -1,12 +1,8 @@
 package xagdop.Interface;
 
 import java.awt.Component;
-import java.awt.MenuItem;
-import java.awt.PopupMenu;
-import java.awt.event.InputEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.Icon;
 import javax.swing.JMenuItem;
@@ -18,22 +14,21 @@ import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellEditor;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeModel;
-import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
 import xagdop.Controleur.CTree;
 import xagdop.Controleur.CTreeNode;
+import xagdop.ressources.Bundle;
 
 
 public class IProjectTree extends JTree implements  TreeModelListener
 {
+	private static final long serialVersionUID = 1L;
 	
 	private JPopupMenu popup = new JPopupMenu();
 	
@@ -74,44 +69,38 @@ public class IProjectTree extends JTree implements  TreeModelListener
 			popup = pop;
 			
 			//menuUpdate.addActionListener(this);
-			
-			popup.add(menuUpdate);
-			System.out.println("Constructeur");
+			popup.add(Bundle.getText("tree.popup.menu.refresh"));
+			popup.addSeparator();
+			popup.add(Bundle.getText("tree.popup.menu.update"));
+			popup.add(Bundle.getText("tree.popup.menu.commit"));
+			popup.addSeparator();
+			popup.add(Bundle.getText("tree.popup.menu.rename"));
+			popup.add(Bundle.getText("tree.popup.menu.delete"));
+			popup.addSeparator();
+			popup.add(Bundle.getText("tree.popup.menu.property"));
+
 		}
 		
 		public void mouseReleased(MouseEvent me) {
 			TreePath pathClicked = getPathForLocation(me.getX(),me.getY());
 			DefaultMutableTreeNode node = (DefaultMutableTreeNode)getLastSelectedPathComponent();
-			
+			/*
 			TreeNode parent = node.getParent();
 			Object nodeInfo = node.getUserObject(); 
+			*/
 			int selRow = getRowForLocation(me.getX(), me.getY());
-			TreePath selPath = getPathForLocation(me.getX(), me.getY());
-			if(selRow != -1)
-			{
-				Object tabTreeNode [] = selPath.getPath(); 
+			if(selRow != -1){
 				
-				if(selRow != -1 && (me.isPopupTrigger() || (me.getModifiers() & InputEvent.BUTTON3_MASK)!=0) )
-				{
-					JPopupMenu popup = associateMenu(selPath.getLastPathComponent());
-					if(popup!=null)
-					{
-						me.consume();
-						setSelectionPath(selPath);
-						popup.show(me.getComponent(), me.getX(), me.getY());
-					}
-				}
-				else if(selRow != -1 && me.getClickCount()==1)
-				{
+				if(selRow != -1 && me.getClickCount()==1){
 					me.consume();
-					selectedNode = (CTreeNode)selPath.getLastPathComponent();
+					selectedNode = (CTreeNode)pathClicked.getLastPathComponent();
 				}
 			}
 			
 			getSelectionModel().addSelectionPath(new TreePath(node.getPath()));
 			
-			if (SwingUtilities.isRightMouseButton(me)) {
-				popup.show(me.getComponent(), me.getX(), me.getY());
+			if ((SwingUtilities.isRightMouseButton(me))&&(isPathSelected(pathClicked))) {		
+					popup.show(me.getComponent(), me.getX(), me.getY());				
 			} 
 		}
 	} 
@@ -151,12 +140,12 @@ public class IProjectTree extends JTree implements  TreeModelListener
 	{
 		return ((CTree)getModel()).associateIcon(value);
 	}
-	
+	/*
 	private JPopupMenu associateMenu(Object value)
 	{
 		return ((CTree)getModel()).associateMenu(value);
 	}
-	/*
+	
 	 private ICentralPanel associatePanel(Object value)
 	 {
 	 return ((ICentralPanel)getModel()).associatePanel(value);
@@ -164,6 +153,8 @@ public class IProjectTree extends JTree implements  TreeModelListener
 	 */
 	private class ITreeCellRenderer extends DefaultTreeCellRenderer
 	{
+		private static final long serialVersionUID = 1L;
+		
 		public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded,
 				boolean leaf, int row, boolean hasFocus)
 		{
