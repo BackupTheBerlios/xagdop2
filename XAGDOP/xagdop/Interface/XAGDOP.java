@@ -30,6 +30,7 @@ import javax.swing.border.Border;
 import javax.swing.plaf.BorderUIResource;
 import javax.swing.table.AbstractTableModel;
 
+import xagdop.Controleur.CProject;
 import xagdop.Controleur.CTree;
 import xagdop.Controleur.CTreeNode;
 import xagdop.Svn.SvnConnect;
@@ -337,7 +338,7 @@ public class XAGDOP extends JFrame{
 			public void actionPerformed (ActionEvent e)  {
 				
 				String projectName = tree.getSelectedNode().getName();
-				
+				CProject.deleteProject(projectName);
 				
 			}
 	}
