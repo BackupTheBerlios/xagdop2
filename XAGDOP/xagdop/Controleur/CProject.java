@@ -79,7 +79,7 @@ public class CProject {
 	
 	
 	/* Fonction supprimant un projet  */
-	public int deleteProject(){
+	public int deleteProject(String Name){
 		int error = 0;
 		SVNCommitInfo report;
 		SvnRemove svnR;
@@ -90,7 +90,7 @@ public class CProject {
 			e.printStackTrace();
 			return 1;
 		}
-		String path = "/"+projectName;
+		String path = "/"+Name;
 	
 		try {
 			report = svnR.deleteDir(path);
@@ -100,10 +100,10 @@ public class CProject {
 			return 1;
 		}
 		if(report.getError()!=null){
-			JOptionPane.showMessageDialog(null ,"Le projet "+projectName+" n'a pu etre supprimer ", "Validation" , 1) ;
+			JOptionPane.showMessageDialog(null ,"Le projet "+Name+" n'a pu etre supprimer ", "Validation" , 1) ;
 			return error;
 		}
-		JOptionPane.showMessageDialog(null ,"Le projet "+projectName+" est supprime", "Validation" , 1) ;
+		JOptionPane.showMessageDialog(null ,"Le projet "+Name+" est supprime", "Validation" , 1) ;
 		
 		return error;
 	}
