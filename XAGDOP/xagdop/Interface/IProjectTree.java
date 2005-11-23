@@ -34,11 +34,11 @@ import xagdop.Controleur.CTreeNode;
 
 public class IProjectTree extends JTree implements  TreeModelListener
 {
-
+	
 	private JPopupMenu popup = new JPopupMenu();
-
+	
 	protected CTreeNode selectedNode; 
-
+	
 	
 	public IProjectTree()
 	{
@@ -54,9 +54,6 @@ public class IProjectTree extends JTree implements  TreeModelListener
 		setInvokesStopCellEditing(true);
 		
 		
-		final IProjectTree local_tree = this;
-
-
 		
 		PopupListener popupL = new PopupListener(popup);
 		addMouseListener(popupL);
@@ -67,11 +64,11 @@ public class IProjectTree extends JTree implements  TreeModelListener
 		}
 		
 	}
-
+	
 	public class PopupListener extends MouseAdapter {
 		private JPopupMenu popup = null;
 		private JMenuItem menuUpdate = new JMenuItem("Update");
-
+		
 		public PopupListener(JPopupMenu pop) {
 			
 			popup = pop;
@@ -81,29 +78,50 @@ public class IProjectTree extends JTree implements  TreeModelListener
 			popup.add(menuUpdate);
 			System.out.println("Constructeur");
 		}
-
+		
 		public void mouseReleased(MouseEvent me) {
 			TreePath pathClicked = getPathForLocation(me.getX(),me.getY());
 			DefaultMutableTreeNode node = (DefaultMutableTreeNode)getLastSelectedPathComponent();
-
-			 TreeNode parent = node.getParent();
-			 Object nodeInfo = node.getUserObject(); 
 			
+			TreeNode parent = node.getParent();
+			Object nodeInfo = node.getUserObject(); 
+			int selRow = getRowForLocation(me.getX(), me.getY());
+			TreePath selPath = getPathForLocation(me.getX(), me.getY());
+			if(selRow != -1)
+			{
+				Object tabTreeNode [] = selPath.getPath(); 
+				
+				if(selRow != -1 && (me.isPopupTrigger() || (me.getModifiers() & InputEvent.BUTTON3_MASK)!=0) )
+				{
+					JPopupMenu popup = associateMenu(selPath.getLastPathComponent());
+					if(popup!=null)
+					{
+						me.consume();
+						setSelectionPath(selPath);
+						popup.show(me.getComponent(), me.getX(), me.getY());
+					}
+				}
+				else if(selRow != -1 && me.getClickCount()==1)
+				{
+					me.consume();
+					selectedNode = (CTreeNode)selPath.getLastPathComponent();
+				}
+			}
 			
 			getSelectionModel().addSelectionPath(new TreePath(node.getPath()));
-
-			 if (SwingUtilities.isRightMouseButton(me)) {
-				 popup.show(me.getComponent(), me.getX(), me.getY());
-				 } 
+			
+			if (SwingUtilities.isRightMouseButton(me)) {
+				popup.show(me.getComponent(), me.getX(), me.getY());
+			} 
 		}
 	} 
 	
-
+	
 	public CTreeNode getSelectedNode(){
 		return selectedNode;
 	}
 	
-
+	
 	public void setModel(TreeModel newModel)
 	{
 		if(getModel()!=null)
