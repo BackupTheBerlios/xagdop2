@@ -79,7 +79,7 @@ public class CProject {
 	
 	
 	/* Fonction supprimant un projet  */
-	public int deleteProject(String Name){
+	public static int deleteProject(String Name){
 		int error = 0;
 		SVNCommitInfo report;
 		SvnRemove svnR;
