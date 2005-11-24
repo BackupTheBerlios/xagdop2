@@ -1,11 +1,11 @@
 
 package xagdop.Controleur;
 
-import java.io.Serializable;
+//import java.io.Serializable;
 
-import javax.swing.tree.DefaultMutableTreeNode;
+//import javax.swing.tree.DefaultMutableTreeNode;
 
-import xagdop.Identity;
+//import xagdop.Identity;
 
 
 /**
@@ -14,11 +14,12 @@ import xagdop.Identity;
  */
 
 
-public class CTreeNode extends DefaultMutableTreeNode implements Serializable
+public class CTreeNode /*extends DefaultMutableTreeNode implements Serializable*/
 {
-
-
-	public CTreeNode(Object userObject, boolean isLeaf)
+	String localPath;
+	String repositoryPath;
+	
+	/*public CTreeNode(Object userObject, boolean isLeaf)
 	{
 		super(userObject);		
 	}
@@ -28,10 +29,31 @@ public class CTreeNode extends DefaultMutableTreeNode implements Serializable
 	{
 		super(userObject);
 		setParent(parent);
-	}
+	}*/
 	
 
-	public String getName()
+	public CTreeNode(String repositoryPath) {
+		this.repositoryPath = repositoryPath;
+	}
+
+	public CTreeNode(String localPath, String repositoryPath) {
+		this.localPath = localPath;
+		this.repositoryPath = repositoryPath;
+	}
+
+	public String getLocalPath() {
+		return localPath;
+	}
+
+	public void setLocalPath(String localPath) {
+		this.localPath = localPath;
+	}
+
+	public String getRepositoryPath() {
+		return repositoryPath;
+	}
+
+	/*public String getName()
 	{
 		return getUserObject().toString();
 	}
@@ -48,5 +70,5 @@ public class CTreeNode extends DefaultMutableTreeNode implements Serializable
 			return ((Identity)getUserObject()).getID();
 		}
 		return null;
-	}	
+	}	*/
 }
