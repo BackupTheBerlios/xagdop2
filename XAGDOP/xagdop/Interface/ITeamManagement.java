@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
+import xagdop.Controleur.CTeamManagement;
 
 public class ITeamManagement extends JFrame{
 	
@@ -111,7 +112,9 @@ public class ITeamManagement extends JFrame{
         ButtonOK.setText("Ok");
         ButtonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                //ButtonOKActionPerformed(evt);
+                CTeamManagement.Apply((String)UserListCombo.getSelectedItem(),ArchitectCheck.isSelected(),AnalystCheck.isSelected(),RedacterCheck.isSelected());
+                //fermer la fenetre
+            	
             }
         });
 
@@ -124,7 +127,7 @@ public class ITeamManagement extends JFrame{
         ButtonCancel.setText("Annuler");
         ButtonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                //ButtonCancelActionPerformed(evt);
+                 //Fermer la fenetre
             }
         });
 
@@ -138,7 +141,7 @@ public class ITeamManagement extends JFrame{
         ButtonApply.setText("Appliquer");
         ButtonApply.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                //ButtonApplyActionPerformed(evt);
+            	 CTeamManagement.Apply((String)UserListCombo.getSelectedItem(),ArchitectCheck.isSelected(),AnalystCheck.isSelected(),RedacterCheck.isSelected());
             }
         });
 
