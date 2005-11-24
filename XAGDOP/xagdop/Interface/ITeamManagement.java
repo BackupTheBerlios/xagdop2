@@ -1,6 +1,8 @@
 package xagdop.Interface;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -10,6 +12,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 public class ITeamManagement extends JFrame{
 	
@@ -43,10 +46,10 @@ public class ITeamManagement extends JFrame{
 
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        newPanel.setLayout(new java.awt.GridBagLayout());
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        newPanel.setLayout(new GridBagLayout());
 
-        newPanel.setMinimumSize(new java.awt.Dimension(296, 130));
+        newPanel.setMinimumSize(new Dimension(296, 130));
         UserLabel.setText("Selectionner l'utilisateur");
         
         UserLabel.setText("Selectionner l'utilisateur");
