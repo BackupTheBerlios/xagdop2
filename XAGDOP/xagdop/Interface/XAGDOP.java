@@ -315,8 +315,8 @@ public class XAGDOP extends JFrame{
 	}
 	class openIUser implements ActionListener { 
 		public void actionPerformed (ActionEvent e)  {
-			IUser user = IUser.getIU();
-			user.setVisible(true);
+			ITeamManagement iteam = ITeamManagement.getIT();
+			iteam.setVisible(true);
 		}
 		
 	}
