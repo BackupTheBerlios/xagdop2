@@ -25,6 +25,7 @@ public class ITeamManagement extends JFrame{
 
 	private JButton ButtonOK=new JButton();
     private JButton ButtonCancel=new JButton();
+    private JButton ButtonApply = new JButton();
     private JCheckBox AnalystCheck=new JCheckBox();
     private JCheckBox ArchitectCheck = new JCheckBox();
     private JCheckBox RedacterCheck = new JCheckBox();
@@ -117,6 +118,7 @@ public class ITeamManagement extends JFrame{
 
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 2;
         newPanel.add(ButtonOK, gridBagConstraints);
 
         ButtonCancel.setText("Annuler");
@@ -127,11 +129,24 @@ public class ITeamManagement extends JFrame{
         });
 
 
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.gridwidth = 2;
         newPanel.add(ButtonCancel, gridBagConstraints);
+   
+        
+        ButtonApply.setText("Appliquer");
+        ButtonApply.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                //ButtonApplyActionPerformed(evt);
+            }
+        });
 
+
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        //gridBagConstraints.gridwidth = 1;
+        newPanel.add(ButtonApply, gridBagConstraints);
         getContentPane().add(newPanel, new GridBagConstraints());
 
         pack();
