@@ -34,7 +34,7 @@ public class ITeamManagement extends JFrame{
     private JLabel RedacterLabel = new JLabel();
     private JLabel UserLabel = new JLabel();
     private JPanel newPanel = new JPanel();
-	GridBagConstraints gridBagConstraints;
+	GridBagConstraints gridBagConstraints = new GridBagConstraints();
 	
 	
 	private ITeamManagement(){
@@ -44,7 +44,7 @@ public class ITeamManagement extends JFrame{
 	
 	private void init(){ 
 
-        getContentPane().setLayout(new java.awt.GridBagLayout());
+        getContentPane().setLayout(new GridBagLayout());
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         newPanel.setLayout(new GridBagLayout());
@@ -53,7 +53,7 @@ public class ITeamManagement extends JFrame{
         UserLabel.setText("Selectionner l'utilisateur");
         
         
-        gridBagConstraints = new GridBagConstraints();
+        
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         newPanel.add(UserLabel, gridBagConstraints);
@@ -66,43 +66,43 @@ public class ITeamManagement extends JFrame{
             }
         });
 
-        gridBagConstraints = new GridBagConstraints();
+        
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 3;
         newPanel.add(UserListCombo, gridBagConstraints);
 
-        gridBagConstraints = new GridBagConstraints();
+        
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 3;
         newPanel.add(AnalystCheck, gridBagConstraints);
 
        
 
-        gridBagConstraints = new GridBagConstraints();
+        
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
         newPanel.add(ArchitectCheck, gridBagConstraints);
 
-        gridBagConstraints = new GridBagConstraints();
+        
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         newPanel.add(RedacterCheck, gridBagConstraints);
 
         ArchitectLabel.setText("Architecte");
-        gridBagConstraints = new GridBagConstraints();
+
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         newPanel.add(ArchitectLabel, gridBagConstraints);
 
         RedacterLabel.setText("Redacteur");
-        gridBagConstraints = new GridBagConstraints();
+
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         newPanel.add(RedacterLabel, gridBagConstraints);
 
         AnalystLabel.setText("Analyste");
-        gridBagConstraints = new GridBagConstraints();
+
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 2;
         newPanel.add(AnalystLabel, gridBagConstraints);
@@ -114,7 +114,7 @@ public class ITeamManagement extends JFrame{
             }
         });
 
-        gridBagConstraints = new GridBagConstraints();
+
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
         newPanel.add(ButtonOK, gridBagConstraints);
@@ -126,7 +126,7 @@ public class ITeamManagement extends JFrame{
             }
         });
 
-        gridBagConstraints = new GridBagConstraints();
+
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.gridwidth = 2;
