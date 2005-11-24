@@ -52,14 +52,14 @@ public class ITeamManagement extends JFrame{
         newPanel.setMinimumSize(new Dimension(296, 130));
         UserLabel.setText("Selectionner l'utilisateur");
         
-        UserLabel.setText("Selectionner l'utilisateur");
+        
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         newPanel.add(UserLabel, gridBagConstraints);
-        UserLabel.getAccessibleContext().setAccessibleName("Choisir l'utilisateur");
-
-        UserListCombo.setName("null");
+        
+        
+        
         UserListCombo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 //UserListComboActionPerformed(evt);
