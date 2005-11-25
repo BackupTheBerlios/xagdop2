@@ -1,6 +1,8 @@
 package xagdop.Interface;
 
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -72,7 +74,7 @@ public class IProjectTree extends JTree implements  TreeModelListener
 		public PopupListener(JPopupMenu pop) {
 			
 			popup = pop;
-			
+			menuProperty.addActionListener(new openIProjectPreferences());
 			//menuUpdate.addActionListener(this);
 			popup.add(menuRefresh);
 			popup.addSeparator();
@@ -85,6 +87,14 @@ public class IProjectTree extends JTree implements  TreeModelListener
 			popup.add(menuProperty);
 
 		}
+		class openIProjectPreferences implements ActionListener {
+			public void actionPerformed (ActionEvent e){
+				IProjectPreferences iprojectpreferences = IProjectPreferences.getIPP();
+				iprojectpreferences.setVisible(true);
+			}
+		}
+		
+		
 		
 		public void mouseReleased(MouseEvent me) {
 			TreePath pathClicked = getPathForLocation(me.getX(),me.getY());
