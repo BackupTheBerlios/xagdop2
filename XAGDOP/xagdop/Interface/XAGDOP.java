@@ -364,5 +364,9 @@ public class XAGDOP extends JFrame{
 		XAGDOP frame = new XAGDOP();
 		frame.setVisible(true);
 	}
+
+	public IProjectTree getTree() {
+		return tree;
+	}
 	
 }
