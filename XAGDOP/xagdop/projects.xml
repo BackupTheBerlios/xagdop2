@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><projects>
+	<project name="Projet1" urlRepo="uneURL">
+		
+	</project>
+	<project name="Projet2" urlRepo="uneAutreURL">
+		<user analyste="true" archi="false" id="1" pmanager="true" redacteur="true"/>	
+	<user analyste="true" archi="true" id="6" pmanager="false" redacteur="false"/><user analyste="false" archi="true" id="6" pmanager="true" redacteur="false"/><user analyste="false" archi="true" id="6" pmanager="true" redacteur="false"/><user analyste="false" archi="true" id="6" pmanager="true" redacteur="false"/><user analyste="false" archi="true" id="6" pmanager="true" redacteur="false"/><user analyste="false" archi="true" id="6" pmanager="true" redacteur="false"/><user analyste="false" archi="true" id="6" pmanager="true" redacteur="false"/></project>
+</projects>
