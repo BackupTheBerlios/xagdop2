@@ -45,10 +45,10 @@ public class IUser extends JFrame{
 		setSize(300, 200);
 		panel = new JPanel();
 		panel.setLayout(new GridLayout(3,2));
-		userIDLabel = new JLabel("Userid");
-		passwordLabel = new JLabel("Password");
+		userIDLabel = new JLabel(Bundle.getText("iuser.label.id"));
+		passwordLabel = new JLabel(Bundle.getText("iuser.label.password"));
 		panel.add(userIDLabel);
-		userID = new JTextField("Your UserID");
+		userID = new JTextField(Bundle.getText("iuser.Jtextfield.id"));
 		password = new JPasswordField();
 		password.setEchoChar('*');
 		password.setColumns(8);
@@ -59,8 +59,8 @@ public class IUser extends JFrame{
 
 	
 		
-		JButton valide = new JButton(Bundle.getText("iprojectpreference.button.ok"));
-		JButton cancel = new JButton(Bundle.getText("iprojectpreference.button.cancel"));
+		JButton valide = new JButton(Bundle.getText("iuser.button.ok"));
+		JButton cancel = new JButton(Bundle.getText("iuser.button.cancel"));
 		
 		valide.addActionListener(new ActionListener()
 				{
@@ -83,15 +83,9 @@ public class IUser extends JFrame{
 		panel.add(cancel);
 		//Creation de la fenetre
 		setResizable(true) ;
-
-		/*setDefaultCloseOperation (WindowConstants.HIDE_ON_CLOSE) ;
-		panel.setBorder(BorderFactory.createEtchedBorder()) ;
-		getContentPane().add(panel , BorderLayout.CENTER) ;
-		setLocation(new Point(500 , 200)) ;
-		*/
 		getContentPane().add(panel);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setSize(200,200);
+		//setSize(200,200);
 		setLocation(300,200);
 		setVisible(true);
 		pack();
