@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import org.w3c.dom.*;
 
+import xagdop.Model.Users;
+
 import javax.xml.parsers.*;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
@@ -259,7 +261,10 @@ public class UsersParser {
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//*";
 		String login = null;
-		String num = null;
+		String passwd  = null;
+		int num = 0;
+		boolean pmanager = false;
+		boolean admin = false;
 		
 		Element usersNode = null;
 		NodeList usersNodeList;
@@ -274,6 +279,12 @@ public class UsersParser {
 				Node nodeAll = null;
 				Node nodeN = null;
 				Node nodeL = null;
+				Node nodeP = null;
+				Node nodeA = null;
+				Node nodeM = null;
+				
+				
+				
 				NamedNodeMap map = null;
 				usersNodeList = usersNode.getChildNodes();
 				for (int i=0; i<usersNodeList.getLength(); i++)
@@ -283,10 +294,26 @@ public class UsersParser {
 					if(map!=null){
 						nodeL = map.getNamedItem(ATTR_LOGIN);
 						nodeN = map.getNamedItem(ATTR_NUM);
+						nodeP = map.getNamedItem(ATTR_PASSWD);
+						nodeA = map.getNamedItem(ATTR_ADMIN);
+						nodeM = map.getNamedItem(ATTR_MANAGER);
+						
 						if(nodeL!=null){
+													
 							login = nodeL.getNodeValue();
-							num =  nodeN.getNodeValue();
-							usersList.add(Integer.parseInt(num), login);
+							num = Integer.parseInt(nodeN.getNodeValue());
+							passwd = nodeP.getNodeValue();		
+							if(nodeA.getNodeValue().equalsIgnoreCase("true"))
+								admin = true;
+							else
+								admin = false;
+							if(nodeM.getNodeValue().equalsIgnoreCase("true"))
+								pmanager = true;
+							else
+								pmanager = false;
+							
+							Users user = new Users(login, passwd, num, admin, pmanager);
+							usersList.add(user);
 						}
 					}
 
