@@ -33,6 +33,7 @@ import javax.swing.table.AbstractTableModel;
 import xagdop.Controleur.CProject;
 import xagdop.Controleur.CTree;
 import xagdop.Controleur.CTreeNode;
+import xagdop.Parser.testsParsers;
 import xagdop.Svn.SvnConnect;
 import xagdop.ressources.Bundle;
 
@@ -95,8 +96,8 @@ public class XAGDOP extends JFrame{
 	IProjectTree tree;
 	
 	public XAGDOP(){
-		init();
-		
+		//init();
+		testsParsers tests = new testsParsers(); 
 	}
 	
 	private void init(){

@@ -1,6 +1,7 @@
 package xagdop.Parser;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import org.w3c.dom.*;
 
@@ -21,10 +22,11 @@ public class UsersParser {
 	
 	private String fichierXML = "xagdop/users.xml";
 	
-	public static String ATTR_LOGIN = "login";
-	public static String ATTR_PASSWD = "passwd";
-	public static String ATTR_MANAGER = "pmanager";
-	public static String ATTR_ADMIN = "admin";
+	public static final String ATTR_LOGIN = "login";
+	public static final String ATTR_PASSWD = "passwd";
+	public static final String ATTR_MANAGER = "pmanager";
+	public static final String ATTR_ADMIN = "admin";
+	public static final String ATTR_NUM = "num";
 	
 	public UsersParser()
 	{
@@ -220,9 +222,9 @@ public class UsersParser {
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//*";
 		String expr = "//child::id[attribute::num="+idUser+"]";
-		UsersParser user = new UsersParser();
 		
-		if(!user.isUser(idUser))
+		
+		if(!isUser(idUser))
 		{
 			//System.out.println("L'utilisateur n'existe pas!!");
 		}
@@ -251,7 +253,57 @@ public class UsersParser {
 		
 	}
 	
-	
+	public ArrayList getAllUsers()
+	{
+		ArrayList usersList = new ArrayList();
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		String expression = "//*";
+		String login = null;
+		String num = null;
+		
+		Element usersNode = null;
+		NodeList usersNodeList;
+		
+		
+		try {
+			usersNode = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+			
+			if(usersNode.hasChildNodes()){
+				System.out.println("Des fils");
+				
+				Node nodeAll = null;
+				Node nodeN = null;
+				Node nodeL = null;
+				NamedNodeMap map = null;
+				usersNodeList = usersNode.getChildNodes();
+				for (int i=0; i<usersNodeList.getLength(); i++)
+				{
+					nodeAll = usersNodeList.item(i);
+					map = nodeAll.getAttributes();
+					if(map!=null){
+						nodeL = map.getNamedItem(ATTR_LOGIN);
+						nodeN = map.getNamedItem(ATTR_NUM);
+						if(nodeL!=null){
+							login = nodeL.getNodeValue();
+							num =  nodeN.getNodeValue();
+							usersList.add(Integer.parseInt(num), login);
+						}
+					}
+
+				}
+			}
+			else {
+				System.out.println("Pas de fils");
+			}
+		
+		}
+		catch (XPathExpressionException e) {
+			
+			e.printStackTrace();
+		}
+		
+		return usersList;
+	}
 	
 	public void saveDocument()
 	{

@@ -12,7 +12,9 @@ public class testsParsers {
 		String passwd;*/
 		String url;
 		
-		users.removeUser(8);
+		//users.removeUser(8);
+		//projects.removeProject("Projet2");
+		users.getAllUsers();
 	/*
 		login = (String)users.getAttribute(1, UsersParser.ATTR_LOGIN);
 		System.out.println("Login de 1 : "+login);

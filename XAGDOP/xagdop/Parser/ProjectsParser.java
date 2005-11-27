@@ -26,13 +26,13 @@ public class ProjectsParser {
 	
 	private String projectXML = "xagdop/projects.xml";
 	
-	public static String ATTR_ARCHI = "archi";
-	public static String ATTR_ANALYST = "analyste";
-	public static String ATTR_REDACTEUR = "redacteur";	
-	public static String ATTR_MANAGER = "pmanager";
-	public static String ATTR_NAME = "name";
-	public static String ATTR_URLREPO = "urlRepo";
-	public static String ATTR_IDUSER = "id";	
+	public static final String ATTR_ARCHI = "archi";
+	public static final String ATTR_ANALYST = "analyste";
+	public static final String ATTR_REDACTEUR = "redacteur";	
+	public static final String ATTR_MANAGER = "pmanager";
+	public static final String ATTR_NAME = "name";
+	public static final String ATTR_URLREPO = "urlRepo";
+	public static final String ATTR_IDUSER = "id";	
 	
 	public ProjectsParser()
 	{
@@ -371,6 +371,36 @@ public class ProjectsParser {
 				System.out.println("Suppression de l'utilisateur "+idUser+" impossible!"); 
 			}
 		}		
+		
+	}
+	
+	public void removeProject(String projectName)
+	{
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		String expression = "//*";
+		String expr = "//project[@name=\""+projectName+"\"]";
+
+		
+		Element elem = null;
+		Element oldElem = null;
+		
+		try {
+			elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+			oldElem = (Element)xpath.evaluate(expr, this.doc, XPathConstants.NODE);
+		}
+		catch (XPathExpressionException e) {
+			
+			e.printStackTrace();
+		}
+		if ( elem != null ) {
+			elem.removeChild(oldElem);
+			saveDocument();
+			System.out.println("Suppression du projet "+projectName+" effectuée!"); 
+		}
+		else {
+			System.out.println("Suppression du projet "+projectName+" impossible!"); 
+		}
+		
 		
 	}
 	
