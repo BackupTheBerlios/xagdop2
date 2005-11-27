@@ -3,10 +3,9 @@ package xagdop.Interface;
 
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Point;
-import java.awt.TextArea;
-import java.awt.TextField;
+
+import java.awt.GridLayout;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,6 +15,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 import xagdop.Controleur.CProject;
@@ -35,8 +36,8 @@ public class IProjectPreferences extends JFrame {
 	 */
 	
 	private static IProjectPreferences IPP = null;
-	protected TextField TFLP; 
-	protected JLabel TFRP;
+	protected JTextField localPath; 
+	protected JLabel repositoryPath;
 	protected JLabel JlabelProjectRepositoryPath;
 	protected JLabel JlabelProjectLocalPath;
 	protected JPanel JPanelProjectTopContainer;
@@ -48,30 +49,28 @@ public class IProjectPreferences extends JFrame {
 	
 	
 	private void init(){
-		TFLP = new TextField(30);
-		
-			
+		localPath = new JTextField(tree.getSelectedNode().getLocalPath());
+
 		setTitle(Bundle.getText("iprojectpreference.title"));
-		setSize(261, 235);
+		setSize(500,200);
 		
 		JPanelProjectTopContainer = new JPanel() ;
-		
-		JPanelProjectTopContainer.setLayout(new FlowLayout(FlowLayout.LEFT)) ;
-		    
+		JPanelProjectTopContainer.setLayout(new GridLayout(3,2)) ;
 		JPanelProjectTopContainer.setBorder(BorderFactory.createEtchedBorder()) ;
 	
 		//Initialisation du chemin local
 		JlabelProjectLocalPath = new JLabel(Bundle.getText("iprojectpreference.label.localpath"));
-		JlabelProjectLocalPath.setToolTipText(tree.getSelectedNode().getLocalPath()) ;
 		JPanelProjectTopContainer.add(JlabelProjectLocalPath);
-		JPanelProjectTopContainer.add(TFLP);
+		JPanelProjectTopContainer.add(localPath);
 		
 		//Initialisation du chemin sur le serveur
 		JlabelProjectRepositoryPath = new JLabel(Bundle.getText("iprojectpreference.label.repositorypath"));
-		TFRP = new JLabel(tree.getSelectedNode().getRepositoryPath()) ;
+		repositoryPath = new JLabel(tree.getSelectedNode().getRepositoryPath()) ;
 		JPanelProjectTopContainer.add(JlabelProjectRepositoryPath);
-		JPanelProjectTopContainer.add(TFRP);
+		JPanelProjectTopContainer.add(repositoryPath);
 		
+		
+		// Creation des 2 boutons
 		JButton valide = new JButton(Bundle.getText("iprojectpreference.button.ok"));
 		JButton cancel = new JButton(Bundle.getText("iprojectpreference.button.cancel"));
 		
@@ -80,8 +79,8 @@ public class IProjectPreferences extends JFrame {
 				    public void actionPerformed(ActionEvent e)
 				    {
 				    	CTreeNode treeN= tree.getSelectedNode();			    	
-				    	TFRP.setText(treeN.getRepositoryPath());
-				    	TFLP.setText(treeN.getLocalPath());
+				    	repositoryPath.setText(treeN.getRepositoryPath());
+				    	localPath.setText(treeN.getLocalPath());
 				       	IPP.setVisible(false);
 				    }
 				}) ;
@@ -93,10 +92,10 @@ public class IProjectPreferences extends JFrame {
 		    	IPP.dispose();   	
 		    }
 		}) ;
-		
-		JPanelProjectTopContainer.add(Box.createHorizontalStrut(80)) ;
+
 		JPanelProjectTopContainer.add(valide);
 		JPanelProjectTopContainer.add(cancel);
+		
 		//Creation de la fenetre
 		setResizable(true) ;
 
@@ -106,7 +105,7 @@ public class IProjectPreferences extends JFrame {
 		getContentPane().add(JPanelProjectTopContainer , BorderLayout.CENTER) ;
 		
 	
-		setLocation(new Point(500 , 200)) ;
+		setLocation(200,200) ;
 
 
 		 
