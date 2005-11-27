@@ -5,6 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -14,6 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 import xagdop.Controleur.CTeamManagement;
+import xagdop.Model.Projects;
+import xagdop.Parser.ProjectsParser;
 
 public class ITeamManagement extends JFrame{
 	
@@ -30,7 +33,7 @@ public class ITeamManagement extends JFrame{
     private JCheckBox AnalystCheck=new JCheckBox();
     private JCheckBox ArchitectCheck = new JCheckBox();
     private JCheckBox RedacterCheck = new JCheckBox();
-    private JComboBox UserListCombo = new JComboBox();
+    private JComboBox UserListCombo ;
     private JLabel AnalystLabel = new JLabel();
     private JLabel ArchitectLabel = new JLabel();
     private JLabel RedacterLabel = new JLabel();
@@ -45,7 +48,11 @@ public class ITeamManagement extends JFrame{
 	
 	
 	private void init(){ 
-
+	//	CTeamManagement CTeamM = new CTeamManagement("Projet1");
+		String[] Users = {"Patrick","Wilfried","Henry" };
+		
+		UserListCombo=new JComboBox(Users) ;
+		
         getContentPane().setLayout(new GridBagLayout());
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -112,9 +119,9 @@ public class ITeamManagement extends JFrame{
         ButtonOK.setText("Ok");
         ButtonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                CTeamManagement.Apply((String)UserListCombo.getSelectedItem(),ArchitectCheck.isSelected(),AnalystCheck.isSelected(),RedacterCheck.isSelected());
+             //   CTeamM.Apply((String)UserListCombo.getSelectedItem(),ArchitectCheck.isSelected(),AnalystCheck.isSelected(),RedacterCheck.isSelected());
                 //fermer la fenetre
-            	
+            	IT.dispose();
             }
         });
 
@@ -128,6 +135,7 @@ public class ITeamManagement extends JFrame{
         ButtonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                  //Fermer la fenetre
+            	IT.dispose();
             }
         });
 
@@ -141,7 +149,7 @@ public class ITeamManagement extends JFrame{
         ButtonApply.setText("Appliquer");
         ButtonApply.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-            	 CTeamManagement.Apply((String)UserListCombo.getSelectedItem(),ArchitectCheck.isSelected(),AnalystCheck.isSelected(),RedacterCheck.isSelected());
+            	// CTeamM.Apply((String)UserListCombo.getSelectedItem(),ArchitectCheck.isSelected(),AnalystCheck.isSelected(),RedacterCheck.isSelected());
             }
         });
 
@@ -155,17 +163,25 @@ public class ITeamManagement extends JFrame{
         pack();
         
         
+/*        
+        ProjectsParser projects = new ProjectsParser();
+        Projects projet = projects.getAllUsers("Projet1");
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        ArrayList list = projet.getUsersId();
+   	 
+    	//Remplissage de la combobox avec les valeurs de la list
+      	for(int i=0; i<list.size(); i++)
+    	{
+	    	 System.out.println("Id user : " + (((Integer)list.get(i)).intValue()));
+		     System.out.println("Manager : " + projet.isManager(((Integer)list.get(i)).intValue()));
+		     System.out.println("Architecte : " + projet.isArchitecte(((Integer)list.get(i)).intValue()));
+		     System.out.println("Analyste : " + projet.isAnalyst(((Integer)list.get(i)).intValue()));
+		     System.out.println("Redacteur : " + projet.isRedacteur(((Integer)list.get(i)).intValue()));
+		     System.out.println("---------------------------------------------------");
+		}
+   	 
+  */ 	 
+   	 
 		setTitle("Affectation de l'equipe");
 		//setSize(300, 200);
 		
