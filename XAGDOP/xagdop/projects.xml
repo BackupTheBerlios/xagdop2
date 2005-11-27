@@ -3,6 +3,7 @@
 		<user analyste="false" archi="false" id="1" pmanager="true" redacteur="true"/>
 		<user analyste="false" archi="true" id="2" pmanager="false" redacteur="false"/>
 		<user analyste="true" archi="false" id="3" pmanager="false" redacteur="true"/>
+		<user analyste="false" archi="false" id="6" pmanager="true" redacteur="true"/>	
 	</project>
 		
 		<project name="Projet3" urlRepo="uneURL3">

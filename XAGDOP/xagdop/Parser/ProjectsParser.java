@@ -1,6 +1,7 @@
 package xagdop.Parser;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -17,7 +18,11 @@ import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import xagdop.Model.Projects;
 
 public class ProjectsParser {
 	private DocumentBuilderFactory dbf;
@@ -67,7 +72,7 @@ public class ProjectsParser {
 		}
 		if ( elem != null ) {
 			res = elem.getAttribute(attr);
-				return res;
+			return res;
 		}
 		else {
 			System.out.println("Récupération de l'attribut "+ attr + " impossible!"); 
@@ -92,10 +97,10 @@ public class ProjectsParser {
 		if ( elem != null ) {
 			res = elem.getAttribute(attr);
 			if(res.equals("true"))
-					return Boolean.TRUE;
-				else
-					return Boolean.FALSE;			
-		
+				return Boolean.TRUE;
+			else
+				return Boolean.FALSE;			
+			
 		}
 		else {
 			System.out.println("Récupération de l'attribut "+ attr + " pour l'utilisateur "+idUser+" impossible!"); 
@@ -146,7 +151,7 @@ public class ProjectsParser {
 			System.out.println("Modification de l'attribut "+ attr + " pour l'utilisateur "+idUser+" impossible!"); 
 		}
 	}
-
+	
 	
 	public void addUser(String projectName, int idUser, String chef, String archi, String analyste, String redacteur)
 	{
@@ -379,7 +384,7 @@ public class ProjectsParser {
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//*";
 		String expr = "//project[@name=\""+projectName+"\"]";
-
+		
 		
 		Element elem = null;
 		Element oldElem = null;
@@ -402,6 +407,103 @@ public class ProjectsParser {
 		}
 		
 		
+	}
+	
+	public Projects getAllUsers(String pName)
+	{
+		ArrayList usersList = new ArrayList();
+		ArrayList userRights;
+		ArrayList usersId = new ArrayList();
+		
+		Projects projet;
+		
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		String expression = "//project[@name=\""+pName+"\"]";
+		int num = 0;
+		boolean pmanager = false;
+		boolean archi = false;
+		boolean redac = false;
+		boolean analyst = false;
+		
+		Element usersNode = null;
+		NodeList usersNodeList;
+		
+		
+		try {
+			usersNode = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+			
+			if(usersNode.hasChildNodes()){
+				
+				Node nodeAll = null;
+				Node nodeN = null;
+				Node nodeAn = null;
+				Node nodeMan = null;
+				Node nodeArchi = null;
+				Node nodeRedac = null;
+				
+				NamedNodeMap map = null;
+				usersNodeList = usersNode.getChildNodes();
+				for (int i=0; i<usersNodeList.getLength(); i++)
+				{
+					nodeAll = usersNodeList.item(i);
+					map = nodeAll.getAttributes();
+					
+					if(map!=null){
+						
+						nodeN = map.getNamedItem(ATTR_IDUSER);
+						nodeAn = map.getNamedItem(ATTR_ANALYST);
+						nodeMan = map.getNamedItem(ATTR_MANAGER);
+						nodeArchi = map.getNamedItem(ATTR_ARCHI);
+						nodeRedac = map.getNamedItem(ATTR_REDACTEUR);
+						
+						if(nodeN!=null){		
+							
+							num = Integer.parseInt(nodeN.getNodeValue());			
+							
+							if(nodeAn.getNodeValue().equalsIgnoreCase("true"))
+								analyst = true;
+							else
+								analyst = false;
+							
+							if(nodeMan.getNodeValue().equalsIgnoreCase("true"))
+								pmanager = true;
+							else
+								pmanager = false;
+							
+							if(nodeArchi.getNodeValue().equalsIgnoreCase("true"))
+								archi = true;
+							else
+								archi = false;
+							
+							if(nodeRedac.getNodeValue().equalsIgnoreCase("true"))
+								redac = true;
+							else
+								redac = false;
+							
+							userRights = new ArrayList();
+							
+							userRights.add(new Boolean(pmanager));
+							userRights.add(new Boolean(archi));
+							userRights.add(new Boolean(analyst));
+							userRights.add(new Boolean(redac));
+							
+							usersList.add(userRights);
+							
+							usersId.add(new Integer(num));
+						}
+					}
+				}
+			}
+			else {
+				System.out.println("Pas de fils");
+			}
+			
+		}
+		catch (XPathExpressionException e) {
+			
+			e.printStackTrace();
+		}
+		return projet = new Projects(pName, usersList, usersId);
 	}
 	
 	public void saveDocument()

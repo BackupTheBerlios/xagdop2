@@ -96,8 +96,8 @@ public class XAGDOP extends JFrame{
 	IProjectTree tree;
 	
 	public XAGDOP(){
-		//init();
-		testsParsers tests = new testsParsers(); 
+		init();
+		//testsParsers tests = new testsParsers(); 
 	}
 	
 	private void init(){

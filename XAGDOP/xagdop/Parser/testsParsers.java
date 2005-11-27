@@ -1,5 +1,10 @@
 package xagdop.Parser;
 
+import java.util.ArrayList;
+
+import xagdop.Model.Projects;
+import xagdop.Model.Users;
+
 public class testsParsers {
 
 	public testsParsers()
@@ -14,7 +19,20 @@ public class testsParsers {
 		
 		//users.removeUser(8);
 		//projects.removeProject("Projet2");
-		users.getAllUsers();
+		 Projects projet = projects.getAllUsers("Projet1");
+
+		 ArrayList list = projet.getUsersId();
+
+		 
+		 for(int i=0; i<list.size(); i++)
+		 {
+			 System.out.println("Id user : " + (((Integer)list.get(i)).intValue()));
+			 System.out.println("Manager : " + projet.isManager(((Integer)list.get(i)).intValue()));
+			 System.out.println("Architecte : " + projet.isArchitecte(((Integer)list.get(i)).intValue()));
+			 System.out.println("Analyste : " + projet.isAnalyst(((Integer)list.get(i)).intValue()));
+			 System.out.println("Redacteur : " + projet.isRedacteur(((Integer)list.get(i)).intValue()));
+			 System.out.println("---------------------------------------------------");
+		 }
 	/*
 		login = (String)users.getAttribute(1, UsersParser.ATTR_LOGIN);
 		System.out.println("Login de 1 : "+login);
