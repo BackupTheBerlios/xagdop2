@@ -107,7 +107,7 @@ public class UsersParser {
 	public int getId(String login)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//id[@login="+login+"]";
+		String expression = "//id[@login=\""+login+"\"]";
 		int res=0;
 		Element elem = null;
 		
