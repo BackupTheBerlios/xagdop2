@@ -17,6 +17,7 @@ import javax.swing.WindowConstants;
 import xagdop.Controleur.CTeamManagement;
 import xagdop.Model.Projects;
 import xagdop.Parser.ProjectsParser;
+import xagdop.Parser.UsersParser;
 
 public class ITeamManagement extends JFrame{
 	
@@ -39,7 +40,11 @@ public class ITeamManagement extends JFrame{
     private JLabel RedacterLabel = new JLabel();
     private JLabel UserLabel = new JLabel();
     private JPanel newPanel = new JPanel();
-	GridBagConstraints gridBagConstraints = new GridBagConstraints();
+	private GridBagConstraints gridBagConstraints = new GridBagConstraints();
+	private ProjectsParser projects;
+	private Projects projet;
+	private UsersParser users;
+	private CTeamManagement CTeamM; 
 	
 	
 	private ITeamManagement(){
@@ -48,10 +53,32 @@ public class ITeamManagement extends JFrame{
 	
 	
 	private void init(){ 
-	//	CTeamManagement CTeamM = new CTeamManagement("Projet1");
-		String[] Users = {"Patrick","Wilfried","Henry" };
+		CTeamM = new CTeamManagement("Projet1");
 		
-		UserListCombo=new JComboBox(Users) ;
+		
+
+        
+		
+		        projects = new ProjectsParser();
+		        projet = projects.getAllUsers("Projet1");
+		        
+		        ArrayList list = projet.getUsersId();
+		        UserListCombo = new JComboBox() ;   	 	
+		   	 	
+		        users = new UsersParser();
+		        
+		    	//Remplissage de la combobox avec les valeurs de la list
+		      	for(int i=0; i<list.size(); i++)
+		    	{
+		      		UserListCombo.addItem(users.getAttribute(((Integer)list.get(i)).intValue(),"login"));
+				}
+		   	 
+		 	 
+		
+		
+		
+		
+		
 		
         getContentPane().setLayout(new GridBagLayout());
 
@@ -71,11 +98,17 @@ public class ITeamManagement extends JFrame{
         
         UserListCombo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                //UserListComboActionPerformed(evt);
+                //Changement des checkBox avec les droits
+            	refresh();
+            	
+            	
+            	
+            	
+            	//UserListComboActionPerformed(evt);
             }
         });
 
-        
+      
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 3;
@@ -119,7 +152,8 @@ public class ITeamManagement extends JFrame{
         ButtonOK.setText("Ok");
         ButtonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-             //   CTeamM.Apply((String)UserListCombo.getSelectedItem(),ArchitectCheck.isSelected(),AnalystCheck.isSelected(),RedacterCheck.isSelected());
+                CTeamM.Apply(projects,users.getId((String)UserListCombo.getSelectedItem()),ArchitectCheck.isSelected(),AnalystCheck.isSelected(),RedacterCheck.isSelected());
+           	    
                 //fermer la fenetre
             	IT.dispose();
             }
@@ -149,7 +183,9 @@ public class ITeamManagement extends JFrame{
         ButtonApply.setText("Appliquer");
         ButtonApply.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-            	// CTeamM.Apply((String)UserListCombo.getSelectedItem(),ArchitectCheck.isSelected(),AnalystCheck.isSelected(),RedacterCheck.isSelected());
+            	 CTeamM.Apply(projects,users.getId((String)UserListCombo.getSelectedItem()),ArchitectCheck.isSelected(),AnalystCheck.isSelected(),RedacterCheck.isSelected());
+            	 projects.refresh();
+            	 projet = projects.getAllUsers("Projet1");
             }
         });
 
@@ -161,28 +197,10 @@ public class ITeamManagement extends JFrame{
         getContentPane().add(newPanel, new GridBagConstraints());
 
         pack();
-        
-        
-/*        
-        ProjectsParser projects = new ProjectsParser();
-        Projects projet = projects.getAllUsers("Projet1");
-        
-        ArrayList list = projet.getUsersId();
-   	 
-    	//Remplissage de la combobox avec les valeurs de la list
-      	for(int i=0; i<list.size(); i++)
-    	{
-	    	 System.out.println("Id user : " + (((Integer)list.get(i)).intValue()));
-		     System.out.println("Manager : " + projet.isManager(((Integer)list.get(i)).intValue()));
-		     System.out.println("Architecte : " + projet.isArchitecte(((Integer)list.get(i)).intValue()));
-		     System.out.println("Analyste : " + projet.isAnalyst(((Integer)list.get(i)).intValue()));
-		     System.out.println("Redacteur : " + projet.isRedacteur(((Integer)list.get(i)).intValue()));
-		     System.out.println("---------------------------------------------------");
-		}
-   	 
-  */ 	 
+        refresh();
    	 
 		setTitle("Affectation de l'equipe");
+		
 		//setSize(300, 200);
 		
 	}
@@ -196,4 +214,14 @@ public class ITeamManagement extends JFrame{
 		
 		return IT;
 	}
+	
+	public void refresh(){
+		
+		AnalystCheck.setSelected(projet.isAnalyst(users.getId((String)UserListCombo.getSelectedItem())));
+		RedacterCheck.setSelected(projet.isRedacteur(users.getId((String)UserListCombo.getSelectedItem())));
+		ArchitectCheck.setSelected(projet.isArchitecte(users.getId((String)UserListCombo.getSelectedItem())));
+		
+		
+	}
+	
 }
