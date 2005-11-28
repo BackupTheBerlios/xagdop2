@@ -1,10 +1,43 @@
 package xagdop.Controleur;
 
+import xagdop.Parser.ProjectsParser;
+
 public class CTeamManagement{
 	
 	String _projectName;
-	public void Apply(String user,boolean architect, boolean analyst, boolean redacter){
+	public void Apply(ProjectsParser PP,int user,boolean architect, boolean analyst, boolean redacter){
 		//Call to XML Parser
+		String valeur="";
+		
+		//Apply for Redacteur Value
+		if (redacter)
+			valeur="true";
+		else
+			valeur="false";
+		
+		PP.setAttribute(this._projectName,user,"redacteur",valeur);
+		
+		//Apply for Architect Value		
+		if (architect)
+			valeur="true";
+		else
+			valeur="false";
+		
+		PP.setAttribute(this._projectName,user,"archi",valeur);
+		
+		
+		//Apply for Analyst Value
+		if (analyst)
+			valeur="true";
+		else
+			valeur="false";
+		
+		PP.setAttribute(this._projectName,user,"analyst",valeur);
+		
+		
+		
+		
+		
 		
 		//Send file
 		
