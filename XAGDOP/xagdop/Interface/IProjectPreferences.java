@@ -3,6 +3,9 @@ package xagdop.Interface;
 
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
 import java.awt.GridLayout;
 
@@ -12,6 +15,7 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -38,10 +42,16 @@ public class IProjectPreferences extends JFrame {
 	private static IProjectPreferences IPP = null;
 	protected JTextField localPath; 
 	protected JLabel repositoryPath;
-	protected JLabel JlabelProjectRepositoryPath;
-	protected JLabel JlabelProjectLocalPath;
-	protected JPanel JPanelProjectTopContainer;
+	protected JLabel JlabelRepositoryPath;
+	protected JLabel JlabelLocalPath;
+	
+	protected GridBagConstraints gridBagConstraints = new GridBagConstraints();
+	
+	protected JPanel JPanelProjectTopContainer = new JPanel();
 	protected IProjectTree tree = new IProjectTree();	
+	protected JButton browse;
+	protected JButton cancel;
+	protected JButton valide;
 	
 	private IProjectPreferences(){
 		init();
@@ -49,30 +59,67 @@ public class IProjectPreferences extends JFrame {
 	
 	
 	private void init(){
-		localPath = new JTextField(tree.getSelectedNode().getLocalPath());
+		getContentPane().setLayout(new GridBagLayout());
+		localPath = new JTextField(30);
+		//localPath = new JTextField(tree.getSelectedNode().getLocalPath());
 
-		setTitle(Bundle.getText("iprojectpreference.title"));
-		setSize(500,200);
-		
-		JPanelProjectTopContainer = new JPanel() ;
-		JPanelProjectTopContainer.setLayout(new GridLayout(3,2)) ;
-		JPanelProjectTopContainer.setBorder(BorderFactory.createEtchedBorder()) ;
-	
 		//Initialisation du chemin local
-		JlabelProjectLocalPath = new JLabel(Bundle.getText("iprojectpreference.label.localpath"));
-		JPanelProjectTopContainer.add(JlabelProjectLocalPath);
-		JPanelProjectTopContainer.add(localPath);
+		JlabelLocalPath = new JLabel(Bundle.getText("iprojectpreference.label.localpath"));
 		
 		//Initialisation du chemin sur le serveur
-		JlabelProjectRepositoryPath = new JLabel(Bundle.getText("iprojectpreference.label.repositorypath"));
+		JlabelRepositoryPath = new JLabel(Bundle.getText("iprojectpreference.label.repositorypath"));
 		repositoryPath = new JLabel(tree.getSelectedNode().getRepositoryPath()) ;
-		JPanelProjectTopContainer.add(JlabelProjectRepositoryPath);
-		JPanelProjectTopContainer.add(repositoryPath);
 		
-		
-		// Creation des 2 boutons
-		JButton valide = new JButton(Bundle.getText("iprojectpreference.button.ok"));
-		JButton cancel = new JButton(Bundle.getText("iprojectpreference.button.cancel"));
+		// Initialisation de la popup
+		setTitle(Bundle.getText("iprojectpreference.title"));
+		setSize(500,300);
+	
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		JPanelProjectTopContainer.setLayout(new GridBagLayout());
+		JPanelProjectTopContainer.setMinimumSize(new Dimension(296, 130));
+        
+		// Positionnement du local path
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        JPanelProjectTopContainer.add(JlabelLocalPath, gridBagConstraints);
+        
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        JPanelProjectTopContainer.add(localPath, gridBagConstraints);
+
+        // bouton parcourrir
+        browse = new JButton(Bundle.getText("iprojectpreference.button.browse"));
+       
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        JPanelProjectTopContainer.add(browse, gridBagConstraints);
+        
+        browse.addActionListener(new ActionListener()
+				{
+				    public void actionPerformed(ActionEvent e)
+				    {
+				    	 JFileChooser jc = new JFileChooser();
+				    	/* int i = jc.showOpenDialog(this);
+				    	 if(i != 1)
+				    	 {
+				    		 String filename = jc.getSelectedFile().getAbsolutePath() ;
+				    	 }*/
+				    }
+				}) ;
+        
+        //Positionnement du repository path
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        JPanelProjectTopContainer.add(JlabelRepositoryPath, gridBagConstraints);
+
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+     //   gridBagConstraints.gridwidth = 2;
+        JPanelProjectTopContainer.add(repositoryPath, gridBagConstraints);
+
+        // creation des boutons de validation et d'annulation
+        valide = new JButton(Bundle.getText("iprojectpreference.button.ok"));
+		cancel = new JButton(Bundle.getText("iprojectpreference.button.cancel"));
 		
 		valide.addActionListener(new ActionListener()
 				{
@@ -92,24 +139,23 @@ public class IProjectPreferences extends JFrame {
 		    	IPP.dispose();   	
 		    }
 		}) ;
+		
+		
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        JPanelProjectTopContainer.add(valide, gridBagConstraints);
 
-		JPanelProjectTopContainer.add(valide);
-		JPanelProjectTopContainer.add(cancel);
-		
-		//Creation de la fenetre
-		setResizable(true) ;
 
-		setDefaultCloseOperation (WindowConstants.HIDE_ON_CLOSE) ;
-		
-		JPanelProjectTopContainer.setBorder(BorderFactory.createEtchedBorder()) ;
-		getContentPane().add(JPanelProjectTopContainer , BorderLayout.CENTER) ;
-		
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        JPanelProjectTopContainer.add(cancel, gridBagConstraints);
+
+        getContentPane().add(JPanelProjectTopContainer, new GridBagConstraints());
+
+        pack();
+        setLocation(200,200) ;
 	
-		setLocation(200,200) ;
-
-
-		 
-         
+		         
 	}
 	/**
 	 * @return Returns the singleton.
