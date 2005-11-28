@@ -100,11 +100,33 @@ public class UsersParser {
 		
 		}
 		else {
-			System.out.println("Récupération de l'attribut "+ attr + " pour l'utilisateur "+idUser+ " impossible!"); 
+			System.out.println("R??cup??ration de l'attribut "+ attr + " pour l'utilisateur "+idUser+ " impossible!"); 
 			return res;
 		}		
 	}
-
+	public int getId(String login)
+	{
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		String expression = "//id[@login="+login+"]";
+		int res=0;
+		Element elem = null;
+		
+		try {
+			elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+		}
+		catch (XPathExpressionException e) {
+			
+			e.printStackTrace();
+		}
+		if ( elem != null ) {
+			res = Integer.parseInt(elem.getAttribute(ATTR_NUM));
+				return res;
+			}
+		else {
+			System.out.println("R??cup??ration de l'attribut "+ ATTR_NUM + " pour l'utilisateur "+login+ " impossible!"); 
+			return res;
+		}		
+	}
 	public void setAttribute(int idUser,String attr ,String newValue)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
@@ -246,7 +268,7 @@ public class UsersParser {
 			if ( elem != null ) {
 				elem.removeChild(oldElem);
 				saveDocument();
-				System.out.println("Suppression de l'utilisateur "+idUser+" effectuée!"); 
+				System.out.println("Suppression de l'utilisateur "+idUser+" effectu??e!"); 
 			}
 			else {
 				System.out.println("Suppression de l'utilisateur "+idUser+" impossible!"); 
