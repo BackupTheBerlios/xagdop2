@@ -33,7 +33,7 @@ public class CProject {
 		int error = 0;
 		if((projectName.equals("")==false))
 		{
-			SvnDisplayRepositoryTree project;
+			/*SvnDisplayRepositoryTree project;
 			try {
 				project = new SvnDisplayRepositoryTree();
 			} catch (SVNException e) {
@@ -41,8 +41,7 @@ public class CProject {
 				e.printStackTrace();
 				error =1;
 				return error;
-			}
-		if(project.existProject(projectName)==false){
+			}*/
 			SvnCommit svnC;
 			try {
 				svnC = new SvnCommit();
@@ -52,20 +51,15 @@ public class CProject {
 				error =1;
 				return error;
 			}
-			SVNCommitInfo report = svnC.createProject(projectName, description);
-			if(report.getError()!=null){
+			try{
+				svnC.createProject(projectName, description);
 				JOptionPane.showMessageDialog(null ,"Le projet "+projectName+" a bien ete cree ", "Validation" , 1) ;
 				return error;
-			}
-			else{
+			}catch (SVNException e) {
+				System.out.println(e.toString());
 				JOptionPane.showMessageDialog(null ,"Le projet "+projectName+" n'a pu etre cree ", "Validation" , 1) ;
 				return error;
 			}
-		}
-		else {
-			JOptionPane.showMessageDialog(null ,"Le projet "+projectName+" existe deja", "Validation" , 1) ;
-			error = 1;
-		}
 		}
 		else
 		{

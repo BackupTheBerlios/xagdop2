@@ -12,31 +12,59 @@ import java.util.Map;
 
 import org.tmatesoft.svn.core.SVNCommitInfo;
 import org.tmatesoft.svn.core.SVNException;
+import org.tmatesoft.svn.core.SVNURL;
+import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
 import org.tmatesoft.svn.core.io.ISVNEditor;
 import org.tmatesoft.svn.core.io.ISVNWorkspaceMediator;
 import org.tmatesoft.svn.core.io.SVNRepository;
 import org.tmatesoft.svn.core.io.diff.SVNDiffWindow;
 import org.tmatesoft.svn.core.io.diff.SVNDiffWindowBuilder;
+import org.tmatesoft.svn.core.wc.SVNBasicClient;
+import org.tmatesoft.svn.core.wc.SVNCommitClient;
+import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
 
 
-public class SvnCommit{
+public class SvnCommit extends SVNCommitClient{
 	SVNRepository repository;
+	
 	public SvnCommit(String url, String name, String password) throws SVNException{
+		super(SVNWCUtil.createDefaultAuthenticationManager(SvnConnect.getInstance().getName(), SvnConnect.getInstance().getPassword()),SVNWCUtil.createDefaultOptions(true));
 		repository = SvnConnect.getInstance(url,name,password).getRepository();
 		
 	}
 	public SvnCommit() throws SVNException{
+		super(SVNWCUtil.createDefaultAuthenticationManager(SvnConnect.getInstance().getName(), SvnConnect.getInstance().getPassword()),SVNWCUtil.createDefaultOptions(true));
 		repository = SvnConnect.getInstance().getRepository();
 	}
 	
 	
 	
-	public SVNCommitInfo createProject(String projectName, String description) {
+	public void createProject(String projectName, String description) throws SVNException {
+		
+		
 		String dirPath = projectName;
 		ISVNEditor editor = null;
 		SVNCommitInfo commitInfo = null;
 		
+		//ISVNAuthenticationManager authManager = SVNWCUtil.createDefaultAuthenticationManager(SvnConnect.getInstance().getName(), SvnConnect.getInstance().getPassword());
+		//svnC = new SVNCommitClient(authManager, SVNWCUtil.createDefaultOptions(true));
+		//SvnConnect.getInstance().setUrl("svn://marine.edu.ups-tlse.fr/users/iupisi/m1isb4/svn/"+projectName);
+		//repository = SvnConnect.getInstance().reconnect();
+		
+		repository = createRepository( SVNURL.parseURIEncoded("svn://marine.edu.ups-tlse.fr/users/iupisi/m1isb4/svn/"+projectName),true);
+		try {
+			addFile("/users/iupisi/m1isi7/IUP/BE/save","bup_XAGDOP.sh","blablabalala");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SVNException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		/*
 		 * Gets an editor for committing the changes to  the  repository.  NOTE:
 		 * you  must not invoke methods of the SVNRepository until you close the
@@ -47,7 +75,7 @@ public class SvnCommit{
 		 * ISVNWorkspaceMediator  will  be  used by the editor for  intermediate 
 		 * file delta storing.
 		 */
-		try {
+		/*try {
 			editor = repository.getCommitEditor(description,new WorkspaceMediator());
 		} catch (SVNException svne) {
 			try{
@@ -56,13 +84,13 @@ public class SvnCommit{
 				e.printStackTrace();
 				System.exit(0);
 			}
-		}
+		}*/
 		
 		
 		/*
 		 * Adding a new directory containing a file to the repository.
 		 */
-		try {
+	/*	try {
 			commitInfo = addDir(editor, dirPath);
 		} catch (SVNException svne) {
 			try {
@@ -73,13 +101,13 @@ public class SvnCommit{
 				 * editor must be aborted to behave in a  right  way in order to
 				 * the breakdown won't cause any unstability.
 				 */
-				return editor.closeEdit();
+		/*		return editor.closeEdit();
 			} catch (SVNException inner) {
 				System.exit(0);
 			}
 		}
 		
-		return commitInfo;
+		return commitInfo;*/
 		
 	}
 	

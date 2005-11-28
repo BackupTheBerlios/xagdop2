@@ -22,6 +22,8 @@ import org.tmatesoft.svn.core.wc.SVNRevision;
 import org.tmatesoft.svn.core.wc.SVNUpdateClient;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
+import xagdop.Controleur.CTreeNode;
+
 
 
 public class SvnUpdate{
@@ -44,10 +46,10 @@ public class SvnUpdate{
 	}
 	
 	
-	public void checkOut() throws SVNException{
+	public void checkOut(CTreeNode node) throws SVNException{
 		SVNUpdateClient up = new SVNUpdateClient(repository.getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
-		File droits = new File("/home/nephos/IUP/test");
-		up.doCheckout(repository.getLocation(),droits,SVNRevision.HEAD,SVNRevision.HEAD,true);
+		File droits = new File("/users/iupisi/m1isi7/IUP/BE/test/");
+		up.doCheckout(repository.getLocation(),droits,SVNRevision.HEAD,SVNRevision.HEAD,false);
 	}
 	
 	
