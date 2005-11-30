@@ -1,5 +1,7 @@
 package xagdop.Model;
 
+import xagdop.Parser.ProjectsParser;
+
 public class Users {
 	private String login;
 	private String passwd;
@@ -46,4 +48,29 @@ public class Users {
 	public void setPmanager(boolean pmanager) {
 		this.pmanager = pmanager;
 	}
+	
+	public boolean isArchitect(String pName)
+	{
+		ProjectsParser projet = new ProjectsParser();
+		return ((Boolean)projet.getAttribute(pName, ProjectsParser.ATTR_ARCHI, this.id)).booleanValue();
+	}
+
+	public boolean isRedactor(String pName)
+	{
+		ProjectsParser projet = new ProjectsParser();
+		return ((Boolean)projet.getAttribute(pName, ProjectsParser.ATTR_REDACTEUR, this.id)).booleanValue();
+	}
+
+	public boolean isAnalyst(String pName)
+	{
+		ProjectsParser projet = new ProjectsParser();
+		return ((Boolean)projet.getAttribute(pName, ProjectsParser.ATTR_ANALYST, this.id)).booleanValue();
+	}
+
+	public boolean isPManager(String pName)
+	{
+		ProjectsParser projet = new ProjectsParser();
+		return ((Boolean)projet.getAttribute(pName, ProjectsParser.ATTR_MANAGER, this.id)).booleanValue();
+	}
+
 }
