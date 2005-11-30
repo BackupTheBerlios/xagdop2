@@ -23,6 +23,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import xagdop.Model.Projects;
+import xagdop.Model.Users;
 
 public class ProjectsParser {
 	private DocumentBuilderFactory dbf;
@@ -187,6 +188,47 @@ public class ProjectsParser {
 			}
 			else {
 				System.out.println("Ajout de l'utilisateur "+idUser+" impossible!"); 
+			}
+		}
+	}
+	
+	public boolean addUser(String projectName, Users user, boolean chef, boolean archi, boolean analyste, boolean redacteur)
+	{
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		String expression = "//project[@name=\""+projectName+"\"]";
+		
+		UsersParser userP = new UsersParser();
+		
+		if(!userP.isUser(user.getId()))
+		{
+			//System.out.println("L'utilisateur n'existe pas!!");
+			return false;
+		}
+		else
+		{
+			Element elem = null;
+			Element newElem = doc.createElement("user");
+			
+			try {
+				elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+			}
+			catch (XPathExpressionException e) {
+				
+				e.printStackTrace();
+			}
+			if ( elem != null ) {
+				newElem.setAttribute(ATTR_IDUSER, Integer.toString(user.getId()));
+				newElem.setAttribute(ATTR_MANAGER, Boolean.toString(chef));
+				newElem.setAttribute(ATTR_ARCHI, Boolean.toString(archi));
+				newElem.setAttribute(ATTR_ANALYST, Boolean.toString(analyste));
+				newElem.setAttribute(ATTR_REDACTEUR, Boolean.toString(redacteur));
+				elem.appendChild(newElem);
+				saveDocument();
+				return true;
+			}
+			else {
+				System.out.println("Ajout de l'utilisateur "+user.getLogin()+" impossible!");
+				return false;
 			}
 		}
 	}
