@@ -5,6 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -12,6 +13,10 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import xagdop.Controleur.CAdmin;
+import xagdop.Model.Users;
+import xagdop.Parser.UsersParser;
 
 public class IAdmin extends JFrame{
 	
@@ -33,8 +38,8 @@ public class IAdmin extends JFrame{
     private JComboBox UserListCombo = new JComboBox();
     private JPanel newPanel = new JPanel();
     private GridBagConstraints gridBagConstraints = new GridBagConstraints();
-
-    
+    private UsersParser users;
+    private CAdmin cadmin;
     
 	private IAdmin(){
 		init();
@@ -43,8 +48,12 @@ public class IAdmin extends JFrame{
 	
 	private void init(){
         getContentPane().setLayout(new GridBagLayout());
+cadmin = new CAdmin();
 
-       
+        users = new UsersParser();
+        ArrayList list = users.getAllUsers();
+        
+        
         newPanel.setLayout(new GridBagLayout());
 
         newPanel.setMinimumSize(new Dimension(296, 130));
@@ -54,10 +63,23 @@ public class IAdmin extends JFrame{
         newPanel.add(UserLabel, gridBagConstraints);
         UserLabel.getAccessibleContext().setAccessibleName("Choisir l'utilisateur");
 
+
         
+
+    	//Remplissage de la combobox avec les valeurs de la list
+      	for(int i=0; i<list.size(); i++)
+    	{
+      		UserListCombo.addItem(((Users)list.get(i)).getLogin());
+		}   
+      	
+      	
         UserListCombo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                //UserListComboActionPerformed(evt);
+            	refresh();
+            	
+            	
+            	
+            	
             }
         });
 
@@ -67,11 +89,6 @@ public class IAdmin extends JFrame{
         gridBagConstraints.gridwidth = 3;
         newPanel.add(UserListCombo, gridBagConstraints);
 
-        AdminCheck.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                //AdminCheckActionPerformed(evt);
-            }
-        });
 
         
         gridBagConstraints.gridx = 2;
@@ -98,7 +115,7 @@ public class IAdmin extends JFrame{
         ButtonOK.setText("Ok");
         ButtonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-               // ButtonOKActionPerformed(evt);
+               cadmin.Apply(users,users.getId((String)UserListCombo.getSelectedItem()),AdminCheck.isSelected(),PManagerCheck.isSelected());
             }
         });
 
@@ -110,7 +127,7 @@ public class IAdmin extends JFrame{
         ButtonCancel.setText("Annuler");
         ButtonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                //ButtonCancelActionPerformed(evt);
+                IA.dispose();
             }
         });
 
@@ -135,6 +152,16 @@ public class IAdmin extends JFrame{
 		//setSize(300, 200);
 		
 	}
+	
+	public void refresh(){
+//		AdminCheck.setSelected(((Users)UserListCombo.getSelectedItem()).isAdmin());
+//		PManagerCheck.setSelected (	(boolean)users.getAttribute (users.getId((String)UserListCombo.getSelectedItem()),"pmanager"));
+		
+		}
+	
+	
+	
+	
 	/**
 	 * @return Returns the singleton.
 	 */
