@@ -51,7 +51,7 @@ public class UsersParser {
 	public boolean isUser(int idUser)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//child::id[attribute::num="+idUser+"]";
+		String expression = "//id[@num="+idUser+"]";
 		Element elem = null;
 		
 		try {
@@ -70,12 +70,74 @@ public class UsersParser {
 		}
 	}
 	
-
+	public Users getUserByLogin(String login)
+	{
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		String expression = "//id[@login=\""+login+"\"]";
+		Element elem = null;
+		Users user = null;
+		
+		try {
+			elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+		}
+		catch (XPathExpressionException e) {
+			
+			e.printStackTrace();
+		}
+		if ( elem != null ) {
+				String passwd = elem.getAttribute(ATTR_PASSWD);
+				int numId = Integer.parseInt(elem.getAttribute(ATTR_NUM));
+				boolean admin = false;
+				if(elem.getAttribute(ATTR_ADMIN).equalsIgnoreCase("true"))
+					admin = true;
+				boolean pman = false;
+				if(elem.getAttribute(ATTR_MANAGER).equalsIgnoreCase("true"))
+					pman = true;
+				user = new Users(login, passwd, numId, admin, pman);
+				return user;		
+		}
+		else {
+			System.out.println("L'utilisateur "+login+" n'existe pas!");    
+			return user;
+		}
+	}
+	
+	public Users getUserById(int id)
+	{
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		String expression = "//id[@num="+id+"]";
+		Element elem = null;
+		Users user = null;
+		
+		try {
+			elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+		}
+		catch (XPathExpressionException e) {
+			
+			e.printStackTrace();
+		}
+		if ( elem != null ) {
+				String passwd = elem.getAttribute(ATTR_PASSWD);
+				String login = elem.getAttribute(ATTR_LOGIN);
+				boolean admin = false;
+				if(elem.getAttribute(ATTR_ADMIN).equalsIgnoreCase("true"))
+					admin = true;
+				boolean pman = false;
+				if(elem.getAttribute(ATTR_MANAGER).equalsIgnoreCase("true"))
+					pman = true;
+				user = new Users(login, passwd, id, admin, pman);
+				return user;		
+		}
+		else {
+			System.out.println("L'utilisateur "+id+" n'existe pas!");    
+			return user;
+		}
+	}
 	
 	public Object getAttribute(int idUser, String attr)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//child::id[attribute::num="+idUser+"]";
+		String expression = "//id[@num="+idUser+"]";
 		String res = "";
 		Element elem = null;
 		
@@ -130,7 +192,7 @@ public class UsersParser {
 	public void setAttribute(int idUser,String attr ,String newValue)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//child::id[attribute::num="+idUser+"]";
+		String expression = "//id[@num="+idUser+"]";
 		Element elem = null;
 		
 		try {
@@ -167,11 +229,11 @@ public class UsersParser {
 				e.printStackTrace();
 			}
 			if ( elem != null ) {
-				newElem.setAttribute("num", Integer.toString(idUser));
-				newElem.setAttribute("login", login);
-				newElem.setAttribute("passwd", passwd);
-				newElem.setAttribute("chef", chef);
-				newElem.setAttribute("admin", admin);
+				newElem.setAttribute(ATTR_NUM, Integer.toString(idUser));
+				newElem.setAttribute(ATTR_LOGIN, login);
+				newElem.setAttribute(ATTR_PASSWD, passwd);
+				newElem.setAttribute(ATTR_MANAGER, chef);
+				newElem.setAttribute(ATTR_ADMIN, admin);
 				elem.appendChild(newElem);
 				saveDocument();
 			}
@@ -197,11 +259,11 @@ public class UsersParser {
 				e.printStackTrace();
 			}
 			if ( elem != null ) {
-				newElem.setAttribute("num", Integer.toString(idUser));
-				newElem.setAttribute("login", login);
-				newElem.setAttribute("passwd", passwd);
-				newElem.setAttribute("chef", chef);
-				newElem.setAttribute("admin", "false");
+				newElem.setAttribute(ATTR_NUM, Integer.toString(idUser));
+				newElem.setAttribute(ATTR_LOGIN, login);
+				newElem.setAttribute(ATTR_PASSWD, passwd);
+				newElem.setAttribute(ATTR_MANAGER, chef);
+				newElem.setAttribute(ATTR_ADMIN, "false");
 				elem.appendChild(newElem);
 				saveDocument();
 			}
@@ -227,11 +289,11 @@ public class UsersParser {
 				e.printStackTrace();
 			}
 			if ( elem != null ) {
-				newElem.setAttribute("num", Integer.toString(idUser));
-				newElem.setAttribute("login", login);
-				newElem.setAttribute("passwd", passwd);
-				newElem.setAttribute("chef", "false");
-				newElem.setAttribute("admin", "false");
+				newElem.setAttribute(ATTR_NUM, Integer.toString(idUser));
+				newElem.setAttribute(ATTR_LOGIN, login);
+				newElem.setAttribute(ATTR_PASSWD, passwd);
+				newElem.setAttribute(ATTR_MANAGER, "false");
+				newElem.setAttribute(ATTR_ADMIN, "false");
 				elem.appendChild(newElem);
 				saveDocument();
 			}
@@ -241,11 +303,43 @@ public class UsersParser {
 			
 	}
 	
+	public boolean addUser(Users user)
+	{
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		String expression = "//*";
+		
+			Element elem = null;
+			Element newElem = doc.createElement("id");
+			
+			try {
+				elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+			}
+			catch (XPathExpressionException e) {
+				
+				e.printStackTrace();
+			}
+			if ( elem != null ) {
+				newElem.setAttribute(ATTR_NUM, Integer.toString(user.getId()));
+				newElem.setAttribute(ATTR_LOGIN, user.getLogin());
+				newElem.setAttribute(ATTR_PASSWD, user.getPasswd());
+				newElem.setAttribute(ATTR_ADMIN, Boolean.toString(user.isAdmin()));
+				newElem.setAttribute(ATTR_MANAGER, Boolean.toString(user.isPmanager()));
+				elem.appendChild(newElem);
+				saveDocument();
+				return true;
+			}
+			else {
+				System.out.println("Ajout de l'utilisateur "+user.getId()+" impossible!");
+				return false;
+			}
+			
+	}
+	
 	public void removeUser(int idUser)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//*";
-		String expr = "//child::id[attribute::num="+idUser+"]";
+		String expr = "//id[@num="+idUser+"]";
 		
 		
 		if(!isUser(idUser))
@@ -353,6 +447,8 @@ public class UsersParser {
 		
 		return usersList;
 	}
+	
+
 	
 	public void saveDocument()
 	{
