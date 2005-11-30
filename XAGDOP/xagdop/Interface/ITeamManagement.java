@@ -185,7 +185,7 @@ public class ITeamManagement extends JFrame{
         ButtonApply.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
             	 CTeamM.Apply(projects,users.getId((String)UserListCombo.getSelectedItem()),ArchitectCheck.isSelected(),AnalystCheck.isSelected(),RedacterCheck.isSelected());
-            	 projects.refresh();
+            	 //projects.refresh();
             	 projet = projects.getAllUsers("Projet1");
             }
         });
