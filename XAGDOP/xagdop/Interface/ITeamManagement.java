@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 import xagdop.Controleur.CTeamManagement;
+import xagdop.Controleur.CTreeNode;
 import xagdop.Model.Projects;
 import xagdop.Parser.ProjectsParser;
 import xagdop.Parser.UsersParser;
@@ -27,7 +28,6 @@ public class ITeamManagement extends JFrame{
 	private static final long serialVersionUID = -1080162447493236178L;
 	
 	private static ITeamManagement IT = null;
-
 	private JButton ButtonOK=new JButton();
     private JButton ButtonCancel=new JButton();
     private JButton ButtonApply = new JButton();
@@ -46,6 +46,7 @@ public class ITeamManagement extends JFrame{
 	private UsersParser users;
 	private CTeamManagement CTeamM; 
 	
+	private String nomProjet;
 	
 	private ITeamManagement(){
 		init();
@@ -53,14 +54,14 @@ public class ITeamManagement extends JFrame{
 	
 	
 	private void init(){ 
-		CTeamM = new CTeamManagement("Projet1");
+		CTeamM = new CTeamManagement(nomProjet);
 		
 		
 
         
 		
 		        projects = new ProjectsParser();
-		        projet = projects.getAllUsers("Projet1");
+		        projet = projects.getAllUsers(nomProjet);
 		        
 		        ArrayList list = projet.getUsersId();
 		        UserListCombo = new JComboBox() ;   	 	
@@ -207,11 +208,11 @@ public class ITeamManagement extends JFrame{
 	/**
 	 * @return Returns the singleton.
 	 */
-	public static ITeamManagement getIT() {
+	public static ITeamManagement getIT(CTreeNode ctreenode) {
 		if (IT==null){
 			IT = new ITeamManagement(); 
 		}
-		
+		IT.setNomProjet(ctreenode.getName()) ;
 		return IT;
 	}
 	
@@ -222,6 +223,11 @@ public class ITeamManagement extends JFrame{
 		ArchitectCheck.setSelected(projet.isArchitecte(users.getId((String)UserListCombo.getSelectedItem())));
 		
 		
+	}
+
+
+	public void setNomProjet(String nomProjet) {
+		this.nomProjet = nomProjet;
 	}
 	
 }
