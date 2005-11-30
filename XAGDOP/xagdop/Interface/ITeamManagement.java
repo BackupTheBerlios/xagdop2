@@ -54,14 +54,14 @@ public class ITeamManagement extends JFrame{
 	
 	
 	private void init(){ 
-		CTeamM = new CTeamManagement(nomProjet);
+		CTeamM = new CTeamManagement("Projet1");
 		
 		
 
         
 		
 		        projects = new ProjectsParser();
-		        projet = projects.getAllUsers(nomProjet);
+		        projet = projects.getAllUsers("Projet1");
 		        
 		        ArrayList list = projet.getUsersId();
 		        UserListCombo = new JComboBox() ;   	 	
@@ -88,7 +88,7 @@ public class ITeamManagement extends JFrame{
 
         newPanel.setMinimumSize(new Dimension(296, 130));
         UserLabel.setText("Selectionner l'utilisateur");
-        
+        UserLabel.setText(nomProjet);
         
         
         gridBagConstraints.gridx = 0;
