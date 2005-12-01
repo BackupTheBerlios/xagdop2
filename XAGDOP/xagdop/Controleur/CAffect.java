@@ -46,7 +46,7 @@ public class CAffect {
 				anal = "false";
 			
 			
-			
+			//PP.removeUser( project, id);
 			PP.addUser(project, id, pMana, arch, anal,redac);
 		}
 		
