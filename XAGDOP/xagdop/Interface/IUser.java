@@ -1,22 +1,21 @@
 package xagdop.Interface;
 
-import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Locale;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
-import xagdop.Controleur.CTreeNode;
+import xagdop.Model.Users;
+import xagdop.Parser.UsersParser;
 import xagdop.ressources.Bundle;
 
 public class IUser extends JFrame{
@@ -31,6 +30,7 @@ public class IUser extends JFrame{
 	private JLabel passwordLabel;
 	private JTextField userID;
 	private JPasswordField password;
+	private UsersParser UParser = new UsersParser();
 	int i=0;
 	
 	
@@ -62,11 +62,17 @@ public class IUser extends JFrame{
 		JButton valide = new JButton(Bundle.getText("iuser.button.ok"));
 		JButton cancel = new JButton(Bundle.getText("iuser.button.cancel"));
 		
-		valide.addActionListener(new ActionListener()
-				{
-				    public void actionPerformed(ActionEvent e)
-				    {
-				    	IU.setVisible(false);
+		valide.addActionListener(new ActionListener(){
+				    public void actionPerformed(ActionEvent e){
+				    	Users user = UParser.getUser("xagdop","xagdop");
+				    	if (user != null){
+				    		XAGDOP.getInstance().setUser(user);
+				    		XAGDOP.getInstance().setVisible(true);
+				    		IU.setVisible(false);
+				    	}
+				    	else{
+				    		JOptionPane.showMessageDialog(null ,"Login incorrect", "Validation" , 1) ;
+				    	}
 				    }
 				}) ;
 		
@@ -92,15 +98,17 @@ public class IUser extends JFrame{
 
 	}
 		    
-		
-	/**
-	 * @return Returns the singleton.
-	 */
 	public static IUser getIU() {
 		if (IU==null){
 			IU = new IUser(); 
 		}
 		
 		return IU;
+	}
+	
+	public static void main(String args[]){
+		Bundle.setCurrentLocale(Locale.FRENCH);
+		IUser frame = new IUser();
+		frame.setVisible(true);
 	}
 }
