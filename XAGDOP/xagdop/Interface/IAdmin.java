@@ -48,7 +48,7 @@ public class IAdmin extends JFrame{
 	
 	private void init(){
         getContentPane().setLayout(new GridBagLayout());
-cadmin = new CAdmin();
+        cadmin = new CAdmin();
 
         users = new UsersParser();
         ArrayList list = users.getAllUsers();
@@ -140,6 +140,11 @@ cadmin = new CAdmin();
         
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
+        ButtonApply.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+               cadmin.Apply(users,users.getId((String)UserListCombo.getSelectedItem()),AdminCheck.isSelected(),PManagerCheck.isSelected());
+            }
+        });
         newPanel.add(ButtonApply, gridBagConstraints);
 
         ButtonCreateUser.setText("Creer Nouvel User");
@@ -154,8 +159,9 @@ cadmin = new CAdmin();
 	}
 	
 	public void refresh(){
-//		AdminCheck.setSelected(((Users)UserListCombo.getSelectedItem()).isAdmin());
-//		PManagerCheck.setSelected (	(boolean)users.getAttribute (users.getId((String)UserListCombo.getSelectedItem()),"pmanager"));
+		AdminCheck.setSelected(users.getUserByLogin((String)UserListCombo.getSelectedItem()).isAdmin());
+		PManagerCheck.setSelected(users.getUserByLogin((String)UserListCombo.getSelectedItem()).isPmanager());
+		
 		
 		}
 	
