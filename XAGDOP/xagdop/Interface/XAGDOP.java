@@ -13,7 +13,6 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Locale;
-
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
@@ -29,11 +28,9 @@ import javax.swing.JTable;
 import javax.swing.border.Border;
 import javax.swing.plaf.BorderUIResource;
 import javax.swing.table.AbstractTableModel;
-
 import xagdop.Controleur.CProject;
 import xagdop.Controleur.CTree;
-import xagdop.Controleur.CTreeNode;
-import xagdop.Parser.testsParsers;
+import xagdop.Model.Users;
 import xagdop.Svn.SvnConnect;
 import xagdop.ressources.Bundle;
 
@@ -51,6 +48,8 @@ public class XAGDOP extends JFrame{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private static XAGDOP xag =null;
+	public static Users user =null;
 	JPanel panel = new JPanel();
 	JMenuBar menuBar = new JMenuBar();
 	JMenuBar menuBar2 = new JMenuBar();
@@ -186,19 +185,7 @@ public class XAGDOP extends JFrame{
 				
 			}
 				}) ;
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+			
 		menuFile.add(fileMenuQuit);
 		menuProjet.add(menuProjetTeam);
 		menuProjet.add(menuProjetCreate);
@@ -355,19 +342,32 @@ public class XAGDOP extends JFrame{
 			}
 	}
 	
+	/**
+	 * @return Returns the singleton.
+	 */
+	public static XAGDOP getInstance() {
+		if (xag==null){
+			xag = new XAGDOP(); 
+		}
+		
+		return xag;
+	}
 	
-	
-	public static void main(String args[]){
+	/*public static void main(String args[]){
 		
 		
 		Bundle.setCurrentLocale(Locale.FRENCH);
 		
 		XAGDOP frame = new XAGDOP();
 		frame.setVisible(true);
-	}
+	}*/
 
 	public IProjectTree getTree() {
 		return tree;
+	}
+
+	public void setUser(Users user) {
+		XAGDOP.user = user;
 	}
 	
 }
