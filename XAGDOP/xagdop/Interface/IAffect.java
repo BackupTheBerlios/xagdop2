@@ -1,5 +1,6 @@
 package xagdop.Interface;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -10,15 +11,18 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
+import xagdop.Controleur.CAffect;
+
 public class IAffect extends JFrame
 {
-	
+	private String projectName;
 	
 	 // Variables declaration - do not modify
     private JCheckBox AnalystCheck = new JCheckBox();
@@ -32,6 +36,10 @@ public class IAffect extends JFrame
     private JPanel jPanel1 = new JPanel();
     private JSeparator jSeparator1 = new JSeparator();
     private JSeparator jSeparator2 = new JSeparator();
+    
+    
+    CAffect CA ;
+    
     // End of variables declaration
 	/**
 	 * 
@@ -48,17 +56,23 @@ public class IAffect extends JFrame
 	 */
 	public void init(){
 		
-		
+		CA = new CAffect();
 		GridBagConstraints gridBagConstraints;
 
 
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        
         jPanel1.setLayout(new GridBagLayout());
 
         OkButton.setText("Ok");
         OkButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                //OkButtonActionPerformed(evt);
+            		try {
+						CA.affecter(projectName,LoginUser.getText(),ChefCheck.isSelected(),ArchiCheck.isSelected(),RedacteurCheck.isSelected(),AnalystCheck.isSelected());
+					} catch (Exception e) {
+						//Error of create
+						JOptionPane.showMessageDialog(null ,"Impossible d'affecter cet utilisateur", "Probleme" , 1) ;
+					}
+            		
             }
         });
         gridBagConstraints = new GridBagConstraints();
@@ -70,7 +84,7 @@ public class IAffect extends JFrame
         CancelButton.setText("Cancel");
         CancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                //CancelButtonActionPerformed(evt);
+                IA.dispose();
             }
         });
         gridBagConstraints.gridx = 2;
@@ -133,9 +147,10 @@ public class IAffect extends JFrame
         gridBagConstraints.gridwidth = 2;
         jPanel1.add(jSeparator2, gridBagConstraints);
 
-       // getContentPane().add(jPanel1, BorderLayout.CENTER);
+       getContentPane().add(jPanel1, BorderLayout.CENTER);
 
         pack();
+        //IA.setTitle(IA.getProjectName());
 		
 	}
 	
@@ -150,6 +165,12 @@ public class IAffect extends JFrame
 		}
 		
 		return IA;
+	}
+	public String getProjectName() {
+		return projectName;
+	}
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
 	}
 }
 	
