@@ -29,46 +29,20 @@ public class CProject {
 		description = _description;
 	}
 	
-	public int createProject(){
-		int error = 0;
+	public void createProject() throws Exception, SVNException{
+		
 		if((projectName.equals("")==false))
 		{
-			/*SvnDisplayRepositoryTree project;
-			try {
-				project = new SvnDisplayRepositoryTree();
-			} catch (SVNException e) {
-				JOptionPane.showMessageDialog(null ,"Impossible de se connecter au server subversion", "Validation" , 1) ;
-				e.printStackTrace();
-				error =1;
-				return error;
-			}*/
-			SvnCommit svnC;
-			try {
-				svnC = new SvnCommit();
-			} catch (SVNException e) {
-				JOptionPane.showMessageDialog(null ,"Impossible de se connecter au server subversion", "Validation" , 1) ;
-				e.printStackTrace();
-				error =1;
-				return error;
-			}
-			try{
-				svnC.createProject(projectName, description);
-				JOptionPane.showMessageDialog(null ,"Le projet "+projectName+" a bien ete cree ", "Validation" , 1) ;
-				return error;
-			}catch (SVNException e) {
-				System.out.println(e.toString());
-				JOptionPane.showMessageDialog(null ,"Le projet "+projectName+" n'a pu etre cree ", "Validation" , 1) ;
-				return error;
-			}
+			SvnDisplayRepositoryTree project;
+			project = new SvnDisplayRepositoryTree();
+			if(project.existProject(projectName)==false){
+				SvnCommit 	svnC = new SvnCommit();
+				SVNCommitInfo report = svnC.createProject(projectName, description);
+				if(report.getError()==null)
+					throw new Exception(report.toString());
+				
+			}else throw new Exception("Projet existant");		
 		}
-		else
-		{
-			JOptionPane.showMessageDialog(null ,"Le projet doit obligatoirement avoir un nom.", "Validation" , 1) ;
-			error = 1;
-		}
-		
-		return error;
-		
 	}
 	
 	
@@ -85,7 +59,7 @@ public class CProject {
 			return 1;
 		}
 		String path = "/"+Name;
-	
+		
 		try {
 			report = svnR.deleteDir(path);
 		} catch (SVNException e) {

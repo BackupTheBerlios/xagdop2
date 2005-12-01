@@ -32,7 +32,6 @@ import org.tmatesoft.svn.core.io.SVNRepository;
 
 import xagdop.Identity;
 import xagdop.Interface.ICentralPanel;
-
 import xagdop.Svn.SvnConnect;
 import xagdop.Svn.SvnDisplayRepositoryTree;
 
@@ -290,7 +289,9 @@ public class CTree implements TreeModel
 	}
 	
 	public void refresh(CTreeNode node){
+		
 		SvnDisplayRepositoryTree listeroot;
+		
 		try {
 			listeroot = new SvnDisplayRepositoryTree();
 		} catch (SVNException e) {
@@ -307,7 +308,8 @@ public class CTree implements TreeModel
 			e.printStackTrace();
 			return;
 		}
-		//System.out.println(node.getName());
+		
+		//System.out.println("Nom du noeud : "+node.getName());
 		try
 		{	
 			Collection liste_p = listeroot.listEntries(repository, node.getName());
@@ -365,7 +367,9 @@ public class CTree implements TreeModel
 				
 				if(!exist){
 					CTreeNode tmp = new CTreeNode(entry.getName(), false);
-					node.add(tmp);
+					if(node!=mRoot||entry.getKind() == SVNNodeKind.DIR)
+						node.add(tmp);
+					
 					if(entry.getKind() == SVNNodeKind.DIR){
 						refresh(tmp);
 					}
