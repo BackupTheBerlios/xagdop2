@@ -75,6 +75,7 @@ public class IProjectTree extends JTree implements  TreeModelListener
 			
 			popup = pop;
 			menuProperty.addActionListener(new openIProjectPreferences());
+			menuCommit.addActionListener(new openICommit());
 			//menuUpdate.addActionListener(this);
 			popup.add(menuRefresh);
 			popup.addSeparator();
@@ -93,7 +94,12 @@ public class IProjectTree extends JTree implements  TreeModelListener
 				iprojectpreferences.setVisible(true);
 			}
 		}
-		
+		class openICommit implements ActionListener {
+			public void actionPerformed (ActionEvent e){
+				ICommit icom = ICommit.getIC();
+				icom.setVisible(true);
+			}
+		}
 		
 		
 		public void mouseReleased(MouseEvent me) {
