@@ -554,13 +554,18 @@ public class ProjectsParser {
 		Transformer transformer = null;
 		try {
 			transformer = tFactory.newTransformer();
+
 		} catch (TransformerConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} 
 		try {
 			transformer.transform(new DOMSource(doc), new StreamResult(projectXML));
+			chargerArbreEnMemoire(new File(projectXML));
 		} catch (TransformerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
