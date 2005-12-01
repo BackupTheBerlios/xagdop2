@@ -5,25 +5,23 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
+import org.tmatesoft.svn.core.SVNException;
+import xagdop.Svn.SvnCommit;
 import xagdop.ressources.Bundle;
 
 
 public class ICommit extends JFrame {
-	//private static final long serialVersionUID = ;
-	//private CProject cpro = new CProject();
-	
-	/**
-	 * 
-	 */
-	
+
+	private static final long serialVersionUID = 3235581234662502451L;
 	private static ICommit IC = null;
+	protected IProjectTree tree = new IProjectTree();	
 	protected JTextArea JTAComment; 
 	protected JLabel JlabelComment;
 	protected GridBagConstraints gridBagConstraints = new GridBagConstraints();
@@ -48,13 +46,16 @@ public class ICommit extends JFrame {
 		JPanelProjectTopContainer.setLayout(new GridBagLayout());
 		JPanelProjectTopContainer.setMinimumSize(new Dimension(296, 130));
         
-		// Positionnement du local path
+		//Affichage du label
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
         JPanelProjectTopContainer.add(JlabelComment, gridBagConstraints);
-        
+       
+        //Affichage des commentaires
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
         JPanelProjectTopContainer.add(JTAComment, gridBagConstraints);
 
         // creation des boutons de validation et d'annulation
@@ -65,6 +66,22 @@ public class ICommit extends JFrame {
 				{
 				    public void actionPerformed(ActionEvent e)
 				    {
+						SvnCommit svnC = null;;
+						try {
+							svnC = new SvnCommit();
+						} catch (SVNException e1) {
+							JOptionPane.showMessageDialog(null ,"Impossible de se connecter au server subversion", "Validation" , 1) ;
+							e1.printStackTrace();
+						}
+					
+						try {
+							svnC.commit(tree.getSelectedNode(),JTAComment.getText());
+						} catch (SVNException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						
+					
 				    	IC.setVisible(false);
 				    }
 				}) ;
@@ -78,13 +95,15 @@ public class ICommit extends JFrame {
 		}) ;
 		
 		
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 1;
         JPanelProjectTopContainer.add(valide, gridBagConstraints);
 
 
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 1;
         JPanelProjectTopContainer.add(cancel, gridBagConstraints);
 
         getContentPane().add(JPanelProjectTopContainer, new GridBagConstraints());
