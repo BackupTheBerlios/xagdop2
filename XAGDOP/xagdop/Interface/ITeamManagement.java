@@ -31,6 +31,7 @@ public class ITeamManagement extends JFrame{
 	private JButton ButtonOK=new JButton();
     private JButton ButtonCancel=new JButton();
     private JButton ButtonApply = new JButton();
+    private JButton ButtonAffect = new JButton();
     private JCheckBox AnalystCheck=new JCheckBox();
     private JCheckBox ArchitectCheck = new JCheckBox();
     private JCheckBox RedacterCheck = new JCheckBox();
@@ -47,21 +48,23 @@ public class ITeamManagement extends JFrame{
 	private CTeamManagement CTeamM; 
 	
 	private String nomProjet;
-	
+	public String nP;
 	private ITeamManagement(){
 		init();
 	}
 	
 	
 	private void init(){ 
-		CTeamM = new CTeamManagement("Projet1");
+		//IT.setNomProjet("Projet1");
+		nP = "Projet1";
+		CTeamM = new CTeamManagement(nP);
 		
 		
 
         
 		
 		        projects = new ProjectsParser();
-		        projet = projects.getAllUsers("Projet1");
+		        projet = projects.getAllUsers(nP);
 		        
 		        ArrayList list = projet.getUsersId();
 		        UserListCombo = new JComboBox() ;   	 	
@@ -115,6 +118,22 @@ public class ITeamManagement extends JFrame{
         gridBagConstraints.gridwidth = 3;
         newPanel.add(UserListCombo, gridBagConstraints);
 
+        ButtonAffect.setText("Affecter");
+        ButtonAffect.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                CTeamM.Apply(projects,users.getId((String)UserListCombo.getSelectedItem()),ArchitectCheck.isSelected(),AnalystCheck.isSelected(),RedacterCheck.isSelected());
+           	    IAffect IA = IAffect.getIA();
+           	    IA.setProjectName(nP);
+           	    IA.setVisible(true);
+                //fermer la fenetre
+            	IT.dispose();
+            }
+        });
+        
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        newPanel.add(ButtonAffect, gridBagConstraints);
         
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 3;
@@ -208,11 +227,11 @@ public class ITeamManagement extends JFrame{
 	/**
 	 * @return Returns the singleton.
 	 */
-	public static ITeamManagement getIT(CTreeNode ctreenode) {
+	public static ITeamManagement getIT() {
 		if (IT==null){
 			IT = new ITeamManagement(); 
 		}
-		IT.setNomProjet(ctreenode.getName()) ;
+		
 		return IT;
 	}
 	
