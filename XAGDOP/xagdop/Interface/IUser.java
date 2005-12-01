@@ -80,7 +80,7 @@ public class IUser extends JFrame{
 				{
 		    public void actionPerformed(ActionEvent e)
 		    {
-		    	IU.dispose();   	
+		    	System.exit(0) ; 	
 		    }
 		}) ;
 		
