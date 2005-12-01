@@ -14,8 +14,11 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
+
+import org.tmatesoft.svn.core.SVNException;
 
 import xagdop.Controleur.CProject;
 import xagdop.ressources.Bundle;
@@ -70,11 +73,19 @@ public class IProject extends JFrame{
 				    public void actionPerformed(ActionEvent e)
 				    {
 				    	CProject project= new CProject(TFNp.getText(),TADesc.getText());			    	
-				    	if(project.createProject()==0){
+				    	try{
+				    		project.createProject();
+				    		JOptionPane.showMessageDialog(null ,"Le projet "+TFNp.getText()+" a bien ete cree ", "Validation" , 1) ;
 				    		TADesc.setText("");
 				    		TFNp.setText("");
+				    	}catch(SVNException ex){
+				    		JOptionPane.showMessageDialog(null ,"Impossible de se connecter au server subversion", "Validation" , 1) ;
 				    	}
-				    	IP.setVisible(false);
+				    	catch(Exception ex){
+				    		JOptionPane.showMessageDialog(null ,"Le projet "+TFNp.getText()+" n'a pu etre cree ", "Validation" , 1) ;
+				    	}finally{
+				    		IP.setVisible(false);
+				    	}
 				    }
 				}) ;
 		JPanelProjectTopContainer.add(Box.createHorizontalStrut(80)) ;
