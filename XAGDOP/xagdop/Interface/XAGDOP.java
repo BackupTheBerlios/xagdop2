@@ -314,7 +314,7 @@ public class XAGDOP extends JFrame{
 	}
 	class openIUser implements ActionListener { 
 		public void actionPerformed (ActionEvent e)  {
-			ITeamManagement iteam = ITeamManagement.getIT(tree.getSelectedNode());
+			ITeamManagement iteam = ITeamManagement.getIT();
 			iteam.setVisible(true);
 		}
 		
