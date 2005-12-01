@@ -5,7 +5,7 @@ import xagdop.Parser.ProjectsParser;
 public class CTeamManagement{
 	
 	String _projectName;
-	public void Apply(ProjectsParser PP,int user,boolean architect, boolean analyst, boolean redacter){
+	public void Apply(ProjectsParser PP,int user,boolean architect, boolean analyst, boolean redacter,boolean pmanager){
 		//Call to XML Parser
 		String valeur="";
 		
@@ -34,6 +34,13 @@ public class CTeamManagement{
 		
 		PP.setAttribute(this._projectName,user,"analyst",valeur);
 		
+//		Apply for Analyst Value
+		if (pmanager)
+			valeur="true";
+		else
+			valeur="false";
+		
+		PP.setAttribute(this._projectName,user,"pmanager",valeur);
 		
 		
 		
