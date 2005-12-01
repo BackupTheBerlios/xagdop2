@@ -102,6 +102,37 @@ public class UsersParser {
 		}
 	}
 	
+	public Users getUser(String login, String passwd)
+	{
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		String expression = "//id[@login=\""+login+"\"][@passwd=\""+passwd+"\"]";
+		Element elem = null;
+		Users user = null;
+		
+		try {
+			elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+		}
+		catch (XPathExpressionException e) {
+			
+			e.printStackTrace();
+		}
+		if ( elem != null ) {				
+				int numId = Integer.parseInt(elem.getAttribute(ATTR_NUM));
+				boolean admin = false;
+				if(elem.getAttribute(ATTR_ADMIN).equalsIgnoreCase("true"))
+					admin = true;
+				boolean pman = false;
+				if(elem.getAttribute(ATTR_MANAGER).equalsIgnoreCase("true"))
+					pman = true;
+				user = new Users(login, passwd, numId, admin, pman);
+				return user;		
+		}
+		else {
+			System.out.println("L'utilisateur "+login+" n'existe pas!");    
+			return user;
+		}
+	}
+	
 	public Users getUserById(int id)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
@@ -467,5 +498,11 @@ public class UsersParser {
 			e.printStackTrace();
 		}
 
+		try {
+			chargerArbreEnMemoire(new File(fichierXML));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
