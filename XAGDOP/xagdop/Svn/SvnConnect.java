@@ -11,7 +11,7 @@ import org.tmatesoft.svn.core.io.SVNRepositoryFactory;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
 public class SvnConnect {
-	protected String _url = "svn://marine.edu.ups-tlse.fr/users/iupisi/m1isb4/svn/XAGDOP";
+	protected String _url = "svn://marine.edu.ups-tlse.fr/users/iupisi/m1isb4/svn/XAGDOP";//"svn://nephos.dyndns.org/home/XAGDOP/svn";
 	protected String _name = "XAGDOP";
 	protected String _password = "blabla";
 	protected SVNRepository repository = null;
@@ -24,12 +24,10 @@ public class SvnConnect {
 		_password = password;
 		setupLibrary();
 		repository = connect();
-		System.out.println("Bla");
 	}
 	private SvnConnect()throws SVNException{
 		setupLibrary();
 		repository = connect();
-		System.out.println("Bla");
 	}
 	
 	public static SvnConnect getInstance() throws SVNException{
@@ -65,8 +63,7 @@ public class SvnConnect {
 			/*
 			 * Perhaps a malformed URL is the cause of this exception
 			 */
-			System.err
-			.println("error while creating an SVNRepository for location '"
+			System.out.println("error while creating an SVNRepository for location '"
 					+ _url + "': " + svne.getMessage());
 			throw svne;
 		}

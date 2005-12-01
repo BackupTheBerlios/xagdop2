@@ -2,8 +2,7 @@ package xagdop.Svn;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -12,59 +11,58 @@ import java.util.Map;
 
 import org.tmatesoft.svn.core.SVNCommitInfo;
 import org.tmatesoft.svn.core.SVNException;
-import org.tmatesoft.svn.core.SVNURL;
-import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
 import org.tmatesoft.svn.core.io.ISVNEditor;
 import org.tmatesoft.svn.core.io.ISVNWorkspaceMediator;
 import org.tmatesoft.svn.core.io.SVNRepository;
-import org.tmatesoft.svn.core.io.diff.SVNDiffWindow;
-import org.tmatesoft.svn.core.io.diff.SVNDiffWindowBuilder;
-import org.tmatesoft.svn.core.wc.SVNBasicClient;
 import org.tmatesoft.svn.core.wc.SVNCommitClient;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
+import xagdop.Controleur.CTreeNode;
 
 
-public class SvnCommit extends SVNCommitClient{
+
+public class SvnCommit{
 	SVNRepository repository;
-	
+	SVNCommitClient svnCC;
 	public SvnCommit(String url, String name, String password) throws SVNException{
-		super(SVNWCUtil.createDefaultAuthenticationManager(SvnConnect.getInstance().getName(), SvnConnect.getInstance().getPassword()),SVNWCUtil.createDefaultOptions(true));
+		//super(SVNWCUtil.createDefaultAuthenticationManager(SvnConnect.getInstance().getName(), SvnConnect.getInstance().getPassword()),SVNWCUtil.createDefaultOptions(true));
 		repository = SvnConnect.getInstance(url,name,password).getRepository();
-		
+		svnCC = new SVNCommitClient(repository.getAuthenticationManager(),SVNWCUtil.createDefaultOptions(true) );
 	}
 	public SvnCommit() throws SVNException{
-		super(SVNWCUtil.createDefaultAuthenticationManager(SvnConnect.getInstance().getName(), SvnConnect.getInstance().getPassword()),SVNWCUtil.createDefaultOptions(true));
+		//super(SVNWCUtil.createDefaultAuthenticationManager(SvnConnect.getInstance().getName(), SvnConnect.getInstance().getPassword()),SVNWCUtil.createDefaultOptions(true));
 		repository = SvnConnect.getInstance().getRepository();
+		svnCC = new SVNCommitClient(repository.getAuthenticationManager(),SVNWCUtil.createDefaultOptions(true) );
 	}
 	
 	
 	
-	public void createProject(String projectName, String description) throws SVNException {
+	public SVNCommitInfo createProject(String projectName, String description) throws SVNException {
 		
 		
 		String dirPath = projectName;
 		ISVNEditor editor = null;
 		SVNCommitInfo commitInfo = null;
+		/*Collection urls = new ArrayList();
+		SVNURL url = SVNURL.parseURIEncoded(SvnConnect.getInstance().getUrl()+"/"+projectName);
+		urls.add(url);
+		SVNURL test = (SVNURL)urls.toArray();
+		System.out.println("bla+ "+test.length+test[0].toString());
+		try{
+			
+			svnCC.doMkDir((SVNURL[])urls.toArray(),description);
+		}
+		catch(SVNException e){
+			e.toString();
+		}*/
 		
 		//ISVNAuthenticationManager authManager = SVNWCUtil.createDefaultAuthenticationManager(SvnConnect.getInstance().getName(), SvnConnect.getInstance().getPassword());
 		//svnC = new SVNCommitClient(authManager, SVNWCUtil.createDefaultOptions(true));
 		//SvnConnect.getInstance().setUrl("svn://marine.edu.ups-tlse.fr/users/iupisi/m1isb4/svn/"+projectName);
 		//repository = SvnConnect.getInstance().reconnect();
 		
-		repository = createRepository( SVNURL.parseURIEncoded("svn://marine.edu.ups-tlse.fr/users/iupisi/m1isb4/svn/"+projectName),true);
-		try {
-			addFile("/users/iupisi/m1isi7/IUP/BE/save","bup_XAGDOP.sh","blablabalala");
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SVNException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//repository = svnCC.createRepository( SVNURL.parseURIEncoded("svn://marine.edu.ups-tlse.fr/users/iupisi/m1isb4/svn/"+projectName),true);
+	
 		/*
 		 * Gets an editor for committing the changes to  the  repository.  NOTE:
 		 * you  must not invoke methods of the SVNRepository until you close the
@@ -75,7 +73,7 @@ public class SvnCommit extends SVNCommitClient{
 		 * ISVNWorkspaceMediator  will  be  used by the editor for  intermediate 
 		 * file delta storing.
 		 */
-		/*try {
+		try {
 			editor = repository.getCommitEditor(description,new WorkspaceMediator());
 		} catch (SVNException svne) {
 			try{
@@ -84,13 +82,13 @@ public class SvnCommit extends SVNCommitClient{
 				e.printStackTrace();
 				System.exit(0);
 			}
-		}*/
+		}
 		
 		
 		/*
 		 * Adding a new directory containing a file to the repository.
 		 */
-	/*	try {
+		try {
 			commitInfo = addDir(editor, dirPath);
 		} catch (SVNException svne) {
 			try {
@@ -101,13 +99,13 @@ public class SvnCommit extends SVNCommitClient{
 				 * editor must be aborted to behave in a  right  way in order to
 				 * the breakdown won't cause any unstability.
 				 */
-		/*		return editor.closeEdit();
+				return editor.closeEdit();
 			} catch (SVNException inner) {
 				System.exit(0);
 			}
 		}
 		
-		return commitInfo;*/
+		return commitInfo;
 		
 	}
 	
@@ -149,208 +147,12 @@ public class SvnCommit extends SVNCommitClient{
 		
 		return editor.closeEdit();
 		
-		
 	}
 	
-	
-	
-	
-	
-	public SVNCommitInfo addFile(String dirPath, String filePath, String description) throws SVNException, FileNotFoundException, IOException {
-		ISVNEditor editor = null;
-		String urlFile ="~" +dirPath+"/" +filePath;
-		long deltaLength = 0 ;
-		editor = repository.getCommitEditor(description,new WorkspaceMediator());
-		
-		FileInputStream data = new FileInputStream(urlFile);
-		deltaLength = data.available();
-		
-		
-		
-		editor.openRoot(-1);
-		
-		
-		editor.openDir(dirPath,-1);
-		
-		editor.addFile(dirPath+"/"+filePath, null, -1);
-		
-		
-		/*
-		 * The next steps are directed to applying delta to the  file  (that  is 
-		 * the full contents of the file in this case).
-		 */
-		
-		editor.applyTextDelta(dirPath+"/"+filePath, null);
-		
-		/*
-		 * Creating  a  new  diff  window  (provided  the  size  of the delta  - 
-		 * deltaLength) that will contain instructions of applying the delta  to
-		 * the file in the repository.
-		 */
-		SVNDiffWindow diffWindow = SVNDiffWindowBuilder.createReplacementDiffWindow(deltaLength);
-		
-		/*
-		 * Gets an OutputStream where the delta will be written to.
-		 */
-		OutputStream os = null;
-		
-		os = editor.textDeltaChunk(dirPath+"/"+filePath, diffWindow);
-		try {
-			/*
-			 * If the file is not empty this code writes the file delta  to  the
-			 * OutputStream.
-			 */
-			byte[] toWrite = new byte[1];
-			for (int i = 0; i < deltaLength; i++) {
-				data.read(toWrite);
-				os.write(toWrite);
-			}
-		} catch (IOException ioe) {
-			System.err.println("An i/o error while writing the delta bytes: "
-					+ ioe.getMessage());
-			throw ioe;
-		} finally {
-			/*
-			 * Don't forget to close the stream after you have written the delta!
-			 */
-			if (os != null) {
-				try {
-					os.close();
-				} catch (IOException ioeInternal) {
-					throw ioeInternal;
-				}
-			}
-		}
-		
-		data.close();
-		
-		/*
-		 * Finally closes the delta when all the bytes are already written. From
-		 * this  point  the previously defined diff window 'knows' how to  apply 
-		 * the delta to the file (that will be created in the repository).
-		 */
-		
-		editor.textDeltaEnd(dirPath+"/"+filePath);
-		
-		
-		/*
-		 * Closes the new added file.
-		 */
-		
-		editor.closeFile(dirPath+"/"+filePath, null);
-		
-		/*
-		 * Closes the new added directory.
-		 */
-		
-		editor.closeDir();
-		/*
-		 * Closes the root directory.
-		 */
-		
-		editor.closeDir();
-		
-		return editor.closeEdit();
-	}
-	
-	/*
-	 * This method performs committing file modifications.
-	 */
-	public  SVNCommitInfo modifyFile(String dirPath, String filePath, String description) throws SVNException, FileNotFoundException, IOException {
-		ISVNEditor editor = null;
-		String urlFile ="~" +dirPath+"/" +filePath;
-		long deltaLength = 0 ;
-		editor = repository.getCommitEditor(description,new WorkspaceMediator());
-		
-		FileInputStream data = new FileInputStream(urlFile);
-		deltaLength = data.available();
-		
-		
-		
-		editor.openRoot(-1);
-		
-		
-		editor.openDir(dirPath,-1);
-		
-		editor.addFile(dirPath+"/"+filePath, null, -1);
-		
-		
-		/*
-		 * The next steps are directed to applying delta to the  file  (that  is 
-		 * the full contents of the file in this case).
-		 */
-		
-		editor.applyTextDelta(dirPath+"/"+filePath, null);
-		
-		/*
-		 * Creating  a  new  diff  window  (provided  the  size  of the delta  - 
-		 * deltaLength) that will contain instructions of applying the delta  to
-		 * the file in the repository.
-		 */
-		SVNDiffWindow diffWindow = SVNDiffWindowBuilder.createReplacementDiffWindow(deltaLength);
-		
-		/*
-		 * Gets an OutputStream where the delta will be written to.
-		 */
-		OutputStream os = null;
-		
-		os = editor.textDeltaChunk(dirPath+"/"+filePath, diffWindow);
-		try {
-			/*
-			 * If the file is not empty this code writes the file delta  to  the
-			 * OutputStream.
-			 */
-			byte[] toWrite = new byte[1];
-			for (int i = 0; i < deltaLength; i++) {
-				data.read(toWrite);
-				os.write(toWrite);
-			}
-		} catch (IOException ioe) {
-			System.err.println("An i/o error while writing the delta bytes: "
-					+ ioe.getMessage());
-			throw ioe;
-		} finally {
-			/*
-			 * Don't forget to close the stream after you have written the delta!
-			 */
-			if (os != null) {
-				try {
-					os.close();
-				} catch (IOException ioeInternal) {
-					throw ioeInternal;
-				}
-			}
-		}
-		
-		data.close();
-		
-		/*
-		 * Finally closes the delta when all the bytes are already written. From
-		 * this  point  the previously defined diff window 'knows' how to  apply 
-		 * the delta to the file (that will be created in the repository).
-		 */
-		
-		editor.textDeltaEnd(dirPath+"/"+filePath);
-		
-		
-		/*
-		 * Closes the new added file.
-		 */
-		
-		editor.closeFile(dirPath+"/"+filePath, null);
-		
-		/*
-		 * Closes the new added directory.
-		 */
-		
-		editor.closeDir();
-		/*
-		 * Closes the root directory.
-		 */
-		
-		editor.closeDir();
-	
-		return editor.closeEdit();
+	public void commit(CTreeNode node, String commitMessage) throws SVNException{
+		SVNCommitClient svnCC = new SVNCommitClient(repository.getAuthenticationManager(),SVNWCUtil.createDefaultOptions(true) );
+		File toCommit = new File(node.getLocalPath());
+		svnCC.doCommit(toCommit.listFiles(),false,commitMessage, false, true);
 	}
 	
 
