@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -27,7 +28,7 @@ import xagdop.Controleur.CProject;
 import xagdop.Controleur.CTreeNode;
 import xagdop.ressources.Bundle;
 
-public class IProjectPreferences extends JFrame {
+public class IProjectPreferences extends JDialog {
 	
 	/**
 	 * 
@@ -41,8 +42,8 @@ public class IProjectPreferences extends JFrame {
 	
 	private static IProjectPreferences IPP = null;
 	protected JTextField localPath; 
-	protected JLabel repositoryPath;
-	protected JLabel JlabelRepositoryPath;
+	//protected JLabel repositoryPath;
+	//protected JLabel JlabelRepositoryPath;
 	protected JLabel JlabelLocalPath;
 	
 	protected GridBagConstraints gridBagConstraints = new GridBagConstraints();
@@ -61,14 +62,14 @@ public class IProjectPreferences extends JFrame {
 	private void init(){
 		getContentPane().setLayout(new GridBagLayout());
 		localPath = new JTextField(30);
-		//localPath = new JTextField(tree.getSelectedNode().getLocalPath());
+		localPath = new JTextField(XAGDOP.getInstance().getTree().getSelectedNode().getLocalPath());
 
 		//Initialisation du chemin local
 		JlabelLocalPath = new JLabel(Bundle.getText("iprojectpreference.label.localpath"));
 		
 		//Initialisation du chemin sur le serveur
-		JlabelRepositoryPath = new JLabel(Bundle.getText("iprojectpreference.label.repositorypath"));
-		repositoryPath = new JLabel(tree.getSelectedNode().getRepositoryPath()) ;
+		//JlabelRepositoryPath = new JLabel(Bundle.getText("iprojectpreference.label.repositorypath"));
+		//repositoryPath = new JLabel(tree.getSelectedNode().getRepositoryPath()) ;
 		
 		// Initialisation de la popup
 		setTitle(Bundle.getText("iprojectpreference.title"));
@@ -110,12 +111,12 @@ public class IProjectPreferences extends JFrame {
         //Positionnement du repository path
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        JPanelProjectTopContainer.add(JlabelRepositoryPath, gridBagConstraints);
+        //JPanelProjectTopContainer.add(JlabelRepositoryPath, gridBagConstraints);
 
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
      //   gridBagConstraints.gridwidth = 2;
-        JPanelProjectTopContainer.add(repositoryPath, gridBagConstraints);
+        //JPanelProjectTopContainer.add(repositoryPath, gridBagConstraints);
 
         // creation des boutons de validation et d'annulation
         valide = new JButton(Bundle.getText("iprojectpreference.button.ok"));
@@ -126,7 +127,7 @@ public class IProjectPreferences extends JFrame {
 				    public void actionPerformed(ActionEvent e)
 				    {
 				    	CTreeNode treeN= tree.getSelectedNode();			    	
-				    	repositoryPath.setText(treeN.getRepositoryPath());
+				    	//repositoryPath.setText(treeN.getRepositoryPath());
 				    	localPath.setText(treeN.getLocalPath());
 				       	IPP.setVisible(false);
 				    }

@@ -3,14 +3,11 @@ package xagdop.Controleur;
 
 
 import java.awt.Component;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.Iterator;
+import java.io.File;
 import java.util.Map;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import javax.swing.JTree;
@@ -25,15 +22,9 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-import org.tmatesoft.svn.core.SVNDirEntry;
-import org.tmatesoft.svn.core.SVNException;
-import org.tmatesoft.svn.core.SVNNodeKind;
-import org.tmatesoft.svn.core.io.SVNRepository;
-
 import xagdop.Identity;
 import xagdop.Interface.ICentralPanel;
-import xagdop.Svn.SvnConnect;
-import xagdop.Svn.SvnDisplayRepositoryTree;
+import xagdop.Interface.IPreferences;
 
 
 /**
@@ -288,7 +279,7 @@ public class CTree implements TreeModel
 		}
 	}
 	
-	public void refresh(CTreeNode node){
+	/*public void refresh(CTreeNode node){
 		
 		SvnDisplayRepositoryTree listeroot;
 		
@@ -390,6 +381,28 @@ public class CTree implements TreeModel
 			System.out.println(svne.toString());
 			System.out.println(svne.getMessage());
 		}
+	}*/
+	
+	public void refreshFromLocal(String localPath, CTreeNode parent){
+		File localFiles = new File(localPath);
+		parent.removeAllChildren();
+		
+		File[] allFiles = localFiles.listFiles();
+		int i = 0;
+		while(i<allFiles.length){
+			CTreeNode tmp = new CTreeNode(allFiles[i].getName(),allFiles[i].getAbsolutePath());
+			if(!allFiles[i].isHidden())
+				parent.add(tmp);
+			
+			
+			
+			if(allFiles[i].isDirectory()&&!allFiles[i].isHidden())
+				refreshFromLocal(allFiles[i].getAbsolutePath(), tmp);
+			
+			i++;
+		}
+		Object[] path = {mRoot};
+		fireTreeNodesInserted(this, path, null, null);
 	}
 	
 	/**

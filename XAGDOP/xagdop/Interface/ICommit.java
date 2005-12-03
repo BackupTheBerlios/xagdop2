@@ -66,7 +66,7 @@ public class ICommit extends JFrame {
 				{
 				    public void actionPerformed(ActionEvent e)
 				    {
-						SvnCommit svnC = null;;
+						SvnCommit svnC = null;
 						try {
 							svnC = new SvnCommit();
 						} catch (SVNException e1) {

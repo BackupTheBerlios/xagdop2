@@ -1,11 +1,14 @@
 
 package xagdop.Controleur;
 
+import java.io.File;
 import java.io.Serializable;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import xagdop.Identity;
+import xagdop.Interface.IPreferences;
+import xagdop.Interface.IProjectPreferences;
 
 
 /**
@@ -16,12 +19,17 @@ import xagdop.Identity;
 
 public class CTreeNode extends DefaultMutableTreeNode implements Serializable
 {
-	String localPath;
-	String repositoryPath;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3471931069630056896L;
+	protected String localPath;
 	
 	public CTreeNode(Object userObject, boolean isLeaf)
 	{
-		super(userObject);		
+		super(userObject);
+		File localFilePath = new File(IPreferences.getDefaultPath());
+		this.localPath = localFilePath.getAbsolutePath();
 	}
 
 
@@ -29,16 +37,28 @@ public class CTreeNode extends DefaultMutableTreeNode implements Serializable
 	{
 		super(userObject);
 		setParent(parent);
+		File localFilePath = new File(IPreferences.getDefaultPath());
+		this.localPath = localFilePath.getAbsolutePath();
 	}
 	
 
-	public CTreeNode(String repositoryPath) {
-		this.repositoryPath = repositoryPath;
+	public CTreeNode(Object userObject) {
+		super(userObject);
+		File localFilePath = new File(IPreferences.getDefaultPath());
+		this.localPath = localFilePath.getAbsolutePath();
 	}
 
-	public CTreeNode(String localPath, String repositoryPath) {
-		this.localPath = localPath;
-		this.repositoryPath = repositoryPath;
+	public CTreeNode(Object userObject, String _localPath) {
+		super(userObject);
+		File localFilePath = new File(_localPath);
+		this.localPath = localFilePath.getAbsolutePath();
+	}
+	
+	public CTreeNode(Object userObject, CTreeNode parent, String _localPath)	{
+		super(userObject);
+		setParent(parent);
+		File localFilePath = new File(_localPath);
+		this.localPath = localFilePath.getAbsolutePath();
 	}
 
 	public String getLocalPath() {
@@ -46,11 +66,8 @@ public class CTreeNode extends DefaultMutableTreeNode implements Serializable
 	}
 
 	public void setLocalPath(String localPath) {
-		this.localPath = localPath;
-	}
-
-	public String getRepositoryPath() {
-		return repositoryPath;
+		File localFilePath = new File(localPath);
+		this.localPath = localFilePath.getAbsolutePath();
 	}
 
 	public String getName()

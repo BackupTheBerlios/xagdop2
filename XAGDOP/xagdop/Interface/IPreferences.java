@@ -9,7 +9,7 @@ public class IPreferences extends JFrame{
 	 */
 	private static final long serialVersionUID = 7906721154083119869L;
 	private static IPreferences IPref = null;
-	private static String defaultPath="xagdop/"; 
+	private static String defaultPath="project/"; 
 	
 	private IPreferences(){
 		init();

@@ -28,10 +28,14 @@ import javax.swing.JTable;
 import javax.swing.border.Border;
 import javax.swing.plaf.BorderUIResource;
 import javax.swing.table.AbstractTableModel;
+
+import org.tmatesoft.svn.core.SVNException;
+
 import xagdop.Controleur.CProject;
 import xagdop.Controleur.CTree;
 import xagdop.Model.Users;
 import xagdop.Svn.SvnConnect;
+import xagdop.Svn.SvnUpdate;
 import xagdop.ressources.Bundle;
 
 //import ressources.Bundle;
@@ -333,7 +337,7 @@ public class XAGDOP extends JFrame{
 	
 	class actionUpdate implements ActionListener {
 		public void actionPerformed(ActionEvent e){
-			((CTree)tree.getModel()).refresh(tree.getSelectedNode());
+			((CTree)tree.getModel()).refreshFromLocal(IPreferences.getDefaultPath(), tree.getSelectedNode());
 	
 		}
 	}
@@ -364,14 +368,14 @@ public class XAGDOP extends JFrame{
 		return xag;
 	}
 	
-	/*public static void main(String args[]){
+	public static void main(String args[]){
 		
 		
 		Bundle.setCurrentLocale(Locale.FRENCH);
 		
 		XAGDOP frame = new XAGDOP();
-		frame.setVisible(true);
-	}*/
+		frame.setVisible(true);	
+	}
 
 	public IProjectTree getTree() {
 		return tree;
