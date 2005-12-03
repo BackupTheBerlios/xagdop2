@@ -109,6 +109,34 @@ public class ProjectsParser {
 		}		
 	}
 	
+	public boolean exist(String pName, String login)
+	{
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		
+		UsersParser users = new UsersParser();
+		int id = users.getId(login);
+		
+		String expression = "//project[@name=\""+pName+"\"]//user[@id="+id+"]";
+		boolean res = false;
+		Element elem = null;
+			
+		try {
+			elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+		}
+		catch (XPathExpressionException e) {
+			
+			e.printStackTrace();
+		}
+		if ( elem != null ) {
+			return res = true;			
+			
+		}
+		else {
+			System.out.println("L'utilisateur "+ login +" ne travaille pas sur le projet "+pName); 
+			return res;
+		}		
+	}
+	
 	public void setAttribute(String projectName, String attr ,String newValue)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
