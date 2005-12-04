@@ -64,7 +64,7 @@ public class IUser extends JFrame{
 		
 		valide.addActionListener(new ActionListener(){
 				    public void actionPerformed(ActionEvent e){
-				    	Users user = UParser.getUser("xagdop","xagdop");
+				    	Users user = UParser.getUser(userID.getText(),password.getText());
 				    	if (user != null){
 				    		XAGDOP.getInstance().setUser(user);
 				    		XAGDOP.getInstance().setVisible(true);
@@ -104,11 +104,5 @@ public class IUser extends JFrame{
 		}
 		
 		return IU;
-	}
-	
-	public static void main(String args[]){
-		Bundle.setCurrentLocale(Locale.FRENCH);
-		IUser frame = new IUser();
-		frame.setVisible(true);
 	}
 }
