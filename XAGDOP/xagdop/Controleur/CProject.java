@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 import org.tmatesoft.svn.core.SVNCommitInfo;
 import org.tmatesoft.svn.core.SVNException;
 
+import xagdop.Parser.ProjectsParser;
 import xagdop.Svn.SvnCommit;
 import xagdop.Svn.SvnDisplayRepositoryTree;
 import xagdop.Svn.SvnRemove;
@@ -43,6 +44,11 @@ public class CProject {
 				
 			}else throw new Exception("Projet existant");		
 		}
+		//Enregistrement dans le XML du projet
+		ProjectsParser PP = new ProjectsParser();
+		//PP.addProject(projectName,description);
+		
+		
 	}
 	
 	
@@ -72,7 +78,9 @@ public class CProject {
 			return error;
 		}
 		JOptionPane.showMessageDialog(null ,"Le projet "+Name+" est supprime", "Validation" , 1) ;
-		
+		//Enregistrement dans le XML du projet
+		ProjectsParser PP = new ProjectsParser();
+		PP.removeProject(Name);
 		return error;
 	}
 }
