@@ -32,7 +32,7 @@ public class CTeamManagement{
 		else
 			valeur="false";
 		
-		PP.setAttribute(this._projectName,user,"analyst",valeur);
+		PP.setAttribute(this._projectName,user,"analyste",valeur);
 		
 //		Apply for Analyst Value
 		if (pmanager)
