@@ -72,7 +72,7 @@ public class IAffect extends JFrame
 						JOptionPane.showMessageDialog(null ,"L'utilisateur à bien été rajouté", "Reussite" , 1) ;
 						try
 						{
-							ITeamManagement.getIT().refreshCombo();
+							//ITeamManagement.getIT().refreshCombo();
 						}
 						catch (Exception e1){
 							System.out.println("plantouille");
