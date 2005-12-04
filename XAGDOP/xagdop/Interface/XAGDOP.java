@@ -363,11 +363,8 @@ public class XAGDOP extends JFrame{
 	}
 	
 	public static void main(String args[]){
-		
-		
 		Bundle.setCurrentLocale(Locale.FRENCH);
-		
-		XAGDOP frame = new XAGDOP();
+		IUser frame = IUser.getIU();
 		frame.setVisible(true);	
 	}
 
