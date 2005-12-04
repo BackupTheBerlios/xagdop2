@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.management.InstanceNotFoundException;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -68,10 +69,22 @@ public class IAffect extends JFrame
             public void actionPerformed(java.awt.event.ActionEvent evt) {
             		try {
 						CA.affecter(projectName,LoginUser.getText(),ChefCheck.isSelected(),ArchiCheck.isSelected(),RedacteurCheck.isSelected(),AnalystCheck.isSelected());
-					} catch (Exception e) {
-						//Error of create
-						JOptionPane.showMessageDialog(null ,"Impossible d'affecter cet utilisateur", "Probleme" , 1) ;
+						JOptionPane.showMessageDialog(null ,"L'utilisateur à bien été rajouté", "Reussite" , 1) ;
+						try
+						{
+							ITeamManagement.getIT().refreshCombo();
+						}
+						catch (Exception e1){
+							System.out.println("plantouille");
+						}
+					}catch(InstanceNotFoundException i){
+						JOptionPane.showMessageDialog(null ,"L'utilisateur n'existe pas", "Probleme" , 1) ;
 					}
+            		catch (Exception e) {
+						//Error of create
+						JOptionPane.showMessageDialog(null ,"L'utilisateur est deja present dans le projet", "Probleme" , 1) ;
+					}
+					
             		
             }
         });
