@@ -29,7 +29,6 @@ public class ITeamManagement extends JFrame{
 	 */
 	private static final long serialVersionUID = -1080162447493236178L;
 	
-	private static ITeamManagement IT = null;
 	private JButton ButtonOK=new JButton();
     private JButton ButtonCancel=new JButton();
     private JButton ButtonApply = new JButton();
@@ -53,14 +52,15 @@ public class ITeamManagement extends JFrame{
 	
 	private String nomProjet;
 	public String nP;
-	private ITeamManagement(){
+	public ITeamManagement(String ProjectName){
+		this.setNomProjet(ProjectName);
 		init();
 	}
 	
 	
 	private void init(){ 
-		//IT.setNomProjet("Projet1");
-		nP = "Projet1";
+		
+		nP = this.getNomProjet();
 		CTeamM = new CTeamManagement(nP);
 		
 		
@@ -130,7 +130,7 @@ public class ITeamManagement extends JFrame{
            	    IA.setProjectName(nP);
            	    IA.setVisible(true);
                 //fermer la fenetre
-            	IT.dispose();
+            	dispose();
             }
         });
         
@@ -189,7 +189,7 @@ public class ITeamManagement extends JFrame{
                 CTeamM.Apply(projects,users.getId((String)UserListCombo.getSelectedItem()),ArchitectCheck.isSelected(),AnalystCheck.isSelected(),RedacterCheck.isSelected(),PManagerCheck.isSelected());
            	    
                 //fermer la fenetre
-            	IT.dispose();
+            	dispose();
             }
         });
 
@@ -203,7 +203,7 @@ public class ITeamManagement extends JFrame{
         ButtonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                  //Fermer la fenetre
-            	IT.dispose();
+            	dispose();
             }
         });
 
@@ -238,16 +238,7 @@ public class ITeamManagement extends JFrame{
 		//setSize(300, 200);
 		
 	}
-	/**
-	 * @return Returns the singleton.
-	 */
-	public static ITeamManagement getIT() {
-		if (IT==null){
-			IT = new ITeamManagement(); 
-		}
-		
-		return IT;
-	}
+
 	
 	public void refresh(){
 		
@@ -259,6 +250,7 @@ public class ITeamManagement extends JFrame{
 	 	 
 	}
 	
+	/*
 	public void refreshCombo(){
 
 		//Rajout des nouveaux users
@@ -287,11 +279,16 @@ public class ITeamManagement extends JFrame{
 	        });
 		}
 		
-	
+	*/
 
 
 	public void setNomProjet(String nomProjet) {
 		this.nomProjet = nomProjet;
+	}
+
+
+	public String getNomProjet() {
+		return nomProjet;
 	}
 	
 }
