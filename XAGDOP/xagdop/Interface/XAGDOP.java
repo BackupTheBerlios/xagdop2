@@ -318,18 +318,12 @@ public class XAGDOP extends JFrame{
 	}
 	class openIUser implements ActionListener { 
 		public void actionPerformed (ActionEvent e)  {
-			try {
-				ITeamManagement iteam = ITeamManagement.getIT();
-				iteam.refreshCombo();
-				iteam.setVisible(true);
-			}
-			catch ( java.lang.ArrayIndexOutOfBoundsException AIO)
-			{
 
-				ITeamManagement iteam = ITeamManagement.getIT();
-				iteam.refreshCombo();
+			
+			ITeamManagement iteam = new ITeamManagement("Projet1");
+				//iteam.refreshCombo();
 				iteam.setVisible(true);
-			}
+
 			
 		}
 		
