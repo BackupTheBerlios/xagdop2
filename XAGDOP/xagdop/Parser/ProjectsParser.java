@@ -39,6 +39,7 @@ public class ProjectsParser {
 	public static final String ATTR_NAME = "name";
 	public static final String ATTR_URLREPO = "urlRepo";
 	public static final String ATTR_IDUSER = "id";	
+	public static final String ATTR_DESC = "desc";
 	
 	public ProjectsParser()
 	{
@@ -251,6 +252,47 @@ public class ProjectsParser {
 				newElem.setAttribute(ATTR_ANALYST, Boolean.toString(analyste));
 				newElem.setAttribute(ATTR_REDACTEUR, Boolean.toString(redacteur));
 				elem.appendChild(newElem);
+				saveDocument();
+				return true;
+			}
+			else {
+				System.out.println("Ajout de l'utilisateur "+user.getLogin()+" impossible!");
+				return false;
+			}
+		}
+	}
+	
+	public boolean addProject(String projectName, Users user, String description)
+	{
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		String expression = "//*";
+		
+		UsersParser userP = new UsersParser();
+		
+		if(!userP.isUser(user.getId()))
+		{
+			//System.out.println("L'utilisateur n'existe pas!!");
+			return false;
+		}
+		else
+		{
+			Element elem = null;
+			Element newElem = doc.createElement("project");
+			
+			try {
+				elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+			}
+			catch (XPathExpressionException e) {
+				
+				e.printStackTrace();
+			}
+			if ( elem != null ) {
+				newElem.setAttribute(ATTR_NAME, projectName);
+				newElem.setAttribute(ATTR_DESC, description);
+				newElem.setAttribute(ATTR_URLREPO, "");				
+				elem.appendChild(newElem);
+
+				addUser(projectName, user, true, false, false, false);
 				saveDocument();
 				return true;
 			}

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?><projects>
-	<project name="Projet1" urlRepo="uneURL2">
+	<project desc="une description" name="Projet1" urlRepo="uneURL2">
 		<user analyste="false" archi="false" id="1" pmanager="true" redacteur="true"/>
 		<user analyste="false" archi="true" id="2" pmanager="false" redacteur="false"/>
 		<user analyste="true" archi="false" id="3" pmanager="false" redacteur="true"/>
 		<user analyste="false" archi="false" id="6" pmanager="true" redacteur="true"/>	
 	</project>
 		
-		<project name="Projet3" urlRepo="uneURL3">
+		<project desc="une description" name="Projet3" urlRepo="uneURL3">
 		<user analyste="false" archi="false" id="6" pmanager="true" redacteur="true"/>		
 	</project>
-</projects>
+<project desc="une description au hasard" name="Projet de test" urlRepo=""><user analyste="false" archi="false" id="1" pmanager="true" redacteur="false"/></project></projects>
