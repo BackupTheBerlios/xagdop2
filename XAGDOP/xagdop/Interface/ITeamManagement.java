@@ -14,6 +14,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
+
+import xagdop.Controleur.CProject;
 import xagdop.Controleur.CTeamManagement;
 import xagdop.Controleur.CTreeNode;
 import xagdop.Model.Projects;
@@ -258,25 +260,34 @@ public class ITeamManagement extends JFrame{
 	}
 	
 	public void refreshCombo(){
-//Remise du ComboBox
-		
-		
+
+		//Rajout des nouveaux users
+
+	
 		projects = new ProjectsParser();
         projet = projects.getAllUsers("Projet1");
         ArrayList list = projet.getUsersId();
 		 
-		UserListCombo.removeAllItems();
-        //UserListCombo.remo
-	   	 	
-	     
-	        
+	
+       
+        users = new UsersParser();
 	    	//Remplissage de la combobox avec les valeurs de la list
-	      	for(int i=0; i<list.size(); i++)
+	      	for(int i=UserListCombo.getItemCount(); i<list.size(); i++)
 	    	{
-	      		UserListCombo.addItem(users.getAttribute(((Integer)list.get(i)).intValue(),"login"));
-			}
-	   	 refresh();
-	}
+	      			UserListCombo.addItem(users.getAttribute(((Integer)list.get(i)).intValue(),"login"));
+	    	}
+	
+
+	      	
+	      	UserListCombo.addActionListener(new ActionListener() {
+	            public void actionPerformed(ActionEvent evt) {
+	                //Changement des checkBox avec les droits
+	            	refresh();
+	            }
+	        });
+		}
+		
+	
 
 
 	public void setNomProjet(String nomProjet) {
