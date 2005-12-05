@@ -109,7 +109,7 @@ public class SvnCommit{
 				System.exit(0);
 			}
 		}
-		
+
 		return commitInfo;
 		
 	}

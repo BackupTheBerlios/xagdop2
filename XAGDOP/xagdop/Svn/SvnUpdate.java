@@ -76,7 +76,7 @@ public class SvnUpdate{
 		Users user = XAGDOP.getInstance().getUser();
 		ProjectsParser pp = new ProjectsParser();
 		
-		
+		IPreferences.setDefaultPath(IPreferences.getDefaultPath()+user.getLogin());
 		File projectDirectoryLocal = new File(IPreferences.getDefaultPath());
 		if(!projectDirectoryLocal.exists())
 			projectDirectoryLocal.mkdir();
@@ -91,9 +91,11 @@ public class SvnUpdate{
             if(pp.exist(entry.getName(),user.getLogin())){
             	if(entry.getKind()==SVNNodeKind.DIR){
             		File projectDirectory = new File(IPreferences.getDefaultPath()+"/"+entry.getName());
-            		if(!projectDirectory.exists())
+            		if(!projectDirectory.exists()){
             			projectDirectory.mkdir();
-            		up.doCheckout(SVNURL.parseURIEncoded(SvnConnect.getInstance().getUrl()+entry.getName()),projectDirectory,SVNRevision.HEAD,SVNRevision.HEAD,true);
+            			up.doCheckout(SVNURL.parseURIEncoded(SvnConnect.getInstance().getUrl()+entry.getName()),projectDirectory,SVNRevision.HEAD,SVNRevision.HEAD,true);
+            		}else
+            			up.doUpdate(projectDirectory,SVNRevision.HEAD,true);
             	}
             }
         }

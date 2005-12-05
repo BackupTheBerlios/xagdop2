@@ -99,14 +99,15 @@ public class XAGDOP extends JFrame{
 	IProjectTree tree;
 	
 	public XAGDOP(Users current){
-		init();
 		user = current;
+		init();
+		
 		//testsParsers tests = new testsParsers(); 
 	}
 	
 	private void init(){
 		
-		SvnConnect.setupLibrary();
+		
 		java.net.URL imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/envoyer.jpg");
 		commit = new JButton(new ImageIcon(imageURL));
 		imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/equipe.jpeg");

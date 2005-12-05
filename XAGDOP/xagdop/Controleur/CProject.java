@@ -41,14 +41,14 @@ public class CProject {
 			if(project.existProject(projectName)==false){
 				SvnCommit 	svnC = new SvnCommit();
 				SVNCommitInfo report = svnC.createProject(projectName, description);
-			
 				// Enregistrement dans le XML du projet
 				ProjectsParser PP = new ProjectsParser();
 				Users user = XAGDOP.getInstance().getUser();	
 				PP.addProject(projectName,user,description);
-						
-				if(report.getError()==null)
+				
+				if(report.getError()!=null){
 					throw new Exception(report.toString());
+				}
 				
 			}else throw new Exception("Projet existant");		
 		}

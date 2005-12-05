@@ -1,5 +1,7 @@
 package xagdop.Interface;
 
+import java.io.File;
+
 import javax.swing.JFrame;
 
 public class IPreferences extends JFrame{
@@ -37,7 +39,11 @@ public class IPreferences extends JFrame{
 
 
 	public static String getDefaultPath() {
-		return defaultPath;
+		/*File defaultPathUser = new File(defaultPath+XAGDOP.getInstance().getUser().getLogin());
+		if(!defaultPathUser.exists())
+			defaultPathUser.mkdir();*/
+		//System.out.println(defaultPath+XAGDOP.getInstance().getUser().getLogin());
+		return defaultPath;//+XAGDOP.getInstance().getUser().getLogin();
 	}
 
 

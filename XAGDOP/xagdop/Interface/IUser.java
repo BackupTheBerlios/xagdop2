@@ -61,6 +61,16 @@ public class IUser extends JFrame{
 		
 		JButton valide = new JButton(Bundle.getText("iuser.button.ok"));
 		JButton cancel = new JButton(Bundle.getText("iuser.button.cancel"));
+		panel.add(valide);
+		panel.add(cancel);
+		//Creation de la fenetre
+		setResizable(true) ;
+		getContentPane().add(panel);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		//setSize(200,200);
+		setLocation(300,200);
+		setVisible(true);
+		pack();
 		
 		valide.addActionListener(new ActionListener(){
 				    public void actionPerformed(ActionEvent e){
@@ -86,16 +96,7 @@ public class IUser extends JFrame{
 		}) ;
 		
 
-		panel.add(valide);
-		panel.add(cancel);
-		//Creation de la fenetre
-		setResizable(true) ;
-		getContentPane().add(panel);
-		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		//setSize(200,200);
-		setLocation(300,200);
-		setVisible(true);
-		pack();
+		
 
 	}
 		    

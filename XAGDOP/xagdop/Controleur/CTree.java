@@ -28,6 +28,7 @@ import xagdop.Identity;
 import xagdop.Interface.ICentralPanel;
 import xagdop.Interface.IPreferences;
 import xagdop.Interface.IProjectPreferences;
+import xagdop.Interface.XAGDOP;
 import xagdop.Svn.SvnUpdate;
 
 
