@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <users>
-	<id admin="true" login="Claire" num="1" passwd="PasswdDeClaire" pmanager="false"/>
+	<id admin="true" login="bla" num="1" passwd="bla" pmanager="false"/>
 	<id admin="false" login="blalgbal" num="2" passwd="pppppp" pmanager="true"/>
 	<id admin="false" login="util1" num="3" passwd="util" pmanager="false"/>
 	<id admin="true" login="xagdop" num="4" passwd="xagdop" pmanager="true"/>

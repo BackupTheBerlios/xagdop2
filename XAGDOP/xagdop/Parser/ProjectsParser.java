@@ -24,13 +24,14 @@ import org.w3c.dom.NodeList;
 
 import xagdop.Model.Projects;
 import xagdop.Model.Users;
+import xagdop.Svn.SvnCommit;
+import xagdop.Svn.SvnUpdate;
 
 public class ProjectsParser {
 	private DocumentBuilderFactory dbf;
 	private DocumentBuilder db;
 	private Document doc;
-	
-	private String projectXML = "xagdop/projects.xml";
+	private File projectXML;
 	
 	public static final String ATTR_ARCHI = "archi";
 	public static final String ATTR_ANALYST = "analyste";
@@ -44,7 +45,10 @@ public class ProjectsParser {
 	public ProjectsParser()
 	{
 		try {
-			chargerArbreEnMemoire(new File(projectXML));
+			SvnUpdate svnu = new SvnUpdate();
+			if((projectXML = svnu.getProjectFile())==null)
+				System.out.println("Erreur");
+			chargerArbreEnMemoire(projectXML);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -61,9 +65,9 @@ public class ProjectsParser {
 	public void refresh()
 	{
 		try {
-			chargerArbreEnMemoire(new File(projectXML));
+			chargerArbreEnMemoire(projectXML);
 		} catch (Exception e) {
-			System.out.println("CACA");
+			//System.out.println("CACA");
 		}
 	}
 	
@@ -114,6 +118,7 @@ public class ProjectsParser {
 			
 		}
 		else {
+
 			System.out.println("R??cup??ration de l'attribut "+ attr + " pour l'utilisateur "+idUser+" impossible!"); 
 			return Boolean.FALSE;
 		}		
@@ -532,7 +537,7 @@ public class ProjectsParser {
 		ArrayList userRights;
 		ArrayList usersId = new ArrayList();
 		
-		Projects projet;
+		//Projects projet;
 		
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//project[@name=\""+pName+"\"]";
@@ -620,7 +625,7 @@ public class ProjectsParser {
 			
 			e.printStackTrace();
 		}
-		return projet = new Projects(pName, usersList, usersId);
+		return new Projects(pName, usersList, usersId);
 	}
 	
 	public void saveDocument()
@@ -636,7 +641,9 @@ public class ProjectsParser {
 		} 
 		try {
 			transformer.transform(new DOMSource(doc), new StreamResult(projectXML));
-			chargerArbreEnMemoire(new File(projectXML));
+			SvnCommit svnc = new SvnCommit();
+			svnc.sendFile(projectXML);
+			chargerArbreEnMemoire(projectXML);
 		} catch (TransformerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

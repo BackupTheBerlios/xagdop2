@@ -22,9 +22,13 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
+import org.tmatesoft.svn.core.SVNException;
+
 import xagdop.Identity;
 import xagdop.Interface.ICentralPanel;
 import xagdop.Interface.IPreferences;
+import xagdop.Interface.IProjectPreferences;
+import xagdop.Svn.SvnUpdate;
 
 
 /**
@@ -35,11 +39,12 @@ import xagdop.Interface.IPreferences;
 public class CTree implements TreeModel
 {
     private EventListenerList mListenerList = new EventListenerList();
-    private CTreeNode mRoot = new CTreeNode("", false); 
+    private CTreeNode mRoot = new CTreeNode("",IPreferences.getDefaultPath()); 
     
     public CTree()
     {
-        super();       
+        super();
+        refreshFromLocal(mRoot);
     }
     
     /**
@@ -382,27 +387,41 @@ public class CTree implements TreeModel
 			System.out.println(svne.getMessage());
 		}
 	}*/
+	public void refresh(CTreeNode node){
+		try {
+			SvnUpdate svnu = new SvnUpdate();
+			svnu.checkOut(node);
+			refreshFromLocal(node);
+		} catch (SVNException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
 	
-	public void refreshFromLocal(String localPath, CTreeNode parent){
-		File localFiles = new File(localPath);
+	public void refreshFromLocal(CTreeNode parent){
+		File localFiles = new File(parent.getLocalPath());
 		parent.removeAllChildren();
 		
 		File[] allFiles = localFiles.listFiles();
 		int i = 0;
-		while(i<allFiles.length){
-			CTreeNode tmp = new CTreeNode(allFiles[i].getName(),allFiles[i].getAbsolutePath());
-			if(!allFiles[i].isHidden())
-				parent.add(tmp);
-			
-			
-			
-			if(allFiles[i].isDirectory()&&!allFiles[i].isHidden())
-				refreshFromLocal(allFiles[i].getAbsolutePath(), tmp);
-			
-			i++;
+		if(allFiles!=null){
+			while(i<allFiles.length){
+				CTreeNode tmp = new CTreeNode(allFiles[i].getName(),allFiles[i].getAbsolutePath());
+				if(!allFiles[i].isHidden())
+					parent.add(tmp);
+				
+				
+				
+				if(allFiles[i].isDirectory()&&!allFiles[i].isHidden())
+					refreshFromLocal(tmp);
+				
+				i++;
+			}
+			Object[] path = {parent};
+			fireTreeNodesInserted(this, path, null, null);
 		}
-		Object[] path = {mRoot};
-		fireTreeNodesInserted(this, path, null, null);
 	}
 	
 	/**

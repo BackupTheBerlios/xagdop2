@@ -344,7 +344,7 @@ public class XAGDOP extends JFrame{
 	
 	class actionUpdate implements ActionListener {
 		public void actionPerformed(ActionEvent e){
-			((CTree)tree.getModel()).refreshFromLocal(IPreferences.getDefaultPath(), tree.getSelectedNode());
+			((CTree)tree.getModel()).refresh(tree.getSelectedNode());
 	
 		}
 	}

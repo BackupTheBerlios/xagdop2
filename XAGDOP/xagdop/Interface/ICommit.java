@@ -74,7 +74,6 @@ public class ICommit extends JDialog {
 						SvnCommit svnC = null;
 						try {
 							svnC = new SvnCommit();
-							System.out.println(currentNode.getLocalPath());
 							svnC.commit(currentNode,JTAComment.getText());
 						} catch (SVNException e1) {
 							JOptionPane.showMessageDialog(null ,"Impossible de se connecter au server subversion", "Validation" , 1) ;

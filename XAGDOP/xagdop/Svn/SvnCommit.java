@@ -7,6 +7,7 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,9 +17,12 @@ import org.tmatesoft.svn.core.io.ISVNEditor;
 import org.tmatesoft.svn.core.io.ISVNWorkspaceMediator;
 import org.tmatesoft.svn.core.io.SVNRepository;
 import org.tmatesoft.svn.core.wc.SVNCommitClient;
+import org.tmatesoft.svn.core.wc.SVNRevision;
+import org.tmatesoft.svn.core.wc.SVNUpdateClient;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
 import xagdop.Controleur.CTreeNode;
+import xagdop.Interface.IPreferences;
 
 
 
@@ -154,26 +158,57 @@ public class SvnCommit{
 		SVNCommitClient svnCC = new SVNCommitClient(repository.getAuthenticationManager(),SVNWCUtil.createDefaultOptions(true) );
 		File toCommit = new File(node.getLocalPath());
 		
-		File[] fileInDirectory = toCommit.listFiles();
-		int i = 0;
+		
 		if(toCommit.isDirectory()){
-			fileInDirectory = toCommit.listFiles(new FilenameFilter() {
+			File[] fileInDirectory = toCommit.listFiles(new FilenameFilter() {
 			
 				public boolean accept(File dir, String name) {
-					if(dir.isHidden())
+					if(dir.isHidden()|| name.equals(".svn")){
 						return false;
+					}
 					else return true;
 				}
 			
 			});
-			while(i<fileInDirectory.length){
-				System.out.println(fileInDirectory[i].getAbsolutePath()+" : "+node.getLocalPath());
-				i++;
-			}
-		svnCC.doCommit(toCommit.listFiles(),false,commitMessage, false, true);
+		svnCC.doCommit(fileInDirectory,false,commitMessage, false, true);
+		}else{
+			ArrayList fileInDirectory = new ArrayList();
+			fileInDirectory.add(toCommit);
+			
+			File[] file = new File[fileInDirectory.size()];
+			
+			svnCC.doCommit((File[])fileInDirectory.toArray(file),false,commitMessage, true, false);
 		}
 	}
+	public void sendFile(File name) throws SVNException{
+		ArrayList fileInDirectory = new ArrayList();
+		fileInDirectory.add(name);
+		
+		File[] file = new File[fileInDirectory.size()];
+		
+		svnCC.doCommit((File[])fileInDirectory.toArray(file),false,"", true, false);
+		
+	}
 	
+	
+	public File getProjectFile() throws SVNException{
+		SVNUpdateClient up = new SVNUpdateClient(repository.getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
+		File projectDirectoryLocal = new File(IPreferences.getDefaultPath());
+		if(!projectDirectoryLocal.exists())
+			projectDirectoryLocal.mkdir();
+		
+		
+		File projectLocal = new File(IPreferences.getDefaultPath()+".xagdop/");
+		if(projectLocal.exists())
+			up.doUpdate(projectLocal,SVNRevision.HEAD,false);
+		else
+			up.doCheckout(repository.getLocation(),projectLocal,SVNRevision.HEAD,SVNRevision.HEAD,false);
+		projectLocal.deleteOnExit();
+		projectLocal = new File(IPreferences.getDefaultPath()+".xagdop/projects.xml");
+		projectLocal.deleteOnExit();
+		return projectLocal;
+		
+	}
 
 	/*
 	 * This class is to be used for temporary storage allocations needed  by  an

@@ -45,7 +45,7 @@ public class SvnUpdate{
 		else
 			up.doCheckout(repository.getLocation(),droitsLocal,SVNRevision.HEAD,SVNRevision.HEAD,false);
 		droitsLocal.deleteOnExit();
-		droitsLocal = new File(IPreferences.getDefaultPath()+".xagdop/users.droits");
+		droitsLocal = new File(IPreferences.getDefaultPath()+".xagdop/users.xml");
 		droitsLocal.deleteOnExit();
 		return droitsLocal;
 		

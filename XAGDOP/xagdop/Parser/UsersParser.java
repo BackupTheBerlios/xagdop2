@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import org.w3c.dom.*;
 
 import xagdop.Model.Users;
+import xagdop.Svn.SvnCommit;
+import xagdop.Svn.SvnUpdate;
 
 import javax.xml.parsers.*;
 import javax.xml.transform.Transformer;
@@ -22,7 +24,7 @@ public class UsersParser {
 	private DocumentBuilder db;
 	private Document doc;
 	
-	private String fichierXML = "xagdop/users.xml";
+	private File fichierXML ;
 	
 	public static final String ATTR_LOGIN = "login";
 	public static final String ATTR_PASSWD = "passwd";
@@ -33,7 +35,9 @@ public class UsersParser {
 	public UsersParser()
 	{
 		try {
-			chargerArbreEnMemoire(new File(fichierXML));
+			SvnUpdate svnu = new SvnUpdate();
+			fichierXML = svnu.getUsersFile();
+			chargerArbreEnMemoire(fichierXML);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -499,7 +503,9 @@ public class UsersParser {
 		}
 
 		try {
-			chargerArbreEnMemoire(new File(fichierXML));
+			SvnCommit svnc = new SvnCommit();
+			svnc.sendFile(fichierXML);
+			chargerArbreEnMemoire(fichierXML);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
