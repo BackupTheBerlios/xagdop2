@@ -95,8 +95,6 @@ public class ITeamManagement extends JFrame{
 
         newPanel.setMinimumSize(new Dimension(296, 130));
         UserLabel.setText("Selectionner l'utilisateur");
-        //UserLabel.setText(nomProjet);
-        
         
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
