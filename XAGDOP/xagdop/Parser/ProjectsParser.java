@@ -58,6 +58,15 @@ public class ProjectsParser {
 		this.doc = db.parse(fichier);
 	}
 	
+	public void refresh()
+	{
+		try {
+			chargerArbreEnMemoire(new File(projectXML));
+		} catch (Exception e) {
+			System.out.println("CACA");
+		}
+	}
+	
 	public Object getAttribute(String projectName,String attr)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
@@ -77,7 +86,7 @@ public class ProjectsParser {
 			return res;
 		}
 		else {
-			System.out.println("Récupération de l'attribut "+ attr + " impossible!"); 
+			System.out.println("R??cup??ration de l'attribut "+ attr + " impossible!"); 
 			return res;
 		}		
 	}
@@ -105,8 +114,8 @@ public class ProjectsParser {
 			
 		}
 		else {
-			System.out.println("Récupération de l'attribut "+ attr + " pour l'utilisateur "+idUser+" impossible!"); 
-			return res;
+			System.out.println("R??cup??ration de l'attribut "+ attr + " pour l'utilisateur "+idUser+" impossible!"); 
+			return Boolean.FALSE;
 		}		
 	}
 	
@@ -478,7 +487,7 @@ public class ProjectsParser {
 			if ( elem != null ) {
 				elem.removeChild(oldElem);
 				saveDocument();
-				System.out.println("Suppression de l'utilisateur "+idUser+" effectuée!"); 
+				System.out.println("Suppression de l'utilisateur "+idUser+" effectu??e!"); 
 			}
 			else {
 				System.out.println("Suppression de l'utilisateur "+idUser+" impossible!"); 
@@ -508,7 +517,7 @@ public class ProjectsParser {
 		if ( elem != null ) {
 			elem.removeChild(oldElem);
 			saveDocument();
-			System.out.println("Suppression du projet "+projectName+" effectuée!"); 
+			System.out.println("Suppression du projet "+projectName+" effectu??e!"); 
 		}
 		else {
 			System.out.println("Suppression du projet "+projectName+" impossible!"); 
