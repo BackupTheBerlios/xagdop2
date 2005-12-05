@@ -383,4 +383,27 @@ public class XAGDOP extends JFrame{
 		return user;
 	}
 	
+	public void refreshButton(){
+		if (getUser().isPmanager()){
+			projet.setEnabled(true);
+			menuProjetCreate.setEnabled(true);
+		}
+		else
+		{
+			projet.setEnabled(false);
+			menuProjetCreate.setEnabled(false);			
+			
+		}
+		if (getUser().isAdmin()){
+			admin.setEnabled(true);
+		}
+		else
+		{
+			admin.setEnabled(false);
+		}
+				
+		
+	}
+	
+	
 }
