@@ -320,11 +320,22 @@ public class XAGDOP extends JFrame{
 	class openIUser implements ActionListener { 
 		public void actionPerformed (ActionEvent e)  {
 			
+			
+			
 			String projectName = tree.getSelectedNode().getName();
 			System.out.println(projectName);
-			ITeamManagement iteam = new ITeamManagement(projectName);
+			if (XAGDOP.getInstance().getUser().isPManager(projectName))
+			{
+				ITeamManagement iteam = new ITeamManagement(projectName);
 				//iteam.refreshCombo();
 				iteam.setVisible(true);
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null ,"pas le droit :P", "Plop plop plop" , 1) ;
+				
+			}
+
 
 			
 		}
