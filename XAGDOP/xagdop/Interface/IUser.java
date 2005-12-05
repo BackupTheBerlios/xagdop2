@@ -68,6 +68,7 @@ public class IUser extends JFrame{
 				    	if (user != null){
 				    		XAGDOP.getInstance().setUser(user);
 				    		XAGDOP.getInstance().setVisible(true);
+				    		XAGDOP.getInstance().refreshButton();
 				    		IU.setVisible(false);
 				    	}
 				    	else{
