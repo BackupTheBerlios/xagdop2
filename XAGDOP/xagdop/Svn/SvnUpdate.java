@@ -76,7 +76,7 @@ public class SvnUpdate{
 		Users user = XAGDOP.getInstance().getUser();
 		ProjectsParser pp = new ProjectsParser();
 		
-		IPreferences.setDefaultPath(IPreferences.getDefaultPath()+user.getLogin());
+		//IPreferences.setDefaultPath(IPreferences.getDefaultPath()+user.getLogin());
 		File projectDirectoryLocal = new File(IPreferences.getDefaultPath());
 		if(!projectDirectoryLocal.exists())
 			projectDirectoryLocal.mkdir();

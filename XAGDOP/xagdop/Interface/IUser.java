@@ -76,6 +76,7 @@ public class IUser extends JFrame{
 				    public void actionPerformed(ActionEvent e){
 				    	Users user = UParser.getUser(userID.getText(),password.getText());
 				    	if (user != null){
+				    		IPreferences.setDefaultPath(IPreferences.getDefaultPath()+user.getLogin()+"/");
 				    		XAGDOP.getInstance().setUser(user);
 				    		XAGDOP.getInstance().setVisible(true);
 				    		XAGDOP.getInstance().refreshButton();
