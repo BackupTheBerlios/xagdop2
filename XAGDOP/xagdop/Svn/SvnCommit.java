@@ -3,6 +3,7 @@ package xagdop.Svn;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -152,7 +153,25 @@ public class SvnCommit{
 	public void commit(CTreeNode node, String commitMessage) throws SVNException{
 		SVNCommitClient svnCC = new SVNCommitClient(repository.getAuthenticationManager(),SVNWCUtil.createDefaultOptions(true) );
 		File toCommit = new File(node.getLocalPath());
+		
+		File[] fileInDirectory = toCommit.listFiles();
+		int i = 0;
+		if(toCommit.isDirectory()){
+			fileInDirectory = toCommit.listFiles(new FilenameFilter() {
+			
+				public boolean accept(File dir, String name) {
+					if(dir.isHidden())
+						return false;
+					else return true;
+				}
+			
+			});
+			while(i<fileInDirectory.length){
+				System.out.println(fileInDirectory[i].getAbsolutePath()+" : "+node.getLocalPath());
+				i++;
+			}
 		svnCC.doCommit(toCommit.listFiles(),false,commitMessage, false, true);
+		}
 	}
 	
 

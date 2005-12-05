@@ -118,7 +118,7 @@ public class ProjectsParser {
 		int id = users.getId(login);
 		
 		String expression = "//project[@name=\""+pName+"\"]//user[@id="+id+"]";
-		boolean res = false;
+		//boolean res = false;
 		Element elem = null;
 			
 		try {
@@ -128,14 +128,10 @@ public class ProjectsParser {
 			
 			e.printStackTrace();
 		}
-		if ( elem != null ) {
-			return res = true;			
-			
-		}
-		else {
-			System.out.println("L'utilisateur "+ login +" ne travaille pas sur le projet "+pName); 
-			return res;
-		}		
+		if ( elem != null ) 
+			return true;			
+		else 
+			return false;	
 	}
 	
 	public void setAttribute(String projectName, String attr ,String newValue)

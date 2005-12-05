@@ -53,19 +53,19 @@ public class XAGDOP extends JFrame{
 	 */
 	private static final long serialVersionUID = 1L;
 	private static XAGDOP xag =null;
-	public static Users user =null;
-	JPanel panel = new JPanel();
-	JMenuBar menuBar = new JMenuBar();
-	JMenuBar menuBar2 = new JMenuBar();
+	protected  Users user;
+	protected JPanel panel = new JPanel();
+	protected JMenuBar menuBar = new JMenuBar();
+	protected JMenuBar menuBar2 = new JMenuBar();
 	
-	JButton commit;
-	JButton update;
-	JButton projet;
-	JButton equipe;
-	JButton delProject;
-	JButton preferences;
-	JButton admin;
-	JTable tableVersion;
+	protected JButton commit;
+	protected JButton update;
+	protected JButton projet;
+	protected JButton equipe;
+	protected JButton delProject;
+	protected JButton preferences;
+	protected JButton admin;
+	protected JTable tableVersion;
 	
 	/*
 	 * Initialisation of Menu
@@ -98,8 +98,9 @@ public class XAGDOP extends JFrame{
 	
 	IProjectTree tree;
 	
-	public XAGDOP(){
+	public XAGDOP(Users current){
 		init();
+		user = current;
 		//testsParsers tests = new testsParsers(); 
 	}
 	
@@ -356,7 +357,7 @@ public class XAGDOP extends JFrame{
 	 */
 	public static XAGDOP getInstance() {
 		if (xag==null){
-			xag = new XAGDOP(); 
+			xag = new XAGDOP(new Users("Claire","PasswdDeClaire",1,false,false)); 
 		}
 		
 		return xag;
@@ -364,16 +365,22 @@ public class XAGDOP extends JFrame{
 	
 	public static void main(String args[]){
 		Bundle.setCurrentLocale(Locale.FRENCH);
+
 		IUser frame = IUser.getIU();
 		frame.setVisible(true);	
+
 	}
 
 	public IProjectTree getTree() {
 		return tree;
 	}
 
-	public void setUser(Users user) {
-		XAGDOP.user = user;
+	public void setUser(Users newUser) {
+		user = newUser;
+	}
+
+	public Users getUser() {
+		return user;
 	}
 	
 }

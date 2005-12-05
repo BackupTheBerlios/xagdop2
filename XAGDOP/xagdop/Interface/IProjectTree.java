@@ -96,8 +96,8 @@ public class IProjectTree extends JTree implements  TreeModelListener
 		}
 		class openICommit implements ActionListener {
 			public void actionPerformed (ActionEvent e){
-				ICommit icom = ICommit.getIC();
-				icom.setVisible(true);
+				System.out.println(getSelectedNode().getLocalPath());
+				new ICommit(getSelectedNode());
 			}
 		}
 		

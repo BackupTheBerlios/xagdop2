@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -13,24 +14,28 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 import org.tmatesoft.svn.core.SVNException;
+
+import xagdop.Controleur.CTreeNode;
 import xagdop.Svn.SvnCommit;
 import xagdop.ressources.Bundle;
 
 
-public class ICommit extends JFrame {
+public class ICommit extends JDialog {
 
 	private static final long serialVersionUID = 3235581234662502451L;
-	private static ICommit IC = null;
-	protected IProjectTree tree = new IProjectTree();	
 	protected JTextArea JTAComment; 
 	protected JLabel JlabelComment;
 	protected GridBagConstraints gridBagConstraints = new GridBagConstraints();
 	protected JPanel JPanelProjectTopContainer = new JPanel();
 	protected JButton cancel;
 	protected JButton valide;
+	protected CTreeNode currentNode;
 	
-	private ICommit(){
+	public ICommit(CTreeNode current){
+		System.out.println(current.getLocalPath());
+		currentNode = current;
 		init();
+		
 	}
 	private void init(){
 		getContentPane().setLayout(new GridBagLayout());
@@ -69,20 +74,14 @@ public class ICommit extends JFrame {
 						SvnCommit svnC = null;
 						try {
 							svnC = new SvnCommit();
+							System.out.println(currentNode.getLocalPath());
+							svnC.commit(currentNode,JTAComment.getText());
 						} catch (SVNException e1) {
 							JOptionPane.showMessageDialog(null ,"Impossible de se connecter au server subversion", "Validation" , 1) ;
 							e1.printStackTrace();
 						}
-					
-						try {
-							svnC.commit(tree.getSelectedNode(),JTAComment.getText());
-						} catch (SVNException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-						
-					
-				    	IC.setVisible(false);
+
+						dispose();
 				    }
 				}) ;
 		
@@ -90,7 +89,7 @@ public class ICommit extends JFrame {
 				{
 		    public void actionPerformed(ActionEvent e)
 		    {
-		    	IC.dispose();   	
+		    	dispose();   	
 		    }
 		}) ;
 		
@@ -110,17 +109,8 @@ public class ICommit extends JFrame {
 
         pack();
         setLocation(200,200) ;
+        setModal(true);
+        setVisible(true);
 	
-		         
-	}
-	/**
-	 * @return Returns the singleton.
-	 */
-	public static ICommit getIC() {
-		if (IC==null){
-			IC = new ICommit(); 
-		}
-		
-		return IC;
 	}
 }
