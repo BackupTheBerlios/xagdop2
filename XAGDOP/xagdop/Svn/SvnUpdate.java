@@ -117,9 +117,12 @@ public class SvnUpdate{
         boolean isDelete = true;
         while (i < projectLocal.length) {
         	iterator = projectList.iterator();
+        	//System.out.println(projectLocal[i].getName());
         	while(iterator.hasNext()){
         		SVNDirEntry entry = (SVNDirEntry) iterator.next();
+        		
         		if(projectLocal[i].getName().equals(entry.getName())){
+        			//System.out.println(projectLocal[i].getName()+" : "+entry.getName());
         			isDelete = false;
         			break;
         		}   
@@ -127,9 +130,9 @@ public class SvnUpdate{
         	if(isDelete){
         		File projectDirectory = new File(projectLocal[i].getAbsolutePath());
         		deleteDirectory(projectDirectory);
-        		projectDirectory.delete();
-        		isDelete = true;
+        		projectDirectory.delete();     		
         	}
+        	isDelete = true;
         	i++;
        }
         
@@ -137,6 +140,7 @@ public class SvnUpdate{
 	
 	private void deleteDirectory(File dir){
 		int i = 0 ;
+		//System.out.println("delDir");
 		File[] allFile = dir.listFiles();
 		while(i<allFile.length){
 			if(allFile[i].isDirectory())
@@ -144,6 +148,7 @@ public class SvnUpdate{
 			allFile[i].delete();
 			i++;
 		}
+		
 	}
 	
 	
