@@ -360,7 +360,8 @@ public class XAGDOP extends JFrame{
 			public void actionPerformed (ActionEvent e)  {
 				
 				String projectName = tree.getSelectedNode().getName();
-				CProject.deleteProject(projectName);
+				CProject cp = new CProject();
+				cp.deleteProject(tree.getSelectedNode());
 				
 			}
 	}

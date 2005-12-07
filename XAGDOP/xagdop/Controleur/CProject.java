@@ -21,18 +21,16 @@ public class CProject {
 	 * 
 	 * 
 	 */
-	protected String projectName;
-	protected String description;
+
 	
 	/*
 	 * Constructeur
 	 */
-	public CProject(String _projectName,String _description){
-		projectName = _projectName;
-		description = _description;
+	public CProject(){
+		
 	}
 	
-	public void createProject() throws Exception, SVNException{
+	public void createProject(String projectName,String description) throws Exception, SVNException{
 		
 		if((projectName.equals("")==false))
 		{
@@ -58,7 +56,7 @@ public class CProject {
 	
 	
 	/* Fonction supprimant un projet  */
-	public static int deleteProject(String Name){
+	public int deleteProject(CTreeNode node){
 		int error = 0;
 		SVNCommitInfo report;
 		SvnRemove svnR;
@@ -69,23 +67,23 @@ public class CProject {
 			e.printStackTrace();
 			return 1;
 		}
-		String path = "/"+Name;
+		String path = "/"+node.getName();
 		
 		try {
-			report = svnR.deleteDir(path);
+			svnR.deleteDir(node);
 		} catch (SVNException e) {
 			JOptionPane.showMessageDialog(null ,"Impossible de se connecter au server subversion", "Validation" , 1) ;
 			e.printStackTrace();
 			return 1;
 		}
-		if(report.getError()!=null){
-			JOptionPane.showMessageDialog(null ,"Le projet "+Name+" n'a pu etre supprimer ", "Validation" , 1) ;
+		/*if(report.getError()!=null){
+			JOptionPane.showMessageDialog(null ,"Le projet "+node.getName()+" n'a pu etre supprimer ", "Validation" , 1) ;
 			return error;
-		}
-		JOptionPane.showMessageDialog(null ,"Le projet "+Name+" est supprime", "Validation" , 1) ;
+		}*/
+		JOptionPane.showMessageDialog(null ,"Le projet "+node.getName()+" est supprime", "Validation" , 1) ;
 		//Enregistrement dans le XML du projet
 		ProjectsParser PP = new ProjectsParser();
-		PP.removeProject(Name);
+		PP.removeProject(node.getName());
 		return error;
 	}
 }

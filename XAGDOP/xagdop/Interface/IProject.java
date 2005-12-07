@@ -72,9 +72,9 @@ public class IProject extends JFrame{
 				{
 				    public void actionPerformed(ActionEvent e)
 				    {
-				    	CProject project= new CProject(TFNp.getText(),TADesc.getText());			    	
+				    	CProject project= new CProject();			    	
 				    	try{
-				    		project.createProject();
+				    		project.createProject(TFNp.getText(),TADesc.getText());
 				    		JOptionPane.showMessageDialog(null ,"Le projet "+TFNp.getText()+" a bien ete cree ", "Validation" , 1) ;
 				    		TADesc.setText("");
 				    		TFNp.setText("");

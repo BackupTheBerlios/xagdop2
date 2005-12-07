@@ -1,6 +1,7 @@
 package xagdop.Svn;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -99,8 +100,51 @@ public class SvnUpdate{
             	}
             }
         }
+        
+        
+        File[] projectLocal = projectDirectoryLocal.listFiles(new FilenameFilter() {
+			
+				public boolean accept(File dir, String name) {
+					if(dir.isHidden()|| name.equals(".xagdop")){
+						return false;
+					}
+					else return true;
+				}
+			
+			});
+        
+        int i = 0;
+        boolean isDelete = true;
+        while (i < projectLocal.length) {
+        	iterator = projectList.iterator();
+        	while(iterator.hasNext()){
+        		SVNDirEntry entry = (SVNDirEntry) iterator.next();
+        		if(projectLocal[i].getName().equals(entry.getName())){
+        			isDelete = false;
+        			break;
+        		}   
+            }
+        	if(isDelete){
+        		File projectDirectory = new File(projectLocal[i].getAbsolutePath());
+        		deleteDirectory(projectDirectory);
+        		projectDirectory.delete();
+        		isDelete = true;
+        	}
+        	i++;
+       }
+        
 	}
 	
+	private void deleteDirectory(File dir){
+		int i = 0 ;
+		File[] allFile = dir.listFiles();
+		while(i<allFile.length){
+			if(allFile[i].isDirectory())
+				deleteDirectory(allFile[i]);
+			allFile[i].delete();
+			i++;
+		}
+	}
 	
 	
 }
