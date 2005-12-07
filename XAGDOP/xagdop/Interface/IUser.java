@@ -30,7 +30,7 @@ public class IUser extends JFrame{
 	private JLabel passwordLabel;
 	private JTextField userID;
 	private JPasswordField password;
-	private UsersParser UParser = new UsersParser();
+	private UsersParser UParser ;//= new UsersParser();
 	int i=0;
 	
 	
@@ -71,9 +71,10 @@ public class IUser extends JFrame{
 		setLocation(300,200);
 		setVisible(true);
 		pack();
-		
+		UParser = new UsersParser();
 		valide.addActionListener(new ActionListener(){
 				    public void actionPerformed(ActionEvent e){
+				    	
 				    	Users user = UParser.getUser(userID.getText(),password.getText());
 				    	if (user != null){
 				    		IPreferences.setDefaultPath(IPreferences.getDefaultPath()+user.getLogin()+"/");
