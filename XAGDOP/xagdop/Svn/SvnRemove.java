@@ -67,7 +67,7 @@ public class SvnRemove {
 	
 	public  void deleteDir(CTreeNode node)
 	throws SVNException {
-		System.out.println(((CTreeNode)node.getParent()).getName());
+		//System.out.println(((CTreeNode)node.getParent()).getName());
 		SVNCommitClient svnCC = new SVNCommitClient(repository.getAuthenticationManager(),SVNWCUtil.createDefaultOptions(true) );
 		ArrayList urlDirectory = new ArrayList();
 		urlDirectory.add(SVNURL.parseURIDecoded(SvnConnect.getInstance().getUrl()+node.getName()));

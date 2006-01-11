@@ -11,10 +11,11 @@
  */
 package xagdop.Svn;
  
+import java.io.File;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
- 
+
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNLogEntry;
 import org.tmatesoft.svn.core.SVNLogEntryPath;
@@ -24,6 +25,9 @@ import org.tmatesoft.svn.core.internal.io.dav.DAVRepositoryFactory;
 import org.tmatesoft.svn.core.internal.io.svn.SVNRepositoryFactoryImpl;
 import org.tmatesoft.svn.core.io.SVNRepository;
 import org.tmatesoft.svn.core.io.SVNRepositoryFactory;
+import org.tmatesoft.svn.core.wc.SVNInfo;
+import org.tmatesoft.svn.core.wc.SVNRevision;
+import org.tmatesoft.svn.core.wc.SVNWCClient;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
  
 /*
@@ -66,7 +70,33 @@ public class SvnHistory {
      * revision number, an end revision number, user's account name & password
      * to authenticate him to the server.
      */
-    public static void main(String[] args) {
+    
+    	SVNRepository repository;
+    	public SvnHistory(String url, String name, String password) throws SVNException{
+    		repository = SvnConnect.getInstance(url,name,password).getRepository();
+    		
+    	}
+    	public SvnHistory() throws SVNException{
+    		repository = SvnConnect.getInstance().getRepository();
+    	}
+
+    	public static boolean  isUnderVersion(File file){
+    		SVNWCClient wcClient;
+			try {
+				wcClient = new SVNWCClient(SvnConnect.getInstance().getRepository().getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
+				SVNInfo info = wcClient.doInfo(file, SVNRevision.WORKING);
+				if(info == null || info.getRevision() == SVNRevision.UNDEFINED)
+					return false;
+			} catch (SVNException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return false;
+			}
+			//info
+    		return 	true;
+    	}
+    	public static void main(String[] args) {
+    	
         /*
          * Default values:
          */
