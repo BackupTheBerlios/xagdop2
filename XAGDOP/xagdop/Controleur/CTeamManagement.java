@@ -55,6 +55,23 @@ public class CTeamManagement{
 		
 	}
 
+	
+	public void disaffectUser(ProjectsParser PP,int user){
+		//Remove the user from the project
+		
+		PP.removeUser(this._projectName,user);
+	
+	
+	
+	
+	
+	
+	
+	}
+			
+			
+			
+			
 	public String get_projectName() {
 		return _projectName;
 	}
