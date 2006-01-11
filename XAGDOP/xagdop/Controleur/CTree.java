@@ -27,9 +27,8 @@ import org.tmatesoft.svn.core.SVNException;
 import xagdop.Identity;
 import xagdop.Interface.ICentralPanel;
 import xagdop.Interface.IPreferences;
-import xagdop.Interface.IProjectPreferences;
+import xagdop.Svn.SvnHistory;
 import xagdop.Interface.ThreadWait;
-import xagdop.Interface.XAGDOP;
 import xagdop.Svn.SvnUpdate;
 
 
@@ -416,6 +415,16 @@ public class CTree implements TreeModel
 		if(allFiles!=null){
 			while(i<allFiles.length){
 				CTreeNode tmp = new CTreeNode(allFiles[i].getName(),allFiles[i].getAbsolutePath());
+		
+				if(!SvnHistory.isUnderVersion(allFiles[i])){
+					tmp.setIsVersioned(false);
+					System.out.println("test"+allFiles[i].getName());
+				}
+				
+				
+				if(!tmp.isVersioned()&&!allFiles[i].isHidden())
+					parent.setIsVersioned(false);
+		
 				if(!allFiles[i].isHidden())
 					parent.add(tmp);
 				
@@ -426,6 +435,8 @@ public class CTree implements TreeModel
 				
 				i++;
 			}
+			if(!parent.isVersioned()&&((CTreeNode)parent.getParent())!=null)
+				((CTreeNode)parent.getParent()).setIsVersioned(false);
 			Object[] path = {parent};
 			fireTreeNodesInserted(this, path, null, null);
 		}

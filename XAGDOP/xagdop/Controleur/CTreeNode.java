@@ -24,6 +24,7 @@ public class CTreeNode extends DefaultMutableTreeNode implements Serializable
 	 */
 	private static final long serialVersionUID = 3471931069630056896L;
 	protected String localPath;
+	protected boolean versioned = true;
 	
 	public CTreeNode(Object userObject, boolean isLeaf)
 	{
@@ -69,9 +70,20 @@ public class CTreeNode extends DefaultMutableTreeNode implements Serializable
 		File localFilePath = new File(localPath);
 		this.localPath = localFilePath.getAbsolutePath();
 	}
+	
+	public void setIsVersioned(boolean value){
+		versioned = value;
+	}
+	
+	public boolean isVersioned(){
+		return versioned;
+	}
 
 	public String getName()
 	{
+		if(!versioned&&!isRoot())
+			return "> "+getUserObject().toString();
+		
 		return getUserObject().toString();
 	}
 	
