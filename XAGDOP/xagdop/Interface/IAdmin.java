@@ -148,6 +148,13 @@ public class IAdmin extends JFrame{
         newPanel.add(ButtonApply, gridBagConstraints);
 
         ButtonCreateUser.setText("Creer Nouvel User");
+        ButtonCreateUser.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent evt) {
+        		IUserCreate IUC = IUserCreate.getIUC();
+        		IUC.setVisible(true);
+        	}
+        });
+        
         newPanel.add(ButtonCreateUser, new GridBagConstraints());
 
         getContentPane().add(newPanel, new GridBagConstraints());
