@@ -28,6 +28,7 @@ import xagdop.Identity;
 import xagdop.Interface.ICentralPanel;
 import xagdop.Interface.IPreferences;
 import xagdop.Interface.IProjectPreferences;
+import xagdop.Interface.ThreadWait;
 import xagdop.Interface.XAGDOP;
 import xagdop.Svn.SvnUpdate;
 
@@ -390,9 +391,14 @@ public class CTree implements TreeModel
 	}*/
 	public void refresh(CTreeNode node){
 		try {
+			ThreadWait TW = new ThreadWait();
+			TW.start();
 			SvnUpdate svnu = new SvnUpdate();
 			svnu.checkOut(node);
 			refreshFromLocal(node);
+			TW.Stop = true;
+			
+			
 		} catch (SVNException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
