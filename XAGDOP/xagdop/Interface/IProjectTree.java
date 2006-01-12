@@ -70,14 +70,22 @@ public class IProjectTree extends JTree implements  TreeModelListener
 		private JMenuItem menuRename = new JMenuItem(Bundle.getText("tree.popup.menu.rename"));
 		private JMenuItem menuDelete = new JMenuItem(Bundle.getText("tree.popup.menu.delete"));
 		private JMenuItem menuProperty = new JMenuItem(Bundle.getText("tree.popup.menu.property"));
+		private JMenuItem menuRefrechFL = new JMenuItem(Bundle.getText("tree.popup.menu.refreshfromlocal"));
 		
 		public PopupListener(JPopupMenu pop) {
 			
 			popup = pop;
 			menuProperty.addActionListener(new openIProjectPreferences());
 			menuCommit.addActionListener(new openICommit());
+			menuRefrechFL.addActionListener( new ActionListener() {
+			public void actionPerformed (ActionEvent e){
+				((CTree)getModel()).refreshFromLocal(selectedNode);
+			}
+		}
+		);
 			//menuUpdate.addActionListener(this);
 			popup.add(menuRefresh);
+			popup.add(menuRefrechFL);
 			popup.addSeparator();
 			popup.add(menuUpdate);
 			popup.add(menuCommit);
@@ -88,6 +96,8 @@ public class IProjectTree extends JTree implements  TreeModelListener
 			popup.add(menuProperty);
 
 		}
+		
+		
 		class openIProjectPreferences implements ActionListener {
 			public void actionPerformed (ActionEvent e){
 				IProjectPreferences iprojectpreferences = IProjectPreferences.getIPP();
