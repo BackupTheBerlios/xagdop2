@@ -32,7 +32,7 @@ public class ICommit extends JDialog {
 	protected CTreeNode currentNode;
 	
 	public ICommit(CTreeNode current){
-		System.out.println(current.getLocalPath());
+		//System.out.println(current.getLocalPath());
 		currentNode = current;
 		init();
 		

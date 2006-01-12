@@ -17,8 +17,10 @@ import org.tmatesoft.svn.core.io.ISVNEditor;
 import org.tmatesoft.svn.core.io.ISVNWorkspaceMediator;
 import org.tmatesoft.svn.core.io.SVNRepository;
 import org.tmatesoft.svn.core.wc.SVNCommitClient;
+import org.tmatesoft.svn.core.wc.SVNInfo;
 import org.tmatesoft.svn.core.wc.SVNRevision;
 import org.tmatesoft.svn.core.wc.SVNUpdateClient;
+import org.tmatesoft.svn.core.wc.SVNWCClient;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
 import xagdop.Controleur.CTreeNode;
@@ -156,10 +158,17 @@ public class SvnCommit{
 	
 	public void commit(CTreeNode node, String commitMessage) throws SVNException{
 		SVNCommitClient svnCC = new SVNCommitClient(repository.getAuthenticationManager(),SVNWCUtil.createDefaultOptions(true) );
+		SVNWCClient wcClient;
+		wcClient = new SVNWCClient(SvnConnect.getInstance().getRepository().getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
 		File toCommit = new File(node.getLocalPath());
 		
+			
 		
 		if(toCommit.isDirectory()){
+			if(!node.isVersioned()){
+				wcClient.doAdd(toCommit,false, true, true, true);
+				node.setIsVersioned(true);
+			}
 			File[] fileInDirectory = toCommit.listFiles(new FilenameFilter() {
 			
 				public boolean accept(File dir, String name) {
@@ -172,13 +181,17 @@ public class SvnCommit{
 			});
 		svnCC.doCommit(fileInDirectory,false,commitMessage, false, true);
 		}else{
+			if(!node.isVersioned()){
+				wcClient.doAdd(toCommit,false, false, true, false);
+				node.setIsVersioned(true);
+			}
 			ArrayList fileInDirectory = new ArrayList();
 			fileInDirectory.add(toCommit);
 			
 			File[] file = new File[fileInDirectory.size()];
-			
 			svnCC.doCommit((File[])fileInDirectory.toArray(file),false,commitMessage, true, false);
 		}
+		
 	}
 	public void sendFile(File name) throws SVNException{
 		ArrayList fileInDirectory = new ArrayList();

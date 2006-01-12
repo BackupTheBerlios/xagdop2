@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Enumeration;
 
 import javax.swing.Icon;
 import javax.swing.JMenuItem;
@@ -16,7 +17,6 @@ import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellEditor;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeModel;
@@ -96,8 +96,10 @@ public class IProjectTree extends JTree implements  TreeModelListener
 		}
 		class openICommit implements ActionListener {
 			public void actionPerformed (ActionEvent e){
-				System.out.println(getSelectedNode().getLocalPath());
 				new ICommit(getSelectedNode());
+				Enumeration expandPath = getExpandedDescendants(getLeadSelectionPath());
+				((CTree)getModel()).refreshFromLocal((CTreeNode) getModel().getRoot());
+				
 			}
 		}
 		
