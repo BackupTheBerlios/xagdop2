@@ -90,6 +90,13 @@ public class XAGDOP extends JFrame{
 	
 	//End of Menu Initialisation
 	
+	// TODO
+	// Effacer apres le travail des L3
+	//Menu for L3
+	JMenu menuL3 = new JMenu("Menu L3");
+	JMenuItem menuL3Admin = new JMenuItem("Fenetre ADMIN");
+	JMenuItem menuL3TM = new JMenuItem("Fenetre Team Management");
+	
 	
 	
 	
@@ -180,6 +187,41 @@ public class XAGDOP extends JFrame{
 		menuConfPreferences.setMnemonic('P');
 		
 		
+		menuL3Admin.addActionListener(new ActionListener()
+				{
+			public void actionPerformed(ActionEvent e)
+			{
+				IJAdmin ijadmin = IJAdmin.getIJA();
+				ijadmin.setVisible(true);
+				
+			}
+				}) ;
+		
+		menuL3TM.addActionListener(new ActionListener() { 
+			public void actionPerformed (ActionEvent e)  {
+				
+				
+				
+				String projectName = tree.getSelectedNode().getName();
+				System.out.println(projectName);
+				if (XAGDOP.getInstance().getUser().isPManager(projectName))
+				{
+					IJTeamManagement iteam = new IJTeamManagement(projectName);
+					//iteam.refreshCombo();
+					iteam.setVisible(true);
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null ,"pas le droit :P", "Plop plop plop" , 1) ;
+					
+				}
+
+
+				
+			}});
+		
+		
+		
 		menuHelpAbout.addActionListener(new ActionListener()
 				{
 			public void actionPerformed(ActionEvent e)
@@ -201,6 +243,12 @@ public class XAGDOP extends JFrame{
 		menuConf.add(menuConfPreferences);
 		
 		
+		//TODO
+		//A changer apres le travail des L3
+		menuL3.add(menuL3Admin);
+		menuL3.add(menuL3TM);
+		
+		
 		
 		
 		menuBar.add(menuFile);
@@ -209,7 +257,9 @@ public class XAGDOP extends JFrame{
 		menuBar.add(menuConf);
 		menuBar.add(menuHelp);
 		
-		
+		//TODO 
+		// a supprimer apres le travail des L3
+		menuBar.add(menuL3);
 		
 		
 		menuBar2.add(commit);
@@ -323,6 +373,7 @@ public class XAGDOP extends JFrame{
 			
 			String projectName = tree.getSelectedNode().getName();
 			System.out.println(projectName);
+			
 			if (XAGDOP.getInstance().getUser().isPManager(projectName))
 			{
 				ITeamManagement iteam = new ITeamManagement(projectName);
