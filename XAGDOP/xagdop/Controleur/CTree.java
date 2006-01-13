@@ -397,11 +397,11 @@ public class CTree implements TreeModel
 			TW.start();
 			SvnUpdate svnu = new SvnUpdate();
 			svnu.checkOut(node);
-			Enumeration expandPath = XAGDOP.getInstance().getTree().getExpandedDescendants(XAGDOP.getInstance().getTree().getLeadSelectionPath());
+			//Enumeration expandPath = XAGDOP.getInstance().getTree().getExpandedDescendants(XAGDOP.getInstance().getTree().getLeadSelectionPath());
 			refreshFromLocal(node);
-			while(expandPath.hasMoreElements()){
+			/*while(expandPath.hasMoreElements()){
 				XAGDOP.getInstance().getTree().expandPath((TreePath)expandPath.nextElement());	
-			}
+			}*/
 			TW.Stop = true;
 			
 			
