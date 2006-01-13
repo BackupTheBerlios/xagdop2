@@ -48,8 +48,11 @@ public class IUser extends JFrame{
 		userIDLabel = new JLabel(Bundle.getText("iuser.label.id"));
 		passwordLabel = new JLabel(Bundle.getText("iuser.label.password"));
 		panel.add(userIDLabel);
-		userID = new JTextField(Bundle.getText("iuser.Jtextfield.id"));
-		password = new JPasswordField();
+		//userID = new JTextField(Bundle.getText("iuser.Jtextfield.id"));
+		userID = new JTextField("claire");
+		password = new JPasswordField("pass");
+		
+		//password = new JPasswordField();
 		password.setEchoChar('*');
 		password.setColumns(8);
 
