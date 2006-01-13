@@ -393,7 +393,7 @@ public class CTree implements TreeModel
 	}*/
 	public void refresh(CTreeNode node){
 		try {
-			ThreadWait TW = new ThreadWait();
+			ThreadWait TW = new ThreadWait(XAGDOP.getInstance());
 			TW.start();
 			SvnUpdate svnu = new SvnUpdate();
 			svnu.checkOut(node);
@@ -402,7 +402,7 @@ public class CTree implements TreeModel
 			/*while(expandPath.hasMoreElements()){
 				XAGDOP.getInstance().getTree().expandPath((TreePath)expandPath.nextElement());	
 			}*/
-			TW.Stop = true;
+			TW.setStop(true);
 			
 			
 		} catch (SVNException e) {
