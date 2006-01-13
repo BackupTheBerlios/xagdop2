@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><users>
-	<id admin="true" login="claire" num="1" passwd="pass" pmanager="true"/>
-	<id admin="false" login="cecile" num="2" passwd="pass" pmanager="false"/>
-	<id admin="false" login="remy" num="3" passwd="pass" pmanager="true"/>
-	<id admin="false" login="jeremy" num="4" passwd="pass" pmanager="false"/>
-	<id admin="true" login="user" num="6" passwd="pass" pmanager="true"/>
-</users>
