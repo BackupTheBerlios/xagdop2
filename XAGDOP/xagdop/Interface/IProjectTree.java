@@ -7,6 +7,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Enumeration;
 
+
 import javax.swing.Icon;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
@@ -107,9 +108,11 @@ public class IProjectTree extends JTree implements  TreeModelListener
 		class openICommit implements ActionListener {
 			public void actionPerformed (ActionEvent e){
 				new ICommit(getSelectedNode());
-				Enumeration expandPath = getExpandedDescendants(getLeadSelectionPath());
+				Enumeration expandPath = getExpandedDescendants(new TreePath(getModel().getRoot()));
 				((CTree)getModel()).refreshFromLocal((CTreeNode) getModel().getRoot());
-				
+				while(expandPath.hasMoreElements()){
+					expandPath((TreePath)expandPath.nextElement());	
+				}
 			}
 		}
 		

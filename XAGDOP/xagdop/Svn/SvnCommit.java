@@ -170,12 +170,17 @@ public class SvnCommit{
 				node.setIsVersioned(true);
 			}
 			File[] fileInDirectory = toCommit.listFiles(new FilenameFilter() {
-			
+				
 				public boolean accept(File dir, String name) {
-					if(dir.isHidden()|| name.equals(".svn")){
-						return false;
-					}
-					else return true;
+					File directory = new File(dir.getAbsolutePath()+"/"+name); 
+					if(directory.isDirectory()&&!directory.isHidden())
+						return true;
+					//System.out.println(dir.getAbsolutePath()+", "+dir.getName().endsWith(".pre")+", "+dir.isDirectory());
+					if(name.endsWith(".pre")||name.endsWith(".pog")||name.endsWith(".apes"))
+						return true;
+
+					return false;
+					
 				}
 			
 			});

@@ -4,6 +4,8 @@ package xagdop.Controleur;
 
 import java.awt.Component;
 import java.io.File;
+import java.io.FilenameFilter;
+import java.util.Enumeration;
 import java.util.Map;
 
 import javax.swing.Icon;
@@ -27,6 +29,7 @@ import org.tmatesoft.svn.core.SVNException;
 import xagdop.Identity;
 import xagdop.Interface.ICentralPanel;
 import xagdop.Interface.IPreferences;
+import xagdop.Interface.XAGDOP;
 import xagdop.Svn.SvnHistory;
 import xagdop.Interface.ThreadWait;
 import xagdop.Svn.SvnUpdate;
@@ -394,7 +397,11 @@ public class CTree implements TreeModel
 			TW.start();
 			SvnUpdate svnu = new SvnUpdate();
 			svnu.checkOut(node);
+			Enumeration expandPath = XAGDOP.getInstance().getTree().getExpandedDescendants(XAGDOP.getInstance().getTree().getLeadSelectionPath());
 			refreshFromLocal(node);
+			while(expandPath.hasMoreElements()){
+				XAGDOP.getInstance().getTree().expandPath((TreePath)expandPath.nextElement());	
+			}
 			TW.Stop = true;
 			
 			
@@ -410,16 +417,29 @@ public class CTree implements TreeModel
 		File localFiles = new File(parent.getLocalPath());
 		parent.removeAllChildren();
 		
-		File[] allFiles = localFiles.listFiles();
+		File[] allFiles = localFiles.listFiles(new FilenameFilter() {
+			
+			public boolean accept(File dir, String name) {
+				File directory = new File(dir.getAbsolutePath()+"/"+name); 
+				if(directory.isDirectory()&&!directory.isHidden())
+					return true;
+				//System.out.println(dir.getAbsolutePath()+", "+dir.getName().endsWith(".pre")+", "+dir.isDirectory());
+				if(name.endsWith(".pre")||name.endsWith(".pog")||name.endsWith(".apes"))
+					return true;
+
+				return false;
+				
+			}
+		
+		});
 		int i = 0;
 		if(allFiles!=null){
 			while(i<allFiles.length){
 				CTreeNode tmp = new CTreeNode(allFiles[i].getName(),allFiles[i].getAbsolutePath());
 		
-				if(!SvnHistory.isUnderVersion(allFiles[i])){
+				if(!SvnHistory.isUnderVersion(allFiles[i]))
 					tmp.setIsVersioned(false);
-					System.out.println("test"+allFiles[i].getName());
-				}
+				
 				
 				
 				if(!tmp.isVersioned()&&!allFiles[i].isHidden())
