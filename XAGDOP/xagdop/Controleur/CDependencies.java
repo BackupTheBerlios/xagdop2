@@ -1,4 +1,8 @@
 package xagdop.Controleur;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class CDependencies {
 	/*
 	 * 
@@ -6,18 +10,18 @@ public class CDependencies {
 	 * 
 	 * 
 	 */
+		
 	
 	/*
 	 * Constructeur
 	 */
-	public CDependencies(){
-		
+	public CDependencies(String apes){
+	
 	}
 	
 	/*
 	 * Methode de la classe
 	 */
-	
 	
 	
 	
