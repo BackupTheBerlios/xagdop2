@@ -29,8 +29,6 @@ import javax.swing.border.Border;
 import javax.swing.plaf.BorderUIResource;
 import javax.swing.table.AbstractTableModel;
 
-import org.tmatesoft.svn.core.SVNException;
-
 import xagdop.Controleur.CProject;
 import xagdop.Controleur.CTree;
 import xagdop.Model.Users;
