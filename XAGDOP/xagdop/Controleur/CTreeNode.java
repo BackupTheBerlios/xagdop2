@@ -81,15 +81,19 @@ public class CTreeNode extends DefaultMutableTreeNode implements Serializable
 
 	public String getName()
 	{
-		if(!versioned&&!isRoot())
-			return "> "+getUserObject().toString();
+		//if(!versioned&&!isRoot())
+			//return "> "+getUserObject().toString();
 		
 		return getUserObject().toString();
 	}
 	
 	public String toString()
 	{
-		return getName();
+		if(!versioned&&!isRoot())
+			return "> "+getUserObject().toString();
+		
+		return getUserObject().toString();
+		//return getName();
 	}
 	
 	public String getID()
