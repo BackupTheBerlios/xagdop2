@@ -37,14 +37,14 @@ public class UsersParser {
 		try {
 			SvnUpdate svnu = new SvnUpdate();
 			fichierXML = svnu.getUsersFile();
-			chargerArbreEnMemoire(fichierXML);
+			loadTreeInMemory(fichierXML);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
-	private void chargerArbreEnMemoire(File fichier) throws Exception {
+	private void loadTreeInMemory(File fichier) throws Exception {
 		this.dbf = DocumentBuilderFactory.newInstance();
 		this.dbf.setValidating(false);
 		this.db = dbf.newDocumentBuilder();
@@ -505,7 +505,7 @@ public class UsersParser {
 		try {
 			SvnCommit svnc = new SvnCommit();
 			svnc.sendFile(fichierXML);
-			chargerArbreEnMemoire(fichierXML);
+			loadTreeInMemory(fichierXML);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

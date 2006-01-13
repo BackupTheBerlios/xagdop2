@@ -48,14 +48,14 @@ public class ProjectsParser {
 			SvnUpdate svnu = new SvnUpdate();
 			if((projectXML = svnu.getProjectFile())==null)
 				System.out.println("Erreur");
-			chargerArbreEnMemoire(projectXML);
+			loadTreeInMemory(projectXML);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
-	private void chargerArbreEnMemoire(File fichier) throws Exception {
+	private void loadTreeInMemory(File fichier) throws Exception {
 		this.dbf = DocumentBuilderFactory.newInstance();
 		this.dbf.setValidating(false);
 		this.db = dbf.newDocumentBuilder();
@@ -65,7 +65,7 @@ public class ProjectsParser {
 	public void refresh()
 	{
 		try {
-			chargerArbreEnMemoire(projectXML);
+			loadTreeInMemory(projectXML);
 		} catch (Exception e) {
 			//System.out.println("CACA");
 		}
@@ -643,7 +643,7 @@ public class ProjectsParser {
 			transformer.transform(new DOMSource(doc), new StreamResult(projectXML));
 			SvnCommit svnc = new SvnCommit();
 			svnc.sendFile(projectXML);
-			chargerArbreEnMemoire(projectXML);
+			loadTreeInMemory(projectXML);
 		} catch (TransformerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
