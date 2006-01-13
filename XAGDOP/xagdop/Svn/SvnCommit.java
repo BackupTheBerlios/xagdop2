@@ -158,8 +158,7 @@ public class SvnCommit{
 	
 	public void commit(CTreeNode node, String commitMessage) throws SVNException{
 		SVNCommitClient svnCC = new SVNCommitClient(repository.getAuthenticationManager(),SVNWCUtil.createDefaultOptions(true) );
-		SVNWCClient wcClient;
-		wcClient = new SVNWCClient(SvnConnect.getInstance().getRepository().getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
+		SVNWCClient wcClient = new SVNWCClient(SvnConnect.getInstance().getRepository().getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
 		File toCommit = new File(node.getLocalPath());
 		
 			
@@ -187,8 +186,9 @@ public class SvnCommit{
 		svnCC.doCommit(fileInDirectory,false,commitMessage, false, true);
 		}else{
 			if(!node.isVersioned()){
-				wcClient.doAdd(toCommit,false, false, true, false);
+				wcClient.doAdd(toCommit,true, true, true, false);
 				node.setIsVersioned(true);
+				
 			}
 			ArrayList fileInDirectory = new ArrayList();
 			fileInDirectory.add(toCommit);

@@ -89,7 +89,7 @@ public class SvnHistory {
 					return false;
 			} catch (SVNException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				//e.printStackTrace();
 				return false;
 			}
 			//info
