@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projects>
+	<project name="nom">
+		<user login="popol">
+			<roles>
+				<archi/>
+				<pmanager/>
+				<redacteur/>
+			</roles>
+		</user>
+		
+		<user>
+			<roles>
+				<analyste/>
+				<redacteur/>
+			</roles>
+		</user>
+	</project>
+		
+	<project name="TestProjet">
+		<user>
+			<roles>
+				<pmanager/>
+				<redacteur/>
+			</roles>
+		</user>
+	</project>
+	
+	<project desc="poosibilite de supprimer" name="projetessai" urlRepo="">
+		<user>
+			<roles>
+				<pmanager/>
+			</roles>
+		</user>
+	</project>
+	
+</projects>

@@ -46,8 +46,9 @@ public class ProjectsParser {
 	{
 		try {
 			SvnUpdate svnu = new SvnUpdate();
-			if((projectXML = svnu.getProjectFile())==null)
-				System.out.println("Erreur");
+			/*if((projectXML = svnu.getProjectFile())==null)
+				System.out.println("Erreur");*/
+			projectXML = new File("./projects.xml");	//debug
 			loadTreeInMemory(projectXML);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
