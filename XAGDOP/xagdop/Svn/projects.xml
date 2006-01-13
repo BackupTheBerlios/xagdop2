@@ -18,10 +18,20 @@
 	</project>
 		
 	<project name="TestProjet" urlRepo="uneURL3">
-		<user analyste="false" archi="false" id="6" pmanager="true" redacteur="true"/>		
+		<user>
+			<roles>
+				<pmanager/>
+				<redacteur/>
+			</roles>
+		</user>
 	</project>
 	
 	<project desc="poosibilite de supprimer" name="projetessai" urlRepo="">
-		<user analyste="false" archi="false" id="1" pmanager="true" redacteur="false"/>
+		<user>
+			<roles>
+				<pmanager/>
+			</roles>
+		</user>
 	</project>
+	
 </projects>
