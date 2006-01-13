@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<users>
+	<user login="claire" passwd="pass">
+		<roles>
+			<admin/>
+			<pmanager/>
+		</roles>
+	</user>
+
+	<user login="cecile" passwd="pass">
+	<roles>
+	</roles>
+	</user>
+
+	<user login="remy" passwd="pass">
+	<roles>
+	</roles>
+	</user>
+
+	<user login="jeremy" passwd="pass">
+	<roles>
+	</roles>
+	</user>
+	
+	<user login="user" passwd="pass">
+	<roles>
+	</roles>
+	</user>
+</users>
