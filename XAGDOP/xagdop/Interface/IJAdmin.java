@@ -186,7 +186,10 @@ public class IJAdmin extends JFrame{
         
         
         getContentPane().add(newPanel, new GridBagConstraints());
-
+        
+        //modif mick => JTable
+        JTable JTMUsers = new JTable(new DefaultTableModel(5,5));
+        newPanel.add(JTMUsers, new GridBagConstraints());
         pack();
 		setTitle("Administration");
 		//setSize(300, 200);
@@ -235,10 +238,10 @@ public class IJAdmin extends JFrame{
 	/** Panel de message de fin de transaction
      * @param gbc <CODE>GridBagConstraints</CODE> represente la contrainte qui va prendre les
      * valeurs specifiees
-     * @param gx <CODE>int</CODE> represente la colonne dans laquelle l'élément va etre place
-     * @param gy <CODE>int</CODE> represente la ligne dans laquelle l'élément va etre place
-     * @param gw <CODE>int</CODE> represente le nombre de colonnes sur lesquelles l'élément va etre place
-     * @param gh <CODE>int</CODE> represente le nombre de lignes sur lesquelles l'élément va etre place
+     * @param gx <CODE>int</CODE> represente la colonne dans laquelle l'?l?ment va etre place
+     * @param gy <CODE>int</CODE> represente la ligne dans laquelle l'?l?ment va etre place
+     * @param gw <CODE>int</CODE> represente le nombre de colonnes sur lesquelles l'?l?ment va etre place
+     * @param gh <CODE>int</CODE> represente le nombre de lignes sur lesquelles l'?l?ment va etre place
      * @param wx <CODE>int</CODE> poucentage de place utilise dans sa colonne
      * @param wy <CODE>int</CODE> poucentage de place utilise dans sa ligne
      */
@@ -256,10 +259,10 @@ public class IJAdmin extends JFrame{
     /** Panel de message de fin de transaction
      * @param gbc <CODE>GridBagConstraints</CODE> represente la contrainte qui va prendre les
      * valeurs specifiees
-     * @param gx <CODE>int</CODE> represente la colonne dans laquelle l'élément va etre place
-     * @param gy <CODE>int</CODE> represente la ligne dans laquelle l'élément va etre place
-     * @param gw <CODE>int</CODE> represente le nombre de colonnes sur lesquelles l'élément va etre place
-     * @param gh <CODE>int</CODE> represente le nombre de lignes sur lesquelles l'élément va etre place
+     * @param gx <CODE>int</CODE> represente la colonne dans laquelle l'?l?ment va etre place
+     * @param gy <CODE>int</CODE> represente la ligne dans laquelle l'?l?ment va etre place
+     * @param gw <CODE>int</CODE> represente le nombre de colonnes sur lesquelles l'?l?ment va etre place
+     * @param gh <CODE>int</CODE> represente le nombre de lignes sur lesquelles l'?l?ment va etre place
      * @param wx <CODE>int</CODE> poucentage de place utilise dans sa colonne
      * @param wy <CODE>int</CODE> poucentage de place utilise dans sa ligne
      * @param constraint <CODE>int</CODE> contrainte de redimensionnement
