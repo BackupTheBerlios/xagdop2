@@ -1,10 +1,13 @@
 package xagdop.Interface;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.table.AbstractTableModel;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
+
+import xagdop.Model.Users;
 
 public class IJAdminTableModel extends AbstractTableModel 
 {
@@ -14,7 +17,7 @@ public class IJAdminTableModel extends AbstractTableModel
 	
 	private Object[][] rowData;
 	
-	public IJAdminTableModel()
+	public IJAdminTableModel(ArrayList users)
 	{
 		/*this.rowData[0][0]=new String("");
 		this.rowData[0][1]=new Boolean(false);
@@ -33,6 +36,18 @@ public class IJAdminTableModel extends AbstractTableModel
 		this.rowData[3][2]=new Boolean(false);
 		this.rowData[3][3]=new JButton(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/supprimer.gif")));*/
 		
+		this.rowData = new Object[users.size()][4];
+		Iterator iter = users.iterator();
+		int i=0;
+		while(iter.hasNext())
+		{
+			Object o = iter.next();
+			this.rowData[i][0] = ((Users)o).getLogin();
+			this.rowData[i][1] = new Boolean(((Users)o).isPmanager());
+			this.rowData[i][2] = new Boolean(((Users)o).isAdmin());
+			this.rowData[i][3] = new JButton(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/supprimer.gif")));
+			i++;
+		}
 	
 	}
 	

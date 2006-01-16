@@ -164,7 +164,7 @@ public class IJAdmin extends JFrame{
         
         //newPanel.add(ButtonCreateUser, new GridBagConstraints());*/
         //
-        JT = new JTable(new IJAdminTableModel());
+        JT = new JTable(new IJAdminTableModel(users.getAllUsers()));
         JT.setPreferredScrollableViewportSize(new Dimension(500, 70));
         JT.setDefaultRenderer(JButton.class, new IJAdminTableCellRenderer());
         
