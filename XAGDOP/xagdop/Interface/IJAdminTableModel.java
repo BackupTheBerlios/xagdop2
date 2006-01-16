@@ -1,39 +1,38 @@
 package xagdop.Interface;
 
+import java.util.ArrayList;
+
 import javax.swing.table.AbstractTableModel;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 
 public class IJAdminTableModel extends AbstractTableModel 
 {
-	private String[] columnNames = {"", "Nom Utilisateur",
+	private String[] columnNames = {"Nom Utilisateur",
             "Chef de Projet",
             "Administrateur", "Supprimer"};
 	
-	private Object[][] rowData = new Object[4][5];
+	private Object[][] rowData;
 	
 	public IJAdminTableModel()
 	{
-		this.rowData[0][0]=new String("");
-		this.rowData[0][1]=new String("test1");
+		/*this.rowData[0][0]=new String("");
+		this.rowData[0][1]=new Boolean(false);
 		this.rowData[0][2]=new Boolean(false);
-		this.rowData[0][3]=new Boolean(false);
-		this.rowData[0][4]=new JButton(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/supprimer.gif")));
+		this.rowData[0][3]=new JButton(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/supprimer.gif")));
 		this.rowData[1][0]=new String("");
-		this.rowData[1][1]=new String("test2");
+		this.rowData[1][1]=new Boolean(false);
 		this.rowData[1][2]=new Boolean(false);
-		this.rowData[1][3]=new Boolean(false);
-		this.rowData[1][4]=new JButton(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/supprimer.gif")));
+		this.rowData[1][3]=new JButton(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/supprimer.gif")));
 		this.rowData[2][0]=new String("");
-		this.rowData[2][1]=new String("test3");
+		this.rowData[2][1]=new Boolean(false);
 		this.rowData[2][2]=new Boolean(false);
-		this.rowData[2][3]=new Boolean(false);
-		this.rowData[2][4]=new JButton(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/supprimer.gif")));
+		this.rowData[2][3]=new JButton(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/supprimer.gif")));
 		this.rowData[3][0]=new String("");
-		this.rowData[3][1]=new String("test4");
+		this.rowData[3][1]=new Boolean(false);
 		this.rowData[3][2]=new Boolean(false);
-		this.rowData[3][3]=new Boolean(false);
-		this.rowData[3][4]=new JButton(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/supprimer.gif")));
+		this.rowData[3][3]=new JButton(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/supprimer.gif")));*/
+		
 	
 	}
 	
@@ -89,7 +88,7 @@ public class IJAdminTableModel extends AbstractTableModel
     {
         //Note that the data/cell address is constant,
         //no matter where the cell appears onscreen.
-        if (col == 0) 
+        if (col > 2) 
         {
             return false;
         } 

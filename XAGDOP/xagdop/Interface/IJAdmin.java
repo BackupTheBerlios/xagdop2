@@ -64,6 +64,7 @@ public class IJAdmin extends JFrame{
         newPanel.setLayout(new GridBagLayout());
 
         newPanel.setMinimumSize(new Dimension(296, 130));
+        
         /*UserLabel.setText("Selectionner l'utilisateur");
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -125,7 +126,6 @@ public class IJAdmin extends JFrame{
                cadmin.Apply(users,users.getId((String)UserListCombo.getSelectedItem()),AdminCheck.isSelected(),PManagerCheck.isSelected());
             }
         });
-
         
         /*gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
@@ -166,9 +166,6 @@ public class IJAdmin extends JFrame{
         //
         JT = new JTable(new IJAdminTableModel());
         JT.setPreferredScrollableViewportSize(new Dimension(500, 70));
-        this.setUsersColumn(JT,JT.getColumnModel().getColumn(1));
-        JT.getColumnModel().getColumn(0).setMaxWidth(0);
-        JT.getColumnModel().getColumn(0).setMinWidth(0);
         JT.setDefaultRenderer(JButton.class, new IJAdminTableCellRenderer());
         
         GridBagConstraints gbc = new GridBagConstraints();
@@ -186,47 +183,11 @@ public class IJAdmin extends JFrame{
         
         
         getContentPane().add(newPanel, new GridBagConstraints());
-        
-        //modif mick => JTable
-        JTable JTMUsers = new JTable(new DefaultTableModel(5,5));
-        newPanel.add(JTMUsers, new GridBagConstraints());
         pack();
 		setTitle("Administration");
 		//setSize(300, 200);
 		
 	}
-	
-	public void setUsersColumn(JTable table,TableColumn usersColumn) 
-	{
-		//Set up the editor for the sport cells.
-		JComboBox comboBox = new JComboBox();
-		comboBox.addItem("Snowboarding");
-		comboBox.addItem("Rowing");
-		comboBox.addItem("Knitting");
-		comboBox.addItem("Speed reading");
-		comboBox.addItem("Pool");
-		comboBox.addItem("None of the above");
-		usersColumn.setCellEditor(new DefaultCellEditor(comboBox));
-		
-		//Set up tool tips for the sport cells.
-		DefaultTableCellRenderer renderer =
-		new DefaultTableCellRenderer();
-		renderer.setToolTipText("Click for combo box");
-		usersColumn.setCellRenderer(renderer);
-	}
-	
-	/*public void setDeleteColumn(JTable table,TableColumn deleteColumn) 
-	{
-		//Set up the editor for the sport cells.
-		JButton JBDelete = new JButton(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/supprimer.gif")));
-		deleteColumn.setCellEditor(new IJAdminCellEditor());
-		
-		//Set up tool tips for the sport cells.
-		DefaultTableCellRenderer renderer =
-		new DefaultTableCellRenderer();
-		renderer.setToolTipText("Click for combo box");
-		deleteColumn.setCellRenderer(renderer);
-	}*/
 	
 	public void refresh(){
 		AdminCheck.setSelected(users.getUserByLogin((String)UserListCombo.getSelectedItem()).isAdmin());
