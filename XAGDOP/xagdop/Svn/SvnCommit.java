@@ -156,20 +156,35 @@ public class SvnCommit{
 		
 	}
 	
+	public void addFile(CTreeNode toAdd, boolean recursive) throws SVNException{
+		File added = new File(toAdd.getLocalPath());
+		SVNWCClient wcClient = new SVNWCClient(SvnConnect.getInstance().getRepository().getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
+		System.out.println(toAdd.getName());
+		if(toAdd.getParent()!=null && !SvnHistory.isUnderVersion(added.getParentFile())){
+			addFile((CTreeNode)toAdd.getParent(), false);
+			if(added.isFile())
+				wcClient.doAdd(added,false, false, true, false);
+		
+			if(added.isDirectory())
+				wcClient.doAdd(added,false, false, false, recursive);
+			toAdd.setIsVersioned(true);
+		}else{
+			wcClient.doAdd(added,false, false, true, recursive);
+			toAdd.setIsVersioned(true);
+		}
+	}
+	
 	public void commit(CTreeNode node, String commitMessage) throws SVNException{
 		SVNCommitClient svnCC = new SVNCommitClient(repository.getAuthenticationManager(),SVNWCUtil.createDefaultOptions(true) );
-		SVNWCClient wcClient = new SVNWCClient(SvnConnect.getInstance().getRepository().getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
+		//SVNWCClient wcClient = new SVNWCClient(SvnConnect.getInstance().getRepository().getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
 		File toCommit = new File(node.getLocalPath());
 		
 			
 		
-		if(toCommit.isDirectory()){
-			if(!node.isVersioned()){
-				wcClient.doAdd(toCommit,false, true, true, true);
-				node.setIsVersioned(true);
-			}
+		if(toCommit.isDirectory()&&!node.isVersioned()){
+			addFile(node, true);
 			File[] fileInDirectory = toCommit.listFiles(new FilenameFilter() {
-				
+			
 				public boolean accept(File dir, String name) {
 					File directory = new File(dir.getAbsolutePath()+"/"+name); 
 					if(directory.isDirectory()&&!directory.isHidden())
@@ -185,11 +200,8 @@ public class SvnCommit{
 			});
 		svnCC.doCommit(fileInDirectory,false,commitMessage, false, true);
 		}else{
-			if(!node.isVersioned()){
-				wcClient.doAdd(toCommit,true, true, true, false);
-				node.setIsVersioned(true);
-				
-			}
+			if(!node.isVersioned())
+				addFile(node, false);
 			ArrayList fileInDirectory = new ArrayList();
 			fileInDirectory.add(toCommit);
 			
