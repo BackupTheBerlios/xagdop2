@@ -10,7 +10,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar; 
 
-import sun.awt.windows.ThemeReader;
 
 public class ThreadWait extends Thread {
 
@@ -20,6 +19,7 @@ public class ThreadWait extends Thread {
 	JPanel panel = new JPanel();
 	JProgressBar progressBar = new JProgressBar();
 	private boolean Stop;
+	
 	
 	public ThreadWait(JFrame jf){	
 		JD = new JDialog(jf,"Encours",true);
@@ -81,6 +81,7 @@ public class ThreadWait extends Thread {
 		progressPanel.add(progressBar);
 		progressPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		JD.add(progressPanel, BorderLayout.CENTER);
+		JD.setVisible(true);
 		JD.pack();
 	}
 	
