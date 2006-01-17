@@ -397,7 +397,6 @@ public class CTree implements TreeModel
 		try {
 			ThreadWait TW = new ThreadWait(XAGDOP.getInstance());
 			TW.start();
-			TW.demarrer(); // Rendre la JDialog visible
 			
 			SvnUpdate svnu = new SvnUpdate();
 			svnu.checkOut(node);
@@ -406,9 +405,6 @@ public class CTree implements TreeModel
 			/*while(expandPath.hasMoreElements()){
 				XAGDOP.getInstance().getTree().expandPath((TreePath)expandPath.nextElement());	
 			}*/
-			//TW.setStop(true);
-			//TW.arreter();
-			
 			
 		
 			System.out.println("nanananana");
