@@ -5,6 +5,8 @@ package xagdop.Controleur;
 import java.awt.Component;
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
+import java.io.InterruptedIOException;
 import java.util.Enumeration;
 import java.util.Map;
 
@@ -391,10 +393,12 @@ public class CTree implements TreeModel
 			System.out.println(svne.getMessage());
 		}
 	}*/
-	public void refresh(CTreeNode node){
+	public void refresh(CTreeNode node) {
 		try {
 			ThreadWait TW = new ThreadWait(XAGDOP.getInstance());
 			TW.start();
+			TW.demarrer(); // Rendre la JDialog visible
+			
 			SvnUpdate svnu = new SvnUpdate();
 			svnu.checkOut(node);
 			//Enumeration expandPath = XAGDOP.getInstance().getTree().getExpandedDescendants(XAGDOP.getInstance().getTree().getLeadSelectionPath());
@@ -402,7 +406,14 @@ public class CTree implements TreeModel
 			/*while(expandPath.hasMoreElements()){
 				XAGDOP.getInstance().getTree().expandPath((TreePath)expandPath.nextElement());	
 			}*/
-			TW.setStop(true);
+			//TW.setStop(true);
+			//TW.arreter();
+			
+			
+		
+			System.out.println("nanananana");
+			
+			TW.arreter() ;	// rendre la JDialog invisible
 			
 			
 		} catch (SVNException e) {
