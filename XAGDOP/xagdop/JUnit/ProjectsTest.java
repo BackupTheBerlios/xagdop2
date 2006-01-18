@@ -2,6 +2,9 @@ package xagdop.JUnit;
 
 import junit.framework.TestCase;
 import xagdop.Model.*;
+import xagdop.Parser.ProjectsParser;
+import xagdop.Parser.UsersParser;
+
 import java.util.ArrayList;
 public class ProjectsTest extends TestCase {
 
@@ -68,6 +71,15 @@ public class ProjectsTest extends TestCase {
 	 * Test method for 'xagdop.Model.Projects.isManager(int)'
 	 */
 	public void testIsManager() {
+//		ArrayList list= new ArrayList();
+//		ArrayList id= new ArrayList();
+//		ProjectsParser pj = new ProjectsParser();
+//		UsersParser up = new UsersParser();
+//		Projects p = new Projects("blabla",list,id);
+//		Users user = new Users("toto", "tata", 0, false, false);
+//		pj.addProject("blbl",user,"blabla");
+//		up.addUser(user);
+//		pj.setAttribute("blbl",0,"pmanager","true");
 		
 	}
 

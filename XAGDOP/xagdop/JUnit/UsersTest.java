@@ -2,6 +2,8 @@ package xagdop.JUnit;
 
 import junit.framework.TestCase;
 import xagdop.Model.*;
+import xagdop.Parser.ProjectsParser;
+import xagdop.Parser.UsersParser;
 
 public class UsersTest extends TestCase {
 
@@ -90,7 +92,7 @@ public class UsersTest extends TestCase {
 	public void testIsPmanager() {
 		Users us = new Users("toto","totopass",1,true,false);
 		assertTrue(us.isPmanager()==false);
-		assertFalse(us.isPmanager()==true);
+		
 		
 	}
 
@@ -101,14 +103,24 @@ public class UsersTest extends TestCase {
 		Users us = new Users("toto","totopass",1,true,false);
 		us.setPmanager(true);
 		assertTrue(us.isPmanager()==true);
-		assertFalse(us.isPmanager()==false);
+		
+		
 	}
 
 	/*
 	 * Test method for 'xagdop.Model.Users.isArchitect(String)'
 	 */
 	public void testIsArchitect() {
-
+		ProjectsParser pj = new ProjectsParser();
+		UsersParser up = new UsersParser();
+		Users user = new Users("toto", "tata", 0, false, false);
+		Users user1 = new Users("titi", "tutu", 1, false, false);
+		pj.addProject("blbl",user,"blabla");
+		up.addUser(user);
+		up.addUser(user1);
+		pj.setAttribute("blbl",0,"archi","true");
+		assertEquals(user.isArchitect("blbl"),true);
+		assertFalse(user1.isArchitect("blbl")==true);
 	}
 
 	/*
