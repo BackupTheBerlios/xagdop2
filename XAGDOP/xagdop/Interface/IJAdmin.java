@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -123,8 +124,20 @@ public class IJAdmin extends JFrame{
         ButtonOK.setText("Ok");
         ButtonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-               cadmin.Apply(users,users.getId((String)UserListCombo.getSelectedItem()),AdminCheck.isSelected(),PManagerCheck.isSelected());
-            }
+            	int j =JT.getRowCount();
+        
+        		int i=0;
+        		while(i<j)
+        		{
+        			
+        		
+        			cadmin.Apply(users,users.getId((String)JT.getValueAt(i,0)),((Boolean)JT.getValueAt(i,2)).booleanValue(),((Boolean)JT.getValueAt(i,1)).booleanValue());
+        			i++;  
+        		}
+        	
+            	
+            	(IJAdmin.getIJA()).dispose();
+              }
         });
         
         /*gridBagConstraints.gridx = 0;
