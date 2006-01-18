@@ -13,11 +13,11 @@ import java.util.Map;
 
 import org.tmatesoft.svn.core.SVNCommitInfo;
 import org.tmatesoft.svn.core.SVNException;
+import org.tmatesoft.svn.core.SVNURL;
 import org.tmatesoft.svn.core.io.ISVNEditor;
 import org.tmatesoft.svn.core.io.ISVNWorkspaceMediator;
 import org.tmatesoft.svn.core.io.SVNRepository;
 import org.tmatesoft.svn.core.wc.SVNCommitClient;
-import org.tmatesoft.svn.core.wc.SVNInfo;
 import org.tmatesoft.svn.core.wc.SVNRevision;
 import org.tmatesoft.svn.core.wc.SVNUpdateClient;
 import org.tmatesoft.svn.core.wc.SVNWCClient;
@@ -156,57 +156,110 @@ public class SvnCommit{
 		
 	}
 	
-	public void addFile(CTreeNode toAdd, boolean recursive) throws SVNException{
+	
+	public File[] fileToAdd(CTreeNode node) throws SVNException{
+		ArrayList fileToCommit = new ArrayList();
+		File toCommit = new File(node.getLocalPath());
+		SVNWCClient wcClient = new SVNWCClient(SvnConnect.getInstance().getRepository().getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
+		if(!SvnHistory.isUnderVersion(toCommit)){
+			if(toCommit.isFile()){
+				while(!SvnHistory.isUnderVersion(toCommit)){
+					node.setIsVersioned(true);
+					node = (CTreeNode) node.getParent();
+					System.out.println(toCommit.getName());
+					fileToCommit.add(toCommit);
+					wcClient.doAdd(toCommit,false, false, true, false);
+					toCommit = toCommit.getParentFile();
+					System.out.println(toCommit.getAbsolutePath());
+					System.out.println(!SvnHistory.isUnderVersion(toCommit));
+				}
+			System.out.println(fileToCommit.toString());
+			File[] file = new File[fileToCommit.size()];
+			return (File[])fileToCommit.toArray(file);
+		}
+		
+		
+			if(toCommit.isDirectory()){
+				wcClient.doAdd(toCommit,false, false, false, true);
+				node.setIsVersioned(true);
+			}
+		}
+		
+		return null;
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public File[] addFile(CTreeNode toAdd, boolean recursive) throws SVNException{
+	
+		final ArrayList toCommit = new ArrayList();
+		
 		File added = new File(toAdd.getLocalPath());
 		SVNWCClient wcClient = new SVNWCClient(SvnConnect.getInstance().getRepository().getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
-		System.out.println(toAdd.getName());
+		
 		if(toAdd.getParent()!=null && !SvnHistory.isUnderVersion(added.getParentFile())){
 			addFile((CTreeNode)toAdd.getParent(), false);
-			if(added.isFile())
+			if(added.isFile()){
+				System.out.println(toAdd.getName());
+				toCommit.add(added);
 				wcClient.doAdd(added,false, false, true, false);
+			}
 		
-			if(added.isDirectory())
+			if(added.isDirectory()){
+				System.out.println(toAdd.getName());
 				wcClient.doAdd(added,false, false, false, recursive);
+			}
 			toAdd.setIsVersioned(true);
 		}else{
+			System.out.println(toAdd.getName());
+			toCommit.add(added);
 			wcClient.doAdd(added,false, false, true, recursive);
 			toAdd.setIsVersioned(true);
 		}
+		File[] file = new File[toCommit.size()];
+		return (File[])toCommit.toArray(file);
 	}
 	
 	public void commit(CTreeNode node, String commitMessage) throws SVNException{
 		SVNCommitClient svnCC = new SVNCommitClient(repository.getAuthenticationManager(),SVNWCUtil.createDefaultOptions(true) );
-		//SVNWCClient wcClient = new SVNWCClient(SvnConnect.getInstance().getRepository().getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
 		File toCommit = new File(node.getLocalPath());
-		
-			
-		
-		if(toCommit.isDirectory()&&!node.isVersioned()){
-			addFile(node, true);
-			File[] fileInDirectory = toCommit.listFiles(new FilenameFilter() {
-			
-				public boolean accept(File dir, String name) {
-					File directory = new File(dir.getAbsolutePath()+"/"+name); 
-					if(directory.isDirectory()&&!directory.isHidden())
-						return true;
-					//System.out.println(dir.getAbsolutePath()+", "+dir.getName().endsWith(".pre")+", "+dir.isDirectory());
-					if(name.endsWith(".pre")||name.endsWith(".pog")||name.endsWith(".apes"))
-						return true;
+		if(toCommit.isDirectory()){
+			if(!SvnHistory.isUnderVersion(toCommit)){
+				CTreeNode tmp = (CTreeNode)node.getRoot();
+				svnCC.doImport(toCommit,SVNURL.parseURIDecoded(SvnConnect.getInstance().getUrl()+toCommit.getPath().replaceAll(tmp.getLocalPath(),"")),commitMessage,true);
+			}else{
+				File[] fileInDirectory = toCommit.listFiles(new FilenameFilter() {
+					public boolean accept(File dir, String name) {
+						File directory = new File(dir.getAbsolutePath()+"/"+name); 
+						if(directory.isDirectory()&&!directory.isHidden())
+							return true;
+						if(name.endsWith(".pre")||name.endsWith(".pog")||name.endsWith(".apes"))
+							return true;
 
-					return false;
-					
+						return false;
 				}
 			
 			});
-		svnCC.doCommit(fileInDirectory,false,commitMessage, false, true);
+			svnCC.doCommit(fileInDirectory,false,commitMessage, false, true);
+			}
 		}else{
-			if(!node.isVersioned())
-				addFile(node, false);
-			ArrayList fileInDirectory = new ArrayList();
-			fileInDirectory.add(toCommit);
 			
-			File[] file = new File[fileInDirectory.size()];
-			svnCC.doCommit((File[])fileInDirectory.toArray(file),false,commitMessage, true, false);
+			if(!SvnHistory.isUnderVersion(toCommit)){
+				CTreeNode tmp = (CTreeNode)node.getRoot();
+				svnCC.doImport(toCommit,SVNURL.parseURIDecoded(SvnConnect.getInstance().getUrl()+toCommit.getPath().replaceAll(tmp.getLocalPath(),"")),commitMessage,false);
+			}else{
+				ArrayList fileInDirectory = new ArrayList();
+				File[] file = new File[fileInDirectory.size()];	
+				svnCC.doCommit((File[])fileInDirectory.toArray(file),false,commitMessage, true, false);
+			}
 		}
 		
 	}
