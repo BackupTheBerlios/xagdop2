@@ -15,9 +15,9 @@ import java.io.File;
 
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.io.SVNRepository;
-import org.tmatesoft.svn.core.wc.SVNInfo;
-import org.tmatesoft.svn.core.wc.SVNRevision;
-import org.tmatesoft.svn.core.wc.SVNWCClient;
+import org.tmatesoft.svn.core.wc.SVNStatus;
+import org.tmatesoft.svn.core.wc.SVNStatusClient;
+import org.tmatesoft.svn.core.wc.SVNStatusType;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
  
 
@@ -35,19 +35,41 @@ public class SvnHistory {
     	}
 
     	public static boolean  isUnderVersion(File file){
-    		SVNWCClient wcClient;
+    		
+    		SVNStatusClient ssClient;
 			try {
-				wcClient = new SVNWCClient(SvnConnect.getInstance().getRepository().getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
-				SVNInfo info = wcClient.doInfo(file, SVNRevision.WORKING);
-				if(info == null || info.getRevision() == SVNRevision.UNDEFINED)
+				ssClient = new SVNStatusClient(SvnConnect.getInstance().getRepository().getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
+				SVNStatus sStatus = ssClient.doStatus(file, false);
+				SVNStatusType ssType = sStatus.getContentsStatus();
+				if(ssType == SVNStatusType.STATUS_UNVERSIONED)
 					return false;
+				
+					
 			} catch (SVNException e) {
 				// TODO Auto-generated catch block
 				//e.printStackTrace();
 				return false;
 			}
-			//info
-    		return 	true;
+			return true;
+    	}
+    		
+    	
+    	
+    	public static boolean isModified(File file) {
+    		SVNStatusClient ssClient;
+			try {
+				ssClient = new SVNStatusClient(SvnConnect.getInstance().getRepository().getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
+				SVNStatus sStatus = ssClient.doStatus(file, false);
+				SVNStatusType ssType = sStatus.getContentsStatus();
+				
+				if(ssType == SVNStatusType.STATUS_MODIFIED || ssType == SVNStatusType.STATUS_UNVERSIONED)
+					return true;
+			} catch (SVNException e) {
+				// TODO Auto-generated catch block
+				//e.printStackTrace();
+				return true;
+			}
+			return false;
     	}
     	
 }
