@@ -18,7 +18,6 @@ public class ThreadWait extends Thread {
 	JLabel label = new JLabel("i");
 	JPanel panel = new JPanel();
 	JProgressBar progressBar = new JProgressBar();
-	private boolean Stop;
 	
 	
 	public ThreadWait(JFrame jf){	
@@ -49,9 +48,6 @@ public class ThreadWait extends Thread {
 		
     }
 
-	public void setStop(boolean stop) {
-		this.Stop = stop;
-	}
 	public void arreter()
 	{
 		JD.setVisible(false);

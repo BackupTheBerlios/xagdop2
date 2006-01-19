@@ -3,19 +3,19 @@ package xagdop.Parser;
 import java.util.ArrayList;
 
 import xagdop.Model.Projects;
-import xagdop.Model.Users;
+
 
 public class testsParsers {
 
 	public testsParsers()
 	{
-		UsersParser users = new UsersParser();
+		//UsersParser users = new UsersParser();
 		ProjectsParser projects = new ProjectsParser();
 		
 		/*
 		String login;
-		String passwd;*/
-		String url;
+		String passwd;
+		String url;*/
 		
 		//users.removeUser(8);
 		//projects.removeProject("Projet2");

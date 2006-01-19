@@ -8,7 +8,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import xagdop.Identity;
 import xagdop.Interface.IPreferences;
-import xagdop.Interface.IProjectPreferences;
+
 
 
 /**
@@ -24,7 +24,7 @@ public class CTreeNode extends DefaultMutableTreeNode implements Serializable
 	 */
 	private static final long serialVersionUID = 3471931069630056896L;
 	protected String localPath;
-	protected boolean versioned = true;
+	protected boolean modified = true;
 	
 	public CTreeNode(Object userObject, boolean isLeaf)
 	{
@@ -71,12 +71,12 @@ public class CTreeNode extends DefaultMutableTreeNode implements Serializable
 		this.localPath = localFilePath.getAbsolutePath();
 	}
 	
-	public void setIsVersioned(boolean value){
-		versioned = value;
+	public void setIsModified(boolean value){
+		modified = value;
 	}
 	
 	public boolean isVersioned(){
-		return versioned;
+		return modified;
 	}
 
 	public String getName()
@@ -89,7 +89,7 @@ public class CTreeNode extends DefaultMutableTreeNode implements Serializable
 	
 	public String toString()
 	{
-		if(!versioned&&!isRoot())
+		if(!modified&&!isRoot())
 			return "> "+getUserObject().toString();
 		
 		return getUserObject().toString();

@@ -4,8 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 
 import javax.management.InstanceNotFoundException;
 import javax.swing.JButton;
@@ -17,7 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.WindowConstants;
+
 
 import xagdop.Controleur.CAffect;
 
@@ -69,7 +68,7 @@ public class IAffect extends JFrame
             public void actionPerformed(java.awt.event.ActionEvent evt) {
             		try {
 						CA.affecter(projectName,LoginUser.getText(),ChefCheck.isSelected(),ArchiCheck.isSelected(),RedacteurCheck.isSelected(),AnalystCheck.isSelected());
-						JOptionPane.showMessageDialog(null ,"L'utilisateur à bien été rajouté", "Reussite" , 1) ;
+						JOptionPane.showMessageDialog(null ,"L'utilisateur ? bien ?t? rajout?", "Reussite" , 1) ;
 						try
 						{
 							//ITeamManagement.getIT().refreshCombo();

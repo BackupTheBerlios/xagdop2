@@ -5,9 +5,6 @@ package xagdop.Controleur;
 import java.awt.Component;
 import java.io.File;
 import java.io.FilenameFilter;
-import java.io.IOException;
-import java.io.InterruptedIOException;
-import java.util.Enumeration;
 import java.util.Map;
 
 import javax.swing.Icon;
@@ -445,12 +442,12 @@ public class CTree implements TreeModel
 				CTreeNode tmp = new CTreeNode(allFiles[i].getName(),allFiles[i].getAbsolutePath());
 		
 				if(!SvnHistory.isUnderVersion(allFiles[i]))
-					tmp.setIsVersioned(false);
+					tmp.setIsModified(false);
 				
 				
 				
 				if(!tmp.isVersioned()&&!allFiles[i].isHidden())
-					parent.setIsVersioned(false);
+					parent.setIsModified(false);
 		
 				if(!allFiles[i].isHidden())
 					parent.add(tmp);
@@ -463,7 +460,7 @@ public class CTree implements TreeModel
 				i++;
 			}
 			if(!parent.isVersioned()&&((CTreeNode)parent.getParent())!=null)
-				((CTreeNode)parent.getParent()).setIsVersioned(false);
+				((CTreeNode)parent.getParent()).setIsModified(false);
 			Object[] path = {parent};
 			fireTreeNodesInserted(this, path, null, null);
 		}
@@ -625,6 +622,11 @@ public class CTree implements TreeModel
 	
 	public class ITreeCellRenderer extends DefaultTreeCellRenderer
 	{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded,
                                                               boolean leaf, int row, boolean hasFocus)
 		{
@@ -636,7 +638,7 @@ public class CTree implements TreeModel
 
 	public class ITreeCellEditor extends DefaultTreeCellEditor implements CellEditorListener
 	{
-		private CTreeNode mCurrentNode = null;
+		//private CTreeNode mCurrentNode = null;
 		
 		public ITreeCellEditor(JTree tree, DefaultTreeCellRenderer renderer)
 		{
@@ -652,7 +654,7 @@ public class CTree implements TreeModel
 			
 			if( editingComponent instanceof JTextField && value instanceof CTreeNode )
 			{
-				mCurrentNode = (CTreeNode)value;
+				//mCurrentNode = (CTreeNode)value;
 				((JTextField)editingComponent).selectAll();
 			}
 			

@@ -2,8 +2,7 @@ package xagdop.JUnit;
 
 import junit.framework.TestCase;
 import xagdop.Model.*;
-import xagdop.Parser.ProjectsParser;
-import xagdop.Parser.UsersParser;
+
 
 import java.util.ArrayList;
 public class ProjectsTest extends TestCase {

@@ -15,9 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import xagdop.Controleur.CProject;
+
 import xagdop.Controleur.CTeamManagement;
-import xagdop.Controleur.CTreeNode;
 import xagdop.Model.Projects;
 import xagdop.Parser.ProjectsParser;
 import xagdop.Parser.UsersParser;

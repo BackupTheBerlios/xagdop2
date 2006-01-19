@@ -504,7 +504,7 @@ public class UsersParser {
 
 		try {
 			SvnCommit svnc = new SvnCommit();
-			svnc.sendFile(fichierXML);
+			svnc.sendFile(fichierXML,"");
 			loadTreeInMemory(fichierXML);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

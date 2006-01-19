@@ -1,6 +1,5 @@
 package xagdop.Interface;
 
-import java.io.File;
 
 import javax.swing.JFrame;
 

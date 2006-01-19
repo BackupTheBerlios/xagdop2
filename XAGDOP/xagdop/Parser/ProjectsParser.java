@@ -643,7 +643,7 @@ public class ProjectsParser {
 		try {
 			transformer.transform(new DOMSource(doc), new StreamResult(projectXML));
 			SvnCommit svnc = new SvnCommit();
-			svnc.sendFile(projectXML);
+			svnc.sendFile(projectXML,"");
 			loadTreeInMemory(projectXML);
 		} catch (TransformerException e) {
 			// TODO Auto-generated catch block

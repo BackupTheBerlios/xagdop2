@@ -1,30 +1,21 @@
 package xagdop.Interface;
 
 
-
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-
-import java.awt.GridLayout;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
-import xagdop.Controleur.CProject;
+
 import xagdop.Controleur.CTreeNode;
 import xagdop.ressources.Bundle;
 
@@ -99,12 +90,7 @@ public class IProjectPreferences extends JDialog {
 				{
 				    public void actionPerformed(ActionEvent e)
 				    {
-				    	 JFileChooser jc = new JFileChooser();
-				    	/* int i = jc.showOpenDialog(this);
-				    	 if(i != 1)
-				    	 {
-				    		 String filename = jc.getSelectedFile().getAbsolutePath() ;
-				    	 }*/
+				
 				    }
 				}) ;
         

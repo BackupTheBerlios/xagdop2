@@ -58,7 +58,6 @@ public class CProject {
 	/* Fonction supprimant un projet  */
 	public int deleteProject(CTreeNode node){
 		int error = 0;
-		SVNCommitInfo report;
 		SvnRemove svnR;
 		try {
 			svnR = new SvnRemove();
@@ -67,7 +66,6 @@ public class CProject {
 			e.printStackTrace();
 			return 1;
 		}
-		String path = "/"+node.getName();
 		
 		try {
 			svnR.deleteDir(node);

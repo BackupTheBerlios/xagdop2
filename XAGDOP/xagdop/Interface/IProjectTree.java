@@ -213,7 +213,7 @@ public class IProjectTree extends JTree implements  TreeModelListener
 	
 	private class ITreeCellEditor extends DefaultTreeCellEditor implements CellEditorListener
 	{
-		private CTreeNode mCurrentNode = null;
+		//private CTreeNode mCurrentNode = null;
 		
 		
 		
@@ -233,7 +233,7 @@ public class IProjectTree extends JTree implements  TreeModelListener
 			
 			if( editingComponent instanceof JTextField && value instanceof CTreeNode )
 			{
-				mCurrentNode = (CTreeNode)value;
+		//		mCurrentNode = (CTreeNode)value;
 				((JTextField)editingComponent).selectAll();
 			}
 			
@@ -280,7 +280,7 @@ public class IProjectTree extends JTree implements  TreeModelListener
 	
 	public void treeNodesRemoved(TreeModelEvent event)
 	{
-		ICentralPanel centralTabbedPane ;
+		//ICentralPanel centralTabbedPane ;
 		
 		// retrieve the parent node of the node removed
 		TreePath parentPath = event.getTreePath() ;
