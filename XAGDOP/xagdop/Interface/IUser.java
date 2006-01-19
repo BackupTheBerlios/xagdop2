@@ -1,20 +1,18 @@
 package xagdop.Interface;
 
-import java.awt.GridLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
-
-import xagdop.Model.Users;
-import xagdop.Parser.UsersParser;
+import xagdop.Controleur.CUser;
 import xagdop.ressources.Bundle;
 
 public class IUser extends JFrame{
@@ -29,7 +27,8 @@ public class IUser extends JFrame{
 	private JLabel passwordLabel;
 	private JTextField userID;
 	private JPasswordField password;
-	private UsersParser UParser ;//= new UsersParser();
+	private GridBagConstraints gridBagConstraints = new GridBagConstraints();
+    
 	int i=0;
 	
 	
@@ -40,53 +39,75 @@ public class IUser extends JFrame{
 	
 	private void init(){
 		
-		setTitle("Identification");
-		setSize(300, 200);
+		final CUser CU = new CUser();
 		panel = new JPanel();
-		panel.setLayout(new GridLayout(3,2));
-		userIDLabel = new JLabel(Bundle.getText("iuser.label.id"));
-		passwordLabel = new JLabel(Bundle.getText("iuser.label.password"));
-		panel.add(userIDLabel);
-		//userID = new JTextField(Bundle.getText("iuser.Jtextfield.id"));
-		userID = new JTextField("claire");
-		password = new JPasswordField("pass");
+		panel.setLayout(new GridBagLayout());
+		panel.setMinimumSize(new Dimension(300, 200));
 		
+		
+		/*Creation du mot de passe */
+		userIDLabel = new JLabel(Bundle.getText("iuser.label.id"));
+		//userID = new JTextField(Bundle.getText("iuser.Jtextfield.id"));
+		userID = new JTextField("user");
+		userID.setColumns(8);
+		
+		/*Creation du mot de passe */
+		passwordLabel = new JLabel(Bundle.getText("iuser.label.password"));
+		password = new JPasswordField("pass");
 		//password = new JPasswordField();
 		password.setEchoChar('*');
 		password.setColumns(8);
-
-		panel.add(userID);
-		panel.add(passwordLabel);
-		panel.add(password);
-
-	
 		
+		
+		
+		/*Affichage des champs*/
+		gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.weightx = 100;
+        gridBagConstraints.weighty = 100;
+        panel.add(userIDLabel, gridBagConstraints);
+        
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.weightx = 100;
+        gridBagConstraints.weighty = 100;
+        panel.add(userID, gridBagConstraints);
+
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.weightx = 100;
+        gridBagConstraints.weighty = 100;
+        panel.add(passwordLabel, gridBagConstraints);
+        
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.weightx = 100;
+        gridBagConstraints.weighty = 100;
+        panel.add(password, gridBagConstraints);
+      
+	
+		/*Creation des boutons*/
 		JButton valide = new JButton(Bundle.getText("iuser.button.ok"));
 		JButton cancel = new JButton(Bundle.getText("iuser.button.cancel"));
-		panel.add(valide);
-		panel.add(cancel);
-		//Creation de la fenetre
-		setResizable(true) ;
-		getContentPane().add(panel);
-		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		//setSize(200,200);
-		setLocation(300,200);
-		setVisible(true);
-		pack();
-		UParser = new UsersParser();
+		
+		gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.weightx = 100;
+        gridBagConstraints.weighty = 100;
+        panel.add(valide, gridBagConstraints);
+
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.weightx = 100;
+        gridBagConstraints.weighty = 100;
+        panel.add(cancel, gridBagConstraints);
+		
+        /*Action relative aux boutons*/		
 		valide.addActionListener(new ActionListener(){
 				    public void actionPerformed(ActionEvent e){
-				    	
-				    	Users user = UParser.getUser(userID.getText(),password.getText());
-				    	if (user != null){
-				    		IPreferences.setDefaultPath(IPreferences.getDefaultPath()+user.getLogin()+"/");
-				    		XAGDOP.getInstance().setUser(user);
-				    		XAGDOP.getInstance().setVisible(true);
-				    		XAGDOP.getInstance().refreshButton();
-				    		IU.setVisible(false);
-				    	}
-				    	else{
-				    		JOptionPane.showMessageDialog(null ,"Login incorrect", "Validation" , 1) ;
+				    	if (CU.verifUser(userID.getText(),password.getText()))
+				    	{
+				    		IU.setVisible(false);		    		
 				    	}
 				    }
 				}) ;
@@ -99,8 +120,15 @@ public class IUser extends JFrame{
 		    }
 		}) ;
 		
-
-		
+		//Creation de la fenetre
+		setTitle("Identification");
+		setSize(250, 150);
+		setResizable(false) ;
+		getContentPane().add(panel);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		setLocation(300,200);
+		setVisible(true);
+		pack();
 
 	}
 		    
