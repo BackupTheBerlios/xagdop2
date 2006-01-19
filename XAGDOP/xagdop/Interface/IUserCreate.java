@@ -1,6 +1,8 @@
 package xagdop.Interface;
 
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.management.InstanceNotFoundException;
@@ -26,6 +28,8 @@ public class IUserCreate extends JFrame{
 	private JTextField userID;
 	private JPasswordField password;
 	private JPasswordField passConf;
+	private GridBagConstraints gridBagConstraints = new GridBagConstraints();
+    
 	int i=0;
 	
 
@@ -36,52 +40,87 @@ public class IUserCreate extends JFrame{
 	
 	private void init(){
 		
-		
-		setTitle("Creation d'un nouvel utilisateur");
-		setSize(400, 200);
+		final CUser CU = new CUser();
 		panel = new JPanel();
-		panel.setLayout(new GridLayout(4,3));
+		panel.setLayout(new GridBagLayout());
+	
 		
 		/*Creation de l'identifiant */
 		userIDLabel = new JLabel(Bundle.getText("iuser.label.id"));
 		userID = new JTextField();
-
+		userID.setColumns(8);
+		
 		/*Creation du mot de passe */
 		passwordLabel = new JLabel(Bundle.getText("iuser.label.password"));
 		password = new JPasswordField();
 		password.setEchoChar('*');
 		password.setColumns(8);
 		
-		
+		/*Creation de la confirmation du mot de passe */
 		passConfLabel = new JLabel(Bundle.getText("iuser.label.passconf"));
 		passConf = new JPasswordField();
 		passConf.setEchoChar('*');
 		passConf.setColumns(8);
-		
-		panel.add(userIDLabel);
-		panel.add(userID);
-		panel.add(passwordLabel);
-		panel.add(password);
-		panel.add(passConfLabel);
-		panel.add(passConf);
 	
 		
+		/* AFFICHAGE DES CHAMPS */
+		
+		/*Pour L'identifiant*/
+		gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets= new Insets(5,0,5,15);
+        gridBagConstraints.anchor = GridBagConstraints.EAST;
+        panel.add(userIDLabel, gridBagConstraints);
+        
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets= new Insets(5,0,5,0);
+        gridBagConstraints.anchor = GridBagConstraints.CENTER;
+        panel.add(userID, gridBagConstraints);
+	
+        /*Pour le mot de passe*/
+		gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets= new Insets(0,0,5,15);
+        gridBagConstraints.anchor = GridBagConstraints.EAST;
+        panel.add(passwordLabel, gridBagConstraints);
+		
+		gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets= new Insets(0,0,5,0);
+        gridBagConstraints.anchor = GridBagConstraints.CENTER;
+        panel.add(password, gridBagConstraints);
+		
+        /*Pour la confirmation*/
+		gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets= new Insets(0,0,5,15);
+        gridBagConstraints.anchor = GridBagConstraints.EAST;
+        panel.add(passConfLabel, gridBagConstraints);
+		
+		gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets= new Insets(0,0,5,0);
+        gridBagConstraints.anchor = GridBagConstraints.CENTER;
+        panel.add(passConf, gridBagConstraints);
+		
+		
+		/*Creation des boutons*/
 		JButton valide = new JButton(Bundle.getText("iuser.button.ok"));
 		JButton cancel = new JButton(Bundle.getText("iuser.button.cancel"));
-		panel.add(valide);
-		panel.add(cancel);
+		gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.insets= new Insets(0,0,0,0);
+        gridBagConstraints.anchor = GridBagConstraints.CENTER;
+        panel.add(valide, gridBagConstraints);
 		
-		//Creation de la fenetre
-		setResizable(true) ;
-		getContentPane().add(panel);
-		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setLocation(400,200);
-		setVisible(true);
-		pack();
-		
-		final CUser CU = new CUser();
-		
-		
+		gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.insets= new Insets(0,0,0,0);
+        gridBagConstraints.anchor = GridBagConstraints.CENTER;
+        panel.add(cancel, gridBagConstraints);
+
+        /*Les actions des boutons*/
 		valide.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				try {
@@ -106,7 +145,15 @@ public class IUserCreate extends JFrame{
 		    }
 		}) ;
 		
-	
+		//Creation de la fenetre
+		setTitle(Bundle.getText("iusercreate.title"));
+		setSize(400, 200);
+		setResizable(true) ;
+		getContentPane().add(panel);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		setLocation(300,200);
+		setVisible(true);
+		pack();
          
 	}
 	/**
