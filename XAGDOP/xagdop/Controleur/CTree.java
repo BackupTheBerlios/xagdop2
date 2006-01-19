@@ -441,13 +441,13 @@ public class CTree implements TreeModel
 			while(i<allFiles.length){
 				CTreeNode tmp = new CTreeNode(allFiles[i].getName(),allFiles[i].getAbsolutePath());
 		
-				if(!SvnHistory.isUnderVersion(allFiles[i]))
-					tmp.setIsModified(false);
+				if(SvnHistory.isModified(allFiles[i]))
+					tmp.setIsModified(true);
 				
 				
 				
-				if(!tmp.isVersioned()&&!allFiles[i].isHidden())
-					parent.setIsModified(false);
+				if(tmp.isModified()&&!allFiles[i].isHidden())
+					parent.setIsModified(true);
 		
 				if(!allFiles[i].isHidden())
 					parent.add(tmp);
@@ -459,8 +459,8 @@ public class CTree implements TreeModel
 				
 				i++;
 			}
-			if(!parent.isVersioned()&&((CTreeNode)parent.getParent())!=null)
-				((CTreeNode)parent.getParent()).setIsModified(false);
+			if(parent.isModified()&&((CTreeNode)parent.getParent())!=null)
+				((CTreeNode)parent.getParent()).setIsModified(true);
 			Object[] path = {parent};
 			fireTreeNodesInserted(this, path, null, null);
 		}
