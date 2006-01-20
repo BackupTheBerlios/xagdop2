@@ -91,9 +91,9 @@ public class XAGDOP extends JFrame{
 	// TODO
 	// Effacer apres le travail des L3
 	//Menu for L3
-	JMenu menuL3 = new JMenu("Menu L3");
-	JMenuItem menuL3Admin = new JMenuItem("Fenetre ADMIN");
-	JMenuItem menuL3TM = new JMenuItem("Fenetre Team Management");
+	//JMenu menuL3 = new JMenu("Menu L3");
+	//JMenuItem menuL3Admin = new JMenuItem("Fenetre ADMIN");
+	//JMenuItem menuL3TM = new JMenuItem("Fenetre Team Management");
 	
 	
 	
@@ -185,39 +185,39 @@ public class XAGDOP extends JFrame{
 		menuConfPreferences.setMnemonic('P');
 		
 		
-		menuL3Admin.addActionListener(new ActionListener()
-				{
-			public void actionPerformed(ActionEvent e)
-			{
-				IJAdmin ijadmin = IJAdmin.getIJA();
-				ijadmin.setVisible(true);
-				
-			}
-				}) ;
-		
-		menuL3TM.addActionListener(new ActionListener() { 
-			public void actionPerformed (ActionEvent e)  {
-				
-				
-				
-				String projectName = tree.getSelectedNode().getName();
-				System.out.println(projectName);
-				if (XAGDOP.getInstance().getUser().isPManager(projectName))
-				{
-					IJTeamManagement iteam = new IJTeamManagement(projectName);
-					//iteam.refreshCombo();
-					iteam.setVisible(true);
-				}
-				else
-				{
-					JOptionPane.showMessageDialog(null ,"pas le droit :P", "Plop plop plop" , 1) ;
-					
-				}
-
-
-				
-			}});
-		
+//		admin.addActionListener(new ActionListener()
+//				{
+//			public void actionPerformed(ActionEvent e)
+//			{
+//				IJAdmin ijadmin = IJAdmin.getIJA();
+//				ijadmin.setVisible(true);
+//				
+//			}
+//				}) ;
+//		
+//		equipe.addActionListener(new ActionListener() { 
+//			public void actionPerformed (ActionEvent e)  {
+//				
+//				
+//				
+//				String projectName = tree.getSelectedNode().getName();
+//				System.out.println(projectName);
+//				if (XAGDOP.getInstance().getUser().isPManager(projectName))
+//				{
+//					IJTeamManagement iteam = new IJTeamManagement(projectName);
+//					//iteam.refreshCombo();
+//					iteam.setVisible(true);
+//				}
+//				else
+//				{
+//					JOptionPane.showMessageDialog(null ,"pas le droit :P", "Plop plop plop" , 1) ;
+//					
+//				}
+//
+//
+//				
+//			}});
+//		
 		
 		
 		menuHelpAbout.addActionListener(new ActionListener()
@@ -243,8 +243,8 @@ public class XAGDOP extends JFrame{
 		
 		//TODO
 		//A changer apres le travail des L3
-		menuL3.add(menuL3Admin);
-		menuL3.add(menuL3TM);
+		//menuL3.add(menuL3Admin);
+		//menuL3.add(menuL3TM);
 		
 		
 		
@@ -257,7 +257,7 @@ public class XAGDOP extends JFrame{
 		
 		//TODO 
 		// a supprimer apres le travail des L3
-		menuBar.add(menuL3);
+		//menuBar.add(menuL3);
 		
 		
 		menuBar2.add(commit);
@@ -352,8 +352,8 @@ public class XAGDOP extends JFrame{
 	
 	class openIAdmin implements ActionListener {
 		public void actionPerformed (ActionEvent e) {
-			IAdmin admin = IAdmin.getIA();
-			admin.setVisible(true);
+			IJAdmin ijadmin = IJAdmin.getIJA();
+			ijadmin.setVisible(true);
 		}
 	}
 	
@@ -364,6 +364,9 @@ public class XAGDOP extends JFrame{
 		}
 		
 	}
+
+
+	
 	class openIUser implements ActionListener { 
 		public void actionPerformed (ActionEvent e)  {
 			
@@ -374,9 +377,9 @@ public class XAGDOP extends JFrame{
 			
 			if (XAGDOP.getInstance().getUser().isPManager(projectName))
 			{
-				ITeamManagement iteam = new ITeamManagement(projectName);
+				IJTeamManagement ijteam = new IJTeamManagement(projectName);
 				//iteam.refreshCombo();
-				iteam.setVisible(true);
+				ijteam.setVisible(true);
 			}
 			else
 			{
