@@ -5,53 +5,62 @@ import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
 import javax.swing.JDialog;
+
+import javax.swing.JProgressBar;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar; 
 
 
+
 public class ThreadWait extends Thread {
 
-	JDialog JD ;
-	int i=0;
-	JLabel label = new JLabel("i");
+
+	JDialog JD = new JDialog();
+	//	 Creation de la ProgressBar
+	//JProgressBar PB_wait = new JProgressBar();
+	//JD.getContentPane().add(PB_wait);
 	JPanel panel = new JPanel();
+	JLabel label = new JLabel("toto sa mere en rut ki suce les ours");
 	JProgressBar progressBar = new JProgressBar();
 	
 	
 	public ThreadWait(JFrame jf){	
 		JD = new JDialog(jf,"Encours",true);
+		//JD.setTitle("En cours");
+		
+	//	Stop = false;
+		//PB_wait.add(JD);
+		//JD.getContentPane().add(PB_wait);
+		//JD.setLocation(300,300);		
+		//JD.validate();		
+		//JD.pack();
+		//JD.setVisible(true);
+		
 	}
+
+	
+		
+	
+	
+		// Traitement du thread
 	
 	public void run() {
 		
-	
-		// Traitement du thread
-		
+
 		System.out.println("TOTO");
 		this.init();
-		//i=0;
-		//Stop = false;
-		//while (!Stop)
-			//{
-			//i++;
-			//label.setText(new Integer(i).toString());
-		  	//label.validate();
-		  	
-			//}
-		
 		
 		System.out.println("balbla");
-		//JD.setVisible(false);
-		//Stop = false;
+
 		
     }
 
 	public void arreter()
 	{
 		JD.setVisible(false);
-		
 		
 	}
 	public void demarrer()
@@ -62,12 +71,12 @@ public class ThreadWait extends Thread {
 	public void init()
 	{
 		
-		JD.setSize(300, 300);
-		panel.add(label);
-		//panel.add(progressBar);
-		panel.add(label);
 		
-		//JD.getContentPane().add(progressBar);
+		JD.getContentPane().add(panel);
+		JD.setTitle("En cours");		
+		JD.setSize(300, 100);
+		
+		panel.add(label);
 		JD.getContentPane().add(label);
 		
 		progressBar.setIndeterminate(true);
@@ -77,6 +86,7 @@ public class ThreadWait extends Thread {
 		progressPanel.add(progressBar);
 		progressPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		JD.add(progressPanel, BorderLayout.CENTER);
+		JD.setLocation(300,300);
 		JD.setVisible(true);
 		JD.pack();
 	}
