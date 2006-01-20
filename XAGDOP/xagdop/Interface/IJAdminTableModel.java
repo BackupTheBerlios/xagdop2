@@ -2,10 +2,14 @@ package xagdop.Interface;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.table.AbstractTableModel;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 
 import xagdop.Model.Users;
 
@@ -16,6 +20,7 @@ public class IJAdminTableModel extends AbstractTableModel
             "Administrateur", "Supprimer"};
 	
 	private Object[][] rowData;
+	private ArrayList users;
 	
 	public IJAdminTableModel(ArrayList users)
 	{
@@ -35,20 +40,26 @@ public class IJAdminTableModel extends AbstractTableModel
 		this.rowData[3][1]=new Boolean(false);
 		this.rowData[3][2]=new Boolean(false);
 		this.rowData[3][3]=new JButton(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/supprimer.gif")));*/
-		
-		this.rowData = new Object[users.size()][4];
-		Iterator iter = users.iterator();
+		this.init(users);
+	
+	}
+	
+	public void init(ArrayList users)
+	{
+		this.users = users;
+		this.rowData = new Object[this.users.size()][4];
+		Iterator iter = this.users.iterator();
 		int i=0;
 		while(iter.hasNext())
 		{
 			Object o = iter.next();
 			this.rowData[i][0] = ((Users)o).getLogin();
+			System.out.println("login: "+this.rowData[i][0]);
 			this.rowData[i][1] = new Boolean(((Users)o).isPmanager());
 			this.rowData[i][2] = new Boolean(((Users)o).isAdmin());
 			this.rowData[i][3] = new JButton(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/supprimer.gif")));
 			i++;
 		}
-	
 	}
 	
 	/*private String[] columnNames = {"Nom Utilisateur",
@@ -122,5 +133,4 @@ public class IJAdminTableModel extends AbstractTableModel
         this.rowData[row][col] = value;
         this.fireTableCellUpdated(row, col);
     }
-
 }
