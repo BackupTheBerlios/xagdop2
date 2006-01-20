@@ -143,8 +143,44 @@ public class CTree implements TreeModel
 	}
 	
 	public String treePathName(CTreeNode node){
-		System.out.println(node.getLocalPath().substring(0,mRoot.getLocalPath().length()+1));
+		//System.out.println(node.getLocalPath().substring(0,mRoot.getLocalPath().length()+1));
 		return node.getLocalPath().substring(0,mRoot.getLocalPath().length()+1); 
+	}
+	
+	public String treePathName(String file){
+		//System.out.println(node.getLocalPath().substring(0,mRoot.getLocalPath().length()+1));
+		return file.substring(0,mRoot.getLocalPath().length()+1); 
+	}
+	
+	public String relativePath(String apesFile, String pogFile){
+
+		if(!apesFile.startsWith(mRoot.getLocalPath()))
+			return apesFile;
+		
+		if(!pogFile.startsWith(mRoot.getLocalPath()))
+			return apesFile;
+		apesFile = apesFile.replaceFirst(mRoot.getLocalPath()+"/","");
+		pogFile = pogFile.replaceFirst(mRoot.getLocalPath()+"/","");
+		//System.out.println(apesFile.replaceFirst(mRoot.getLocalPath()+"/","")+" : "+
+		//pogFile.replaceFirst(mRoot.getLocalPath()+"/",""));
+		String[] apesSlit  = apesFile.split("/");
+		String[] pogSlit = pogFile.split("/");
+		String res="";
+		int tmp = 0;
+		for(int i = Math.min(apesSlit.length,pogSlit.length); i>0;i--){
+			//System.out.println(apesSlit[i-1]);
+			if(apesSlit[i-1].compareTo(pogSlit[i-1])!=0)
+				tmp = i-1;
+		}
+		//System.out.println(tmp+" : "+pogSlit.length+" : "+apesSlit.length);
+		for(int i = tmp+1;i<pogSlit.length;i++)
+			res = res.concat("../");
+		for(int i = tmp;i<apesSlit.length;i++)
+			res = res.concat(apesSlit[i]+"/");
+		
+		res = res.substring(0,res.length()-1);
+		System.out.println(res);
+		return res;
 	}
 
 	public TreeNode[] getPathToRoot(CTreeNode node)
@@ -425,7 +461,7 @@ public class CTree implements TreeModel
 	}
 	
 	public void refreshFromLocal(CTreeNode parent){
-		System.out.println(parent.getLocalPath());
+		//relativePath("/home/nephos/IUP/BE/xagdop/XAGDOP/project/user/nom/bla/bla/bla/bli.pre","/home/nephos/IUP/BE/xagdop/XAGDOP/project/user/test/test/bla.pog");
 		File localFiles = new File(parent.getLocalPath());
 		parent.removeAllChildren();
 		
@@ -465,12 +501,15 @@ public class CTree implements TreeModel
 					refreshFromLocal(tmp);
 				
 				i++;
+				
 			}
 			if(parent.isModified()&&((CTreeNode)parent.getParent())!=null)
 				((CTreeNode)parent.getParent()).setIsModified(true);
 			Object[] path = {parent};
 			fireTreeNodesInserted(this, path, null, null);
+		
 		}
+	
 	}
 	
 	/**
