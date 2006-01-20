@@ -147,7 +147,15 @@ public class IProjectTree extends JTree implements  TreeModelListener
 	
 	
 	public CTreeNode getSelectedNode(){
-		return selectedNode;
+		if ( selectedNode == null )
+		{
+			return (CTreeNode) ((CTree)getModel()).getRoot();
+			
+		}
+		else
+		{
+			return selectedNode;
+		}
 	}
 	
 	
