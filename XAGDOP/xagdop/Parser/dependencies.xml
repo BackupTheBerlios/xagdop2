@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files>
-	<project name="nom">
-		<dependencies>
+	<dependencies>
 		
-		<apes fileNameApes="pabe.apes" >
+		<apes fileNameApes="pabe.apes">
 			<pog fileNamePog="pabe.pog">
 				<pre fileNamePre="pabe.pre"/>
 			</pog>
@@ -25,7 +24,7 @@
 		</dependencies>
 	
 		<toupdate>
+			<file path="pabe.pog"/>
 		</toupdate>
-	</project>
 	
 </files>
