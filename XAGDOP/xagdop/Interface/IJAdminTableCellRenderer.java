@@ -1,13 +1,15 @@
 package xagdop.Interface;
 
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
-public class IJAdminTableCellRenderer extends JButton implements TableCellRenderer 
+public class IJAdminTableCellRenderer extends JButton implements TableCellRenderer, ActionListener 
 {
 
 	public IJAdminTableCellRenderer()
@@ -19,6 +21,10 @@ public class IJAdminTableCellRenderer extends JButton implements TableCellRender
 		this.setIcon(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/supprimer.gif")));
 		
 		return this;
+	}
+	public void actionPerformed(ActionEvent arg0) 
+	{
+		System.out.println("delete user");
 	}
 
 }
