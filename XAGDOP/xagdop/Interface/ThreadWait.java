@@ -48,14 +48,11 @@ public class ThreadWait extends Thread {
 		// Traitement du thread
 	
 	public void run() {
-		
+	
 
-		System.out.println("TOTO");
 		this.init();
-		
-		System.out.println("balbla");
 
-		
+
     }
 
 	public void arreter()
