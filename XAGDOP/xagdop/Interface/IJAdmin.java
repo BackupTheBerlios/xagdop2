@@ -154,8 +154,10 @@ public class IJAdmin extends JFrame{
         ButtonCancel.setText("Annuler");
         ButtonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
+            	(IJAdmin.getIJA()).refreshUsers();
                 IJA.dispose();
-                IJA = null;
+                
+
             }
         });
 
@@ -208,7 +210,7 @@ public class IJAdmin extends JFrame{
 					if(IJAdmin.getIJAT().isColumnSelected(((IJAdminTableModel)IJAdmin.getIJAT().getModel()).getColumnCount()-1))
 						{
 						JOptionPane JOP = new JOptionPane();
-						JOptionPane.showOptionDialog(JT,new String("Etes-vous sûr de vouloir supprimer cet utilisateur ?"),new String("Suppression d'un utilisateur"),JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,null,null);
+						JOptionPane.showOptionDialog(JT,new String("Etes-vous s?r de vouloir supprimer cet utilisateur ?"),new String("Suppression d'un utilisateur"),JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,null,null);
 						System.out.println(JOP.getValue().toString());
 						if(((String)JOP.getValue()).equals("non"))
 							{
