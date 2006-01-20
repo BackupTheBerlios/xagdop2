@@ -125,6 +125,7 @@ public class IUserCreate extends JFrame{
 					if(CU.creerUser(userID.getText(),password.getText(),passConf.getText())){
 						IUC.setVisible(false);
 						IJAdmin.getIJA().refreshUsers();
+						IUC = null;
 					}
 				}catch (InstanceNotFoundException e1) {
 						// TODO Auto-generated catch block
@@ -141,6 +142,7 @@ public class IUserCreate extends JFrame{
 		    public void actionPerformed(ActionEvent e)
 		    {
 		    	IUC.dispose();
+		    	IUC = null;
 		    }
 		}) ;
 		

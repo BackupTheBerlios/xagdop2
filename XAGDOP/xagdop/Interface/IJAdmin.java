@@ -141,6 +141,7 @@ public class IJAdmin extends JFrame{
         	
             	
             	(IJAdmin.getIJA()).dispose();
+            	IJA = null;
               }
         });
         
@@ -153,7 +154,7 @@ public class IJAdmin extends JFrame{
             public void actionPerformed(ActionEvent evt) {
             	IJA.refreshUsers();
                 IJA.dispose();
-                
+                IJA = null;
 
             }
         });
@@ -189,8 +190,22 @@ public class IJAdmin extends JFrame{
         //
         //System.out.println("creation jtable");
         JT = new JTable(new IJAdminTableModel(users.getAllUsers()));
-        JT.setPreferredScrollableViewportSize(new Dimension(500, 200));
         JT.setDefaultRenderer(JButton.class, new IJAdminTableCellRenderer());
+        JT.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        JT.setSize(new Dimension(300,200));
+        JT.setPreferredScrollableViewportSize(JT.getSize());
+        JT.getColumn(new String("")).setResizable(false);
+        JT.getColumnModel().getColumn(0).setResizable(false);
+        JT.getColumnModel().getColumn(1).setResizable(false);
+        JT.getColumnModel().getColumn(2).setResizable(false);
+        JT.getColumnModel().getColumn(3).setResizable(false);
+        
+        JT.getColumnModel().getColumn(0).setWidth(15);
+        JT.getColumnModel().getColumn(1).setWidth(15);
+        JT.getColumnModel().getColumn(2).setWidth(15);
+        JT.getColumnModel().getColumn(3).setWidth(15);
+        
+        JT.getColumn(new String("")).setWidth(15);
         GridBagConstraints gbc = new GridBagConstraints();
         this.donnerContrainte(gbc,0,0,3,1,100,100,GridBagConstraints.BOTH);
         JSP = new JScrollPane(JT);
@@ -204,7 +219,7 @@ public class IJAdmin extends JFrame{
 					int idUser;
 					if(JT.isColumnSelected(((IJAdminTableModel)JT.getModel()).getColumnCount()-1))
 						{
-						int out = JOptionPane.showOptionDialog(JT,new String("Etes-vous s?r de vouloir supprimer cet utilisateur ?"),new String("Suppression d'un utilisateur"),JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,null,null);
+						int out = JOptionPane.showOptionDialog(JT,new String("Etes-vous sur de vouloir supprimer cet utilisateur ?"),new String("Suppression d'un utilisateur"),JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,null,null);
 						//System.out.println(out);
 						if(out == JOptionPane.YES_OPTION)
 							{
@@ -238,13 +253,13 @@ public class IJAdmin extends JFrame{
 				}
         	
         	});
-        this.donnerContrainte(gbc,0,1,1,1,100,100,GridBagConstraints.BOTH);
+        this.donnerContrainte(gbc,0,1,1,1,100,100,GridBagConstraints.NONE);
         newPanel.add(ButtonOK, gbc);
         
-        this.donnerContrainte(gbc,1,1,1,1,100,100,GridBagConstraints.BOTH);
+        this.donnerContrainte(gbc,1,1,1,1,100,100,GridBagConstraints.NONE);
         newPanel.add(ButtonCancel,gbc);
         
-        this.donnerContrainte(gbc,2,1,1,1,100,100,GridBagConstraints.BOTH);
+        this.donnerContrainte(gbc,2,1,1,1,100,100,GridBagConstraints.NONE);
         newPanel.add(ButtonCreateUser, gbc);
         
         
@@ -252,6 +267,7 @@ public class IJAdmin extends JFrame{
         pack();
 		setTitle(Bundle.getText("ijadmin.title"));
 		this.setResizable(false);
+		System.out.println("taille fenetre"+this.getSize());
 		//setSize(300, 200);
 		
 	}

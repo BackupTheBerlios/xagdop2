@@ -20,7 +20,7 @@ public class IJAdminTableModel extends AbstractTableModel
 	private String[] columnNames = {Bundle.getText("ijadmin.jtable.user"),
 			Bundle.getText("ijadmin.jtable.pmanager"),
 			Bundle.getText("ijadmin.jtable.admin"), 
-			Bundle.getText("ijadmin.jtable.delete")};
+			""};
 	
 	private Object[][] rowData;
 	private ArrayList users;
