@@ -203,16 +203,9 @@ public class IJAdmin extends JFrame{
 					int idUser;
 					if(JT.isColumnSelected(((IJAdminTableModel)JT.getModel()).getColumnCount()-1))
 						{
-<<<<<<< IJAdmin.java
 						int out = JOptionPane.showOptionDialog(JT,new String("Etes-vous s?r de vouloir supprimer cet utilisateur ?"),new String("Suppression d'un utilisateur"),JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,null,null);
 						System.out.println(out);
 						if(out == JOptionPane.YES_OPTION)
-=======
-						JOptionPane JOP = new JOptionPane();
-						JOptionPane.showOptionDialog(JT,new String("Etes-vous s?r de vouloir supprimer cet utilisateur ?"),new String("Suppression d'un utilisateur"),JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,null,null);
-						System.out.println(JOP.getValue().toString());
-						if(((String)JOP.getValue()).equals("non"))
->>>>>>> 1.9
 							{
 							rowToDelete = JT.getSelectedRow();
 							System.out.println("user : "+((String)JT.getModel().getValueAt(rowToDelete,0)));
