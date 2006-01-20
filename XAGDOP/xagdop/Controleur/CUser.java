@@ -7,6 +7,7 @@ import xagdop.Interface.IPreferences;
 import xagdop.Interface.XAGDOP;
 import xagdop.Model.Users;
 import xagdop.Parser.UsersParser;
+import xagdop.ressources.Bundle;
 
 public class CUser {
 	
@@ -24,7 +25,7 @@ public class CUser {
     		return true;
     	}
     	else{
-    		JOptionPane.showMessageDialog(null ,"Login incorrect", "Validation" , 1) ;
+    		JOptionPane.showMessageDialog(null ,Bundle.getText("cuser.notexist.text"), Bundle.getText("iuser.title"), 1) ;
     		return false;
     	}
 		
@@ -35,19 +36,24 @@ public class CUser {
 		UsersParser UP = new UsersParser();
 		int idUser = 2;
 		if (passwd.equals(passwdconf)){
-    		
-			if (!UP.isUser(UP.getId(login))){
-				UP.addUser(idUser,login,passwd);
-				JOptionPane.showMessageDialog(null ,"Utilisateur creer", "Validation" , 1) ;
-	    		return true;
-			}
-			else{
-				JOptionPane.showMessageDialog(null ,"Login deja utilise", "Validation" , 1) ;
+    		if (passwd.length()>3){
+    			if (!UP.isUser(UP.getId(login))){
+    				UP.addUser(idUser,login,passwd);
+    				JOptionPane.showMessageDialog(null ,Bundle.getText("cuser.create.text"), Bundle.getText("iusercreate.title"), 1) ;
+    				return true;
+    			}
+    			else{
+    				JOptionPane.showMessageDialog(null ,Bundle.getText("cuser.exist.text"), Bundle.getText("iusercreate.title") , 1) ;
+    				return false;
+    			}
+    		}
+    		else{
+    			JOptionPane.showMessageDialog(null ,Bundle.getText("cuser.length.text"), Bundle.getText("iusercreate.title") , 1) ;
 				return false;
-			}
+    		}
 		}
 		else{
-    		JOptionPane.showMessageDialog(null ,"Les deux mots de passe ne sont pas identiques", "Validation" , 1) ;
+    		JOptionPane.showMessageDialog(null ,Bundle.getText("cuser.notequals.text"), Bundle.getText("iusercreate.title") , 1) ;
     		return false;
 		}
 	}

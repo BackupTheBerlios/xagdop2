@@ -121,7 +121,7 @@ public class IUser extends JFrame{
 		}) ;
 		
 		//Creation de la fenetre
-		setTitle("Identification");
+		setTitle(Bundle.getText("iuser.title"));
 		setSize(250, 150);
 		setResizable(false) ;
 		getContentPane().add(panel);
