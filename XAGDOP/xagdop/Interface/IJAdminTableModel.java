@@ -2,19 +2,20 @@ package xagdop.Interface;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.table.AbstractTableModel;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 
 import xagdop.Model.Users;
 
 public class IJAdminTableModel extends AbstractTableModel 
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private String[] columnNames = {"Nom Utilisateur",
             "Chef de Projet",
             "Administrateur", "Supprimer"};

@@ -12,6 +12,10 @@ import javax.swing.table.TableCellRenderer;
 public class IJAdminTableCellRenderer extends JButton implements TableCellRenderer, ActionListener 
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public IJAdminTableCellRenderer()
 	{
 		this.setOpaque(true);
