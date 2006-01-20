@@ -141,6 +141,11 @@ public class CTree implements TreeModel
 		}
 		return -1;
 	}
+	
+	public String treePathName(CTreeNode node){
+		System.out.println(node.getLocalPath().substring(0,mRoot.getLocalPath().length()+1));
+		return node.getLocalPath().substring(0,mRoot.getLocalPath().length()+1); 
+	}
 
 	public TreeNode[] getPathToRoot(CTreeNode node)
 	{
@@ -443,7 +448,6 @@ public class CTree implements TreeModel
 		if(allFiles!=null){
 			while(i<allFiles.length){
 				CTreeNode tmp = new CTreeNode(allFiles[i].getName(),allFiles[i].getAbsolutePath());
-		
 				if(SvnHistory.isModified(allFiles[i]))
 					tmp.setIsModified(true);
 				
