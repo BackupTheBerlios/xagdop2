@@ -8,8 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
-import java.awt.Graphics;
+//import java.util.ArrayList;
 
 
 
@@ -17,13 +16,10 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+//import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
-import javax.swing.table.*;
-import javax.swing.DefaultCellEditor;
-import javax.swing.ListSelectionModel;
 import javax.swing.JOptionPane;
 
 
@@ -40,20 +36,20 @@ public class IJAdmin extends JFrame{
 	private static IJAdmin IJA = null;
 	
 	private JCheckBox AdminCheck = new JCheckBox();
-    private JLabel AdminLabel = new JLabel();
+    //private JLabel AdminLabel = new JLabel();
     private JButton ButtonApply = new JButton();
     private JButton ButtonCancel = new JButton();
     private JButton ButtonOK = new JButton();
     private JButton ButtonCreateUser = new JButton();
     private JCheckBox PManagerCheck = new JCheckBox();
-    private JLabel PManagerLabel = new JLabel();
-    private JLabel UserLabel = new JLabel();
+    //private JLabel PManagerLabel = new JLabel();
+    //private JLabel UserLabel = new JLabel();
     private JComboBox UserListCombo = new JComboBox();
     private JPanel newPanel = new JPanel();
-    private GridBagConstraints gridBagConstraints = new GridBagConstraints();
+    //private GridBagConstraints gridBagConstraints = new GridBagConstraints();
     private UsersParser users;
     private CAdmin cadmin;
-    private static JTable JT;
+    private JTable JT;
     private JScrollPane JSP;
     
 	private IJAdmin(){
@@ -66,7 +62,7 @@ public class IJAdmin extends JFrame{
         cadmin = new CAdmin();
 
         users = new UsersParser();
-        ArrayList list = users.getAllUsers();
+       // ArrayList list = users.getAllUsers();
         
         
         newPanel.setLayout(new GridBagLayout());
@@ -154,7 +150,7 @@ public class IJAdmin extends JFrame{
         ButtonCancel.setText("Annuler");
         ButtonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-            	(IJAdmin.getIJA()).refreshUsers();
+            	IJA.refreshUsers();
                 IJA.dispose();
                 
 
@@ -194,29 +190,33 @@ public class IJAdmin extends JFrame{
         JT = new JTable(new IJAdminTableModel(users.getAllUsers()));
         JT.setPreferredScrollableViewportSize(new Dimension(500, 200));
         JT.setDefaultRenderer(JButton.class, new IJAdminTableCellRenderer());
-        //JT.setDefaultEditor(JButton.class, new IJAdminTableCellEditor());
         GridBagConstraints gbc = new GridBagConstraints();
         this.donnerContrainte(gbc,0,0,3,1,100,100,GridBagConstraints.BOTH);
         JSP = new JScrollPane(JT);
         newPanel.add(JSP,gbc);
-        //JT.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        //JT.setCellSelectionEnabled(true);
+        
         JT.addMouseListener(new MouseListener()
         	{
 				public void mouseClicked(MouseEvent arg0) {
 					// TODO Auto-generated method stub
 					int rowToDelete;
 					int idUser;
-					if(IJAdmin.getIJAT().isColumnSelected(((IJAdminTableModel)IJAdmin.getIJAT().getModel()).getColumnCount()-1))
+					if(JT.isColumnSelected(((IJAdminTableModel)JT.getModel()).getColumnCount()-1))
 						{
+<<<<<<< IJAdmin.java
+						int out = JOptionPane.showOptionDialog(JT,new String("Etes-vous s?r de vouloir supprimer cet utilisateur ?"),new String("Suppression d'un utilisateur"),JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,null,null);
+						System.out.println(out);
+						if(out == JOptionPane.YES_OPTION)
+=======
 						JOptionPane JOP = new JOptionPane();
 						JOptionPane.showOptionDialog(JT,new String("Etes-vous s?r de vouloir supprimer cet utilisateur ?"),new String("Suppression d'un utilisateur"),JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,null,null);
 						System.out.println(JOP.getValue().toString());
 						if(((String)JOP.getValue()).equals("non"))
+>>>>>>> 1.9
 							{
-							rowToDelete = IJAdmin.getIJAT().getSelectedRow();
-							System.out.println("user : "+((String)IJAdmin.getIJAT().getModel().getValueAt(rowToDelete,0)));
-							idUser = users.getId(((String)IJAdmin.getIJAT().getModel().getValueAt(rowToDelete,0)));
+							rowToDelete = JT.getSelectedRow();
+							System.out.println("user : "+((String)JT.getModel().getValueAt(rowToDelete,0)));
+							idUser = users.getId(((String)JT.getModel().getValueAt(rowToDelete,0)));
 							System.out.println("row: "+rowToDelete+" id: "+idUser);
 							users.removeUser(idUser);
 							IJAdmin.getIJA().refreshUsers();
@@ -347,8 +347,8 @@ public class IJAdmin extends JFrame{
 	/**
 	 * @return Returns the JTable.
 	 */
-	public static JTable getIJAT() 
-	{
-		return JT;
-	}
+	//public static JTable getIJAT() 
+	//{
+	//	return JT;
+	//}
 }
