@@ -13,8 +13,8 @@ import java.awt.event.MouseListener;
 
 
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
+//import javax.swing.JCheckBox;
+//import javax.swing.JComboBox;
 import javax.swing.JFrame;
 //import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -26,6 +26,7 @@ import javax.swing.JOptionPane;
 import xagdop.Controleur.CAdmin;
 
 import xagdop.Parser.UsersParser;
+import xagdop.ressources.Bundle;
 
 public class IJAdmin extends JFrame{
 	
@@ -35,16 +36,16 @@ public class IJAdmin extends JFrame{
 	private static final long serialVersionUID = -4048783116748619019L;
 	private static IJAdmin IJA = null;
 	
-	private JCheckBox AdminCheck = new JCheckBox();
+	//private JCheckBox AdminCheck = new JCheckBox();
     //private JLabel AdminLabel = new JLabel();
-    private JButton ButtonApply = new JButton();
+    //private JButton ButtonApply = new JButton();
     private JButton ButtonCancel = new JButton();
     private JButton ButtonOK = new JButton();
     private JButton ButtonCreateUser = new JButton();
-    private JCheckBox PManagerCheck = new JCheckBox();
+    //private JCheckBox PManagerCheck = new JCheckBox();
     //private JLabel PManagerLabel = new JLabel();
     //private JLabel UserLabel = new JLabel();
-    private JComboBox UserListCombo = new JComboBox();
+   // private JComboBox UserListCombo = new JComboBox();
     private JPanel newPanel = new JPanel();
     //private GridBagConstraints gridBagConstraints = new GridBagConstraints();
     private UsersParser users;
@@ -124,7 +125,7 @@ public class IJAdmin extends JFrame{
         gridBagConstraints.gridy = 2;
         newPanel.add(PManagerLabel, gridBagConstraints);*/
 
-        ButtonOK.setText("Ok");
+        ButtonOK.setText(Bundle.getText("button.ok"));
         ButtonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
             	int j =JT.getRowCount();
@@ -147,7 +148,7 @@ public class IJAdmin extends JFrame{
         gridBagConstraints.gridy = 5;
         newPanel.add(ButtonOK, gridBagConstraints);*/
 
-        ButtonCancel.setText("Annuler");
+        ButtonCancel.setText(Bundle.getText("button.cancel"));
         ButtonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
             	IJA.refreshUsers();
@@ -162,31 +163,31 @@ public class IJAdmin extends JFrame{
         gridBagConstraints.gridy = 5;
         newPanel.add(ButtonCancel, gridBagConstraints);*/
 
-        ButtonApply.setText("Appliquer");
+        //ButtonApply.setText(Bundle.getText("button.apply"));
         
         /*gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;*/
-        ButtonApply.addActionListener(new ActionListener() {
+        /*ButtonApply.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                cadmin.Apply(users,users.getId((String)UserListCombo.getSelectedItem()),AdminCheck.isSelected(),PManagerCheck.isSelected());
             }
-        });
+        });*/
         //newPanel.add(ButtonApply, gridBagConstraints);
 
-        ButtonCreateUser.setText("Creer Nouvel User");
+        ButtonCreateUser.setText(Bundle.getText("ijadmin.createUser"));
         ButtonCreateUser.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent evt) {
         		IUserCreate IUC = IUserCreate.getIUC();
         		IUC.setVisible(true);
         		getContentPane().validate();
-        		System.out.println("new user");
+        		//System.out.println("new user");
         		//refreshUsers();
         	}
         });
         
         //newPanel.add(ButtonCreateUser, new GridBagConstraints());*/
         //
-        System.out.println("creation jtable");
+        //System.out.println("creation jtable");
         JT = new JTable(new IJAdminTableModel(users.getAllUsers()));
         JT.setPreferredScrollableViewportSize(new Dimension(500, 200));
         JT.setDefaultRenderer(JButton.class, new IJAdminTableCellRenderer());
@@ -204,13 +205,13 @@ public class IJAdmin extends JFrame{
 					if(JT.isColumnSelected(((IJAdminTableModel)JT.getModel()).getColumnCount()-1))
 						{
 						int out = JOptionPane.showOptionDialog(JT,new String("Etes-vous s?r de vouloir supprimer cet utilisateur ?"),new String("Suppression d'un utilisateur"),JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,null,null);
-						System.out.println(out);
+						//System.out.println(out);
 						if(out == JOptionPane.YES_OPTION)
 							{
 							rowToDelete = JT.getSelectedRow();
-							System.out.println("user : "+((String)JT.getModel().getValueAt(rowToDelete,0)));
+							//System.out.println("user : "+((String)JT.getModel().getValueAt(rowToDelete,0)));
 							idUser = users.getId(((String)JT.getModel().getValueAt(rowToDelete,0)));
-							System.out.println("row: "+rowToDelete+" id: "+idUser);
+							//System.out.println("row: "+rowToDelete+" id: "+idUser);
 							users.removeUser(idUser);
 							IJAdmin.getIJA().refreshUsers();
 							}
@@ -249,14 +250,15 @@ public class IJAdmin extends JFrame{
         
         getContentPane().add(newPanel, new GridBagConstraints());
         pack();
-		setTitle("Administration");
+		setTitle(Bundle.getText("ijadmin.title"));
+		this.setResizable(false);
 		//setSize(300, 200);
 		
 	}
 	
 	public void refresh(){
-		AdminCheck.setSelected(users.getUserByLogin((String)UserListCombo.getSelectedItem()).isAdmin());
-		PManagerCheck.setSelected(users.getUserByLogin((String)UserListCombo.getSelectedItem()).isPmanager());
+		//AdminCheck.setSelected(users.getUserByLogin((String)UserListCombo.getSelectedItem()).isAdmin());
+		//PManagerCheck.setSelected(users.getUserByLogin((String)UserListCombo.getSelectedItem()).isPmanager());
 		
 		
 		}

@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.ImageIcon;
 
 import xagdop.Model.Users;
+import xagdop.ressources.Bundle;
 
 public class IJAdminTableModel extends AbstractTableModel 
 {
@@ -16,9 +17,10 @@ public class IJAdminTableModel extends AbstractTableModel
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private String[] columnNames = {"Nom Utilisateur",
-            "Chef de Projet",
-            "Administrateur", "Supprimer"};
+	private String[] columnNames = {Bundle.getText("ijadmin.jtable.user"),
+			Bundle.getText("ijadmin.jtable.pmanager"),
+			Bundle.getText("ijadmin.jtable.admin"), 
+			Bundle.getText("ijadmin.jtable.delete")};
 	
 	private Object[][] rowData;
 	private ArrayList users;
