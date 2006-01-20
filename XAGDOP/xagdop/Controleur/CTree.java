@@ -32,6 +32,7 @@ import xagdop.Interface.XAGDOP;
 import xagdop.Svn.SvnHistory;
 import xagdop.Interface.ThreadWait;
 import xagdop.Svn.SvnUpdate;
+import xagdop.Thread.ThreadUpdate;
 
 
 /**
@@ -391,33 +392,35 @@ public class CTree implements TreeModel
 		}
 	}*/
 	public void refresh(CTreeNode node) {
-		try {
+//		try {
 			ThreadWait TW = new ThreadWait(XAGDOP.getInstance());
 			TW.start();
 			
-			SvnUpdate svnu = new SvnUpdate();
-			svnu.checkOut(node);
+			ThreadUpdate TU = new ThreadUpdate(node,TW);
+			TU.start();
+			//SvnUpdate svnu = new SvnUpdate();
+			//svnu.checkOut(node);
 			//Enumeration expandPath = XAGDOP.getInstance().getTree().getExpandedDescendants(XAGDOP.getInstance().getTree().getLeadSelectionPath());
-			refreshFromLocal(node);
+			//refreshFromLocal(node);
 			/*while(expandPath.hasMoreElements()){
 				XAGDOP.getInstance().getTree().expandPath((TreePath)expandPath.nextElement());	
 			}*/
 			
 		
-			System.out.println("nanananana");
 			
-			TW.arreter() ;	// rendre la JDialog invisible
+			//TW.arreter() ;	// rendre la JDialog invisible
 			
 			
-		} catch (SVNException e) {
+/*		} catch (SVNException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+	*/	
 		
 	}
 	
 	public void refreshFromLocal(CTreeNode parent){
+		System.out.println(parent.getLocalPath());
 		File localFiles = new File(parent.getLocalPath());
 		parent.removeAllChildren();
 		
