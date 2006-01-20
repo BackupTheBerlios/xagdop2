@@ -12,7 +12,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.WindowConstants;
 import xagdop.Controleur.CUser;
 import xagdop.ressources.Bundle;
 
@@ -29,7 +28,6 @@ public class IUserCreate extends JFrame{
 	private JPasswordField password;
 	private JPasswordField passConf;
 	private GridBagConstraints gridBagConstraints = new GridBagConstraints();
-    
 	int i=0;
 	
 
@@ -68,8 +66,8 @@ public class IUserCreate extends JFrame{
 		/*Pour L'identifiant*/
 		gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets= new Insets(5,0,5,15);
-        gridBagConstraints.anchor = GridBagConstraints.EAST;
+        gridBagConstraints.insets= new Insets(5,5,5,15);
+        gridBagConstraints.anchor = GridBagConstraints.WEST;
         panel.add(userIDLabel, gridBagConstraints);
         
         gridBagConstraints.gridx = 1;
@@ -81,8 +79,8 @@ public class IUserCreate extends JFrame{
         /*Pour le mot de passe*/
 		gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets= new Insets(0,0,5,15);
-        gridBagConstraints.anchor = GridBagConstraints.EAST;
+        gridBagConstraints.insets= new Insets(0,5,5,15);
+        gridBagConstraints.anchor = GridBagConstraints.WEST;
         panel.add(passwordLabel, gridBagConstraints);
 		
 		gridBagConstraints.gridx = 1;
@@ -94,8 +92,8 @@ public class IUserCreate extends JFrame{
         /*Pour la confirmation*/
 		gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.insets= new Insets(0,0,5,15);
-        gridBagConstraints.anchor = GridBagConstraints.EAST;
+        gridBagConstraints.insets= new Insets(0,5,5,15);
+        gridBagConstraints.anchor = GridBagConstraints.WEST;
         panel.add(passConfLabel, gridBagConstraints);
 		
 		gridBagConstraints.gridx = 1;
@@ -150,7 +148,6 @@ public class IUserCreate extends JFrame{
 		setSize(400, 200);
 		setResizable(true) ;
 		getContentPane().add(panel);
-		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setLocation(300,200);
 		setVisible(true);
 		pack();
