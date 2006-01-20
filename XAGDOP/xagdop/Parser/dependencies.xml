@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files>
+	<project name="nom">
+		<dependencies>
+		
+		<apes fileNameApes="pabe.apes" >
+			<pog fileNamePog="pabe.pog">
+				<pre fileNamePre="pabe.pre"/>
+			</pog>
+			<pog fileNamePog="pabe.pog">
+				<pre fileNamePre="pabe2.pre"/>
+			</pog>
+			<pog fileNamePog="pabe.pog">
+				<pre fileNamePre="pabe3.pre"/>
+			</pog>
+		</apes>
+		<apes fileNameApes="Phlancement.apes">
+			<pog fileNamePog="Phlancement.pog">
+				<pre fileNamePre="Phlancement.pre"/>
+			</pog>
+			<pog fileNamePog="pabe.pog">
+				<pre fileNamePre="pabe4.pre"/>
+			</pog>
+		</apes>
+		</dependencies>
+	
+		<toupdate>
+		</toupdate>
+	</project>
+	
+</files>
