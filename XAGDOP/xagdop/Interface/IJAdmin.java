@@ -4,9 +4,12 @@ package xagdop.Interface;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.awt.Graphics;
 
 
 
@@ -18,6 +21,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
+import javax.swing.table.*;
+import javax.swing.DefaultCellEditor;
+import javax.swing.ListSelectionModel;
+import javax.swing.JOptionPane;
 
 
 import xagdop.Controleur.CAdmin;
@@ -46,7 +53,8 @@ public class IJAdmin extends JFrame{
     private GridBagConstraints gridBagConstraints = new GridBagConstraints();
     private UsersParser users;
     private CAdmin cadmin;
-    private JTable JT;
+    private static JTable JT;
+    private JScrollPane JSP;
     
 	private IJAdmin(){
 		init();
@@ -147,6 +155,7 @@ public class IJAdmin extends JFrame{
         ButtonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 IJA.dispose();
+                IJA = null;
             }
         });
 
@@ -171,19 +180,68 @@ public class IJAdmin extends JFrame{
         	public void actionPerformed(ActionEvent evt) {
         		IUserCreate IUC = IUserCreate.getIUC();
         		IUC.setVisible(true);
+        		getContentPane().validate();
+        		System.out.println("new user");
+        		//refreshUsers();
         	}
         });
         
         //newPanel.add(ButtonCreateUser, new GridBagConstraints());*/
         //
+        System.out.println("creation jtable");
         JT = new JTable(new IJAdminTableModel(users.getAllUsers()));
-        JT.setPreferredScrollableViewportSize(new Dimension(500, 70));
+        JT.setPreferredScrollableViewportSize(new Dimension(500, 200));
         JT.setDefaultRenderer(JButton.class, new IJAdminTableCellRenderer());
-        
+        //JT.setDefaultEditor(JButton.class, new IJAdminTableCellEditor());
         GridBagConstraints gbc = new GridBagConstraints();
         this.donnerContrainte(gbc,0,0,3,1,100,100,GridBagConstraints.BOTH);
-        newPanel.add(new JScrollPane(JT),gbc);
-        
+        JSP = new JScrollPane(JT);
+        newPanel.add(JSP,gbc);
+        //JT.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        //JT.setCellSelectionEnabled(true);
+        JT.addMouseListener(new MouseListener()
+        	{
+				public void mouseClicked(MouseEvent arg0) {
+					// TODO Auto-generated method stub
+					int rowToDelete;
+					int idUser;
+					if(IJAdmin.getIJAT().isColumnSelected(((IJAdminTableModel)IJAdmin.getIJAT().getModel()).getColumnCount()-1))
+						{
+						JOptionPane JOP = new JOptionPane();
+						JOptionPane.showOptionDialog(JT,new String("Etes-vous sûr de vouloir supprimer cet utilisateur ?"),new String("Suppression d'un utilisateur"),JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,null,null);
+						System.out.println(JOP.getValue().toString());
+						if(((String)JOP.getValue()).equals("non"))
+							{
+							rowToDelete = IJAdmin.getIJAT().getSelectedRow();
+							System.out.println("user : "+((String)IJAdmin.getIJAT().getModel().getValueAt(rowToDelete,0)));
+							idUser = users.getId(((String)IJAdmin.getIJAT().getModel().getValueAt(rowToDelete,0)));
+							System.out.println("row: "+rowToDelete+" id: "+idUser);
+							users.removeUser(idUser);
+							IJAdmin.getIJA().refreshUsers();
+							}
+						}
+				}
+
+				public void mousePressed(MouseEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				public void mouseReleased(MouseEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				public void mouseEntered(MouseEvent arg0) {
+					// TODO Auto-generated method stub
+				}
+
+				public void mouseExited(MouseEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+        	
+        	});
         this.donnerContrainte(gbc,0,1,1,1,100,100,GridBagConstraints.BOTH);
         newPanel.add(ButtonOK, gbc);
         
@@ -207,6 +265,28 @@ public class IJAdmin extends JFrame{
 		
 		
 		}
+	
+	public void refreshUsers()
+	{
+		GridBagConstraints gbc = new GridBagConstraints();
+        this.donnerContrainte(gbc,0,0,3,1,100,100,GridBagConstraints.BOTH);
+		//Graphics g = this.getGraphics();
+		this.users = new UsersParser();
+		((IJAdminTableModel)this.JT.getModel()).init(this.users.getAllUsers());
+		this.remove(newPanel);
+		this.newPanel.remove(JSP);
+		
+		//this.JT = new JTable(new IJAdminTableModel(this.users.getAllUsers()));
+		JSP = new JScrollPane(JT);
+		this.newPanel.add(JSP,gbc);
+		this.getContentPane().add(newPanel, new GridBagConstraints());
+		this.pack();
+		//this.validate();
+		//((IJAdminTableModel)this.JT.getModel()).init();
+		//this.update(g);
+		this.getContentPane().validate();
+		//g.dispose();
+	}
 	
 	/** Panel de message de fin de transaction
      * @param gbc <CODE>GridBagConstraints</CODE> represente la contrainte qui va prendre les
@@ -260,5 +340,13 @@ public class IJAdmin extends JFrame{
 		}
 		
 		return IJA;
+	}
+	
+	/**
+	 * @return Returns the JTable.
+	 */
+	public static JTable getIJAT() 
+	{
+		return JT;
 	}
 }
