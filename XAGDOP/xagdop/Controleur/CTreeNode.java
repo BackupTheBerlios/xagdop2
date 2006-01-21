@@ -22,45 +22,39 @@ public class CTreeNode extends DefaultMutableTreeNode implements Serializable
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 3471931069630056896L;
+	private static final long serialVersionUID = 1L;
 	protected String localPath;
 	protected boolean modified = false;
 	
 	public CTreeNode(Object userObject, boolean isLeaf)
 	{
-		super(userObject);
+		super(userObject,!isLeaf);
 		File localFilePath = new File(IPreferences.getDefaultPath());
 		this.localPath = localFilePath.getAbsolutePath();
 	}
 
 
-	public CTreeNode(Object userObject, CTreeNode parent)
+/*	public CTreeNode(Object userObject, CTreeNode parent, boolean isLeaf)
 	{
-		super(userObject);
+		super(userObject,!isLeaf);
 		setParent(parent);
 		File localFilePath = new File(IPreferences.getDefaultPath());
 		this.localPath = localFilePath.getAbsolutePath();
-	}
-	
+	}*/
 
-	public CTreeNode(Object userObject) {
-		super(userObject);
-		File localFilePath = new File(IPreferences.getDefaultPath());
-		this.localPath = localFilePath.getAbsolutePath();
-	}
 
-	public CTreeNode(Object userObject, String _localPath) {
-		super(userObject);
+	public CTreeNode(Object userObject, String _localPath,boolean isLeaf) {
+		super(userObject,!isLeaf);
 		File localFilePath = new File(_localPath);
 		this.localPath = localFilePath.getAbsolutePath();
 	}
 	
-	public CTreeNode(Object userObject, CTreeNode parent, String _localPath)	{
-		super(userObject);
+/*	public CTreeNode(Object userObject, CTreeNode parent, String _localPath,boolean isLeaf)	{
+		super(userObject,!isLeaf);
 		setParent(parent);
 		File localFilePath = new File(_localPath);
 		this.localPath = localFilePath.getAbsolutePath();
-	}
+	}*/
 
 	public String getLocalPath() {
 		return localPath;

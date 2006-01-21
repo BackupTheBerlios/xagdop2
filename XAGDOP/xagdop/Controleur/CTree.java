@@ -5,6 +5,7 @@ package xagdop.Controleur;
 import java.awt.Component;
 import java.io.File;
 import java.io.FilenameFilter;
+import java.net.URL;
 import java.util.Map;
 
 import javax.swing.Icon;
@@ -23,15 +24,13 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-import org.tmatesoft.svn.core.SVNException;
-
 import xagdop.Identity;
 import xagdop.Interface.ICentralPanel;
 import xagdop.Interface.IPreferences;
-import xagdop.Interface.XAGDOP;
-import xagdop.Svn.SvnHistory;
 import xagdop.Interface.ThreadWait;
-import xagdop.Svn.SvnUpdate;
+import xagdop.Interface.XAGDOP;
+import xagdop.Parser.DependenciesParser;
+import xagdop.Svn.SvnHistory;
 import xagdop.Thread.ThreadUpdate;
 
 
@@ -43,7 +42,7 @@ import xagdop.Thread.ThreadUpdate;
 public class CTree implements TreeModel
 {
     private EventListenerList mListenerList = new EventListenerList();
-    private CTreeNode mRoot = new CTreeNode("",IPreferences.getDefaultPath()); 
+    private CTreeNode mRoot = new CTreeNode("Projects List",IPreferences.getDefaultPath(),false); 
     
     public CTree()
     {
@@ -144,12 +143,12 @@ public class CTree implements TreeModel
 	
 	public String treePathName(CTreeNode node){
 		//System.out.println(node.getLocalPath().substring(0,mRoot.getLocalPath().length()+1));
-		return node.getLocalPath().substring(0,mRoot.getLocalPath().length()+1); 
+		return node.getLocalPath().substring(mRoot.getLocalPath().length()+1,node.getLocalPath().length()); 
 	}
 	
 	public String treePathName(String file){
 		//System.out.println(node.getLocalPath().substring(0,mRoot.getLocalPath().length()+1));
-		return file.substring(0,mRoot.getLocalPath().length()+1); 
+		return file.substring(mRoot.getLocalPath().length()+1,file.length()); 
 	}
 	
 	public String relativePath(String apesFile, String pogFile){
@@ -483,7 +482,12 @@ public class CTree implements TreeModel
 		int i = 0;
 		if(allFiles!=null){
 			while(i<allFiles.length){
-				CTreeNode tmp = new CTreeNode(allFiles[i].getName(),allFiles[i].getAbsolutePath());
+				CTreeNode tmp ;
+				if(allFiles[i].isDirectory())
+					tmp = new CTreeNode(allFiles[i].getName(),allFiles[i].getAbsolutePath(),false);
+				else
+					tmp = new CTreeNode(allFiles[i].getName(),allFiles[i].getAbsolutePath(),true);
+				
 				if(SvnHistory.isModified(allFiles[i]))
 					tmp.setIsModified(true);
 				
@@ -641,7 +645,22 @@ public class CTree implements TreeModel
 	 */
 	public Icon associateIcon(Object node)
 	{
-		return new ImageIcon();
+		ImageIcon icon;
+		URL imageURL;
+		if(!((CTreeNode)node).getAllowsChildren()){
+			if(DependenciesParser.getInstance().isToUpdate(treePathName(((CTreeNode)node).getLocalPath()))){
+				imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/lab_err1.gif");
+				icon = new ImageIcon(imageURL);
+			}else{
+				imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/view.gif");
+				icon = new ImageIcon(imageURL);
+			}
+		}
+		else{
+			imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/prj.gif");
+			icon = new ImageIcon(imageURL);
+		}
+		return icon;
 	}
 
 	/**
