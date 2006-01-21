@@ -1,18 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<files>
+<?xml version="1.0" encoding="UTF-8"?><files>
 	<dependencies>
 		
 		<apes fileNameApes="pabe.apes">
-			<pog fileNamePog="pabe.pog">
+			<pog fileNamePog="pabe1.pog">
 				<pre fileNamePre="pabe.pre"/>
 			</pog>
-			<pog fileNamePog="pabe.pog">
+			<pog fileNamePog="pabe2.pog">
 				<pre fileNamePre="pabe2.pre"/>
 			</pog>
-			<pog fileNamePog="pabe.pog">
+			<pog fileNamePog="pabe3.pog">
 				<pre fileNamePre="pabe3.pre"/>
 			</pog>
-		</apes>
+		<pog fileNamePog="bla.pog"><pre fileNamePre="bla.pre"/></pog></apes>
 		<apes fileNameApes="Phlancement.apes">
 			<pog fileNamePog="Phlancement.pog">
 				<pre fileNamePre="Phlancement.pre"/>
@@ -21,7 +20,7 @@
 				<pre fileNamePre="pabe4.pre"/>
 			</pog>
 		</apes>
-		</dependencies>
+		<apes fileNameApes="bla.apes"/></dependencies>
 	
 		<toupdate>
 			<file path="pabe.pog"/>
