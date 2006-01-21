@@ -23,6 +23,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import xagdop.Svn.SvnCommit;
+import xagdop.Svn.SvnUpdate;
 
 public class DependenciesParser {
 	private DocumentBuilderFactory dbf;
@@ -44,10 +45,10 @@ public class DependenciesParser {
 	private DependenciesParser()
 	{
 		try {
-			/*SvnUpdate svnu = new SvnUpdate();
-			if((dependenciesXML = svnu.getProjectFile())==null)
-				System.out.println("Erreur");*/
-			dependenciesXML = new File("xagdop/Parser/dependencies.xml");	//debug Attention ? ne pas le commit
+			SvnUpdate svnu = new SvnUpdate();
+			if((dependenciesXML = svnu.getDependenciesFile())==null)
+				System.out.println("Erreur");
+			//dependenciesXML = new File("xagdop/Parser/dependencies.xml");	//debug Attention ? ne pas le commit
 			loadTreeInMemory(dependenciesXML);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -84,6 +85,8 @@ public class DependenciesParser {
 		try {
 			apesNode = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
 			
+			if(apesNode != null){
+			
 			if(apesNode.hasChildNodes()){
 				
 				Node nodeAll = null;
@@ -103,6 +106,7 @@ public class DependenciesParser {
 						}
 					}					
 				}
+			}
 			}
 			else {
 				System.out.println("Pb getPogFromApes");
@@ -127,25 +131,26 @@ public class DependenciesParser {
 			
 		try {
 			pogNode = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
-			
-			if(pogNode.hasChildNodes()){
-				
-				Node nodeAll = null;
-				Node attributePath = null;
-				NamedNodeMap mapAttributes = null;
-				
-				preNodeList = pogNode.getChildNodes();
-				for (int i=0; i<preNodeList.getLength(); i++)
-				{
-					nodeAll = preNodeList.item(i);
-					mapAttributes = nodeAll.getAttributes();
-					if(mapAttributes != null){					
-						attributePath = mapAttributes.getNamedItem("fileNamePre");
+			if(pogNode!=null){
+				if(pogNode.hasChildNodes()){
 					
-						if(attributePath!=null){
-							preList.add(attributePath.getNodeValue());
-						}
-					}					
+					Node nodeAll = null;
+					Node attributePath = null;
+					NamedNodeMap mapAttributes = null;
+					
+					preNodeList = pogNode.getChildNodes();
+					for (int i=0; i<preNodeList.getLength(); i++)
+					{
+						nodeAll = preNodeList.item(i);
+						mapAttributes = nodeAll.getAttributes();
+						if(mapAttributes != null){					
+							attributePath = mapAttributes.getNamedItem("fileNamePre");
+							
+							if(attributePath!=null){
+								preList.add(attributePath.getNodeValue());
+							}
+						}					
+					}
 				}
 			}
 			else {
@@ -180,50 +185,52 @@ public class DependenciesParser {
 			/**
 			 * If there is "pog" nodes, which are children of the "apes" node   
 			 */
-
-			if(apesNode.hasChildNodes()){				
-				Node nodeAllPog = null;			
-				pogNodeList = apesNode.getChildNodes();
-
-				/**
-				 * For all children node "pog"  
-				 */
-
-				for (int i=0; i<pogNodeList.getLength(); i++)
-				{
-					nodeAllPog = pogNodeList.item(i);
-
+			if(apesNode!=null){
+				if(apesNode.hasChildNodes()){				
+					Node nodePog = null;			
+					pogNodeList = apesNode.getChildNodes();
+					
 					/**
-					 * If there is "pre" nodes, which are children of the "pog" node   
+					 * For all children node "pog"  
 					 */
-
-					if(nodeAllPog.hasChildNodes()){					
-						Node nodeAllPre = null;
-						Node attributePath = null;
-						NamedNodeMap mapAttributes = null;
+					
+					for (int i=0; i<pogNodeList.getLength(); i++)
+					{
+						nodePog = pogNodeList.item(i);
 						
-						preNodeList = nodeAllPog.getChildNodes();
 						/**
-						 * For all children node "pre"  
+						 * If there is "pre" nodes, which are children of the "pog" node   
 						 */
-						for (int j=0; j<preNodeList.getLength(); j++)
-						{	
-							nodeAllPre = preNodeList.item(j);
-							/**
-							 * Getting all node's attribute in a NamedNodeMap  
-							 */
-							mapAttributes = nodeAllPre.getAttributes();
-							if(mapAttributes != null){					
-								attributePath = mapAttributes.getNamedItem("fileNamePre");							
-								if(attributePath!=null){
+						if(nodePog!=null){
+							if(nodePog.hasChildNodes()){					
+								Node nodePre = null;
+								Node attributePath = null;
+								NamedNodeMap mapAttributes = null;
+								
+								preNodeList = nodePog.getChildNodes();
+								/**
+								 * For all children node "pre"  
+								 */
+								for (int j=0; j<preNodeList.getLength(); j++)
+								{	
+									nodePre = preNodeList.item(j);
 									/**
-									 * Add the selected attribute in the result ArrayList  
+									 * Getting all node's attribute in a NamedNodeMap  
 									 */
-									preList.add(attributePath.getNodeValue());
+									mapAttributes = nodePre.getAttributes();
+									if(mapAttributes != null){					
+										attributePath = mapAttributes.getNamedItem("fileNamePre");							
+										if(attributePath!=null){
+											/**
+											 * Add the selected attribute in the result ArrayList  
+											 */
+											preList.add(attributePath.getNodeValue());
+										}
+									}
 								}
-							}
+							}	
 						}
-					}					
+					}
 				}
 			}
 			else {
@@ -241,9 +248,9 @@ public class DependenciesParser {
 	public boolean isToUpdate(String filePath)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//toupdate/file[@path="+filePath+"]";
+		String expression = "//toupdate/file[@path=\""+filePath+"\"]";
 		Element elem = null;
-		
+		 
 		try {
 			elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
 		}
@@ -255,7 +262,6 @@ public class DependenciesParser {
 				return true;		
 		}
 		else {
-			System.out.println("Pb isToUpdate!");    
 			return false;
 		}
 	}
@@ -399,8 +405,8 @@ public class DependenciesParser {
 		} 
 		try {
 			transformer.transform(new DOMSource(doc), new StreamResult(dependenciesXML));
-			//SvnCommit svnc = new SvnCommit();
-			//svnc.sendFile(dependenciesXML,"");
+			SvnCommit svnc = new SvnCommit();
+			svnc.sendFile(dependenciesXML,"");
 			loadTreeInMemory(dependenciesXML);
 		} catch (TransformerException e) {
 			// TODO Auto-generated catch block
