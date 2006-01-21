@@ -1,5 +1,6 @@
 package xagdop.Parser;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import xagdop.Model.Projects;
@@ -9,17 +10,51 @@ public class testsParsers {
 
 	public testsParsers()
 	{
-		//UsersParser users = new UsersParser();
-		ProjectsParser projects = new ProjectsParser();
+		POGParser p = new POGParser(new File("/home/claire/tests/Phlancement.pog"));
+		p.setApesPathToRelative("tests/Phlancement.apes");
+		/*
+		DependenciesParser dep = DependenciesParser.getInstance();
+		
+		ArrayList list = dep.getPogFromApes("pabe.apes");
+		for(int i=0; i<list.size(); i++)
+		 {
+			 System.out.println("Pog : " + list.get(i));
+			 
+		 }
+		
+		dep.delToUpdate("bla.apes");
+		
+		
 		
 		/*
+		list = dep.getPreFromPog("pabe.pog");
+		for(int i=0; i<list.size(); i++)
+		 {
+			 System.out.println("Pre : " + list.get(i));
+			 
+		 }
+		
+		list = dep.getPreFromApes("Phlancement.apes");
+		for(int i=0; i<list.size(); i++)
+		 {
+			 System.out.println("getPreFromApes : " + list.get(i));
+			 
+		 }
+		//UsersParser users = new UsersParser();
+
+		//ProjectsParser projects = new ProjectsParser();
+		
+	
 		String login;
 		String passwd;
-		String url;*/
+		String url;
+
+		String passwd;
+		String url;
 		
 		//users.removeUser(8);
 		//projects.removeProject("Projet2");
-		 Projects projet = projects.getAllUsers("Projet1");
+		 //Projects projet = projects.getAllUsers("Projet1");
 
 		 ArrayList list = projet.getUsersId();
 
