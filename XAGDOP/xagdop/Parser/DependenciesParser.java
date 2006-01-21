@@ -279,7 +279,7 @@ public class DependenciesParser {
 		if ( elem != null ) {
 				elem.appendChild(newElem);
 				saveDocument();
-				System.out.println("OK!");
+			
 			}
 		else {
 				System.out.println("Ajout du fichier Apes impossible!"); 
