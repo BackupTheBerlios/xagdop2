@@ -44,7 +44,7 @@ public class SvnRemove {
 				return editor.closeEdit();
 			} catch (SVNException e) {
 				e.printStackTrace();
-				System.exit(0);
+				//System.exit(0);
 			}
 		}
 		

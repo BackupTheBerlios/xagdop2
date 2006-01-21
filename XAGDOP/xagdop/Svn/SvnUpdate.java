@@ -33,26 +33,33 @@ public class SvnUpdate{
 	}
 	
 	public File getUsersFile() throws SVNException{
-		SVNUpdateClient up = new SVNUpdateClient(repository.getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
-		
-		File projectDirectoryLocal = new File(IPreferences.getDefaultPath());
-		if(!projectDirectoryLocal.exists())
-			projectDirectoryLocal.mkdir();
-		
-		
-		File droitsLocal = new File(IPreferences.getDefaultPath()+".xagdop/");
-		if(droitsLocal.exists())
-			up.doUpdate(droitsLocal,SVNRevision.HEAD,false);
-		else
-			up.doCheckout(repository.getLocation(),droitsLocal,SVNRevision.HEAD,SVNRevision.HEAD,false);
+		getFiles();
+		File droitsLocal = new File(IPreferences.getDefaultPath()+".xagdop/users.xml");
 		droitsLocal.deleteOnExit();
-		droitsLocal = new File(IPreferences.getDefaultPath()+".xagdop/users.xml");
-		droitsLocal.deleteOnExit();
+		droitsLocal.setReadOnly();
 		return droitsLocal;
 		
 	}
 	
 	public File getProjectFile() throws SVNException{
+		getFiles();
+		File projectLocal = new File(IPreferences.getDefaultPath()+".xagdop/projects.xml");
+		projectLocal.deleteOnExit();
+		projectLocal.setReadOnly();
+		return projectLocal;
+		
+	}
+	
+	public File getDependenciesFile() throws SVNException{
+		getFiles();
+		File dependenciesLocal = new File(IPreferences.getDefaultPath()+".xagdop/dependencies.xml");
+		dependenciesLocal.deleteOnExit();
+		dependenciesLocal.setReadOnly();
+		return dependenciesLocal;
+		
+	}
+	
+	public void getFiles() throws SVNException{
 		SVNUpdateClient up = new SVNUpdateClient(repository.getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
 		File projectDirectoryLocal = new File(IPreferences.getDefaultPath());
 		if(!projectDirectoryLocal.exists())
@@ -65,10 +72,6 @@ public class SvnUpdate{
 		else
 			up.doCheckout(repository.getLocation(),projectLocal,SVNRevision.HEAD,SVNRevision.HEAD,false);
 		projectLocal.deleteOnExit();
-		projectLocal = new File(IPreferences.getDefaultPath()+".xagdop/projects.xml");
-		projectLocal.deleteOnExit();
-		return projectLocal;
-		
 	}
 	
 	
