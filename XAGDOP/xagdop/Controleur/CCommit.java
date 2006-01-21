@@ -34,7 +34,12 @@ public class CCommit{
 		//Si on avait cliqué sur un fichier
 		if (node.isLeaf())
 		{
+			
+			
+			
+			//-----------------------------------------
 			//Si le fichier est un apes -->
+			//-----------------------------------------
 			if (nameOfFile.endsWith(".apes"))
 			{
 				//Si le fichier est tout neuf
@@ -43,8 +48,8 @@ public class CCommit{
 					//Pas d'entrainement de verification de fichier pog, car fichier tout nouveau
 					
 					//Rajout dans le fichier de dépendances le fichier apes que l'on veut envoyer
-					//TODO
-					//DP.addApesFile(pathToRoot);
+					
+					DP.addApes(pathToRoot);
 					
 					
 					
@@ -58,25 +63,25 @@ public class CCommit{
 					
 					
 					//On recupere la liste de tous les pogs dependant de l'apes
-					//TODO
-					//ArrayList allPog = DP.getPogFromApes(pathToRoot);
+					
+					ArrayList allPog = DP.getPogFromApes(pathToRoot);
 					
 					//Initialisation du parcours
 					int i = 0;
 
 					
-	//TODO all uncomment
-/*					//On parcours la liste
+
+					//On parcours la liste
 					for (i=0;i<allPog.size();i++)
 					{
 						//On indique qu'il faut mettre a jour tous les fichiers
 						//Qui sont dépendants du fichier apes que l'on veux envoyer
 					
-						DP.addtoupdate((String)allPog.get(i));
+						DP.addToUpdate((String)allPog.get(i));
 						
 					}
 					
-*/
+
 				}
 				
 					//Cas d'erreur
@@ -121,20 +126,17 @@ public class CCommit{
 
 					//Ajout dans le DependenciesParser du Pog correspondant
 					//addPog(Apes,Pog)
-					//TODO
-					//DP.addPog(pathSemiGlobal,pathToRoot);
+					DP.addPog(pathSemiGlobal,pathToRoot);
 					
 					
 					
 					
 					//Appelle a la methode qui permet de calculer le chemin relatif
 					//relative(Pog,Apes)
-					//TODO
 					//String relativeToApes = relative(node.getLocalPath(),pathDependantApesFile);
 					
 					//Modification du fichier POG	
-					//TODO
-					//POGP.setPathApesFile(relativeToApes);
+					//POGP.setApesPathToRelative(relativeToApes);
 					
 					
 					
@@ -148,8 +150,7 @@ public class CCommit{
 				{
 					
 					//On essaie de supprimer le fichier de la liste des fichiers à modifier
-					//TODO
-					//DP.deltoupdate(pathToRoot);
+					DP.delToUpdate(pathToRoot);
 					
 										
 				}
@@ -162,16 +163,9 @@ public class CCommit{
 						
 			}
 			
-			
-			
-			
-			node.getName();
-			
-			node.getPath();
 		}
 		
 	}
 	
-	//public void commit
 	
 }
