@@ -36,7 +36,6 @@ public class SvnUpdate{
 		getFiles();
 		File droitsLocal = new File(IPreferences.getDefaultPath()+".xagdop/users.xml");
 		droitsLocal.deleteOnExit();
-		droitsLocal.setReadOnly();
 		return droitsLocal;
 		
 	}
@@ -45,7 +44,6 @@ public class SvnUpdate{
 		getFiles();
 		File projectLocal = new File(IPreferences.getDefaultPath()+".xagdop/projects.xml");
 		projectLocal.deleteOnExit();
-		projectLocal.setReadOnly();
 		return projectLocal;
 		
 	}
@@ -54,7 +52,6 @@ public class SvnUpdate{
 		getFiles();
 		File dependenciesLocal = new File(IPreferences.getDefaultPath()+".xagdop/dependencies.xml");
 		dependenciesLocal.deleteOnExit();
-		dependenciesLocal.setReadOnly();
 		return dependenciesLocal;
 		
 	}
