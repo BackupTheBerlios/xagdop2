@@ -1,6 +1,7 @@
 package xagdop.Parser;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -17,6 +18,9 @@ import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import xagdop.Svn.SvnCommit;
 
@@ -66,97 +70,204 @@ public class DependenciesParser {
 		}
 	}
 	
-	public String getApesName(String projectName, String pogName)
+
+	public ArrayList getPogFromApes(String apesName)
 	{
-		
+		ArrayList pogList = new ArrayList();
 		
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//project[@name=\""+projectName+"\"]/*/*/pog[@fileNamePog=\""+pogName+"\"]";
+		String expression = "//apes[@fileNameApes=\""+apesName+"\"]";
+
+		Element apesNode = null;
+		NodeList pogNodeList;
+			
+		try {
+			apesNode = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+			
+			if(apesNode.hasChildNodes()){
+				
+				Node nodeAll = null;
+				Node attributePath = null;
+				NamedNodeMap mapAttributes = null;
+				
+				pogNodeList = apesNode.getChildNodes();
+				for (int i=0; i<pogNodeList.getLength(); i++)
+				{
+					nodeAll = pogNodeList.item(i);
+					mapAttributes = nodeAll.getAttributes();
+					if(mapAttributes != null){					
+						attributePath = mapAttributes.getNamedItem("fileNamePog");
+					
+						if(attributePath!=null){
+							pogList.add(attributePath.getNodeValue());
+						}
+					}					
+				}
+			}
+			else {
+				System.out.println("Pb getPogFromApes");
+			}			
+		}
+		catch (XPathExpressionException e) {
+			
+			e.printStackTrace();
+		}
+		return pogList;			
+	}
+	
+	public ArrayList getPreFromPog(String pogName)
+	{
+		ArrayList preList = new ArrayList();
+		
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		String expression = "//pog[@fileNamePog=\""+pogName+"\"]";
 
 		Element pogNode = null;
-		
+		NodeList preNodeList;
+			
 		try {
 			pogNode = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
 			
-			if(pogNode != null){
-				Element nodeApes = (Element)pogNode.getParentNode();
-				return nodeApes.getAttribute("fileNameApes");
+			if(pogNode.hasChildNodes()){
+				
+				Node nodeAll = null;
+				Node attributePath = null;
+				NamedNodeMap mapAttributes = null;
+				
+				preNodeList = pogNode.getChildNodes();
+				for (int i=0; i<preNodeList.getLength(); i++)
+				{
+					nodeAll = preNodeList.item(i);
+					mapAttributes = nodeAll.getAttributes();
+					if(mapAttributes != null){					
+						attributePath = mapAttributes.getNamedItem("fileNamePre");
+					
+						if(attributePath!=null){
+							preList.add(attributePath.getNodeValue());
+						}
+					}					
+				}
 			}
 			else {
-				System.out.println("Pas de fichier pog trouve!");
-			}
-			
+				System.out.println("Pb getPreFromPog");
+			}			
 		}
 		catch (XPathExpressionException e) {
 			
 			e.printStackTrace();
 		}
-		return null;
-		
-		
-				
+		return preList;			
 	}
 	
-	public String getPogName(String projectName, String preName)
+	public ArrayList getPreFromApes(String apesName)
 	{
-		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//project[@name=\""+projectName+"\"]/*/*/*/pre[@fileNamePre=\""+preName+"\"]";
+		ArrayList preList = new ArrayList();
 		
-		Element preNode = null;
-			
-		try {
-			preNode = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
-			
-			if(preNode != null){
-				Element nodePog = (Element)preNode.getParentNode();
-				return nodePog.getAttribute("fileNamePog");
-			}
-			else {
-				System.out.println("Pas de fichier pre trouve!");
-			}
-			
-		}
-		catch (XPathExpressionException e) {
-			
-			e.printStackTrace();
-		}
-		return null;
-				
-	}
-	
-	public void addProject(String projectName)
-	{
+		/**
+		 * XPath expression to get the correct "apes" node  
+		 */
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//";
+		String expression = "//apes[@fileNameApes=\""+apesName+"\"]";
 
+		Element apesNode = null;
+		NodeList preNodeList;
+		NodeList pogNodeList;
+		
+		try {
+			apesNode = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+			
+
+			/**
+			 * If there is "pog" nodes, which are children of the "apes" node   
+			 */
+
+			if(apesNode.hasChildNodes()){				
+				Node nodeAllPog = null;			
+				pogNodeList = apesNode.getChildNodes();
+
+				/**
+				 * For all children node "pog"  
+				 */
+
+				for (int i=0; i<pogNodeList.getLength(); i++)
+				{
+					nodeAllPog = pogNodeList.item(i);
+
+					/**
+					 * If there is "pre" nodes, which are children of the "pog" node   
+					 */
+
+					if(nodeAllPog.hasChildNodes()){					
+						Node nodeAllPre = null;
+						Node attributePath = null;
+						NamedNodeMap mapAttributes = null;
+						
+						preNodeList = nodeAllPog.getChildNodes();
+						/**
+						 * For all children node "pre"  
+						 */
+						for (int j=0; j<preNodeList.getLength(); j++)
+						{	
+							nodeAllPre = preNodeList.item(j);
+							/**
+							 * Getting all node's attribute in a NamedNodeMap  
+							 */
+							mapAttributes = nodeAllPre.getAttributes();
+							if(mapAttributes != null){					
+								attributePath = mapAttributes.getNamedItem("fileNamePre");							
+								if(attributePath!=null){
+									/**
+									 * Add the selected attribute in the result ArrayList  
+									 */
+									preList.add(attributePath.getNodeValue());
+								}
+							}
+						}
+					}					
+				}
+			}
+			else {
+				System.out.println("Pb getPreFromApes");
+			}			
+		}
+		catch (XPathExpressionException e) {
+			
+			e.printStackTrace();
+		}
+		return preList;			
+	}
+	
+	
+	public boolean isToUpdate(String filePath)
+	{
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		String expression = "//toupdate/file[@path="+filePath+"]";
 		Element elem = null;
-		Element newElem = doc.createElement("project");
-			
+		
 		try {
-				elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+			elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
 		}
 		catch (XPathExpressionException e) {
-				
-				e.printStackTrace();
+			
+			e.printStackTrace();
 		}
-		if ( elem != null ) {
-				newElem.setAttribute("name", projectName);
-				saveDocument();
-			}
+		if ( elem != null ) {			
+				return true;		
+		}
 		else {
-				System.out.println("Ajout du projet impossible!"); 
+			System.out.println("Pb isToUpdate!");    
+			return false;
 		}
-	}		
-
+	}
 	
-	public void addApes(String projectName, String apesName)
+	public void addApes(String apesName)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//project[@name=\""+projectName+"\"]";
+		String expression = "//dependencies";
 
 		Element elem = null;
 		Element newElem = doc.createElement("apes");
-			
+		newElem.setAttribute("fileNameApes", apesName);	
 		try {
 				elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
 		}
@@ -164,23 +275,25 @@ public class DependenciesParser {
 				
 				e.printStackTrace();
 		}
-		//Il faut que le projet existe
+
 		if ( elem != null ) {
-				newElem.setAttribute("fileNameApes", apesName);
+				elem.appendChild(newElem);
 				saveDocument();
+				System.out.println("OK!");
 			}
 		else {
 				System.out.println("Ajout du fichier Apes impossible!"); 
 		}
-	}		
+	}	
 	
-	public void addPog(String projectName, String apesName, String pogName)
+	public void addToUpdate(String filePath)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//project[@name=\""+projectName+"\"]/*/apes[@fileNameApes=\""+apesName+"\"]";
+		String expression = "//toupdate";
 
 		Element elem = null;
-		Element newElem = doc.createElement("pog");
+		Element newElem = doc.createElement("file");
+		newElem.setAttribute("path", filePath);
 			
 		try {
 				elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
@@ -189,9 +302,33 @@ public class DependenciesParser {
 				
 				e.printStackTrace();
 		}
-		//Il faut que le projet existe
 		if ( elem != null ) {
-				newElem.setAttribute("fileNamePog", pogName);
+				elem.appendChild(newElem);
+				saveDocument();
+			}
+		else {
+				System.out.println("Pb addToUpdate!"); 
+		}
+	}		
+	
+	public void addPog(String apesName, String pogName)
+	{
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		String expression = "//dependencies/apes[@fileNameApes=\""+apesName+"\"]";
+
+		Element elem = null;
+		Element newElem = doc.createElement("pog");
+		newElem.setAttribute("fileNamePog", pogName);	
+		try {
+				elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+		}
+		catch (XPathExpressionException e) {
+				
+				e.printStackTrace();
+		}
+
+		if ( elem != null ) {
+				elem.appendChild(newElem);
 				saveDocument();
 			}
 		else {
@@ -199,14 +336,14 @@ public class DependenciesParser {
 		}
 	}		
 	
-	public void addPre(String projectName, String apesName, String pogName, String preName)
+	public void addPre(String apesName, String pogName, String preName)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//project[@name=\""+projectName+"\"]/*/apes[@fileNameApes=\""+apesName+"\"]/pog[@fileNamePog\""+pogName+"\"]";
+		String expression = "//dependencies/apes[@fileNameApes=\""+apesName+"\"]/pog[@fileNamePog=\""+pogName+"\"]";
 
 		Element elem = null;
 		Element newElem = doc.createElement("pre");
-			
+		newElem.setAttribute("fileNamePre", preName);	
 		try {
 				elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
 		}
@@ -214,9 +351,9 @@ public class DependenciesParser {
 				
 				e.printStackTrace();
 		}
-		//Il faut que le projet existe
+
 		if ( elem != null ) {
-				newElem.setAttribute("fileNamePre", preName);
+				elem.appendChild(newElem);
 				saveDocument();
 			}
 		else {
@@ -224,9 +361,34 @@ public class DependenciesParser {
 		}
 	}
 
+	public void delToUpdate(String filePath)
+	{
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		String expression = "//toupdate";
+		String expr = "//toupdate/file[@path=\""+filePath+"\"]";
+				
+		Element elem = null;
+		Element oldElem = null;
+		
+		try {
+			elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+			oldElem = (Element)xpath.evaluate(expr, this.doc, XPathConstants.NODE);
+		}
+		catch (XPathExpressionException e) {
+			
+			e.printStackTrace();
+		}
+		if ( elem != null && oldElem != null) {
+			elem.removeChild(oldElem);
+			saveDocument(); 
+		}
+		else {
+			System.out.println("Pb delToUpdate!"); 
+		}		
+	}
 	
 	public void saveDocument()
-	{
+	{	
 		TransformerFactory tFactory = TransformerFactory.newInstance();
 		Transformer transformer = null;
 		try {
@@ -237,8 +399,8 @@ public class DependenciesParser {
 		} 
 		try {
 			transformer.transform(new DOMSource(doc), new StreamResult(dependenciesXML));
-			SvnCommit svnc = new SvnCommit();
-			svnc.sendFile(dependenciesXML,"");
+			//SvnCommit svnc = new SvnCommit();
+			//svnc.sendFile(dependenciesXML,"");
 			loadTreeInMemory(dependenciesXML);
 		} catch (TransformerException e) {
 			// TODO Auto-generated catch block
