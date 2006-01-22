@@ -72,7 +72,7 @@ public class ICommit extends JDialog {
 				    public void actionPerformed(ActionEvent e)
 				    {
 				    		CCommit CC = new CCommit();
-				    		CC.beforeCommit(currentNode);
+				    		CC.recCommit(currentNode);
 						SvnCommit svnC = null;
 						try {
 							
