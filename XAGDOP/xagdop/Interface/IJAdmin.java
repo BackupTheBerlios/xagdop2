@@ -102,7 +102,7 @@ public class IJAdmin extends JFrame{
         JT.setDefaultRenderer(JButton.class, new IJAdminTableCellRenderer());
         JT.setDefaultEditor(JButton.class, new IJAdminTableCellEditor(this));
         JT.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        JT.setSize(new Dimension(300,200));
+        JT.setSize(new Dimension(450,200));
         JT.setPreferredScrollableViewportSize(JT.getSize());
         JT.getColumn(new String("")).setResizable(false);
         JT.getColumnModel().getColumn(0).setResizable(false);
@@ -110,12 +110,11 @@ public class IJAdmin extends JFrame{
         JT.getColumnModel().getColumn(2).setResizable(false);
         JT.getColumnModel().getColumn(3).setResizable(false);
         
-        JT.getColumnModel().getColumn(0).setWidth(15);
-        JT.getColumnModel().getColumn(1).setWidth(15);
-        JT.getColumnModel().getColumn(2).setWidth(15);
-        JT.getColumnModel().getColumn(3).setWidth(15);
+        JT.getColumnModel().getColumn(0).setMinWidth(200);
+        JT.getColumnModel().getColumn(1).setMinWidth(105);
+        JT.getColumnModel().getColumn(2).setMinWidth(105);
+        JT.getColumnModel().getColumn(3).setMaxWidth(40);
         
-        JT.getColumn(new String("")).setWidth(15);
         GridBagConstraints gbc = new GridBagConstraints();
         this.donnerContrainte(gbc,0,0,3,1,100,100,GridBagConstraints.BOTH);
         JSP = new JScrollPane(JT);
