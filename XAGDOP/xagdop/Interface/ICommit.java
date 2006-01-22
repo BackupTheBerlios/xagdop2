@@ -14,6 +14,7 @@ import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 import org.tmatesoft.svn.core.SVNException;
 
+import xagdop.Controleur.CCommit;
 import xagdop.Controleur.CTreeNode;
 import xagdop.Svn.SvnCommit;
 import xagdop.ressources.Bundle;
@@ -70,8 +71,11 @@ public class ICommit extends JDialog {
 				{
 				    public void actionPerformed(ActionEvent e)
 				    {
+				    		CCommit CC = new CCommit();
+				    		CC.beforeCommit(currentNode);
 						SvnCommit svnC = null;
 						try {
+							
 							svnC = new SvnCommit();
 							svnC.commit(currentNode,JTAComment.getText());
 						} catch (SVNException e1) {
