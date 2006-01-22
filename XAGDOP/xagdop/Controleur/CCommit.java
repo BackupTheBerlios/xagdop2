@@ -35,6 +35,7 @@ public class CCommit{
 		if (node.isLeaf())
 		{
 			
+			System.out.println("C'est un fichier !");
 			
 			
 			//-----------------------------------------
@@ -42,11 +43,12 @@ public class CCommit{
 			//-----------------------------------------
 			if (nameOfFile.endsWith(".apes"))
 			{
+				System.out.println("C'est un fichier APES !!");
 				//Si le fichier est tout neuf
 				if (!SvnHistory.isUnderVersion(toCommit))
 				{
 					//Pas d'entrainement de verification de fichier pog, car fichier tout nouveau
-					
+					System.out.println("C'est un fichier nouveau!");
 					//Rajout dans le fichier de dépendances le fichier apes que l'on veut envoyer
 					
 					DP.addApes(pathToRoot);
@@ -58,6 +60,7 @@ public class CCommit{
 //				Si le fichier est ancien
 				else if (node.isModified())
 				{
+					System.out.println("C'est un fichier ancien que l'on renvoie!");
 					//On vient de modifier le fichier apes
 					//Il faut donc dire de changer les pog dependants
 					
@@ -104,9 +107,11 @@ public class CCommit{
 			//-----------------------------------------
 			else if (nameOfFile.endsWith(".pog"))
 			{
+				System.out.println("C'est un fichier POG!");
 				//Si le fichier est tout neuf
 				if (!SvnHistory.isUnderVersion(toCommit))
 				{
+					System.out.println("C'est un fichier Nouveau!");
 					//Modifier l'interieur du fichier pog en
 					//mettant en relatif le chemin du fichier apes dependant
 					
@@ -148,7 +153,7 @@ public class CCommit{
 				//Si le fichier est anciens
 				else if (SvnHistory.isModified(toCommit))
 				{
-					
+					System.out.println("C'est un fichier Ancien!");
 					//On essaie de supprimer le fichier de la liste des fichiers à modifier
 					DP.delToUpdate(pathToRoot);
 					
@@ -161,6 +166,10 @@ public class CCommit{
 					System.out.println("Le fichier n'est pas nouveau, et il n'a pas été modifié");
 				}
 						
+			}
+			else
+			{
+				System.out.println("C'est pas un fichier apes, ni un fichier pog!");
 			}
 			
 		}
