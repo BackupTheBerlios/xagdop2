@@ -32,6 +32,7 @@ import javax.swing.table.AbstractTableModel;
 import xagdop.Controleur.CProject;
 import xagdop.Controleur.CTree;
 import xagdop.Model.Users;
+import xagdop.Parser.DependenciesParser;
 import xagdop.ressources.Bundle;
 
 //import ressources.Bundle;
@@ -276,6 +277,7 @@ public class XAGDOP extends JFrame{
 		tableVersion.setBorder(BorderUIResource.getBlackLineBorderUIResource()  );
 		
 		tree = new IProjectTree();
+		DependenciesParser.getInstance();
 		JScrollPane mScroll = new JScrollPane();
 		mScroll.setPreferredSize(new Dimension(150,450));
 		
