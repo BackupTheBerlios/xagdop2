@@ -77,7 +77,7 @@ public class UsersParser {
 	public boolean isUser(String login)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//user[@login="+login+"]";
+		String expression = "//id[@login="+login+"]";
 		Element elem = null;
 		
 		try {
