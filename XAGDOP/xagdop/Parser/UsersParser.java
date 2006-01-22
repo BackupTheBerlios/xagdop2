@@ -74,6 +74,28 @@ public class UsersParser {
 		}
 	}
 	
+	public boolean isUser(String login)
+	{
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		String expression = "//user[@login="+login+"]";
+		Element elem = null;
+		
+		try {
+			elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+		}
+		catch (XPathExpressionException e) {
+			
+			e.printStackTrace();
+		}
+		if ( elem != null ) {			
+				return true;		
+		}
+		else {
+			System.out.println("L'utilisateur "+login+" n'existe pas!");    
+			return false;
+		}
+	}	
+
 	public Users getUserByLogin(String login)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
