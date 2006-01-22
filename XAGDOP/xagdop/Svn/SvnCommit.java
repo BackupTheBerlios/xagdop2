@@ -134,15 +134,14 @@ public class SvnCommit{
 		if(!SvnHistory.isUnderVersion(toCommit)){
 			if(toCommit.isFile()){
 				while(!SvnHistory.isUnderVersion(toCommit)){
-					System.out.println(toCommit.getName());
 					fileToCommit.add(toCommit);
 					toCommit = toCommit.getParentFile();
-					System.out.println(!SvnHistory.isUnderVersion(toCommit));
+					if(((CTreeNode)node.getRoot()).getLocalPath().compareTo(toCommit.getPath())==0)
+						break;
 				}
 			toCommit = new File(node.getLocalPath());
 			wcClient.doAdd(toCommit,false, false, true, false);
 			File[] file = new File[fileToCommit.size()];
-			System.out.println(fileToCommit.toString());
 			return (File[])fileToCommit.toArray(file);
 		}
 		
@@ -151,6 +150,8 @@ public class SvnCommit{
 				while(!SvnHistory.isUnderVersion(toCommit)){
 					fileToCommit.add(toCommit);
 					toCommit = toCommit.getParentFile();
+					if(((CTreeNode)node.getRoot()).getLocalPath().compareTo(toCommit.getPath())==0)
+						break;
 				}
 			toCommit = new File(node.getLocalPath());
 			wcClient.doAdd(toCommit,false, false, true, true);
@@ -166,7 +167,32 @@ public class SvnCommit{
 	}
 	
 	
-	
+	public void doAdd(File file) throws SVNException{
+		SVNWCClient wcClient = new SVNWCClient(SvnConnect.getInstance().getRepository().getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
+
+		if(file.isDirectory()){
+			File[] fileInDirectory = file.listFiles(new FilenameFilter() {
+				public boolean accept(File dir, String name) {
+					File directory = new File(dir.getAbsolutePath()+"/"+name); 
+					if(directory.isDirectory()&&!directory.isHidden())
+						return true;
+					if(name.endsWith(".pre")||name.endsWith(".pog")||name.endsWith(".apes"))
+						return true;
+
+					return false;
+				}
+		
+			});
+			for(int i = 0; i< fileInDirectory.length;i++){			
+				if(!SvnHistory.isUnderVersion(fileInDirectory[i])){
+					wcClient.doAdd(fileInDirectory[i],false, false, false, true);
+				}
+				else
+					doAdd(fileInDirectory[i]);
+			}
+		}else
+			wcClient.doAdd(file,false, false, false, false);
+	}
 	
 	
 	
@@ -198,6 +224,7 @@ public class SvnCommit{
 				}
 			
 			});
+				doAdd(toCommit);			
 			}
 			svnCC.doCommit(fileInDirectory,false,commitMessage, false, true);
 			
