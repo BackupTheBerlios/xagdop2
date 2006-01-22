@@ -30,11 +30,9 @@ public class CCommit{
 		
 		//Récupération du fichier a envoyer
 		File toCommit = new File(node.getLocalPath());
-				
-		//Si on avait cliqué sur un fichier
-		if (node.isLeaf())
-		{
-			
+		
+		
+		
 			System.out.println("C'est un fichier !");
 			
 			
@@ -172,7 +170,33 @@ public class CCommit{
 				System.out.println("C'est pas un fichier apes, ni un fichier pog!");
 			}
 			
+		
+		
+	}
+	
+	
+	public void recCommit(CTreeNode node)
+	{
+		//On regarde si le node est un fils
+		if (!node.getAllowsChildren())
+		{
+			beforeCommit(node);
 		}
+		//C'est un dossier
+		else
+		{
+			//On parcours tous les fils
+			for(int i=0;i<node.getChildCount();i++)
+			{
+				//On applique recCommit a tous les fils du dossier
+				recCommit((CTreeNode)node.getChildAt(i));
+				
+			}
+			
+		}
+		
+		
+		
 		
 	}
 	
