@@ -18,6 +18,7 @@ import xagdop.Controleur.CTreeNode;
 import xagdop.Interface.IPreferences;
 import xagdop.Interface.XAGDOP;
 import xagdop.Model.Users;
+import xagdop.Parser.DependenciesParser;
 import xagdop.Parser.ProjectsParser;
 
 
@@ -135,6 +136,15 @@ public class SvnUpdate{
         	isDelete = true;
         	i++;
        }
+        try {
+			DependenciesParser.getInstance().loadTreeInMemory(getDependenciesFile());
+		} catch (SVNException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
 	}
 	
