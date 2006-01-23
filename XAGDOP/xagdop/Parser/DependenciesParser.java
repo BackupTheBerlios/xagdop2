@@ -45,9 +45,11 @@ public class DependenciesParser {
 	private DependenciesParser()
 	{
 		try {
+			
 			SvnUpdate svnu = new SvnUpdate();
 			if((dependenciesXML = svnu.getDependenciesFile())==null)
 				System.out.println("Erreur");
+				
 			//dependenciesXML = new File("xagdop/Parser/dependencies.xml");	//debug Attention ? ne pas le commit
 			loadTreeInMemory(dependenciesXML);
 		} catch (Exception e) {
@@ -184,6 +186,8 @@ public class DependenciesParser {
 		NodeList preNodeList;
 		NodeList pogNodeList;
 		
+		
+		
 		try {
 			apesNode = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
 			
@@ -275,76 +279,131 @@ public class DependenciesParser {
 	public void addApes(String apesName)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//dependencies";
-
-		Element elem = null;
-		Element newElem = doc.createElement("apes");
-		newElem.setAttribute("fileNameApes", apesName);	
+		
+		String expr_test = "//apes[@fileNameApes=\""+apesName+"\"]";
+		Element test_elem = null;		
 		try {
-				elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+			test_elem = (Element)xpath.evaluate(expr_test, this.doc, XPathConstants.NODE);
 		}
 		catch (XPathExpressionException e) {
+			
+			e.printStackTrace();
+		}
+		
+		if(test_elem == null)
+		{
+			String expression = "//dependencies";
+
+			Element elem = null;
+			Element newElem = doc.createElement("apes");
+			newElem.setAttribute("fileNameApes", apesName);	
+			try {
+					elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+			}
+			catch (XPathExpressionException e) {
 				
 				e.printStackTrace();
-		}
-
-		if ( elem != null ) {
-				elem.appendChild(newElem);
-				saveDocument();
-			
 			}
-		else {
+
+			if ( elem != null ) {
+				elem.appendChild(newElem);
+				saveDocument();			
+			}
+			else {
 				System.out.println("Ajout du fichier Apes impossible!"); 
+			}
+		}
+		else
+		{
+			System.out.println("Fichier existant!");
 		}
 	}	
 	
 	public void addToUpdate(String filePath)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//toupdate";
-
-		Element elem = null;
-		Element newElem = doc.createElement("file");
-		newElem.setAttribute("path", filePath);
-			
+		
+		String expr_test = "//file[@path=\""+filePath+"\"]";
+		Element test_elem = null;		
 		try {
-				elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+			test_elem = (Element)xpath.evaluate(expr_test, this.doc, XPathConstants.NODE);
 		}
 		catch (XPathExpressionException e) {
+			
+			e.printStackTrace();
+		}
+		
+		if(test_elem == null)
+		{
+		
+			String expression = "//toupdate";
+			
+			Element elem = null;
+			Element newElem = doc.createElement("file");
+			newElem.setAttribute("path", filePath);
+			
+			try {
+				elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+			}
+			catch (XPathExpressionException e) {
 				
 				e.printStackTrace();
-		}
-		if ( elem != null ) {
+			}
+			if ( elem != null ) {
 				elem.appendChild(newElem);
 				saveDocument();
 			}
-		else {
+			else {
 				System.out.println("Pb addToUpdate!"); 
+			}
+		}
+		else
+		{
+			System.out.println("Fichier existant!");
 		}
 	}		
 	
 	public void addPog(String apesName, String pogName)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//dependencies/apes[@fileNameApes=\""+apesName+"\"]";
-
-		Element elem = null;
-		Element newElem = doc.createElement("pog");
-		newElem.setAttribute("fileNamePog", pogName);	
+		
+		String expr_test = "//pog[@fileNamePog=\""+pogName+"\"]";
+		Element test_elem = null;		
 		try {
-				elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+			test_elem = (Element)xpath.evaluate(expr_test, this.doc, XPathConstants.NODE);
 		}
 		catch (XPathExpressionException e) {
+			
+			e.printStackTrace();
+		}
+		
+		if(test_elem == null)
+		{
+		
+			String expression = "//dependencies/apes[@fileNameApes=\""+apesName+"\"]";
+			
+			Element elem = null;
+			Element newElem = doc.createElement("pog");
+			newElem.setAttribute("fileNamePog", pogName);	
+			try {
+				elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+			}
+			catch (XPathExpressionException e) {
 				
 				e.printStackTrace();
-		}
-
-		if ( elem != null ) {
+			}
+			
+			if ( elem != null ) {
 				elem.appendChild(newElem);
 				saveDocument();
 			}
-		else {
+			else {
 				System.out.println("Ajout du fichier Pog impossible!"); 
+			}
+		}
+		else
+		{
+			System.out.println("Fichier existant!");
 		}
 	}		
 	
