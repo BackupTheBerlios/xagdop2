@@ -60,7 +60,7 @@ public class SvnCommit{
 				return editor.closeEdit();
 			} catch (SVNException e) {
 				e.printStackTrace();
-				System.exit(0);
+				//System.exit(0);
 			}
 		}
 		
@@ -144,8 +144,6 @@ public class SvnCommit{
 				}
 			toCommit = new File(node.getLocalPath());
 			wcClient.doAdd(toCommit,false, false, true, false);
-			if(SvnHistory.isModified(DependenciesParser.getInstance().getFile()))
-				fileToCommit.add(DependenciesParser.getInstance().getFile());
 			File[] file = new File[fileToCommit.size()];
 			return (File[])fileToCommit.toArray(file);
 		}
@@ -160,8 +158,6 @@ public class SvnCommit{
 				}
 			toCommit = new File(node.getLocalPath());
 			wcClient.doAdd(toCommit,false, false, true, true);
-			if(SvnHistory.isModified(DependenciesParser.getInstance().getFile()))
-				fileToCommit.add(DependenciesParser.getInstance().getFile());
 			File[] file = new File[fileToCommit.size()];
 			return (File[])fileToCommit.toArray(file);
 				
