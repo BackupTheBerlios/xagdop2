@@ -71,17 +71,9 @@ public class ICommit extends JDialog {
 				{
 				    public void actionPerformed(ActionEvent e)
 				    {
-				    		CCommit CC = new CCommit();
-				    		CC.recCommit(currentNode);
-						SvnCommit svnC = null;
-						try {
-							
-							svnC = new SvnCommit();
-							svnC.commit(currentNode,JTAComment.getText());
-						} catch (SVNException e1) {
-							JOptionPane.showMessageDialog(null ,"Impossible de se connecter au server subversion", "Validation" , 1) ;
-							e1.printStackTrace();
-						}
+				    		CCommit CC = new CCommit(currentNode);
+
+				    		CC.commitFile(currentNode,JTAComment.getText());
 
 						dispose();
 				    }
