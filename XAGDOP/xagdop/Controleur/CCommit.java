@@ -18,6 +18,8 @@ public class CCommit{
 	public CCommit(){
 		
 	}
+
+	
 	
 	//Permet d'envoyer le fichier contenu dans le Noeud
 	public void beforeCommit(CTreeNode node){
@@ -28,12 +30,12 @@ public class CCommit{
 		
 		String pathToRoot = ((CTree)(XAGDOP.getInstance().getTree().getModel())).treePathName(node);
 		
-		//Récupération du fichier a envoyer
+		//R?cup?ration du fichier a envoyer
 		File toCommit = new File(node.getLocalPath());
 		
 		
 		
-			System.out.println("C'est un fichier !");
+
 			
 			
 			//-----------------------------------------
@@ -41,13 +43,13 @@ public class CCommit{
 			//-----------------------------------------
 			if (nameOfFile.endsWith(".apes"))
 			{
-				System.out.println("C'est un fichier APES !!");
+
 				//Si le fichier est tout neuf
 				if (!SvnHistory.isUnderVersion(toCommit))
 				{
 					//Pas d'entrainement de verification de fichier pog, car fichier tout nouveau
-					System.out.println("C'est un fichier nouveau!");
-					//Rajout dans le fichier de dépendances le fichier apes que l'on veut envoyer
+
+					//Rajout dans le fichier de d?pendances le fichier apes que l'on veut envoyer
 					
 					DP.addApes(pathToRoot);
 					
@@ -58,7 +60,7 @@ public class CCommit{
 //				Si le fichier est ancien
 				else if (node.isModified())
 				{
-					System.out.println("C'est un fichier ancien que l'on renvoie!");
+
 					//On vient de modifier le fichier apes
 					//Il faut donc dire de changer les pog dependants
 					
@@ -76,7 +78,7 @@ public class CCommit{
 					for (i=0;i<allPog.size();i++)
 					{
 						//On indique qu'il faut mettre a jour tous les fichiers
-						//Qui sont dépendants du fichier apes que l'on veux envoyer
+						//Qui sont d?pendants du fichier apes que l'on veux envoyer
 					
 						DP.addToUpdate((String)allPog.get(i));
 						
@@ -105,28 +107,33 @@ public class CCommit{
 			//-----------------------------------------
 			else if (nameOfFile.endsWith(".pog"))
 			{
-				System.out.println("C'est un fichier POG!");
+				
 				//Si le fichier est tout neuf
 				if (!SvnHistory.isUnderVersion(toCommit))
 				{
-					System.out.println("C'est un fichier Nouveau!");
+				
 					//Modifier l'interieur du fichier pog en
 					//mettant en relatif le chemin du fichier apes dependant
 					
 					//Ouverture du parser du fichier POG Correspondant
 					POGParser POGP = new POGParser(toCommit);
 					
-					//Recuperation du chemin absolue du fichier apes dépendant
+					//Recuperation du chemin absolue du fichier apes d?pendant
 					String pathDependantApesFile = POGP.getPathApesFile();
+					
+				
 					
 					//Recuperation du path absolue de la racine des projets
 					String pathGlobal = ((CTreeNode)((IProjectTree)XAGDOP.getInstance().getTree()).getModel().getRoot()).getLocalPath();
 					
+				
+					
 					//Recuperation du pathToRoot du fichier Apes en 
 					//Enlevant les premiers caracteres correspondant au debut du chemin absolue
-					String pathSemiGlobal = pathDependantApesFile.substring(pathGlobal.length());
+					String pathSemiGlobal = pathDependantApesFile.substring(pathGlobal.length()+1);
 					
-
+				
+					
 					//Ajout dans le DependenciesParser du Pog correspondant
 					//addPog(Apes,Pog)
 					DP.addPog(pathSemiGlobal,pathToRoot);
@@ -151,23 +158,23 @@ public class CCommit{
 				//Si le fichier est anciens
 				else if (SvnHistory.isModified(toCommit))
 				{
-					System.out.println("C'est un fichier Ancien!");
-					//On essaie de supprimer le fichier de la liste des fichiers à modifier
+				
+					//On essaie de supprimer le fichier de la liste des fichiers ? modifier
 					DP.delToUpdate(pathToRoot);
 					
 										
 				}
 				//Cas d'erreur
-				//Le fichier n'est pas nouveau, et il n'a pas été modifié
+				//Le fichier n'est pas nouveau, et il n'a pas ?t? modifi?
 				else
 				{
-					System.out.println("Le fichier n'est pas nouveau, et il n'a pas été modifié");
+				
 				}
 						
 			}
 			else
 			{
-				System.out.println("C'est pas un fichier apes, ni un fichier pog!");
+				
 			}
 			
 		
