@@ -56,6 +56,8 @@ public class CTreeNode extends DefaultMutableTreeNode implements Serializable
 		this.localPath = localFilePath.getAbsolutePath();
 	}*/
 	public boolean isProject(){
+		if(isRoot())
+			return false;
 		if(getParent()==getRoot())
 			return true;
 		return false;
