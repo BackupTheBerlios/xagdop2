@@ -65,7 +65,9 @@ public class POGParser {
 			e.printStackTrace();
 		}
 		if ( elem != null ) {
-			return elem.getTextContent();
+			String path = elem.getTextContent();
+			path = path.substring(4);
+			return path;
 		}
 		else {
 			System.out.println("Recuperation du chemin acces au fichier apes associe impossible!"); 
