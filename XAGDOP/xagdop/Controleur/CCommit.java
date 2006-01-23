@@ -128,14 +128,19 @@ public class CCommit{
 					POGParser POGP = new POGParser(toCommit);	
 					//Recuperation du chemin absolue du fichier apes d?pendant
 					String pathDependantApesFile = POGP.getPathApesFile();
-					//Recuperation du path absolue de la racine des projets
-					String pathGlobal = ((CTreeNode)((IProjectTree)XAGDOP.getInstance().getTree()).getModel().getRoot()).getLocalPath();
-					//Recuperation du pathToRoot du fichier Apes en 
-					//Enlevant les premiers caracteres correspondant au debut du chemin absolue
-					String pathSemiGlobal = pathDependantApesFile.substring(pathGlobal.length()+1);
-					//Ajout dans le DependenciesParser du Pog correspondant
-					//addPog(Apes,Pog)
-					DP.addPog(pathSemiGlobal,pathToRoot);
+					
+					if (!pathDependantApesFile.equals(""))
+					{
+						//Recuperation du path absolue de la racine des projets
+						String pathGlobal = ((CTreeNode)((IProjectTree)XAGDOP.getInstance().getTree()).getModel().getRoot()).getLocalPath();
+						//Recuperation du pathToRoot du fichier Apes en 
+						//Enlevant les premiers caracteres correspondant au debut du chemin absolue
+						String pathSemiGlobal = pathDependantApesFile.substring(pathGlobal.length()+1);
+					
+						//Ajout dans le DependenciesParser du Pog correspondant
+						//addPog(Apes,Pog)
+						DP.addPog(pathSemiGlobal,pathToRoot);
+					}
 					//TODO
 					//Appelle a la methode qui permet de calculer le chemin relatif
 					//relative(Pog,Apes)
