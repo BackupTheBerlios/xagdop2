@@ -191,7 +191,8 @@ public class SvnCommit{
 					doAdd(fileInDirectory[i]);
 			}
 		}else
-			wcClient.doAdd(file,false, false, false, false);
+			if(!SvnHistory.isUnderVersion(file))
+					wcClient.doAdd(file,false, false, false, false);
 	}
 	
 	
