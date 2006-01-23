@@ -99,7 +99,7 @@ public class CCommit{
 					//Cas d'erreur
 				else
 				{
-					System.out.println("Problemes");
+					System.out.println("Le fichier Apes n'est ni ancien ni nouveau ( c'est louche ) nom du fichier :"+nameOfFile);
 				}
 				
 				
@@ -164,13 +164,13 @@ public class CCommit{
 				//Le fichier n'est pas nouveau, et il n'a pas ?t? modifi?
 				else
 				{
-				
+					System.out.println("Le fichier Pog n'est ni ancien ni nouveau ( c'est louche ) nom du fichier :"+nameOfFile);
 				}
 						
 			}
 			else
 			{
-				
+				System.out.println("Ce n'est pas un fichier Apes, ni POG  nom du fichier:"+nameOfFile);
 			}
 			
 		
