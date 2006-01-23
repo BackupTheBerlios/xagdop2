@@ -22,8 +22,11 @@ import org.tmatesoft.svn.core.wc.SVNUpdateClient;
 import org.tmatesoft.svn.core.wc.SVNWCClient;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
+
+
 import xagdop.Controleur.CTreeNode;
 import xagdop.Interface.IPreferences;
+import xagdop.Parser.DependenciesParser;
 
 
 
@@ -141,6 +144,8 @@ public class SvnCommit{
 				}
 			toCommit = new File(node.getLocalPath());
 			wcClient.doAdd(toCommit,false, false, true, false);
+			if(SvnHistory.isModified(DependenciesParser.getInstance().getFile()))
+				fileToCommit.add(DependenciesParser.getInstance().getFile());
 			File[] file = new File[fileToCommit.size()];
 			return (File[])fileToCommit.toArray(file);
 		}
@@ -155,6 +160,8 @@ public class SvnCommit{
 				}
 			toCommit = new File(node.getLocalPath());
 			wcClient.doAdd(toCommit,false, false, true, true);
+			if(SvnHistory.isModified(DependenciesParser.getInstance().getFile()))
+				fileToCommit.add(DependenciesParser.getInstance().getFile());
 			File[] file = new File[fileToCommit.size()];
 			return (File[])fileToCommit.toArray(file);
 				
@@ -227,8 +234,18 @@ public class SvnCommit{
 			});
 				doAdd(toCommit);			
 			}
-			svnCC.doCommit(fileInDirectory,false,commitMessage, false, true);
-			
+			/*ArrayList<File> fileTosend = new ArrayList(fileInDirectory);*/
+			File[] fileTosend = new File[fileInDirectory.length+1];
+			if(DependenciesParser.getInstance().getFile()==null){
+				System.out.println("test null");
+			}
+			fileTosend = fileInDirectory;
+			if(SvnHistory.isModified(DependenciesParser.getInstance().getFile())){
+				System.out.println(fileInDirectory.length);
+				fileTosend[fileInDirectory.length] = DependenciesParser.getInstance().getFile();
+				svnCC.doCommit(fileTosend,false,commitMessage, false, true);
+			}else
+				svnCC.doCommit(fileInDirectory,false,commitMessage, false, true);
 		}else{
 			
 			if(!SvnHistory.isUnderVersion(toCommit)){
@@ -244,9 +261,9 @@ public class SvnCommit{
 	public void sendFile(File name, String commitMessage) throws SVNException{
 		ArrayList fileInDirectory = new ArrayList();
 		fileInDirectory.add(name);
-		
+		/*if(SvnHistory.isModified(DependenciesParser.getInstance().getFile()))
+			fileInDirectory.add(DependenciesParser.getInstance().getFile());*/
 		File[] file = new File[fileInDirectory.size()];
-		
 		svnCC.doCommit((File[])fileInDirectory.toArray(file),false,commitMessage, true, false);
 		
 	}
