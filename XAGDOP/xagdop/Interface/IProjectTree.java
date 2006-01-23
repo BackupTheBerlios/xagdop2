@@ -129,15 +129,35 @@ public class IProjectTree extends JTree implements  TreeModelListener
 					selectedNode = (CTreeNode)pathClicked.getLastPathComponent();
 				}
 			}
-			
-			
-			
+		
 			//getSelectionModel().addSelectionPath(new TreePath(node.getPath()));
 			
 			if ((SwingUtilities.isLeftMouseButton(me))&&(!isPathSelected(pathClicked))) {		
-					selectedNode = (CTreeNode)getModel().getRoot();		
+					
 					clearSelection();
 			} 
+			
+	
+				if (selectedNode.isProject()&&(XAGDOP.getInstance()).getUser().isPManager(selectedNode.getName()))
+				{
+					XAGDOP.getInstance().equipe.setEnabled(true);
+					XAGDOP.getInstance().menuProjetTeam.setEnabled(true);
+				}
+				else
+				{
+					XAGDOP.getInstance().equipe.setEnabled(false);
+					XAGDOP.getInstance().menuProjetTeam.setEnabled(false);
+				}
+				
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			
 			if ((SwingUtilities.isRightMouseButton(me))&&(isPathSelected(pathClicked))) {		
 					popup.show(me.getComponent(), me.getX(), me.getY());				
