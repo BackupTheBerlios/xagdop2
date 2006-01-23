@@ -234,18 +234,7 @@ public class SvnCommit{
 			});
 				doAdd(toCommit);			
 			}
-			/*ArrayList<File> fileTosend = new ArrayList(fileInDirectory);*/
-			File[] fileTosend = new File[fileInDirectory.length+1];
-			if(DependenciesParser.getInstance().getFile()==null){
-				System.out.println("test null");
-			}
-			fileTosend = fileInDirectory;
-			if(SvnHistory.isModified(DependenciesParser.getInstance().getFile())){
-				System.out.println(fileInDirectory.length);
-				fileTosend[fileInDirectory.length] = DependenciesParser.getInstance().getFile();
-				svnCC.doCommit(fileTosend,false,commitMessage, false, true);
-			}else
-				svnCC.doCommit(fileInDirectory,false,commitMessage, false, true);
+			svnCC.doCommit(fileInDirectory,false,commitMessage, false, true);
 		}else{
 			
 			if(!SvnHistory.isUnderVersion(toCommit)){
@@ -256,6 +245,8 @@ public class SvnCommit{
 				sendFile(toCommit,commitMessage);
 			}
 		}
+		if(SvnHistory.isModified(DependenciesParser.getInstance().getFile()))
+			sendFile(DependenciesParser.getInstance().getFile(),"");
 		
 	}
 	public void sendFile(File name, String commitMessage) throws SVNException{
