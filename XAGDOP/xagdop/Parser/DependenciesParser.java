@@ -70,8 +70,12 @@ public class DependenciesParser {
 		} catch (Exception e) {
 		}
 	}
-	
 
+	public File getFile()
+	{
+		return dependenciesXML;
+	}
+	
 	public ArrayList getPogFromApes(String apesName)
 	{
 		ArrayList pogList = new ArrayList();
@@ -124,7 +128,9 @@ public class DependenciesParser {
 		ArrayList preList = new ArrayList();
 		
 		XPath xpath = XPathFactory.newInstance().newXPath();
+
 		String expression = "//pog[@fileNamePog=\""+pogName+"\"]";
+
 
 		Element pogNode = null;
 		NodeList preNodeList;
@@ -265,7 +271,7 @@ public class DependenciesParser {
 			return false;
 		}
 	}
-	
+
 	public void addApes(String apesName)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
