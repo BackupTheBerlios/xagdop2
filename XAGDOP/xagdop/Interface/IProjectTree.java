@@ -248,8 +248,6 @@ public class IProjectTree extends JTree implements  TreeModelListener
 		public ITreeCellEditor(JTree tree, DefaultTreeCellRenderer renderer)
 		{
 			super(tree, renderer);
-			
-			
 			addCellEditorListener(this);
 		}
 		
@@ -341,4 +339,5 @@ public class IProjectTree extends JTree implements  TreeModelListener
 	{
 		
 	}
+	
 }

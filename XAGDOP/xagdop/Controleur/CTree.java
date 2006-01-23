@@ -147,6 +147,7 @@ public class CTree implements TreeModel
 	}
 	
 	public String treePathName(String file){
+		System.getProperties();
 		//System.out.println(node.getLocalPath().substring(0,mRoot.getLocalPath().length()+1));
 		return file.substring(mRoot.getLocalPath().length()+1,file.length()); 
 	}
@@ -158,12 +159,12 @@ public class CTree implements TreeModel
 		
 		if(!pogFile.startsWith(mRoot.getLocalPath()))
 			return apesFile;
-		apesFile = apesFile.replaceFirst(mRoot.getLocalPath()+"/","");
-		pogFile = pogFile.replaceFirst(mRoot.getLocalPath()+"/","");
+		apesFile = apesFile.replaceFirst(mRoot.getLocalPath()+File.separator,"");
+		pogFile = pogFile.replaceFirst(mRoot.getLocalPath()+File.separator,"");
 		//System.out.println(apesFile.replaceFirst(mRoot.getLocalPath()+"/","")+" : "+
 		//pogFile.replaceFirst(mRoot.getLocalPath()+"/",""));
-		String[] apesSlit  = apesFile.split("/");
-		String[] pogSlit = pogFile.split("/");
+		String[] apesSlit  = apesFile.split(File.separator);
+		String[] pogSlit = pogFile.split(File.separator);
 		String res="";
 		int tmp = 0;
 		for(int i = Math.min(apesSlit.length,pogSlit.length); i>0;i--){
@@ -173,9 +174,9 @@ public class CTree implements TreeModel
 		}
 		//System.out.println(tmp+" : "+pogSlit.length+" : "+apesSlit.length);
 		for(int i = tmp+1;i<pogSlit.length;i++)
-			res = res.concat("../");
+			res = res.concat(".."+File.separator);
 		for(int i = tmp;i<apesSlit.length;i++)
-			res = res.concat(apesSlit[i]+"/");
+			res = res.concat(apesSlit[i]+File.separator);
 		
 		res = res.substring(0,res.length()-1);
 		System.out.println(res);
@@ -468,7 +469,7 @@ public class CTree implements TreeModel
 		File[] allFiles = localFiles.listFiles(new FilenameFilter() {
 			
 			public boolean accept(File dir, String name) {
-				File directory = new File(dir.getAbsolutePath()+"/"+name); 
+				File directory = new File(dir.getAbsolutePath()+File.separator+name); 
 				if(directory.isDirectory()&&!directory.isHidden())
 					return true;
 				//System.out.println(dir.getAbsolutePath()+", "+dir.getName().endsWith(".pre")+", "+dir.isDirectory());

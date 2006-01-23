@@ -1,16 +1,20 @@
 package xagdop.Interface;
 
 
+import java.io.File;
+
 import javax.swing.JFrame;
 
 public class IPreferences extends JFrame{
 	
+
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 7906721154083119869L;
+	private static final long serialVersionUID = 1L;
 	private static IPreferences IPref = null;
-	private static String defaultPath="project/"; 
+	private static String defaultPath="project"+File.separator; 
 	
 	private IPreferences(){
 		init();
@@ -38,11 +42,8 @@ public class IPreferences extends JFrame{
 
 
 	public static String getDefaultPath() {
-		/*File defaultPathUser = new File(defaultPath+XAGDOP.getInstance().getUser().getLogin());
-		if(!defaultPathUser.exists())
-			defaultPathUser.mkdir();*/
-		//System.out.println(defaultPath+XAGDOP.getInstance().getUser().getLogin());
-		return defaultPath;//+XAGDOP.getInstance().getUser().getLogin();
+		System.out.println(defaultPath);
+		return defaultPath;
 	}
 
 

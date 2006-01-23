@@ -2,6 +2,7 @@ package xagdop.Svn;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -51,7 +52,7 @@ public class SvnRemove {
 		
 		editor.openRoot(-1);
 		editor.openDir(dirPath,-1);
-		editor.deleteEntry(dirPath+"/"+filePath,-1);
+		editor.deleteEntry(dirPath+File.separator+filePath,-1);
 		editor.closeDir();
 		editor.closeDir();
 		

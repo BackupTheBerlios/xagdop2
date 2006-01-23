@@ -35,7 +35,7 @@ public class SvnUpdate{
 	
 	public File getUsersFile() throws SVNException{
 		getFiles();
-		File droitsLocal = new File(IPreferences.getDefaultPath()+".xagdop/users.xml");
+		File droitsLocal = new File(IPreferences.getDefaultPath()+".xagdop"+File.separator+"users.xml");
 		droitsLocal.deleteOnExit();
 		return droitsLocal;
 		
@@ -43,7 +43,7 @@ public class SvnUpdate{
 	
 	public File getProjectFile() throws SVNException{
 		getFiles();
-		File projectLocal = new File(IPreferences.getDefaultPath()+".xagdop/projects.xml");
+		File projectLocal = new File(IPreferences.getDefaultPath()+".xagdop"+File.separator+"projects.xml");
 		projectLocal.deleteOnExit();
 		return projectLocal;
 		
@@ -51,7 +51,7 @@ public class SvnUpdate{
 	
 	public File getDependenciesFile() throws SVNException{
 		getFiles();
-		File dependenciesLocal = new File(IPreferences.getDefaultPath()+".xagdop/dependencies.xml");
+		File dependenciesLocal = new File(IPreferences.getDefaultPath()+".xagdop"+File.separator+"dependencies.xml");
 		dependenciesLocal.deleteOnExit();
 		return dependenciesLocal;
 		
@@ -64,7 +64,7 @@ public class SvnUpdate{
 			projectDirectoryLocal.mkdir();
 		
 		
-		File projectLocal = new File(IPreferences.getDefaultPath()+".xagdop/");
+		File projectLocal = new File(IPreferences.getDefaultPath()+".xagdop"+File.separator);
 		if(projectLocal.exists())
 			up.doUpdate(projectLocal,SVNRevision.HEAD,false);
 		else
@@ -92,7 +92,7 @@ public class SvnUpdate{
             SVNDirEntry entry = (SVNDirEntry) iterator.next();
             if(pp.exist(entry.getName(),user.getLogin())){
             	if(entry.getKind()==SVNNodeKind.DIR){
-            		File projectDirectory = new File(IPreferences.getDefaultPath()+"/"+entry.getName());
+            		File projectDirectory = new File(IPreferences.getDefaultPath()+entry.getName());
             		if(!projectDirectory.exists()){
             			projectDirectory.mkdir();
             			up.doCheckout(SVNURL.parseURIEncoded(SvnConnect.getInstance().getUrl()+entry.getName()),projectDirectory,SVNRevision.HEAD,SVNRevision.HEAD,true);
