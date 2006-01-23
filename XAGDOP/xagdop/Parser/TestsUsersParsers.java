@@ -8,7 +8,6 @@ public class TestsUsersParsers {
 	public static void main(String[] args) {
 		UsersParser up = new UsersParser();
 		Users user;
-		Object obj;
 		
 		/*
 		// isUser

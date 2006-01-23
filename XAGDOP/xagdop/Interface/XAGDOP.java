@@ -397,8 +397,7 @@ public class XAGDOP extends JFrame{
 	
 	class actionUpdate implements ActionListener {
 		public void actionPerformed(ActionEvent e){
-			((CTree)tree.getModel()).refresh(tree.getSelectedNode());
-	
+				((CTree)tree.getModel()).refresh(tree.getSelectedNode());
 		}
 	}
 	class openIPreferences implements ActionListener { 
@@ -445,6 +444,10 @@ public class XAGDOP extends JFrame{
 
 	public Users getUser() {
 		return user;
+	}
+	
+	public void refreshTree(){
+		((CTree)tree.getModel()).refreshFromLocal(tree.getSelectedNode());
 	}
 	
 	public void refreshButton(){

@@ -460,6 +460,7 @@ public class CTree implements TreeModel
 	}
 	
 	public void refreshFromLocal(CTreeNode parent){
+		
 		//relativePath("/home/nephos/IUP/BE/xagdop/XAGDOP/project/user/nom/bla/bla/bla/bli.pre","/home/nephos/IUP/BE/xagdop/XAGDOP/project/user/test/test/bla.pog");
 		File localFiles = new File(parent.getLocalPath());
 		parent.removeAllChildren();

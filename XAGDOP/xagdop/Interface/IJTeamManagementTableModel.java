@@ -7,7 +7,6 @@ import javax.swing.table.AbstractTableModel;
 
 import xagdop.Parser.ProjectsParser;
 import xagdop.Model.Projects;
-import xagdop.Model.Users;
 
 
 public class IJTeamManagementTableModel extends AbstractTableModel {
@@ -31,12 +30,12 @@ public class IJTeamManagementTableModel extends AbstractTableModel {
 		nomProjet = this.projet.getProjectName();
 		projet = projetParser.getAllUsers(nomProjet);
 		
-		ArrayList usersID = projet.getUsersId();
+		//ArrayList usersID = projet.getUsersId();
 		
 		
 		this.rowData = new Object[users.size()][5];
 		Iterator it = users.iterator();
-		int i = 0;
+	//	int i = 0;
 		while (it.hasNext())
 		{
 			

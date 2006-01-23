@@ -60,6 +60,8 @@ public class SvnHistory {
 			try {
 				ssClient = new SVNStatusClient(SvnConnect.getInstance().getRepository().getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
 				SVNStatus sStatus = ssClient.doStatus(file, false);
+				if(sStatus==null)
+					return true;
 				SVNStatusType ssType = sStatus.getContentsStatus();
 				
 				if(ssType == SVNStatusType.STATUS_MODIFIED || ssType == SVNStatusType.STATUS_UNVERSIONED)
@@ -70,6 +72,22 @@ public class SvnHistory {
 				return true;
 			}
 			return false;
+    	}
+    	public static long getRevision(File file){
+    		SVNStatusClient ssClient;
+			try {
+				ssClient = new SVNStatusClient(SvnConnect.getInstance().getRepository().getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
+				SVNStatus sStatus = ssClient.doStatus(file, false);
+				//System.out.println("Version : "+sStatus.getRevision().getNumber());
+				return sStatus.getRevision().getNumber();
+				
+			} catch (SVNException e) {
+				// TODO Auto-generated catch block
+				//e.printStackTrace();
+				
+			}
+			return -1;
+			
     	}
     	
 }

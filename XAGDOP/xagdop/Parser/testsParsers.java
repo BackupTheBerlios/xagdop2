@@ -1,9 +1,7 @@
 package xagdop.Parser;
 
 import java.io.File;
-import java.util.ArrayList;
 
-import xagdop.Model.Projects;
 
 
 public class testsParsers {

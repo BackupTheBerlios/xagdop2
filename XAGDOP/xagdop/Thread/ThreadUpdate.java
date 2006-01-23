@@ -4,7 +4,6 @@ import org.tmatesoft.svn.core.SVNException;
 
 import xagdop.Controleur.CTreeNode;
 import xagdop.Interface.ThreadWait;
-import xagdop.Interface.XAGDOP;
 import xagdop.Svn.SvnUpdate;
 
 
@@ -29,7 +28,7 @@ public class ThreadUpdate extends Thread {
 		} catch (SVNException e) {
 			// TODO Auto-generated catch block
 	
-			//e.printStackTrace();
+			e.printStackTrace();
 			System.out.println("Erreur dans le thread Update");
 		}catch (Exception e){
 			System.out.println("Erreur dans le thread Update");
