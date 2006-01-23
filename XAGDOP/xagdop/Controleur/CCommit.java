@@ -3,10 +3,15 @@ package xagdop.Controleur;
 import java.io.File;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
+import org.tmatesoft.svn.core.SVNException;
+
 import xagdop.Interface.IProjectTree;
 import xagdop.Interface.XAGDOP;
 import xagdop.Parser.DependenciesParser;
 import xagdop.Parser.POGParser;
+import xagdop.Svn.SvnCommit;
 import xagdop.Svn.SvnHistory;
 
 
@@ -15,8 +20,9 @@ import xagdop.Svn.SvnHistory;
 public class CCommit{
 	
 	
-	public CCommit(){
-		
+	public CCommit(CTreeNode currentNode){
+		recCommit(currentNode,".apes");
+		recCommit(currentNode,".pog");
 	}
 
 	
@@ -182,12 +188,15 @@ public class CCommit{
 	}
 	
 	
-	public void recCommit(CTreeNode node)
+	public void recCommit(CTreeNode node,String extention)
 	{
 		//On regarde si le node est un fils
 		if (!node.getAllowsChildren())
 		{
-			beforeCommit(node);
+			if (node.getName().endsWith(extention))
+			{
+				beforeCommit(node);
+			}
 		}
 		//C'est un dossier
 		else
@@ -196,7 +205,7 @@ public class CCommit{
 			for(int i=0;i<node.getChildCount();i++)
 			{
 				//On applique recCommit a tous les fils du dossier
-				recCommit((CTreeNode)node.getChildAt(i));
+				recCommit((CTreeNode)node.getChildAt(i),extention);
 				
 			}
 			
@@ -206,6 +215,26 @@ public class CCommit{
 		
 		
 	}
+	
+	
+	public void commitFile(CTreeNode currentNode,String comment){
+		
+
+		SvnCommit svnC = null;
+		try {
+			
+			svnC = new SvnCommit();
+			svnC.commit(currentNode,comment);
+		} catch (SVNException e1) {
+			JOptionPane.showMessageDialog(null ,"Impossible de se connecter au server subversion", "Validation" , 1) ;
+			e1.printStackTrace();
+		}
+		
+	}
+	
+	
+	
+	
 	
 	
 }
