@@ -85,9 +85,12 @@ public class CCommit{
 					{
 						//On indique qu'il faut mettre a jour tous les fichiers
 						//Qui sont d?pendants du fichier apes que l'on veux envoyer
-					
-						DP.addToUpdate((String)allPog.get(i));
-						
+						//A condition qu'il ne soit pas deja a modifier
+						if (!DP.isToUpdate((String)allPog.get(i)))
+						{
+							//Ajouter dans la liste
+							DP.addToUpdate((String)allPog.get(i));
+						}
 					}
 					
 
@@ -122,30 +125,17 @@ public class CCommit{
 					//mettant en relatif le chemin du fichier apes dependant
 					
 					//Ouverture du parser du fichier POG Correspondant
-					POGParser POGP = new POGParser(toCommit);
-					
+					POGParser POGP = new POGParser(toCommit);	
 					//Recuperation du chemin absolue du fichier apes d?pendant
 					String pathDependantApesFile = POGP.getPathApesFile();
-					
-				
-					
 					//Recuperation du path absolue de la racine des projets
 					String pathGlobal = ((CTreeNode)((IProjectTree)XAGDOP.getInstance().getTree()).getModel().getRoot()).getLocalPath();
-					
-				
-					
 					//Recuperation du pathToRoot du fichier Apes en 
 					//Enlevant les premiers caracteres correspondant au debut du chemin absolue
 					String pathSemiGlobal = pathDependantApesFile.substring(pathGlobal.length()+1);
-					
-				
-					
 					//Ajout dans le DependenciesParser du Pog correspondant
 					//addPog(Apes,Pog)
 					DP.addPog(pathSemiGlobal,pathToRoot);
-					
-					
-					
 					//TODO
 					//Appelle a la methode qui permet de calculer le chemin relatif
 					//relative(Pog,Apes)
