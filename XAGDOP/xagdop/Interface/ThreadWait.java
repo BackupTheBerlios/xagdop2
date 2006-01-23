@@ -23,7 +23,7 @@ public class ThreadWait extends Thread {
 	//JProgressBar PB_wait = new JProgressBar();
 	//JD.getContentPane().add(PB_wait);
 	JPanel panel = new JPanel();
-	JLabel label = new JLabel("toto sa mere en rut ki suce les ours");
+	JLabel label = new JLabel("bla");
 	JProgressBar progressBar = new JProgressBar();
 	
 	
