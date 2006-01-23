@@ -58,7 +58,7 @@ public class DependenciesParser {
 		}
 	}
 	
-	private void loadTreeInMemory(File fichier) throws Exception {
+	public void loadTreeInMemory(File fichier) throws Exception {
 		this.dbf = DocumentBuilderFactory.newInstance();
 		this.dbf.setValidating(false);
 		this.db = dbf.newDocumentBuilder();
