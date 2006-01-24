@@ -1,25 +1,38 @@
 package xagdop.Interface;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Iterator;
 
+import javax.swing.AbstractCellEditor;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.WindowConstants;
+import javax.swing.table.TableCellEditor;
 
 
 import xagdop.Controleur.CTeamManagement;
+import xagdop.Interface.IJAdmin.IJAdminTableCellEditor;
+import xagdop.Interface.IJAdmin.IJAdminTableCellRenderer;
+import xagdop.Interface.IJAdmin.IJAdminTableModel;
 import xagdop.Model.Projects;
 import xagdop.Parser.ProjectsParser;
 import xagdop.Parser.UsersParser;
+import xagdop.ressources.Bundle;
+import xagdop.Model.Users;
 
 public class IJTeamManagement extends JFrame{
 	
@@ -27,258 +40,173 @@ public class IJTeamManagement extends JFrame{
 	 * 
 	 */
 	private static final long serialVersionUID = -1080162447493236178L;
+	private static IJTeamManagement IJTM= null;
 	
-	private JButton ButtonOK=new JButton();
-    private JButton ButtonCancel=new JButton();
-    private JButton ButtonApply = new JButton();
-    private JButton ButtonAffect = new JButton();
-    private JCheckBox AnalystCheck=new JCheckBox();
-    private JCheckBox ArchitectCheck = new JCheckBox();
-    private JCheckBox RedacterCheck = new JCheckBox();
-    private JCheckBox PManagerCheck = new JCheckBox();
-    private JComboBox UserListCombo ;
-    private JLabel AnalystLabel = new JLabel();
-    private JLabel ArchitectLabel = new JLabel();
-    private JLabel RedacterLabel = new JLabel();
-    private JLabel UserLabel = new JLabel();
-    private JLabel PManager = new JLabel();
+	private JButton ButtonCancel = new JButton();
+    private JButton ButtonOK = new JButton();
     private JPanel newPanel = new JPanel();
-	private GridBagConstraints gridBagConstraints = new GridBagConstraints();
+    private JTable JT;
+    private JScrollPane JSP;
+	private GridBagConstraints gbc = new GridBagConstraints();
 	private ProjectsParser projects;
 	private Projects projet;
 	private UsersParser users;
 	private CTeamManagement CTeamM; 
 	
 	private String nomProjet;
-	public String nP;
+	public static String nP;
+	
 	public IJTeamManagement(String ProjectName){
+		nP = ProjectName;
 		this.setNomProjet(ProjectName);
+		users = new UsersParser();  
+		projects = new ProjectsParser();
 		init();
 	}
 	
 	
-	private void init(){ 
-		
+	private void init(){
+		getContentPane().setLayout(new GridBagLayout());
 		nP = this.getNomProjet();
-		CTeamM = new CTeamManagement(nP);
+		this.projet = this.getProjectParser().getAllUsers(this.nomProjet);
+		CTeamM = new CTeamManagement(nP);		
+				
+		newPanel.setLayout(new GridBagLayout());
 		
+		newPanel.setMinimumSize(new Dimension(296, 130));
 		
-
-        
-		
-		        projects = new ProjectsParser();
-		        projet = projects.getAllUsers(nP);
-		        
-		        ArrayList list = projet.getUsersId();
-		        UserListCombo = new JComboBox() ;   	 	
-		   	 	
-		        users = new UsersParser();
-		        
-		    	//Remplissage de la combobox avec les valeurs de la list
-		      	for(int i=0; i<list.size(); i++)
-		    	{
-		      		UserListCombo.addItem(users.getAttribute(((Integer)list.get(i)).intValue(),"login"));
-				}
-		   	 
-			 
-		
-		
-		
-		
-		
-		
-        getContentPane().setLayout(new GridBagLayout());
-
-        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        newPanel.setLayout(new GridBagLayout());
-
-        newPanel.setMinimumSize(new Dimension(296, 130));
-        UserLabel.setText("Selectionner l'utilisateur");
-        
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        newPanel.add(UserLabel, gridBagConstraints);
-        
-        
-        
-        UserListCombo.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                //Changement des checkBox avec les droits
-            	refresh();
-            	
-            	
-            	
-            	
-            	//UserListComboActionPerformed(evt);
-            }
-        });
-
-      
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 2;
-        newPanel.add(UserListCombo, gridBagConstraints);
-
-        ButtonAffect.setText("Affecter");
-        ButtonAffect.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                CTeamM.Apply(projects,users.getId((String)UserListCombo.getSelectedItem()),ArchitectCheck.isSelected(),AnalystCheck.isSelected(),RedacterCheck.isSelected(),PManagerCheck.isSelected());
-           	    IAffect IA = IAffect.getIA();
-           	    IA.setProjectName(nP);
-           	    IA.setVisible(true);
-                //fermer la fenetre
-            	dispose();
-            }
-        });
-        
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 1;
-        newPanel.add(ButtonAffect, gridBagConstraints);
-        
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 3;
-        newPanel.add(AnalystCheck, gridBagConstraints);
-
-       
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 3;
-        newPanel.add(PManagerCheck, gridBagConstraints);
-        
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        newPanel.add(ArchitectCheck, gridBagConstraints);
-
-        
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        newPanel.add(RedacterCheck, gridBagConstraints);
-
-        
-        
-        ArchitectLabel.setText("Architecte");
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        newPanel.add(ArchitectLabel, gridBagConstraints);
-
-
-        PManager.setText("PManager");
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 2;
-        newPanel.add(PManager, gridBagConstraints);
-
-        
-        
-        RedacterLabel.setText("Redacteur");
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        newPanel.add(RedacterLabel, gridBagConstraints);
-
-        AnalystLabel.setText("Analyste");
-
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 2;
-        newPanel.add(AnalystLabel, gridBagConstraints);
-
-        ButtonOK.setText("Ok");
+		ButtonOK.setText("Ok");
         ButtonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                CTeamM.Apply(projects,users.getId((String)UserListCombo.getSelectedItem()),ArchitectCheck.isSelected(),AnalystCheck.isSelected(),RedacterCheck.isSelected(),PManagerCheck.isSelected());
-           	    
+            	
+            	int j =JT.getRowCount();            	
+        		int i=0;
+        		while(i<j)
+        		{
+        			//CTeamM.Apply(projects,users.getId((String)JT.getValueAt(i,0)),((Boolean)JT.getValueAt(i,2)).booleanValue(),((Boolean)JT.getValueAt(i,1)).booleanValue(),((Boolean)JT.getValueAt(i,3)).booleanValue(),((Boolean)JT.getValueAt(i,4)).booleanValue());
+        			i++;  
+        		}
+        	
+            	
+            	(IJAdmin.getIJA()).dispose();
+             
+                  
                 //fermer la fenetre
             	dispose();
             }
-        });
-
-
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridwidth = 2;
-        newPanel.add(ButtonOK, gridBagConstraints);
-
+        });	// Fin bouton OK
+        
+        
         ButtonCancel.setText("Annuler");
         ButtonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                  //Fermer la fenetre
             	dispose();
             }
-        });
-
-
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridwidth = 2;
-        newPanel.add(ButtonCancel, gridBagConstraints);
-   
+        }); // Fin bouton Cancel
         
-        ButtonApply.setText("Appliquer");
-        ButtonApply.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-            	 CTeamM.Apply(projects,users.getId((String)UserListCombo.getSelectedItem()),ArchitectCheck.isSelected(),AnalystCheck.isSelected(),RedacterCheck.isSelected(),PManagerCheck.isSelected());
-            	 //projects.refresh();
-            	 projet = projects.getAllUsers("Projet1");
-            }
-        });
-
-
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridwidth = 1;
-        newPanel.add(ButtonApply, gridBagConstraints);
+        
+        JT = new JTable(new IJTeamManagementTableModel(this.getUsers(),nP));
+        JT.setDefaultRenderer(JButton.class, new IJTeamManagementTableCellrenderer());
+        JT.setDefaultEditor(JButton.class, new IJTeamManagementTableCellEditor(this,this.nomProjet));
+        JT.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        JT.setSize(new Dimension(650,200));
+        JT.setPreferredScrollableViewportSize(JT.getSize());
+        JT.getColumnModel().getColumn(0).setResizable(false);
+        JT.getColumnModel().getColumn(1).setResizable(false);
+        JT.getColumnModel().getColumn(2).setResizable(false);
+        JT.getColumnModel().getColumn(3).setResizable(false);
+        JT.getColumnModel().getColumn(4).setResizable(false);
+        JT.getColumnModel().getColumn(5).setResizable(false);
+        
+        JT.getColumnModel().getColumn(0).setMinWidth(200);
+        JT.getColumnModel().getColumn(1).setMinWidth(105);
+        JT.getColumnModel().getColumn(2).setMinWidth(105);
+        JT.getColumnModel().getColumn(3).setMaxWidth(105);
+        JT.getColumnModel().getColumn(4).setMaxWidth(105);        
+        JT.getColumnModel().getColumn(5).setMaxWidth(100);	// colonne desaffecter
+        
+        this.donnerContrainte(gbc,0,0,3,1,100,100,GridBagConstraints.BOTH);
+        JSP = new JScrollPane(JT);
+        newPanel.add(JSP,gbc);
+        this.donnerContrainte(gbc,0,1,1,1,100,100,GridBagConstraints.NONE);
+        newPanel.add(ButtonOK, gbc);
+        this.donnerContrainte(gbc,1,1,1,1,100,100,GridBagConstraints.NONE);
+        newPanel.add(ButtonCancel,gbc);
+        
         getContentPane().add(newPanel, new GridBagConstraints());
-
         pack();
-        refresh();
-   	 
-		setTitle("Affectation de l'equipe");
+        this.getContentPane().validate();
+        IJTM=this;
+        super.setTitle("Affectation des équipes");
+        super.setVisible(true);
+	}// Fin Init
+	
+	
+	public void refreshUsers()
+	{
+		GridBagConstraints gbc = new GridBagConstraints();
+        this.donnerContrainte(gbc,0,0,3,1,100,100,GridBagConstraints.BOTH);
+        
+		this.projects = new ProjectsParser();
+		this.projet = this.projects.getAllUsers(this.nomProjet);
+		((IJTeamManagementTableModel)this.JT.getModel()).init(this.getUsers());
+		JT.setDefaultEditor(JButton.class, new IJTeamManagementTableCellEditor(this,this.nomProjet));
+		this.remove(newPanel);
+		this.newPanel.remove(JSP);
 		
-		//setSize(300, 200);
-		
+		JSP = new JScrollPane(JT);
+		this.newPanel.add(JSP,gbc);
+		this.getContentPane().add(newPanel, new GridBagConstraints());
+		this.pack();
+		this.getContentPane().validate();
 	}
-
 	
-	public void refresh(){
-		
-		AnalystCheck.setSelected(projet.isAnalyst(users.getId((String)UserListCombo.getSelectedItem())));
-		RedacterCheck.setSelected(projet.isRedacteur(users.getId((String)UserListCombo.getSelectedItem())));
-		ArchitectCheck.setSelected(projet.isArchitecte(users.getId((String)UserListCombo.getSelectedItem())));
-		PManagerCheck.setSelected(projet.isManager(users.getId((String)UserListCombo.getSelectedItem())));
-		
-	 	 
-	}
 	
-	/*
-	public void refreshCombo(){
-
-		//Rajout des nouveaux users
-
+	/** Panel de message de fin de transaction
+     * @param gbc <CODE>GridBagConstraints</CODE> represente la contrainte qui va prendre les
+     * valeurs specifiees
+     * @param gx <CODE>int</CODE> represente la colonne dans laquelle l'?l?ment va etre place
+     * @param gy <CODE>int</CODE> represente la ligne dans laquelle l'?l?ment va etre place
+     * @param gw <CODE>int</CODE> represente le nombre de colonnes sur lesquelles l'?l?ment va etre place
+     * @param gh <CODE>int</CODE> represente le nombre de lignes sur lesquelles l'?l?ment va etre place
+     * @param wx <CODE>int</CODE> poucentage de place utilise dans sa colonne
+     * @param wy <CODE>int</CODE> poucentage de place utilise dans sa ligne
+     */
+	public void donnerContrainte(GridBagConstraints gbc, int gx, int gy, int gw, int gh, int wx, int wy)
+    {
+		gbc.gridx=gx;
+		gbc.gridy=gy;
+		gbc.gridwidth=gw;
+		gbc.gridheight=gh;
+		gbc.weightx=wx;
+		gbc.weighty=wy;
+		gbc.fill=GridBagConstraints.NONE;
+    }
+    
+    /** Panel de message de fin de transaction
+     * @param gbc <CODE>GridBagConstraints</CODE> represente la contrainte qui va prendre les
+     * valeurs specifiees
+     * @param gx <CODE>int</CODE> represente la colonne dans laquelle l'?l?ment va etre place
+     * @param gy <CODE>int</CODE> represente la ligne dans laquelle l'?l?ment va etre place
+     * @param gw <CODE>int</CODE> represente le nombre de colonnes sur lesquelles l'?l?ment va etre place
+     * @param gh <CODE>int</CODE> represente le nombre de lignes sur lesquelles l'?l?ment va etre place
+     * @param wx <CODE>int</CODE> poucentage de place utilise dans sa colonne
+     * @param wy <CODE>int</CODE> poucentage de place utilise dans sa ligne
+     * @param constraint <CODE>int</CODE> contrainte de redimensionnement
+     */    
+    public void donnerContrainte(GridBagConstraints gbc, int gx, int gy, int gw, int gh, int wx, int wy, int constraint)
+    {
+    	gbc.gridx=gx;
+    	gbc.gridy=gy;
+    	gbc.gridwidth=gw;
+    	gbc.gridheight=gh;
+    	gbc.weightx=wx;
+    	gbc.weighty=wy;
+    	gbc.fill=constraint;
+    }
 	
-		projects = new ProjectsParser();
-        projet = projects.getAllUsers("Projet1");
-        ArrayList list = projet.getUsersId();
-		 
 	
-       
-        users = new UsersParser();
-	    	//Remplissage de la combobox avec les valeurs de la list
-	      	for(int i=UserListCombo.getItemCount(); i<list.size(); i++)
-	    	{
-	      			UserListCombo.addItem(users.getAttribute(((Integer)list.get(i)).intValue(),"login"));
-	    	}
-	
-
-	      	
-	      	UserListCombo.addActionListener(new ActionListener() {
-	            public void actionPerformed(ActionEvent evt) {
-	                //Changement des checkBox avec les droits
-	            	refresh();
-	            }
-	        });
-		}
-		
-	*/
-
-
 	public void setNomProjet(String nomProjet) {
 		this.nomProjet = nomProjet;
 	}
@@ -286,6 +214,51 @@ public class IJTeamManagement extends JFrame{
 
 	public String getNomProjet() {
 		return nomProjet;
+	}
+
+	public static IJTeamManagement getIJTM() {
+		if (IJTM==null){
+			IJTM = new IJTeamManagement(nP); 
+		}
+		
+		return IJTM;
+	}
+	
+	public JTable getTable() {
+		return this.JT;
+	}
+	
+	public ArrayList getUsers()
+	{
+		ArrayList usersProject = new ArrayList();
+		ArrayList usersProjetId = this.projet.getUsersId();
+		Iterator i = this.users.getAllUsers().iterator();
+		Iterator j = usersProjetId.iterator();
+		Integer usersProjet;
+		Users usersGlobal;
+		while(j.hasNext())
+		{
+			usersProjet = ((Integer)j.next());
+			
+			while(i.hasNext())
+			{
+				usersGlobal = ((Users)i.next());
+				if(usersGlobal.getId()==usersProjet.intValue())
+				{
+					usersProject.add(usersGlobal);
+				}
+			}
+			
+			i = this.users.getAllUsers().iterator();
+			
+			
+		}
+		return usersProject;
+	}
+	
+	public ProjectsParser getProjectParser()
+	{
+		return this.projects;
 	}
 	
 }
