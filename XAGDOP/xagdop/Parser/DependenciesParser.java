@@ -315,7 +315,50 @@ public class DependenciesParser {
 		}
 		else
 		{
-			System.out.println("Fichier existant!");
+			//System.out.println("Fichier existant!");
+		}
+	}	
+	
+	public void addPog(String pogName)
+	{
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		
+		String expr_test = "//dependencies/pog[@fileNamePog=\""+pogName+"\"]";
+		Element test_elem = null;		
+		try {
+			test_elem = (Element)xpath.evaluate(expr_test, this.doc, XPathConstants.NODE);
+		}
+		catch (XPathExpressionException e) {
+			
+			e.printStackTrace();
+		}
+		
+		if(test_elem == null)
+		{
+			String expression = "//dependencies";
+
+			Element elem = null;
+			Element newElem = doc.createElement("pog");
+			newElem.setAttribute("fileNamePog", pogName);	
+			try {
+					elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+			}
+			catch (XPathExpressionException e) {
+				
+				e.printStackTrace();
+			}
+
+			if ( elem != null ) {
+				elem.appendChild(newElem);
+				saveDocument();			
+			}
+			else {
+				System.out.println("Ajout du fichier Pog sans modele impossible!"); 
+			}
+		}
+		else
+		{
+			//System.out.println("Fichier existant!");
 		}
 	}	
 	
@@ -359,7 +402,7 @@ public class DependenciesParser {
 		}
 		else
 		{
-			System.out.println("Fichier existant!");
+			//System.out.println("Fichier existant!");
 		}
 	}		
 	
@@ -367,7 +410,7 @@ public class DependenciesParser {
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		
-		String expr_test = "//pog[@fileNamePog=\""+pogName+"\"]";
+		String expr_test = "//dependencies/apes[@fileNameApes=\""+apesName+"\"]/pog[@fileNamePog=\""+pogName+"\"]";
 		Element test_elem = null;		
 		try {
 			test_elem = (Element)xpath.evaluate(expr_test, this.doc, XPathConstants.NODE);
@@ -403,7 +446,7 @@ public class DependenciesParser {
 		}
 		else
 		{
-			System.out.println("Fichier existant!");
+			//System.out.println("Fichier existant!");
 		}
 	}		
 	
