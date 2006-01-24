@@ -31,7 +31,9 @@ public class IJTeamManagementTableModel extends AbstractTableModel {
 		this.users = usersParser;
 		projetParser = new ProjectsParser(); 
 		
-		nomProjet = this.projet.getProjectName();
+		this.nP = nomProjet;
+		
+		//nomProjet = this.projet.getProjectName();
 		projet = projetParser.getAllUsers(nomProjet);
 		
 		this.init(users);
@@ -64,7 +66,7 @@ public class IJTeamManagementTableModel extends AbstractTableModel {
 	
 	public void init(ArrayList ff) {
 		this.users = ff;
-		this.rowData = new Object[users.size()][5];
+		this.rowData = new Object[users.size()][this.getColumnCount()];
 		Iterator it = users.iterator();
 		int i = 0;
 		while (it.hasNext())
@@ -81,4 +83,26 @@ public class IJTeamManagementTableModel extends AbstractTableModel {
 		
 	}
 	
+	public boolean isCellEditable(int row, int column) {
+			if (column != 0) 
+				return true;
+			else
+				return false;
+	}
+	
+	/**
+     * @param value: Object to put at a specific location
+     * @param row: row where to put value
+     * @param col: column where to put value
+     * 
+     * Update the model when data are changed and send an TableCell event
+     */
+    public void setValueAt(Object value, int row, int col) 
+    {
+    	if(col<this.getColumnCount() && row<this.getRowCount())
+        {
+    		this.rowData[row][col] = value;
+    		this.fireTableCellUpdated(row, col);
+        }
+    }
 }
