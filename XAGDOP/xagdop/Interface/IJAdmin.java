@@ -68,7 +68,7 @@ public class IJAdmin extends JFrame{
             	int j =JT.getRowCount();
         
         		int i=0;
-        		while(i<j)
+        		while(i<=j)
         		{
         			cadmin.Apply(users,users.getId((String)JT.getValueAt(i,0)),((Boolean)JT.getValueAt(i,2)).booleanValue(),((Boolean)JT.getValueAt(i,1)).booleanValue());
         			i++;  
