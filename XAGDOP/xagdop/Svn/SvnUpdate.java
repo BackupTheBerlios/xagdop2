@@ -35,7 +35,7 @@ public class SvnUpdate{
 	
 	public File getUsersFile() throws SVNException{
 		getFiles();
-		File droitsLocal = new File(IPreferences.getDefaultPath()+".xagdop"+File.separator+"users.xml");
+		File droitsLocal = new File(IPreferences.getRootPath()+".xagdop"+File.separator+repository.getRepositoryUUID()+File.separator+"users.xml");
 		droitsLocal.deleteOnExit();
 		return droitsLocal;
 		
@@ -43,7 +43,7 @@ public class SvnUpdate{
 	
 	public File getProjectFile() throws SVNException{
 		getFiles();
-		File projectLocal = new File(IPreferences.getDefaultPath()+".xagdop"+File.separator+"projects.xml");
+		File projectLocal = new File(IPreferences.getRootPath()+".xagdop"+File.separator+repository.getRepositoryUUID()+File.separator+"projects.xml");
 		projectLocal.deleteOnExit();
 		return projectLocal;
 		
@@ -51,7 +51,7 @@ public class SvnUpdate{
 	
 	public File getDependenciesFile() throws SVNException{
 		getFiles();
-		File dependenciesLocal = new File(IPreferences.getDefaultPath()+".xagdop"+File.separator+"dependencies.xml");
+		File dependenciesLocal = new File(IPreferences.getRootPath()+".xagdop"+File.separator+repository.getRepositoryUUID()+File.separator+"dependencies.xml");
 		dependenciesLocal.deleteOnExit();
 		return dependenciesLocal;
 		
@@ -59,17 +59,18 @@ public class SvnUpdate{
 	
 	public void getFiles() throws SVNException{
 		SVNUpdateClient up = new SVNUpdateClient(repository.getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
-		File projectDirectoryLocal = new File(IPreferences.getDefaultPath());
+		File projectDirectoryLocal = new File(IPreferences.getRootPath());
 		if(!projectDirectoryLocal.exists())
 			projectDirectoryLocal.mkdir();
+		File projectLocal = new File(IPreferences.getRootPath()+".xagdop"+File.separator);
+		if(!projectLocal.exists())
+			projectLocal.mkdir();
+		projectLocal = new File(IPreferences.getRootPath()+".xagdop"+File.separator+repository.getRepositoryUUID()+File.separator);
 		
-		
-		File projectLocal = new File(IPreferences.getDefaultPath()+".xagdop"+File.separator);
 		if(projectLocal.exists())
 			up.doUpdate(projectLocal,SVNRevision.HEAD,false);
 		else
 			up.doCheckout(repository.getLocation(),projectLocal,SVNRevision.HEAD,SVNRevision.HEAD,false);
-		projectLocal.deleteOnExit();
 	}
 	
 	
