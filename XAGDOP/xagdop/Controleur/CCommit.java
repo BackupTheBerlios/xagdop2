@@ -141,6 +141,10 @@ public class CCommit{
 						//addPog(Apes,Pog)
 						DP.addPog(pathSemiGlobal,pathToRoot);
 					}
+					else
+					{
+						DP.addPog(pathToRoot);
+					}
 					//TODO
 					//Appelle a la methode qui permet de calculer le chemin relatif
 					//relative(Pog,Apes)
