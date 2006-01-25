@@ -2,7 +2,6 @@ package xagdop.Parser;
 
 import java.io.File;
 import java.util.ArrayList;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
@@ -15,22 +14,35 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
 import xagdop.Model.Projects;
 import xagdop.Model.Users;
 import xagdop.Svn.SvnCommit;
 import xagdop.Svn.SvnUpdate;
 
 public class ProjectsParser {
+	/**
+	 * @uml.property  name="dbf"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private DocumentBuilderFactory dbf;
+	/**
+	 * @uml.property  name="db"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private DocumentBuilder db;
+	/**
+	 * @uml.property  name="doc"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private Document doc;
+	/**
+	 * @uml.property  name="projectXML"
+	 */
 	private File projectXML;
 	
 	public static final String ATTR_ARCHI = "archi";
@@ -47,7 +59,7 @@ public class ProjectsParser {
 		try {
 			SvnUpdate svnu = new SvnUpdate();
 			if((projectXML = svnu.getProjectFile())==null)
-				//System.out.println("Erreur");
+				System.out.println("Erreur");
 			//projectXML = new File("./projects.xml");	//debug Attention ? ne pas le commit
 			loadTreeInMemory(projectXML);
 		} catch (Exception e) {
@@ -99,10 +111,9 @@ public class ProjectsParser {
 	public Object getAttribute(String projectName,String attr, int idUser)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//project[@name=\""+projectName+"\"]//user[@id="+idUser+"]";
+		String expression = "//project[@name=\""+projectName+"\"]/user[@id="+idUser+"]";
 		String res = "";
 		Element elem = null;
-		
 		try {
 			elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
 		}
@@ -132,8 +143,10 @@ public class ProjectsParser {
 		UsersParser users = new UsersParser();
 		int id = users.getId(login);
 		
-		String expression = "//project[@name=\""+pName+"\"]//user[@id="+id+"]";
+		String expression = "//project[@name=\""+pName+"\"]/user[@id="+id+"]";
 		//boolean res = false;
+		
+		
 		Element elem = null;
 			
 		try {
@@ -174,7 +187,7 @@ public class ProjectsParser {
 	public void setAttribute(String projectName,int idUser, String attr ,String newValue)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//project[@name=\""+projectName+"\"]//user[@id="+idUser+"]";
+		String expression = "//project[@name=\""+projectName+"\"]/user[@id="+idUser+"]";
 		Element elem = null;
 		
 		try {
@@ -470,7 +483,7 @@ public class ProjectsParser {
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//project[@name=\""+projectName+"\"]";
-		String expr = "//project[@name=\""+projectName+"\"]//user[@id="+idUser+"]";
+		String expr = "//project[@name=\""+projectName+"\"]/user[@id="+idUser+"]";
 		UsersParser user = new UsersParser();
 		
 		if(!user.isUser(idUser))
