@@ -34,7 +34,7 @@ public class CUser {
 	public boolean creerUser(String login, String passwd, String passwdconf) throws Exception,InstanceNotFoundException
 	{
 		UsersParser UP = new UsersParser();
-		int idUser = UP.getAllUsers().size();
+		int idUser = UP.getAllUsers().size()+1;
 		if (passwd.equals(passwdconf)){
     		if (passwd.length()>3){
     			if (!UP.isUser(UP.getId(login))){

@@ -47,7 +47,7 @@ public class ProjectsParser {
 		try {
 			SvnUpdate svnu = new SvnUpdate();
 			if((projectXML = svnu.getProjectFile())==null)
-				System.out.println("Erreur");
+				//System.out.println("Erreur");
 			//projectXML = new File("./projects.xml");	//debug Attention ? ne pas le commit
 			loadTreeInMemory(projectXML);
 		} catch (Exception e) {
@@ -68,7 +68,7 @@ public class ProjectsParser {
 		try {
 			loadTreeInMemory(projectXML);
 		} catch (Exception e) {
-			//System.out.println("CACA");
+			////System.out.println("CACA");
 		}
 	}
 	
@@ -91,7 +91,7 @@ public class ProjectsParser {
 			return res;
 		}
 		else {
-			System.out.println("R??cup??ration de l'attribut "+ attr + " impossible!"); 
+			//System.out.println("R??cup??ration de l'attribut "+ attr + " impossible!"); 
 			return res;
 		}		
 	}
@@ -120,7 +120,7 @@ public class ProjectsParser {
 		}
 		else {
 
-			System.out.println("R??cup??ration de l'attribut "+ attr + " pour l'utilisateur "+idUser+" impossible!"); 
+			//System.out.println("R??cup??ration de l'attribut "+ attr + " pour l'utilisateur "+idUser+" impossible!"); 
 			return Boolean.FALSE;
 		}		
 	}
@@ -167,7 +167,7 @@ public class ProjectsParser {
 			saveDocument();
 		}
 		else {
-			System.out.println("Modification de l'attribut "+ attr + " impossible!"); 
+			//System.out.println("Modification de l'attribut "+ attr + " impossible!"); 
 		}
 	}
 	
@@ -189,7 +189,7 @@ public class ProjectsParser {
 			saveDocument();
 		}
 		else {
-			System.out.println("Modification de l'attribut "+ attr + " pour l'utilisateur "+idUser+" impossible!"); 
+			//System.out.println("Modification de l'attribut "+ attr + " pour l'utilisateur "+idUser+" impossible!"); 
 		}
 	}
 	
@@ -203,7 +203,7 @@ public class ProjectsParser {
 		
 		if(!user.isUser(idUser))
 		{
-			//System.out.println("L'utilisateur n'existe pas!!");
+			////System.out.println("L'utilisateur n'existe pas!!");
 		}
 		else
 		{
@@ -227,7 +227,7 @@ public class ProjectsParser {
 				saveDocument();
 			}
 			else {
-				System.out.println("Ajout de l'utilisateur "+idUser+" impossible!"); 
+				//System.out.println("Ajout de l'utilisateur "+idUser+" impossible!"); 
 			}
 		}
 	}
@@ -241,7 +241,7 @@ public class ProjectsParser {
 		
 		if(!userP.isUser(user.getId()))
 		{
-			//System.out.println("L'utilisateur n'existe pas!!");
+			////System.out.println("L'utilisateur n'existe pas!!");
 			return false;
 		}
 		else
@@ -267,7 +267,7 @@ public class ProjectsParser {
 				return true;
 			}
 			else {
-				System.out.println("Ajout de l'utilisateur "+user.getLogin()+" impossible!");
+				//System.out.println("Ajout de l'utilisateur "+user.getLogin()+" impossible!");
 				return false;
 			}
 		}
@@ -282,7 +282,7 @@ public class ProjectsParser {
 		
 		if(!userP.isUser(user.getId()))
 		{
-			//System.out.println("L'utilisateur n'existe pas!!");
+			////System.out.println("L'utilisateur n'existe pas!!");
 			return false;
 		}
 		else
@@ -308,7 +308,7 @@ public class ProjectsParser {
 				return true;
 			}
 			else {
-				System.out.println("Ajout de l'utilisateur "+user.getLogin()+" impossible!");
+				//System.out.println("Ajout de l'utilisateur "+user.getLogin()+" impossible!");
 				return false;
 			}
 		}
@@ -323,7 +323,7 @@ public class ProjectsParser {
 		
 		if(!user.isUser(idUser))
 		{
-			//System.out.println("L'utilisateur n'existe pas!!");
+			////System.out.println("L'utilisateur n'existe pas!!");
 		}
 		else
 		{
@@ -347,7 +347,7 @@ public class ProjectsParser {
 				saveDocument();
 			}
 			else {
-				System.out.println("Ajout de l'utilisateur "+idUser+" impossible!"); 
+				//System.out.println("Ajout de l'utilisateur "+idUser+" impossible!"); 
 			}
 		}		
 	}
@@ -361,7 +361,7 @@ public class ProjectsParser {
 		
 		if(!user.isUser(idUser))
 		{
-			//System.out.println("L'utilisateur n'existe pas!!");
+			////System.out.println("L'utilisateur n'existe pas!!");
 		}
 		else
 		{
@@ -385,7 +385,7 @@ public class ProjectsParser {
 				saveDocument();
 			}
 			else {
-				System.out.println("Ajout de l'utilisateur "+idUser+" impossible!"); 
+				//System.out.println("Ajout de l'utilisateur "+idUser+" impossible!"); 
 			}
 		}		
 	}
@@ -399,7 +399,7 @@ public class ProjectsParser {
 		
 		if(!user.isUser(idUser))
 		{
-			//System.out.println("L'utilisateur n'existe pas!!");
+			////System.out.println("L'utilisateur n'existe pas!!");
 		}
 		else
 		{
@@ -423,7 +423,7 @@ public class ProjectsParser {
 				saveDocument();
 			}
 			else {
-				System.out.println("Ajout de l'utilisateur "+idUser+" impossible!"); 
+				//System.out.println("Ajout de l'utilisateur "+idUser+" impossible!"); 
 			}
 		}		
 	}
@@ -437,7 +437,7 @@ public class ProjectsParser {
 		
 		if(!user.isUser(idUser))
 		{
-			//System.out.println("L'utilisateur n'existe pas!!");
+			////System.out.println("L'utilisateur n'existe pas!!");
 		}
 		else
 		{
@@ -461,7 +461,7 @@ public class ProjectsParser {
 				saveDocument();
 			}
 			else {
-				System.out.println("Ajout de l'utilisateur "+idUser+" impossible!"); 
+				//System.out.println("Ajout de l'utilisateur "+idUser+" impossible!"); 
 			}
 		}		
 	}
@@ -475,7 +475,7 @@ public class ProjectsParser {
 		
 		if(!user.isUser(idUser))
 		{
-			//System.out.println("L'utilisateur n'existe pas!!");
+			////System.out.println("L'utilisateur n'existe pas!!");
 		}
 		else
 		{
@@ -493,10 +493,10 @@ public class ProjectsParser {
 			if ( elem != null ) {
 				elem.removeChild(oldElem);
 				saveDocument();
-				System.out.println("Suppression de l'utilisateur "+idUser+" effectu??e!"); 
+				//System.out.println("Suppression de l'utilisateur "+idUser+" effectu??e!"); 
 			}
 			else {
-				System.out.println("Suppression de l'utilisateur "+idUser+" impossible!"); 
+				//System.out.println("Suppression de l'utilisateur "+idUser+" impossible!"); 
 			}
 		}		
 		
@@ -523,10 +523,10 @@ public class ProjectsParser {
 		if ( elem != null ) {
 			elem.removeChild(oldElem);
 			saveDocument();
-			System.out.println("Suppression du projet "+projectName+" effectu??e!"); 
+			//System.out.println("Suppression du projet "+projectName+" effectu??e!"); 
 		}
 		else {
-			System.out.println("Suppression du projet "+projectName+" impossible!"); 
+			//System.out.println("Suppression du projet "+projectName+" impossible!"); 
 		}
 		
 		
@@ -618,7 +618,7 @@ public class ProjectsParser {
 				}
 			}
 			else {
-				System.out.println("Pas de fils");
+				//System.out.println("Pas de fils");
 			}
 			
 		}

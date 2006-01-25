@@ -42,7 +42,6 @@ public class IPreferences extends JFrame{
 
 
 	public static String getDefaultPath() {
-		System.out.println(defaultPath);
 		return defaultPath;
 	}
 

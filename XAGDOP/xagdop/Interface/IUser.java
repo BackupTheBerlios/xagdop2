@@ -48,12 +48,12 @@ public class IUser extends JFrame{
 		/*Creation du mot de passe */
 		userIDLabel = new JLabel(Bundle.getText("iuser.label.id"));
 		//userID = new JTextField(Bundle.getText("iuser.Jtextfield.id"));
-		userID = new JTextField("user");
+		userID = new JTextField("aubry");
 		userID.setColumns(8);
 		
 		/*Creation du mot de passe */
 		passwordLabel = new JLabel(Bundle.getText("iuser.label.password"));
-		password = new JPasswordField("pass");
+		password = new JPasswordField("aubry");
 		//password = new JPasswordField();
 		password.setEchoChar('*');
 		password.setColumns(8);

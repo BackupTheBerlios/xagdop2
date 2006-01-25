@@ -69,7 +69,7 @@ public class UsersParser {
 				return true;		
 		}
 		else {
-			System.out.println("L'utilisateur "+idUser+" n'existe pas!");    
+			//System.out.println("L'utilisateur "+idUser+" n'existe pas!");    
 			return false;
 		}
 	}
@@ -77,7 +77,7 @@ public class UsersParser {
 	public boolean isUser(String login)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//id[@login="+login+"]";
+		String expression = "//id[@login=\""+login+"\"]";
 		Element elem = null;
 		
 		try {
@@ -91,7 +91,7 @@ public class UsersParser {
 				return true;		
 		}
 		else {
-			System.out.println("L'utilisateur "+login+" n'existe pas!");    
+			//System.out.println("L'utilisateur "+login+" n'existe pas!");    
 			return false;
 		}
 	}	
@@ -123,7 +123,7 @@ public class UsersParser {
 				return user;		
 		}
 		else {
-			System.out.println("L'utilisateur "+login+" n'existe pas!");    
+			//System.out.println("L'utilisateur "+login+" n'existe pas!");    
 			return user;
 		}
 	}
@@ -154,7 +154,7 @@ public class UsersParser {
 				return user;		
 		}
 		else {
-			System.out.println("L'utilisateur "+login+" n'existe pas!");    
+			//System.out.println("L'utilisateur "+login+" n'existe pas!");    
 			return user;
 		}
 	}
@@ -186,7 +186,7 @@ public class UsersParser {
 				return user;		
 		}
 		else {
-			System.out.println("L'utilisateur "+id+" n'existe pas!");    
+			//System.out.println("L'utilisateur "+id+" n'existe pas!");    
 			return user;
 		}
 	}
@@ -219,7 +219,7 @@ public class UsersParser {
 		
 		}
 		else {
-			System.out.println("R??cup??ration de l'attribut "+ attr + " pour l'utilisateur "+idUser+ " impossible!"); 
+			//System.out.println("R??cup??ration de l'attribut "+ attr + " pour l'utilisateur "+idUser+ " impossible!"); 
 			return res;
 		}		
 	}
@@ -242,7 +242,7 @@ public class UsersParser {
 				return res;
 			}
 		else {
-			System.out.println("R??cup??ration de l'attribut "+ ATTR_NUM + " pour l'utilisateur "+login+ " impossible!"); 
+			//System.out.println("R??cup??ration de l'attribut "+ ATTR_NUM + " pour l'utilisateur "+login+ " impossible!"); 
 			return res;
 		}		
 	}
@@ -264,7 +264,7 @@ public class UsersParser {
 			saveDocument();
 		}
 		else {
-			System.out.println("Modification de l'attribut "+ attr + " pour l'utilisateur "+idUser+ " impossible!"); 
+			//System.out.println("Modification de l'attribut "+ attr + " pour l'utilisateur "+idUser+ " impossible!"); 
 		}
 	}
 	
@@ -295,7 +295,7 @@ public class UsersParser {
 				saveDocument();
 			}
 			else {
-				System.out.println("Ajout de l'utilisateur "+idUser+" impossible!"); 
+				//System.out.println("Ajout de l'utilisateur "+idUser+" impossible!"); 
 			}
 			
 	}
@@ -325,7 +325,7 @@ public class UsersParser {
 				saveDocument();
 			}
 			else {
-				System.out.println("Ajout de l'utilisateur "+idUser+" impossible!"); 
+				//System.out.println("Ajout de l'utilisateur "+idUser+" impossible!"); 
 			}
 			
 	}
@@ -355,7 +355,7 @@ public class UsersParser {
 				saveDocument();
 			}
 			else {
-				System.out.println("Ajout de l'utilisateur "+idUser+" impossible!"); 
+				//System.out.println("Ajout de l'utilisateur "+idUser+" impossible!"); 
 			}
 			
 	}
@@ -386,7 +386,7 @@ public class UsersParser {
 				return true;
 			}
 			else {
-				System.out.println("Ajout de l'utilisateur "+user.getId()+" impossible!");
+				//System.out.println("Ajout de l'utilisateur "+user.getId()+" impossible!");
 				return false;
 			}
 			
@@ -401,7 +401,7 @@ public class UsersParser {
 		
 		if(!isUser(idUser))
 		{
-			//System.out.println("L'utilisateur n'existe pas!!");
+			////System.out.println("L'utilisateur n'existe pas!!");
 		}
 		else
 		{
@@ -419,10 +419,10 @@ public class UsersParser {
 			if ( elem != null ) {
 				elem.removeChild(oldElem);
 				saveDocument();
-				System.out.println("Suppression de l'utilisateur "+idUser+" effectu??e!"); 
+				//System.out.println("Suppression de l'utilisateur "+idUser+" effectu??e!"); 
 			}
 			else {
-				System.out.println("Suppression de l'utilisateur "+idUser+" impossible!"); 
+				//System.out.println("Suppression de l'utilisateur "+idUser+" impossible!"); 
 			}
 		}		
 		
@@ -447,7 +447,6 @@ public class UsersParser {
 			usersNode = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
 			
 			if(usersNode.hasChildNodes()){
-				System.out.println("Des fils");
 				
 				Node nodeAll = null;
 				Node nodeN = null;
@@ -493,7 +492,7 @@ public class UsersParser {
 				}
 			}
 			else {
-				System.out.println("Pas de fils");
+				//System.out.println("Pas de fils");
 			}
 		
 		}
