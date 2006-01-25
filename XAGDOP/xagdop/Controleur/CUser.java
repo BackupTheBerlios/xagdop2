@@ -1,8 +1,11 @@
 package xagdop.Controleur;
 
 
+import java.io.File;
+
 import javax.management.InstanceNotFoundException;
 import javax.swing.JOptionPane;
+
 import xagdop.Interface.IPreferences;
 import xagdop.Interface.XAGDOP;
 import xagdop.Model.Users;
@@ -18,7 +21,7 @@ public class CUser {
 		UsersParser UParser = new UsersParser();
 		Users user = UParser.getUser(login,passwd);
     	if (user != null){
-    		IPreferences.setDefaultPath(IPreferences.getDefaultPath()+user.getLogin()+"/");
+    		IPreferences.setDefaultPath(IPreferences.getDefaultPath()+user.getLogin()+File.separator);
     		XAGDOP.getInstance().setUser(user);
     		XAGDOP.getInstance().setVisible(true);
     		XAGDOP.getInstance().refreshButton();

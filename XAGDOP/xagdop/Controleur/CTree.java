@@ -498,12 +498,12 @@ public class CTree implements TreeModel
 				if(tmp.isModified()&&!allFiles[i].isHidden())
 					parent.setIsModified(true);
 		
-				if(!allFiles[i].isHidden())
+				if(!allFiles[i].isHidden()&&SvnHistory.isCurrentRepository(allFiles[i]))
 					parent.add(tmp);
 				
 				
 				
-				if(allFiles[i].isDirectory()&&!allFiles[i].isHidden())
+				if(allFiles[i].isDirectory()&&!allFiles[i].isHidden()&&SvnHistory.isCurrentRepository(allFiles[i]))
 					refreshFromLocal(tmp);
 				
 				i++;

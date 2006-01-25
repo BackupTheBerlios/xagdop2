@@ -43,9 +43,9 @@ public class SvnUpdate{
 	
 	public File getProjectFile() throws SVNException{
 		getFiles();
-		File projectLocal = new File(IPreferences.getRootPath()+".xagdop"+File.separator+repository.getRepositoryUUID()+File.separator+"projects.xml");
-		projectLocal.deleteOnExit();
-		return projectLocal;
+		File project = new File(IPreferences.getRootPath()+".xagdop"+File.separator+repository.getRepositoryUUID()+File.separator+"projects.xml");
+		project.deleteOnExit();
+		return project;
 		
 	}
 	
@@ -148,6 +148,9 @@ public class SvnUpdate{
 		}
         
 	}
+	
+	
+	//private void do
 	
 	private void deleteDirectory(File dir){
 		int i = 0 ;

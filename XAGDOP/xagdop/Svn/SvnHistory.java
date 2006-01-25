@@ -73,6 +73,21 @@ public class SvnHistory {
 			}
 			return false;
     	}
+    	
+    	public static boolean isCurrentRepository(File file){
+    		SVNStatusClient ssClient;
+			try {
+				ssClient = new SVNStatusClient(SvnConnect.getInstance().getRepository().getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
+				SVNStatus sStatus = ssClient.doStatus(file, false);
+				return !sStatus.isSwitched();
+				
+			} catch (SVNException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return false;
+    	}
+    	
     	public static long getRevision(File file){
     		SVNStatusClient ssClient;
 			try {
