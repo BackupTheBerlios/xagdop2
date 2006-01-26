@@ -34,6 +34,11 @@ public class SvnHistory {
     		repository = SvnConnect.getInstance().getRepository();
     	}
 
+    	/**
+    	 * @param file Fichier que l'on veut tester
+    	 * @return Vrai si le fichier est versionné, faux sinon
+    	 * Teste si un fichier est versionné
+    	 */
     	public static boolean  isUnderVersion(File file){
     		
     		SVNStatusClient ssClient;
@@ -54,7 +59,11 @@ public class SvnHistory {
     	}
     		
     	
-    	
+    	/**
+    	 * @param file Fichier que l'on veut tester
+    	 * @return Vrai si le fichier a été modifié, faux sinon
+    	 * Teste si un fichier a été modifié
+    	 */
     	public static boolean isModified(File file) {
     		SVNStatusClient ssClient;
 			try {
@@ -74,6 +83,11 @@ public class SvnHistory {
 			return false;
     	}
     	
+    	/**
+    	 * @param file Teste le fichier fait parti du repository courant
+    	 * @return Vrai si il appartient au repository courant, faux sinon
+    	 * Marche pas
+    	 */
     	public static boolean isCurrentRepository(File file){
     		SVNStatusClient ssClient;
 			try {
@@ -88,6 +102,10 @@ public class SvnHistory {
 			return false;
     	}
     	
+    	/**
+    	 * @param file Fichier dont on veut la revision
+    	 * @return le numéro de revision
+    	 */
     	public static long getRevision(File file){
     		SVNStatusClient ssClient;
 			try {

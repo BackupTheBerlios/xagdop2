@@ -35,27 +35,38 @@ public class SvnRemove {
 		repository = SvnConnect.getInstance().getRepository();
 	}
 	
+	/**
+	 * @param dirPath Chemin du dossier où se trouve le fichier à supprimer
+	 * @param filePath fichier à supprimer
+	 * @return Les infos de comment s'est passé la suppression
+	 * @throws SVNException
+	 */
 	public  SVNCommitInfo removeFile(String dirPath, String filePath) throws SVNException{
 		ISVNEditor editor  = null;
 
 		try {
+			//Récupération de l'editeur du repository
 			editor = repository.getCommitEditor("",new WorkspaceMediator());
 		} catch (SVNException svne) {
 			try{
 				return editor.closeEdit();
 			} catch (SVNException e) {
 				e.printStackTrace();
-				//System.exit(0);
 			}
 		}
 		
-		
+		//Ouverture du dossier de base
 		editor.openRoot(-1);
+		//Ouverture du dossier où se trouve le fichier à supprimer
 		editor.openDir(dirPath,-1);
+		//Suppression du fichier spécifié
 		editor.deleteEntry(dirPath+File.separator+filePath,-1);
+		//Fermeture du dossier choisi
 		editor.closeDir();
+		//Fermeture du repertoire de base
 		editor.closeDir();
 		
+		//Renvoi les infos de cla suppression
 		return editor.closeEdit();
 	}
 	
@@ -64,6 +75,10 @@ public class SvnRemove {
 	
 
 	
+	/**
+	 * @param node Noeud
+	 * @throws SVNException
+	 */
 	public  void deleteDir(CTreeNode node)
 	throws SVNException {
 		SVNCommitClient svnCC = new SVNCommitClient(repository.getAuthenticationManager(),SVNWCUtil.createDefaultOptions(true) );

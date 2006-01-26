@@ -29,11 +29,15 @@ public class SvnDisplayRepositoryTree{
     	repository = SvnConnect.getInstance(url,name,password).getRepository();
 	 }
     
+    /**
+     * @param projectName nom du projet à tester
+     * @return vrai si il existe faux sinon
+     * Test si un projet du même nom esiste déjà
+     */
     public boolean existProject(String projectName){
 		Collection isIn;
 		try {
-			isIn = listEntries(repository,".");
-			//String path =".";
+			isIn = listEntries(".");
 			Iterator iterator = isIn.iterator();
 	        while (iterator.hasNext()) {
 	            SVNDirEntry entry = (SVNDirEntry) iterator.next();
@@ -50,7 +54,12 @@ public class SvnDisplayRepositoryTree{
 	}	
     
     
-    public  Collection listEntries(SVNRepository repository, String path)
+    /**
+     * @param path path dont on veut récupérer les infos
+     * @return Une collection contenant les différents fichiers contenus
+     * @throws SVNException
+     */
+    public  Collection listEntries(String path)
             throws SVNException {
         /*
          * Gets the contents of the directory specified by path at the latest

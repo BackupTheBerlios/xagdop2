@@ -33,6 +33,10 @@ public class SvnUpdate{
 		repository = SvnConnect.getInstance().getRepository();
 	}
 	
+	/**
+	 * @return Le fichier contenant les infos sur les utilisateurs
+	 * @throws SVNException
+	 */
 	public File getUsersFile() throws SVNException{
 		getFiles();
 		File droitsLocal = new File(IPreferences.getRootPath()+".xagdop"+File.separator+repository.getRepositoryUUID()+File.separator+"users.xml");
@@ -41,6 +45,10 @@ public class SvnUpdate{
 		
 	}
 	
+	/**
+	 * @return Le fichier contenant les infos sur les projets
+	 * @throws SVNException
+	 */
 	public File getProjectFile() throws SVNException{
 		getFiles();
 		File project = new File(IPreferences.getRootPath()+".xagdop"+File.separator+repository.getRepositoryUUID()+File.separator+"projects.xml");
@@ -48,7 +56,10 @@ public class SvnUpdate{
 		return project;
 		
 	}
-	
+	/**
+	 * @return Le fichier contenant les infos sur les dependances
+	 * @throws SVNException
+	 */
 	public File getDependenciesFile() throws SVNException{
 		getFiles();
 		File dependenciesLocal = new File(IPreferences.getRootPath()+".xagdop"+File.separator+repository.getRepositoryUUID()+File.separator+"dependencies.xml");
@@ -57,8 +68,14 @@ public class SvnUpdate{
 		
 	}
 	
+	/**
+	 * @throws SVNException
+	 * Récupére les fichiers xml contenu sur le serveur
+	 */
 	public void getFiles() throws SVNException{
+		
 		SVNUpdateClient up = new SVNUpdateClient(repository.getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
+		//Test si les dossiers des différents utilisateurs existent sinon il les crée
 		File projectDirectoryLocal = new File(IPreferences.getRootPath());
 		if(!projectDirectoryLocal.exists())
 			projectDirectoryLocal.mkdir();
@@ -67,11 +84,53 @@ public class SvnUpdate{
 			projectLocal.mkdir();
 		projectLocal = new File(IPreferences.getRootPath()+".xagdop"+File.separator+repository.getRepositoryUUID()+File.separator);
 		
+		//Récupération des fichiers
 		if(projectLocal.exists())
 			up.doUpdate(projectLocal,SVNRevision.HEAD,false);
 		else
 			up.doCheckout(repository.getLocation(),projectLocal,SVNRevision.HEAD,SVNRevision.HEAD,false);
 	}
+	
+	/**
+	 * @param node Neoud que l'on veut recuperer
+	 * @throws SVNException
+	 */
+	public void checkOut_(CTreeNode node) throws SVNException{
+		
+		SVNUpdateClient up = new SVNUpdateClient(repository.getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
+	
+		//Création du dossier local
+		File projectDirectoryLocal = new File(IPreferences.getDefaultPath());
+		if(!projectDirectoryLocal.exists())
+			projectDirectoryLocal.mkdir();
+		//Si il n'est pas versionné alors on fait un checkout sinon un update
+		if(SvnHistory.isUnderVersion(projectDirectoryLocal))
+			up.doUpdate(projectDirectoryLocal,SVNRevision.HEAD,true);
+		else
+			up.doCheckout(SVNURL.parseURIEncoded(SvnConnect.getInstance().getUrl()),projectDirectoryLocal,SVNRevision.HEAD,SVNRevision.HEAD,true);
+		
+		//On supprime les projets dont on ne fait pas parti
+		cleanUp(projectDirectoryLocal);
+	}
+	
+	public void cleanUp(File file){
+		Users user = XAGDOP.getInstance().getUser();
+		ProjectsParser pp = new ProjectsParser();
+		File[] fileInDirectory = file.listFiles(new FilenameFilter() {
+			public boolean accept(File dir, String name) {
+				File directory = new File(dir.getAbsolutePath()+"/"+name); 
+				if(directory.isHidden())
+					return false;
+				return true;
+			}
+		});
+		for(int i = 0; i < fileInDirectory.length; i++){
+			if(!pp.exist(fileInDirectory[i].getName(),user.getLogin()))
+				deleteDirectory(fileInDirectory[i]);
+		}
+	}
+	
+	
 	
 	
 	public void checkOut(CTreeNode node) throws SVNException{
@@ -85,7 +144,7 @@ public class SvnUpdate{
 			projectDirectoryLocal.mkdir();
 		
 		SvnDisplayRepositoryTree sdrt = new SvnDisplayRepositoryTree();
-		Collection projectList = sdrt.listEntries(repository,".");
+		Collection projectList = sdrt.listEntries(".");
 		Iterator iterator = projectList.iterator();
 		
 		
@@ -150,18 +209,21 @@ public class SvnUpdate{
 	}
 	
 	
-	//private void do
 	
 	private void deleteDirectory(File dir){
 		int i = 0 ;
-		//System.out.println("delDir");
-		File[] allFile = dir.listFiles();
-		while(i<allFile.length){
-			if(allFile[i].isDirectory())
-				deleteDirectory(allFile[i]);
-			allFile[i].delete();
-			i++;
+		//System.out.println(dir.getName());
+		if(dir.isDirectory())
+		{
+			File[] allFile = dir.listFiles();
+			while(i<allFile.length){
+				if(allFile[i].isDirectory())
+					deleteDirectory(allFile[i]);
+				allFile[i].delete();
+				i++;
+			}
 		}
+		dir.delete();
 		
 	}
 	

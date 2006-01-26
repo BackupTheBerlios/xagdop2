@@ -11,13 +11,19 @@ import org.tmatesoft.svn.core.io.SVNRepositoryFactory;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
 public class SvnConnect {
-	protected String _url = "svn://marine.edu.ups-tlse.fr/users/iupisi/m1isb4/svn/XAGDOP/";//"svn://marine.edu.ups-tlse.fr/users/iupisi/m1isb4/svn/repositoryAubry";
+	protected String _url = "svn://marine.edu.ups-tlse.fr/users/iupisi/m1isb4/svn/XAGDOP";//"svn://marine.edu.ups-tlse.fr/users/iupisi/m1isb4/svn/repositoryAubry";
 	protected String _name = "XAGDOP";
 	protected String _password = "blabla";
 	protected SVNRepository repository = null;
 	protected static SvnConnect svnC = null;
 	
 	
+	/**
+	 * @param url Adresse du repository
+	 * @param name Nom de l'utilisateur
+	 * @param password Pass de l'utilisateur
+	 * @throws SVNException
+	 */
 	private SvnConnect(String url, String name, String password) throws SVNException{
 		_url = url;
 		_name = name;
@@ -25,11 +31,19 @@ public class SvnConnect {
 		setupLibrary();
 		repository = connect();
 	}
+	
+	/**
+	 * @throws SVNException
+	 */
 	private SvnConnect()throws SVNException{
 		setupLibrary();
 		repository = connect();
 	}
 	
+	/**
+	 * @return Renvoi une instance de SvnConnect
+	 * @throws SVNException
+	 */
 	public static SvnConnect getInstance() throws SVNException{
 		if(svnC == null)
 			svnC = new SvnConnect();
@@ -37,6 +51,13 @@ public class SvnConnect {
 		return svnC;
 	}
 	
+	/**
+	 * @param url
+	 * @param name
+	 * @param password
+	 * @return
+	 * @throws SVNException
+	 */
 	public static SvnConnect getInstance(String url, String name, String password) throws SVNException{
 		if(svnC == null)
 			svnC =  new SvnConnect(url,  name,  password);
@@ -44,11 +65,12 @@ public class SvnConnect {
 		return svnC;
 	}
 	
-	public SVNRepository reconnect()throws SVNException{
-		repository = connect();
-		return repository;
-	}
 	
+	/**
+	 * @return
+	 * @throws SVNException
+	 * Connection au repository
+	 */
 	private SVNRepository connect() throws SVNException{
 		
 		try {
@@ -119,9 +141,13 @@ public class SvnConnect {
 		 */
 		SVNRepositoryFactoryImpl.setup();
 	}
+	/*
+	 * Getters et Setters
+	 */
 	public SVNRepository getRepository(){
 		return repository;
 	}
+	
 	public String getName() {
 		return _name;
 	}

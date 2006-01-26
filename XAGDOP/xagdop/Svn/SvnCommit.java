@@ -17,15 +17,12 @@ import org.tmatesoft.svn.core.io.ISVNEditor;
 import org.tmatesoft.svn.core.io.ISVNWorkspaceMediator;
 import org.tmatesoft.svn.core.io.SVNRepository;
 import org.tmatesoft.svn.core.wc.SVNCommitClient;
-import org.tmatesoft.svn.core.wc.SVNRevision;
-import org.tmatesoft.svn.core.wc.SVNUpdateClient;
 import org.tmatesoft.svn.core.wc.SVNWCClient;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
 
 
 import xagdop.Controleur.CTreeNode;
-import xagdop.Interface.IPreferences;
 import xagdop.Parser.DependenciesParser;
 
 
@@ -130,38 +127,50 @@ public class SvnCommit{
 	}
 	
 	
+	
+	
+	/**
+	 * @param node Noeud à envoyer
+	 * @return Un tableau de file, contenant l'ensemble des fichiers et des dossiers à envoyer.
+	 * @throws SVNException
+	 * Calcule tous les fichiers parents à envoyer qui ne sont pas versionnés 
+	 */
 	public File[] fileToAdd(CTreeNode node) throws SVNException{
 		ArrayList fileToCommit = new ArrayList();
+		//Creation du fichier equilavent au noeud passé en parametre
 		File toCommit = new File(node.getLocalPath());
 		SVNWCClient wcClient = new SVNWCClient(SvnConnect.getInstance().getRepository().getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
+		//Test si le fichier est sous une version controlée
 		if(!SvnHistory.isUnderVersion(toCommit)){
+			
+			//Création d'une liste qui contient tous les fichiers à envoyer
+			while(!SvnHistory.isUnderVersion(toCommit)){
+			//tant que le file n'est pas sous une version controlée on l'ajoute à la liste
+				fileToCommit.add(toCommit);
+				//Récuperation du fichier parent
+				toCommit = toCommit.getParentFile();
+				//Si on est arrivé au niveau du projet alors on arrete d'ajouter des nouveaux fichiers dans la liste
+				if(((CTreeNode)node.getRoot()).getLocalPath().compareTo(toCommit.getPath())==0)
+					break;
+			}
+			//Récuperation du chier de départ
+			toCommit = new File(node.getLocalPath());
+			//Test si le File est un fichier ou un dossier
 			if(toCommit.isFile()){
-				while(!SvnHistory.isUnderVersion(toCommit)){
-					fileToCommit.add(toCommit);
-					toCommit = toCommit.getParentFile();
-					if(((CTreeNode)node.getRoot()).getLocalPath().compareTo(toCommit.getPath())==0)
-						break;
-				}
-			toCommit = new File(node.getLocalPath());
-			wcClient.doAdd(toCommit,false, false, true, false);
-			File[] file = new File[fileToCommit.size()];
-			return (File[])fileToCommit.toArray(file);
-		}
-		
-		
-			if(toCommit.isDirectory()){
-				while(!SvnHistory.isUnderVersion(toCommit)){
-					fileToCommit.add(toCommit);
-					toCommit = toCommit.getParentFile();
-					if(((CTreeNode)node.getRoot()).getLocalPath().compareTo(toCommit.getPath())==0)
-						break;
-				}
-			toCommit = new File(node.getLocalPath());
-			wcClient.doAdd(toCommit,false, false, true, true);
-			File[] file = new File[fileToCommit.size()];
-			return (File[])fileToCommit.toArray(file);
+				
+				//Commande equivalente à svn add, qui ajoute le fichier non versionné au repository, ainsi que tout les fichiers parents qui sont non versionnés
+				wcClient.doAdd(toCommit,false, false, true, false);
 				
 			}
+		
+			//Test si c'est un dossier
+			if(toCommit.isDirectory()){
+				//Commande equivalente à svn add, qui ajoute le dossier ainsi que tous les fichiers parents non versionnés et les les sous répertoires 
+				wcClient.doAdd(toCommit,false, false, true, true);
+			}
+			//Transformation de la liste en tableau
+			File[] file = new File[fileToCommit.size()];
+			return (File[])fileToCommit.toArray(file);
 		}
 		
 		return null;
@@ -170,15 +179,22 @@ public class SvnCommit{
 	}
 	
 	
+	/**
+	 * @param file : Fichier de base
+	 * @throws SVNException
+	 * Si un dossier est versionné, la fonction récupére tous les sous fichiers et sous dossiers non versionnés et les ajoute au repository
+	 */
 	public void doAdd(File file) throws SVNException{
 		SVNWCClient wcClient = new SVNWCClient(SvnConnect.getInstance().getRepository().getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
-
+		//Verification si le fichier est bien un dossier
 		if(file.isDirectory()){
+			//Récuperation des fichiers qui sont autorisés à etre envoyés
 			File[] fileInDirectory = file.listFiles(new FilenameFilter() {
 				public boolean accept(File dir, String name) {
 					File directory = new File(dir.getAbsolutePath()+"/"+name); 
 					if(directory.isDirectory()&&!directory.isHidden())
 						return true;
+					//if(XAGDOP.getInstance().getUser().is)
 					if(name.endsWith(".pre")||name.endsWith(".pog")||name.endsWith(".apes"))
 						return true;
 
@@ -186,14 +202,19 @@ public class SvnCommit{
 				}
 		
 			});
+			//Pour chaque fichier test si il est versionné ou non
 			for(int i = 0; i< fileInDirectory.length;i++){			
 				if(!SvnHistory.isUnderVersion(fileInDirectory[i])){
+					//Si il n'est pas versionné, ajout de ce dernier au repository
 					wcClient.doAdd(fileInDirectory[i],false, false, false, true);
 				}
 				else
-					doAdd(fileInDirectory[i]);
+					//Si le fichier est un repertoire, on reéfectue le traitement
+					if(fileInDirectory[i].isDirectory())
+						doAdd(fileInDirectory[i]);
 			}
 		}else
+			//Si on a un fichier, et qu'il n'est pas versionné on l'ajoute au repository
 			if(!SvnHistory.isUnderVersion(file))
 					wcClient.doAdd(file,false, false, false, false);
 	}
@@ -205,18 +226,28 @@ public class SvnCommit{
 	
 	
 	
+	/**
+	 * @param node : Noeud representant les fichiers à envoyer
+	 * @param commitMessage : Message qui commente les modifications faites
+	 * @throws SVNException
+	 * Envoi les modifications faites sur les fichiers ainsi que les nouveaux fichiers crées
+	 */
 	public void commit(CTreeNode node, String commitMessage) throws SVNException{
 		SVNCommitClient svnCC = new SVNCommitClient(repository.getAuthenticationManager(),SVNWCUtil.createDefaultOptions(true) );
 		File toCommit = new File(node.getLocalPath());
+		//Si on doit envoyer un dossier
 		if(toCommit.isDirectory()){
 			File[] fileInDirectory ;
+			//Si le dossier n'est pas sous une version controlée
 			if(!SvnHistory.isUnderVersion(toCommit)){
 				/*CTreeNode tmp = (CTreeNode)node.getRoot();
 				svnCC.doImport(toCommit,SVNURL.parseURIDecoded(SvnConnect.getInstance().getUrl()+toCommit.getPath().replaceAll(tmp.getLocalPath(),"")),commitMessage,true);*/
+				//On recupere tout les fichiers parents à envoyer
 				fileInDirectory = fileToAdd(node);
 				
 			}else{
-			fileInDirectory = toCommit.listFiles(new FilenameFilter() {
+				//Liste les fichiers que l'utilisateur à le droit d'envoyer
+				fileInDirectory = toCommit.listFiles(new FilenameFilter() {
 					public boolean accept(File dir, String name) {
 						File directory = new File(dir.getAbsolutePath()+"/"+name); 
 						if(directory.isDirectory()&&!directory.isHidden())
@@ -228,23 +259,35 @@ public class SvnCommit{
 				}
 			
 			});
+				//Ajout des fichiers non versionnés dans le cas où le dossier est versionné
 				doAdd(toCommit);			
 			}
+			//Envoi des fichiers
 			svnCC.doCommit(fileInDirectory,false,commitMessage, false, true);
 		}else{
 			
 			if(!SvnHistory.isUnderVersion(toCommit)){
 				/*CTreeNode tmp = (CTreeNode)node.getRoot();
 				svnCC.doImport(toCommit,SVNURL.parseURIDecoded(SvnConnect.getInstance().getUrl()+toCommit.getPath().replaceAll(tmp.getLocalPath(),"")),commitMessage,false);*/
+				//Ajout du fichier et des parents non versionnés, puis envoi de ces fichiers
 				svnCC.doCommit(fileToAdd(node),false,commitMessage, false, false);
 			}else{
+				//Si le fichiers est versionné, on l'envoi
 				sendFile(toCommit,commitMessage);
 			}
 		}
+		//Si le fichiers des dépendances est modifié on l'envoi en même temps
 		if(SvnHistory.isModified(DependenciesParser.getInstance().getFile()))
 			sendFile(DependenciesParser.getInstance().getFile(),"");
 		
 	}
+	
+	
+	/**
+	 * @param name : Fichier à envoyer
+	 * @param commitMessage : Message d'envoi
+	 * @throws SVNException
+	 */
 	public void sendFile(File name, String commitMessage) throws SVNException{
 		ArrayList fileInDirectory = new ArrayList();
 		fileInDirectory.add(name);
@@ -255,26 +298,6 @@ public class SvnCommit{
 		
 	}
 	
-	
-	public File getProjectFile() throws SVNException{
-		SVNUpdateClient up = new SVNUpdateClient(repository.getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
-		File projectDirectoryLocal = new File(IPreferences.getDefaultPath());
-		if(!projectDirectoryLocal.exists())
-			projectDirectoryLocal.mkdir();
-		
-		
-		File projectLocal = new File(IPreferences.getDefaultPath()+".xagdop/");
-		if(projectLocal.exists())
-			up.doUpdate(projectLocal,SVNRevision.HEAD,false);
-		else
-			up.doCheckout(repository.getLocation(),projectLocal,SVNRevision.HEAD,SVNRevision.HEAD,false);
-		projectLocal.deleteOnExit();
-		projectLocal = new File(IPreferences.getDefaultPath()+".xagdop/projects.xml");
-		projectLocal.deleteOnExit();
-		return projectLocal;
-		
-	}
-
 	/*
 	 * This class is to be used for temporary storage allocations needed  by  an
 	 * ISVNEditor to write file delta that will be supplied  to  the  repository
