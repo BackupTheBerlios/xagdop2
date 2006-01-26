@@ -19,7 +19,7 @@ public class IJTeamManagementTableModel extends AbstractTableModel {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private String nomColonne[] = {"Users","Redacteur","Analyste","PManager","Architecte","Desaffecter"};
+	private String nomColonne[] = {"Users","Architecte","Analyste","Redacteur","PManager","Desaffecter"};
 	private Object[][] rowData;
 	private ArrayList users;
 	private ProjectsParser projetParser;
@@ -72,11 +72,11 @@ public class IJTeamManagementTableModel extends AbstractTableModel {
 		while (it.hasNext())
 		{
 			Object o = it.next();
-			rowData[i][0] =	((Users)o).getLogin();	
-			rowData[i][1] = new Boolean(((Users)o).isPManager(this.nP));						
-			rowData[i][2] = new Boolean(((Users)o).isAnalyst(this.nP));							
-			rowData[i][3] = new Boolean(((Users)o).isArchitect(this.nP)); 							
-			rowData[i][4] = new Boolean(((Users)o).isRedactor(this.nP));
+			rowData[i][0] =	((Users)o).getLogin();
+			rowData[i][1] = new Boolean(((Users)o).isArchitect(this.nP));
+			rowData[i][2] = new Boolean(((Users)o).isAnalyst(this.nP));
+			rowData[i][3] = new Boolean(((Users)o).isRedactor(this.nP));
+			rowData[i][4] = new Boolean(((Users)o).isPManager(this.nP));
 			rowData[i][5] = new JButton(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/supprimer.gif")));
 			i++;	
 		}
