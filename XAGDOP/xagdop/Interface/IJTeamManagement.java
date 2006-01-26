@@ -83,7 +83,7 @@ public class IJTeamManagement extends JFrame{
         		int i=0;
         		while(i<j)
         		{
-        			//CTeamM.Apply(projects,users.getId((String)JT.getValueAt(i,0)),((Boolean)JT.getValueAt(i,2)).booleanValue(),((Boolean)JT.getValueAt(i,1)).booleanValue(),((Boolean)JT.getValueAt(i,3)).booleanValue(),((Boolean)JT.getValueAt(i,4)).booleanValue());
+        			CTeamM.Apply(projects,users.getId((String)JT.getValueAt(i,0)),((Boolean)JT.getValueAt(i,2)).booleanValue(),((Boolean)JT.getValueAt(i,1)).booleanValue(),((Boolean)JT.getValueAt(i,3)).booleanValue(),((Boolean)JT.getValueAt(i,4)).booleanValue());
         			i++;  
         		}
         	
@@ -138,7 +138,7 @@ public class IJTeamManagement extends JFrame{
         pack();
         this.getContentPane().validate();
         IJTM=this;
-        super.setTitle("Affectation des équipes");
+        super.setTitle("Affectation des ?quipes");
         super.setVisible(true);
 	}// Fin Init
 	
