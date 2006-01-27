@@ -70,7 +70,7 @@ public class IJAdmin extends JFrame{
         		int i=0;
         		while(i<j)
         		{
-        			cadmin.Apply(users,users.getId((String)JT.getValueAt(i,0)),((Boolean)JT.getValueAt(i,2)).booleanValue(),((Boolean)JT.getValueAt(i,1)).booleanValue());
+        			cadmin.Apply(users,((String)JT.getValueAt(i,0)),((Boolean)JT.getValueAt(i,2)).booleanValue(),((Boolean)JT.getValueAt(i,1)).booleanValue());
         			i++;  
         		}      	
             	
@@ -221,6 +221,10 @@ public class IJAdmin extends JFrame{
 		return this.JT;
 	}
 	
+	/**
+	 *
+	 * @return <CODE>
+	 */
 	public UsersParser getUsers()
 	{
 		return this.users;
@@ -275,7 +279,7 @@ public class IJAdmin extends JFrame{
 				Object o = iter.next();
 				this.rowData[i][0] = ((Users)o).getLogin();
 				//System.out.println(this.rowData[i][0]);
-				this.rowData[i][1] = new Boolean(((Users)o).isPmanager());
+				this.rowData[i][1] = new Boolean(((Users)o).isPcreator());
 				this.rowData[i][2] = new Boolean(((Users)o).isAdmin());
 				this.rowData[i][3] = new JButton(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/supprimer.gif")));
 				i++;
@@ -443,16 +447,11 @@ public class IJAdmin extends JFrame{
 	    public void deleteUser()
 	    {
 	    	int rowToDelete;
-	        int idUser;
 	    	int out = JOptionPane.showOptionDialog(this.IJA.getTable(),new String("Etes-vous sur de vouloir supprimer cet utilisateur ?"),new String("Suppression d'un utilisateur"),JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,null,null);
 			if(out == JOptionPane.YES_OPTION)
 			{
-				//System.out.println(this.IJA.getTable());
 				rowToDelete =this.IJA.getTable().getSelectedRow();
-				//System.out.println("user : "+((String)this.IJA.getTable().getModel().getValueAt(rowToDelete,0)));
-				idUser = this.IJA.getUsers().getId(((String)this.IJA.getTable().getModel().getValueAt(rowToDelete,0)));
-				//System.out.println("row: "+rowToDelete+" id: "+idUser);
-				this.IJA.getUsers().removeUser(idUser);
+				this.IJA.getUsers().removeUser(((String)this.IJA.getTable().getModel().getValueAt(rowToDelete,0)));
 				IJAdmin.getIJA().refreshUsers();
 			}
 	    }
