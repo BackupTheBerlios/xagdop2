@@ -5,17 +5,25 @@ import xagdop.Parser.ProjectsParser;
 public class Users {
 	private String login;
 	private String passwd;
-	private int id;
 	private boolean admin;
-	private boolean pmanager;
+	private boolean pcreator;
 	
-	public Users(String log, String pass, int numId, boolean adm, boolean pman)
+	public Users(String log, String pass, boolean adm, boolean pcreat)
 	{
 		login = log;
 		passwd = pass;
-		id = numId;
 		admin = adm;
-		pmanager = pman;
+		pcreator = pcreat;
+	}
+	
+	// Utilise pour le debug
+	public String toString() {
+		StringBuffer sb;
+		sb = new StringBuffer("\nlogin : " + login);
+		sb.append("\npass : " + passwd);
+		if (admin) sb.append("admin");
+		if (pcreator) sb.append("pcreator");
+		return sb.toString();
 	}
 	
 	public boolean isAdmin() {
@@ -23,12 +31,6 @@ public class Users {
 	}
 	public void setAdmin(boolean admin) {
 		this.admin = admin;
-	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
 	}
 	public String getLogin() {
 		return login;
@@ -42,35 +44,35 @@ public class Users {
 	public void setPasswd(String passwd) {
 		this.passwd = passwd;
 	}
-	public boolean isPmanager() {
-		return pmanager;
+	public boolean isPcreator() {
+		return pcreator;
 	}
-	public void setPmanager(boolean pmanager) {
-		this.pmanager = pmanager;
+	public void setPmanager(boolean pcreat) {
+		this.pcreator = pcreat;
 	}
 	
 	public boolean isArchitect(String pName)
 	{
 		ProjectsParser projet = new ProjectsParser();
-		return ((Boolean)projet.getAttribute(pName, ProjectsParser.ATTR_ARCHI, this.id)).booleanValue();
+		return ((Boolean)projet.getAttribute(pName, ProjectsParser.ATTR_ARCHI, this.login)).booleanValue();
 	}
 
 	public boolean isRedactor(String pName)
 	{
 		ProjectsParser projet = new ProjectsParser();
-		return ((Boolean)projet.getAttribute(pName, ProjectsParser.ATTR_REDACTEUR, this.id)).booleanValue();
+		return ((Boolean)projet.getAttribute(pName, ProjectsParser.ATTR_REDACTEUR, this.login)).booleanValue();
 	}
 
 	public boolean isAnalyst(String pName)
 	{
 		ProjectsParser projet = new ProjectsParser();
-		return ((Boolean)projet.getAttribute(pName, ProjectsParser.ATTR_ANALYST, this.id)).booleanValue();
+		return ((Boolean)projet.getAttribute(pName, ProjectsParser.ATTR_ANALYST, this.login)).booleanValue();
 	}
 
 	public boolean isPManager(String pName)
 	{
 		ProjectsParser projet = new ProjectsParser();
-		return ((Boolean)projet.getAttribute(pName, ProjectsParser.ATTR_MANAGER, this.id)).booleanValue();
+		return ((Boolean)projet.getAttribute(pName, ProjectsParser.ATTR_MANAGER, this.login)).booleanValue();
 	}
 
 }

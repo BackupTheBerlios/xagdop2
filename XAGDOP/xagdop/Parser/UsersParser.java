@@ -18,7 +18,10 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.*;
 
-
+/**
+ * fournit les attributs et methodes necessaires pour extraire, inserer ou modifier
+ * des donnees du fichier XML contentant les donnees utilisateur
+ */
 public class UsersParser {
 	private DocumentBuilderFactory dbf;
 	private DocumentBuilder db;
@@ -28,14 +31,17 @@ public class UsersParser {
 	
 	public static final String ATTR_LOGIN = "login";
 	public static final String ATTR_PASSWD = "passwd";
-	public static final String ATTR_MANAGER = "pmanager";
+	public static final String ATTR_PCREATOR = "pcreator";
 	public static final String ATTR_ADMIN = "admin";
-	public static final String ATTR_NUM = "num";
 	
+	/**
+	 * constructeur de la classe UsersParser
+	 *
+	 */
 	public UsersParser()
 	{
 		try {
-			SvnUpdate svnu = new SvnUpdate();
+			SvnUpdate svnu = new SvnUpdate(); 
 			fichierXML = svnu.getUsersFile();
 			loadTreeInMemory(fichierXML);
 		} catch (Exception e) {
@@ -44,6 +50,11 @@ public class UsersParser {
 		}
 	}
 	
+	/**
+	 * Charge l'arbre du ficher en memoire
+	 * @param fichier charge en memoire
+	 * @throws probleme de memoire ou d'acces fichier
+	 */
 	private void loadTreeInMemory(File fichier) throws Exception {
 		this.dbf = DocumentBuilderFactory.newInstance();
 		this.dbf.setValidating(false);
@@ -51,11 +62,15 @@ public class UsersParser {
 		this.doc = db.parse(fichier);
 	}
 	
-	
-	public boolean isUser(int idUser)
+	/**
+	 * Verifie qu' un utilisateur existe
+	 * @param idUser nom de l'utilisateur
+	 * @return vrai : utilisateur existe, faux utilisateur n'existe pas
+	 */
+	public boolean isUser(String login)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//id[@num="+idUser+"]";
+		String expression = "//user[@login='"+login+"']";
 		Element elem = null;
 		
 		try {
@@ -69,37 +84,20 @@ public class UsersParser {
 				return true;		
 		}
 		else {
-			//System.out.println("L'utilisateur "+idUser+" n'existe pas!");    
+			System.out.println("L'utilisateur "+login+" n'existe pas!");    
 			return false;
 		}
 	}
 	
-	public boolean isUser(String login)
-	{
-		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//id[@login=\""+login+"\"]";
-		Element elem = null;
-		
-		try {
-			elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
-		}
-		catch (XPathExpressionException e) {
-			
-			e.printStackTrace();
-		}
-		if ( elem != null ) {			
-				return true;		
-		}
-		else {
-			//System.out.println("L'utilisateur "+login+" n'existe pas!");    
-			return false;
-		}
-	}	
-
+	/**
+	 * renvoie l'utilisateur correspondant au login fourni en entree
+	 * @param login
+	 * @return 
+	 */
 	public Users getUserByLogin(String login)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//id[@login=\""+login+"\"]";
+		String expression = "//user[@login='"+login+"']";
 		Element elem = null;
 		Users user = null;
 		
@@ -111,27 +109,49 @@ public class UsersParser {
 			e.printStackTrace();
 		}
 		if ( elem != null ) {
-				String passwd = elem.getAttribute(ATTR_PASSWD);
-				int numId = Integer.parseInt(elem.getAttribute(ATTR_NUM));
-				boolean admin = false;
-				if(elem.getAttribute(ATTR_ADMIN).equalsIgnoreCase("true"))
-					admin = true;
-				boolean pman = false;
-				if(elem.getAttribute(ATTR_MANAGER).equalsIgnoreCase("true"))
-					pman = true;
-				user = new Users(login, passwd, numId, admin, pman);
-				return user;		
+			String passwd = elem.getAttribute(ATTR_PASSWD);
+			
+			// On regarde si l'utilisateur est admin
+			expression = "//user[@login='"+login+"']/roles/admin";
+			boolean admin = false;
+			try {
+				elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+			}
+			catch (XPathExpressionException e) {
+				e.printStackTrace();
+			}
+			if (elem != null) admin = true;
+			
+			// On regarde si l'utilisateur est pcreator			
+			expression = "//user[@login='"+login+"']/roles/pcreator";
+			boolean pcreat = false;
+			try {
+				elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+			}
+			catch (XPathExpressionException e) {
+				e.printStackTrace();
+			}
+			if (elem != null) pcreat = true;
+			user = new Users(login, passwd, admin, pcreat);
+			return user;		
 		}
 		else {
-			//System.out.println("L'utilisateur "+login+" n'existe pas!");    
+			System.out.println("L'utilisateur "+login+" n'existe pas!");    
 			return user;
 		}
 	}
 	
+	/**
+	 * renvoie l'utilisateur correspondant au login et au password
+	 * fournis en entree
+	 * @param login
+	 * @param passwd
+	 * @return
+	 */
 	public Users getUser(String login, String passwd)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//id[@login=\""+login+"\"][@passwd=\""+passwd+"\"]";
+		String expression = "//user[@login='"+login+"'][@passwd='"+passwd+"']";
 		Element elem = null;
 		Users user = null;
 		
@@ -143,58 +163,46 @@ public class UsersParser {
 			e.printStackTrace();
 		}
 		if ( elem != null ) {				
-				int numId = Integer.parseInt(elem.getAttribute(ATTR_NUM));
-				boolean admin = false;
-				if(elem.getAttribute(ATTR_ADMIN).equalsIgnoreCase("true"))
-					admin = true;
-				boolean pman = false;
-				if(elem.getAttribute(ATTR_MANAGER).equalsIgnoreCase("true"))
-					pman = true;
-				user = new Users(login, passwd, numId, admin, pman);
-				return user;		
-		}
-		else {
-			//System.out.println("L'utilisateur "+login+" n'existe pas!");    
-			return user;
-		}
-	}
-	
-	public Users getUserById(int id)
-	{
-		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//id[@num="+id+"]";
-		Element elem = null;
-		Users user = null;
-		
-		try {
-			elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
-		}
-		catch (XPathExpressionException e) {
+			// On regarde si l'utilisateur est admin
+			expression = "//user[@login='"+login+"']/roles/admin";
+			boolean admin = false;
+			try {
+				elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+			}
+			catch (XPathExpressionException e) {
+				e.printStackTrace();
+			}
+			if (elem != null) admin = true;
 			
-			e.printStackTrace();
-		}
-		if ( elem != null ) {
-				String passwd = elem.getAttribute(ATTR_PASSWD);
-				String login = elem.getAttribute(ATTR_LOGIN);
-				boolean admin = false;
-				if(elem.getAttribute(ATTR_ADMIN).equalsIgnoreCase("true"))
-					admin = true;
-				boolean pman = false;
-				if(elem.getAttribute(ATTR_MANAGER).equalsIgnoreCase("true"))
-					pman = true;
-				user = new Users(login, passwd, id, admin, pman);
-				return user;		
+			// On regarde si l'utilisateur est pcreator			
+			expression = "//user[@login='"+login+"']/roles/pcreator";
+			boolean pcreat = false;
+			try {
+				elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+			}
+			catch (XPathExpressionException e) {
+				e.printStackTrace();
+			}
+			if (elem != null) pcreat = true;
+			user = new Users(login, passwd, admin, pcreat);
+			return user;		
 		}
 		else {
-			//System.out.println("L'utilisateur "+id+" n'existe pas!");    
+			System.out.println("L'utilisateur "+login+" n'existe pas!");    
 			return user;
 		}
 	}
 	
-	public Object getAttribute(int idUser, String attr)
+	
+	/**
+	 * renvoie la valeur d'un attribut donne d'un utilisateur donne
+	 * @userName nom d'utilisateur
+	 * @attr attribut 
+	 */
+	public Object getAttribute(String login, String attr)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//id[@num="+idUser+"]";
+		String expression = "//user[@login='"+login+"']";
 		String res = "";
 		Element elem = null;
 		
@@ -207,27 +215,42 @@ public class UsersParser {
 		}
 		if ( elem != null ) {
 			res = elem.getAttribute(attr);
-			if(ATTR_LOGIN.equalsIgnoreCase(attr) || ATTR_PASSWD.equalsIgnoreCase(attr))
+			if(ATTR_LOGIN.equalsIgnoreCase(attr) || ATTR_PASSWD.equalsIgnoreCase(attr)) {
+				res = elem.getAttribute(attr);
 				return res;
+			}
 			else
-			{
-				if(res.equals("true"))
+			{	// L'utilisateur veut obtenir la valeur admin ou pcreator
+				expression = "//user[@login='"+login+"']/roles/" + attr;
+				try {
+					elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+				}
+				catch (XPathExpressionException e) {
+					
+					e.printStackTrace();
+				}
+				if ( elem != null)  // la balise recherchee existe
 					return Boolean.TRUE;
-				else
+				else 
 					return Boolean.FALSE;
-			}
-		
+			}		
 		}
 		else {
-			//System.out.println("R??cup??ration de l'attribut "+ attr + " pour l'utilisateur "+idUser+ " impossible!"); 
+			System.out.println("Recuperation de l'attribut "+ attr + " pour l'utilisateur "+login+ " impossible!"); 
 			return res;
 		}		
 	}
-	public int getId(String login)
+	
+	/**
+	 * Met a jour l'attribut admin ou pcreator d'un utilisateur
+	 * @param login utilisateur dont on modifie un attribut
+	 * @param attr attribut a modifier
+	 * @param newValue valeur booleenne indiquant si l'utilisateur acquiert cette propriete
+	 */
+	public void setAttribute(String login, String attr, boolean newValue) 
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//id[@login=\""+login+"\"]";
-		int res=0;
+		String expression = "//user[@login='"+login+"']";
 		Element elem = null;
 		
 		try {
@@ -238,18 +261,69 @@ public class UsersParser {
 			e.printStackTrace();
 		}
 		if ( elem != null ) {
-			res = Integer.parseInt(elem.getAttribute(ATTR_NUM));
-				return res;
+			if (attr == ATTR_ADMIN || attr == ATTR_PCREATOR) { // l'attribut est admin ou pcreator
+				if (newValue) { // on ajoute la balise correspondante si elle n'existe pas deja
+					expression = "//user[@login='"+login+"']/roles/" + attr;
+					try {
+						elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+					}
+					catch (XPathExpressionException e) {
+						e.printStackTrace();
+					}
+					if (elem == null) { // il faut ajouter la balise						
+						expression = "//user[@login='"+login+"']/roles";
+						try {
+							elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+						}
+						catch (XPathExpressionException e) {
+							e.printStackTrace();
+						}
+						Element newRole = doc.createElement(attr);
+						elem.appendChild(newRole);
+						saveDocument();
+					}						
+				}
+				else { // On retire la balise correspondante si elle existe
+					expression = "//user[@login='"+login+"']/roles/" + attr;
+					try {
+						elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+					}
+					catch (XPathExpressionException e) {
+						e.printStackTrace();
+					}
+					if (elem != null) { // il faut retirer la balise
+						String parentExpr = "//user[@login='"+login+"']/roles";
+						Element parentElem = null;
+						try {
+							parentElem = (Element)xpath.evaluate(parentExpr, this.doc, XPathConstants.NODE);
+						}
+						catch (XPathExpressionException e) {
+							e.printStackTrace();
+						}
+						parentElem.removeChild(elem);
+						saveDocument();
+					}
+				}
+			} // fin du if (attr != ATTR_LOGIN || attr != ATTR_PASSWD)
+			else {
+				System.out.println("Modification de l'attribut "+ attr + " pour l'utilisateur "+login+ " impossible!");
 			}
+		}
 		else {
-			//System.out.println("R??cup??ration de l'attribut "+ ATTR_NUM + " pour l'utilisateur "+login+ " impossible!"); 
-			return res;
-		}		
+			System.out.println("Modification de l'attribut "+ attr + " pour l'utilisateur "+login+ " impossible!");
+		}
 	}
-	public void setAttribute(int idUser,String attr ,String newValue)
+	
+	/**
+	 * Met a jour l'attribut login ou password d'un utilisateur
+	 * @param login utilisateur dont on modifie un attribut
+	 * @param attr attribut a modifier
+	 * @param newValue nouvelle valeur de l'attribut modifie
+	 */
+	public void setAttribute(String login, String attr, String newValue)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//id[@num="+idUser+"]";
+		String expression = "//user[@login='"+login+"']";
 		Element elem = null;
 		
 		try {
@@ -260,23 +334,34 @@ public class UsersParser {
 			e.printStackTrace();
 		}
 		if ( elem != null ) {
-			elem.setAttribute(attr, newValue);
+			if (attr == ATTR_LOGIN || attr == ATTR_PASSWD)
+				elem.setAttribute(attr, newValue);
+			else { // l'attribut est admin ou pcreator
+				System.out.println("Modification de l'attribut "+ attr + " pour l'utilisateur "+login+ " impossible!"); 
+			}				
 			saveDocument();
 		}
 		else {
-			//System.out.println("Modification de l'attribut "+ attr + " pour l'utilisateur "+idUser+ " impossible!"); 
+			System.out.println("Modification de l'attribut "+ attr + " pour l'utilisateur "+login+ " impossible!"); 
 		}
 	}
 	
 	
-
-	public void addUser(int idUser, String login, String passwd, String chef, String admin)
+	/**
+	 * Ajoute un utilisateur, en specifiant ses attributs (identifiant, mot de passe) et ses 
+	 * proprietes (admin, pcreator)
+	 * @param login identifiant de l'utilisateur
+	 * @param passwd mot de passe de l'utilisateur
+	 * @param admin propriete admin
+	 * @param pcreator propriete pcreator
+	 */
+	public void addUser(String login, String passwd, boolean admin, boolean pcreator)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//*";
 		
 			Element elem = null;
-			Element newElem = doc.createElement("id");
+			Element newElem = doc.createElement("user");
 			
 			try {
 				elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
@@ -286,122 +371,63 @@ public class UsersParser {
 				e.printStackTrace();
 			}
 			if ( elem != null ) {
-				newElem.setAttribute(ATTR_NUM, Integer.toString(idUser));
 				newElem.setAttribute(ATTR_LOGIN, login);
 				newElem.setAttribute(ATTR_PASSWD, passwd);
-				newElem.setAttribute(ATTR_MANAGER, chef);
-				newElem.setAttribute(ATTR_ADMIN, admin);
+				// Creation du node roles
+				Element rolesNode = doc.createElement("roles");
+				newElem.appendChild(rolesNode);
+				// Ajout des balises
+				if (pcreator) { // On ajoute la balise pcreator
+					Element newRole = doc.createElement(ATTR_PCREATOR);
+					rolesNode.appendChild(newRole);
+				}
+				if (admin) { // On ajoute la balise admin
+					Element newRole = doc.createElement(ATTR_ADMIN);
+					rolesNode.appendChild(newRole);
+				}
 				elem.appendChild(newElem);
 				saveDocument();
 			}
 			else {
-				//System.out.println("Ajout de l'utilisateur "+idUser+" impossible!"); 
-			}
-			
+				System.out.println("Ajout de l'utilisateur "+login+" impossible!"); 
+			}		
 	}
 	
-	public void addUser(int idUser, String login, String passwd, String chef)
+	/**
+	 * Ajoute un utilisateur, en specifiant ses attributs (identifiant, mot de passe). Ses 
+	 * proprietes (admin, pcreator) sont false
+	 * @param login identifiant de l'utilisateur
+	 * @param passwd mot de passe de l'utilisateur
+	 */	
+	public void addUser(String login, String passwd)
+	{
+		addUser(login, passwd, false, false);
+	}
+	
+	/**
+	 * Ajoute un utilisateur a partir d'un objet Users dont on obtient les attributs 
+	 * et proprietes
+	 * @param user contient les donnees de l'utilisateur a ajouter
+	 */
+	public void addUser(Users user)
+	{
+		addUser(user.getLogin(), user.getPasswd(), user.isAdmin(), user.isPcreator());
+	}
+	
+	/**
+	 * Supprime l'utilisateur dont l'identifiant est passe en parametre
+	 * @param login identifiant de l'utilisateur a supprimer
+	 */
+	public void removeUser(String login)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//*";
-		
-			Element elem = null;
-			Element newElem = doc.createElement("id");
-			
-			try {
-				elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
-			}
-			catch (XPathExpressionException e) {
-				
-				e.printStackTrace();
-			}
-			if ( elem != null ) {
-				newElem.setAttribute(ATTR_NUM, Integer.toString(idUser));
-				newElem.setAttribute(ATTR_LOGIN, login);
-				newElem.setAttribute(ATTR_PASSWD, passwd);
-				newElem.setAttribute(ATTR_MANAGER, chef);
-				newElem.setAttribute(ATTR_ADMIN, "false");
-				elem.appendChild(newElem);
-				saveDocument();
-			}
-			else {
-				//System.out.println("Ajout de l'utilisateur "+idUser+" impossible!"); 
-			}
-			
-	}
-	
-	public void addUser(int idUser, String login, String passwd)
-	{
-		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//*";
-		
-			Element elem = null;
-			Element newElem = doc.createElement("id");
-			
-			try {
-				elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
-			}
-			catch (XPathExpressionException e) {
-				
-				e.printStackTrace();
-			}
-			if ( elem != null ) {
-				newElem.setAttribute(ATTR_NUM, Integer.toString(idUser));
-				newElem.setAttribute(ATTR_LOGIN, login);
-				newElem.setAttribute(ATTR_PASSWD, passwd);
-				newElem.setAttribute(ATTR_MANAGER, "false");
-				newElem.setAttribute(ATTR_ADMIN, "false");
-				elem.appendChild(newElem);
-				saveDocument();
-			}
-			else {
-				//System.out.println("Ajout de l'utilisateur "+idUser+" impossible!"); 
-			}
-			
-	}
-	
-	public boolean addUser(Users user)
-	{
-		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//*";
-		
-			Element elem = null;
-			Element newElem = doc.createElement("id");
-			
-			try {
-				elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
-			}
-			catch (XPathExpressionException e) {
-				
-				e.printStackTrace();
-			}
-			if ( elem != null ) {
-				newElem.setAttribute(ATTR_NUM, Integer.toString(user.getId()));
-				newElem.setAttribute(ATTR_LOGIN, user.getLogin());
-				newElem.setAttribute(ATTR_PASSWD, user.getPasswd());
-				newElem.setAttribute(ATTR_ADMIN, Boolean.toString(user.isAdmin()));
-				newElem.setAttribute(ATTR_MANAGER, Boolean.toString(user.isPmanager()));
-				elem.appendChild(newElem);
-				saveDocument();
-				return true;
-			}
-			else {
-				//System.out.println("Ajout de l'utilisateur "+user.getId()+" impossible!");
-				return false;
-			}
-			
-	}
-	
-	public void removeUser(int idUser)
-	{
-		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//*";
-		String expr = "//id[@num="+idUser+"]";
+		String expr = "//user[@login='"+login+"']";
 		
 		
-		if(!isUser(idUser))
+		if(!isUser(login))
 		{
-			////System.out.println("L'utilisateur n'existe pas!!");
+			//System.out.println("L'utilisateur n'existe pas!!");
 		}
 		else
 		{
@@ -419,15 +445,19 @@ public class UsersParser {
 			if ( elem != null ) {
 				elem.removeChild(oldElem);
 				saveDocument();
-				//System.out.println("Suppression de l'utilisateur "+idUser+" effectu??e!"); 
+				System.out.println("Suppression de l'utilisateur "+login+" effectu??e!"); 
 			}
 			else {
-				//System.out.println("Suppression de l'utilisateur "+idUser+" impossible!"); 
+				System.out.println("Suppression de l'utilisateur "+login+" impossible!"); 
 			}
 		}		
 		
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public ArrayList getAllUsers()
 	{
 		ArrayList usersList = new ArrayList();
@@ -435,9 +465,10 @@ public class UsersParser {
 		String expression = "//*";
 		String login = null;
 		String passwd  = null;
-		int num = 0;
-		boolean pmanager = false;
+		boolean pcreator = false;
 		boolean admin = false;
+		String exprRole;
+		Element elem = null;
 		
 		Element usersNode = null;
 		NodeList usersNodeList;
@@ -446,16 +477,10 @@ public class UsersParser {
 		try {
 			usersNode = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
 			
-			if(usersNode.hasChildNodes()){
-				
+			if(usersNode.hasChildNodes()){				
 				Node nodeAll = null;
-				Node nodeN = null;
 				Node nodeL = null;
-				Node nodeP = null;
-				Node nodeA = null;
-				Node nodeM = null;
-				
-				
+				Node nodeP = null;				
 				
 				NamedNodeMap map = null;
 				usersNodeList = usersNode.getChildNodes();
@@ -465,26 +490,35 @@ public class UsersParser {
 					map = nodeAll.getAttributes();
 					if(map!=null){
 						nodeL = map.getNamedItem(ATTR_LOGIN);
-						nodeN = map.getNamedItem(ATTR_NUM);
+
 						nodeP = map.getNamedItem(ATTR_PASSWD);
-						nodeA = map.getNamedItem(ATTR_ADMIN);
-						nodeM = map.getNamedItem(ATTR_MANAGER);
 						
 						if(nodeL!=null){
 													
 							login = nodeL.getNodeValue();
-							num = Integer.parseInt(nodeN.getNodeValue());
-							passwd = nodeP.getNodeValue();		
-							if(nodeA.getNodeValue().equalsIgnoreCase("true"))
-								admin = true;
-							else
-								admin = false;
-							if(nodeM.getNodeValue().equalsIgnoreCase("true"))
-								pmanager = true;
-							else
-								pmanager = false;
+							passwd = nodeP.getNodeValue();
+							exprRole = "//user[@login='"+login+"']/roles/" + ATTR_ADMIN;
+							try {
+								elem = (Element)xpath.evaluate(exprRole, this.doc, XPathConstants.NODE);
+							}
+							catch (XPathExpressionException e) {
+								
+								e.printStackTrace();
+							}
+							if (elem != null) admin = true;
+							else admin = false;
+							exprRole = "//user[@login='"+login+"']/roles/" + ATTR_PCREATOR;
+							try {
+								elem = (Element)xpath.evaluate(exprRole, this.doc, XPathConstants.NODE);
+							}
+							catch (XPathExpressionException e) {
+								
+								e.printStackTrace();
+							}
+							if (elem != null) pcreator = true;
+							else pcreator = false;
 							
-							Users user = new Users(login, passwd, num, admin, pmanager);
+							Users user = new Users(login, passwd, admin, pcreator);
 							usersList.add(user);
 						}
 					}
@@ -492,7 +526,7 @@ public class UsersParser {
 				}
 			}
 			else {
-				//System.out.println("Pas de fils");
+				System.out.println("Pas de fils");
 			}
 		
 		}
@@ -505,7 +539,10 @@ public class UsersParser {
 	}
 	
 
-	
+	/**
+	 * Sauvegarde le document XML contenant les donnees utilisateur
+	 *
+	 */
 	public void saveDocument()
 	{
 		TransformerFactory tFactory = TransformerFactory.newInstance();
@@ -525,7 +562,7 @@ public class UsersParser {
 
 		try {
 			SvnCommit svnc = new SvnCommit();
-			svnc.sendFile(fichierXML,"");
+			svnc.sendFile(fichierXML, "");
 			loadTreeInMemory(fichierXML);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
