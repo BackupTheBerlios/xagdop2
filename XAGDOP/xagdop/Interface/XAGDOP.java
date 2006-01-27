@@ -50,7 +50,7 @@ public class XAGDOP extends JFrame{
 	 */
 	private static final long serialVersionUID = 1L;
 	private static XAGDOP xag =null;
-	protected  Users user;
+	protected  User user;
 	protected JPanel panel = new JPanel();
 	protected JMenuBar menuBar = new JMenuBar();
 	protected JMenuBar menuBar2 = new JMenuBar();
@@ -102,8 +102,8 @@ public class XAGDOP extends JFrame{
 	
 	IProjectTree tree;
 	
-	public XAGDOP(Users current){
-		user = current;
+	private XAGDOP(){
+		
 		init();
 		
 		//testsParsers tests = new testsParsers(); 
@@ -426,7 +426,9 @@ public class XAGDOP extends JFrame{
 	 */
 	public static XAGDOP getInstance() {
 		if (xag==null){
-			xag = new XAGDOP(new Users("Claire","PasswdDeClaire",false,false)); 
+
+			xag = new XAGDOP(); 
+
 		}
 		
 		return xag;
@@ -444,11 +446,11 @@ public class XAGDOP extends JFrame{
 		return tree;
 	}
 
-	public void setUser(Users newUser) {
+	public void setUser(User newUser) {
 		user = newUser;
 	}
 
-	public Users getUser() {
+	public User getUser() {
 		return user;
 	}
 	
