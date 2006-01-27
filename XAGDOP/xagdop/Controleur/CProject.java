@@ -40,7 +40,7 @@ public class CProject {
 				SvnCommit 	svnC = new SvnCommit();
 				SVNCommitInfo report = svnC.createProject(projectName, description);
 				// Enregistrement dans le XML du projet
-				ProjectsParser PP = new ProjectsParser();
+				ProjectsParser PP = ProjectsParser.getInstance();
 				Users user = XAGDOP.getInstance().getUser();	
 				PP.addProject(projectName,user,description);
 				
@@ -80,7 +80,7 @@ public class CProject {
 		}*/
 		JOptionPane.showMessageDialog(null ,"Le projet "+node.getName()+" est supprime", "Validation" , 1) ;
 		//Enregistrement dans le XML du projet
-		ProjectsParser PP = new ProjectsParser();
+		ProjectsParser PP = ProjectsParser.getInstance();
 		PP.removeProject(node.getName());
 		return error;
 	}

@@ -115,7 +115,7 @@ public class SvnUpdate{
 	
 	public void cleanUp(File file){
 		Users user = XAGDOP.getInstance().getUser();
-		ProjectsParser pp = new ProjectsParser();
+		ProjectsParser pp = ProjectsParser.getInstance();
 		File[] fileInDirectory = file.listFiles(new FilenameFilter() {
 			public boolean accept(File dir, String name) {
 				File directory = new File(dir.getAbsolutePath()+"/"+name); 
@@ -136,7 +136,7 @@ public class SvnUpdate{
 	public void checkOut(CTreeNode node) throws SVNException{
 		SVNUpdateClient up = new SVNUpdateClient(repository.getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
 		Users user = XAGDOP.getInstance().getUser();
-		ProjectsParser pp = new ProjectsParser();
+		ProjectsParser pp = ProjectsParser.getInstance();
 		
 		//IPreferences.setDefaultPath(IPreferences.getDefaultPath()+user.getLogin());
 		File projectDirectoryLocal = new File(IPreferences.getDefaultPath());
