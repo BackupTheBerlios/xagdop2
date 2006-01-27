@@ -37,11 +37,10 @@ public class CUser {
 	public boolean creerUser(String login, String passwd, String passwdconf) throws Exception,InstanceNotFoundException
 	{
 		UsersParser UP = new UsersParser();
-		int idUser = UP.getAllUsers().size()+1;
 		if (passwd.equals(passwdconf)){
     		if (passwd.length()>3){
-    			if (!UP.isUser(UP.getId(login))){
-    				UP.addUser(idUser,login,passwd);
+    			if (!UP.isUser(login)){
+    				UP.addUser(login,passwd);
     				JOptionPane.showMessageDialog(null ,Bundle.getText("cuser.create.text"), Bundle.getText("iusercreate.title"), 1) ;
     				return true;
     			}
