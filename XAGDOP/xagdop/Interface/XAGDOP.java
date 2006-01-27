@@ -415,9 +415,12 @@ public class XAGDOP extends JFrame{
 	
 	class delProject implements ActionListener { 
 			public void actionPerformed (ActionEvent e)  {
-				CProject cp = new CProject();
-				cp.deleteProject(tree.getSelectedNode());
-				
+				int confirmSupp = JOptionPane.showConfirmDialog(null , Bundle.getText("main.confirmSupp.label") , Bundle.getText("main.confirmSupp.title") , JOptionPane.YES_NO_OPTION);
+				if (confirmSupp == JOptionPane.OK_OPTION )
+				{
+					CProject cp = new CProject();
+					cp.deleteProject(tree.getSelectedNode());
+				}
 			}
 	}
 	
