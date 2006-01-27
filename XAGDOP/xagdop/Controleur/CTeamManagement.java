@@ -5,7 +5,7 @@ import xagdop.Parser.ProjectsParser;
 public class CTeamManagement{
 	
 	String _projectName;
-	public void Apply(ProjectsParser PP,int user,boolean architect, boolean analyst, boolean redacter,boolean pmanager){
+	public void Apply(ProjectsParser PP,String user,boolean architect, boolean analyst, boolean redacter,boolean pmanager){
 		//Call to XML Parser
 		String valeur="";
 		
@@ -56,7 +56,7 @@ public class CTeamManagement{
 	}
 
 	
-	public void disaffectUser(ProjectsParser PP,int user){
+	public void disaffectUser(ProjectsParser PP,String user){
 		//Remove the user from the project
 		
 		PP.removeUser(this._projectName,user);
