@@ -13,10 +13,14 @@ public class ProjectsTest extends TestCase {
 	 * Test method for 'xagdop.Model.Projects.getProjectName()'
 	 */
 	public void testGetProjectName() {
+			//Declarations
 			ArrayList list= new ArrayList();
 			ArrayList id =new ArrayList();
 			
+			//Creation d'un nouveau  projet
 			Projects p = new Projects("blabla",list,id);
+			
+			//Test
 			assertEquals(p.getProjectName(),"blabla");
 			assertFalse(p.getProjectName()=="blibli");
 	}
@@ -25,45 +29,61 @@ public class ProjectsTest extends TestCase {
 	 * Test method for 'xagdop.Model.Projects.setProjectName(String)'
 	 */
 	public void testSetProjectName() {
+		//Declarations
 		ArrayList list= new ArrayList();
 		ArrayList id =new ArrayList();
 		
+		//Creation d'un nouveau projet
 		Projects p = new Projects("blabla",list,id);
+		
+		//Changement du nom du projet
 		p.setProjectName("blibli");
+		
+		//Tests
 		assertEquals(p.getProjectName(),"blibli");
 		assertFalse(p.getProjectName()=="blabla");
 
 	}
 
 	/*
-	 * Test method for 'xagdop.Model.Projects.getUsersId()'
+	 * Test method for 'xagdop.Model.Projects.getUsersLogin()'
 	 */
-	public void testGetUsersId() {
+	public void testGetUsersLogin() {
+		
+		//Declarations
 		ArrayList list= new ArrayList();
 		ArrayList id =new ArrayList();
-		Projects p = new Projects("blabla",list,id);
-		id.add("toto");
 		
-		assertEquals((p.getUsersId()).get(0),"toto");
-		assertFalse((p.getUsersId()).get(0)!="toto");
+		
+		//Creation d'un nouveau projet
+		Projects p = new Projects("blabla",list,id);
+		
+		//Ajouter un login
+		id.add("toto");
+		assertTrue((p.getUsersLogin()).get(0)=="toto");
+		
 		
 	}
 
 	/*
-	 * Test method for 'xagdop.Model.Projects.setUsersId(ArrayList)'
+	 * Test method for 'xagdop.Model.Projects.setUsersLogin(ArrayList)'
 	 */
-	public void testSetUsersId() {
+	public void testSetUsersLogin() {
+		
+		//Declarations
 		ArrayList list= new ArrayList();
 		ArrayList id= new ArrayList();
 		ArrayList id1 =new ArrayList();
+		
+		//Creation de projet
 		Projects p = new Projects("blabla",list,id);
+		//Ajouter un login
 		id.add("tata");
 		id1.add("toto");
 		
-		p.setUsersId(id1);
-		assertEquals((p.getUsersId()).get(0),"toto");
-		assertFalse((p.getUsersId()).get(0)=="tata");
-		
+		p.setUsersLogin(id1);
+		assertEquals((p.getUsersLogin()).get(0),"toto");
+		assertFalse((p.getUsersLogin()).get(0)=="tata");
 	}
 
 	/*
