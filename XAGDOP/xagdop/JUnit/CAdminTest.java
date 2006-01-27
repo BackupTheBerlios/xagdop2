@@ -28,6 +28,8 @@ public class CAdminTest extends TestCase {
 		assertTrue((usrp.getUserById(usr.getId())).isPmanager()==true);
 		assertTrue((usrp.getUserById(usr.getId())).isAdmin()==false);
 
+		//Supprimer l'utilisateur ajoute a UsersParser
+		usrp.removeUser(usr.getId());
 	}
 
 }
