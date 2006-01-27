@@ -1,7 +1,10 @@
 package xagdop.JUnit;
 
+import java.util.ArrayList;
+
 import junit.framework.TestCase;
 import xagdop.Model.*;
+import xagdop.Parser.ProjectsParser;
 
 
 public class UsersTest extends TestCase {
@@ -12,7 +15,11 @@ public class UsersTest extends TestCase {
 	 * Test method for 'xagdop.Model.Users.isAdmin()'
 	 */
 	public void testIsAdmin() {
-		Users us = new Users("toto","totopass",1,true,false);
+		
+		//Creation d'un utilisateur
+		Users us = new Users("toto","totopass",true,false);
+		
+		//Tests
 		assertTrue(us.isAdmin()==true);
 		assertFalse(us.isAdmin()==false);
 	}
@@ -21,36 +28,28 @@ public class UsersTest extends TestCase {
 	 * Test method for 'xagdop.Model.Users.setAdmin(boolean)'
 	 */
 	public void testSetAdmin() {
-		Users us = new Users("toto","totopass",1,true,false);
+		//Creations d'un utilisateur
+		Users us = new Users("toto","totopass",true,false);
+		
+		//definir si l'utilisateur est Admin ou pas
 		us.setAdmin(false);
+		
+		//Tests
 		assertTrue(us.isAdmin()==false);
 		assertFalse(us.isAdmin()==true);
 	}
 
-	/*
-	 * Test method for 'xagdop.Model.Users.getId()'
-	 */
-	public void testGetId() {
-		Users us = new Users("toto","totopass",1,true,false);
-		assertTrue(us.getId()==1);
-		assertFalse(us.getId()!=1);
-	}
 
-	/*
-	 * Test method for 'xagdop.Model.Users.setId(int)'
-	 */
-	public void testSetId() {
-		Users us = new Users("toto","totopass",1,true,false);
-		us.setId(2);
-		assertTrue(us.getId()==2);
-		assertFalse(us.getId()==1);
-	}
+
 
 	/*
 	 * Test method for 'xagdop.Model.Users.getLogin()'
 	 */
 	public void testGetLogin() {
-		Users us = new Users("toto","totopass",1,true,false);
+		//Creation d'un utilisateur
+		Users us = new Users("toto","totopass",true,false);
+		
+		//Tests
 		assertEquals(us.getLogin(),"toto");
 		assertFalse(us.getLogin()!="toto");
 
@@ -60,8 +59,13 @@ public class UsersTest extends TestCase {
 	 * Test method for 'xagdop.Model.Users.setLogin(String)'
 	 */
 	public void testSetLogin() {
-		Users us = new Users("tata","totopass",1,true,false);
+		//Creation d'un utilisateur
+		Users us = new Users("tata","totopass",true,false);
+		
+		//Changer le login
 		us.setLogin("toto");
+		
+		//Tests
 		assertEquals(us.getLogin(),"toto");
 		assertFalse(us.getLogin()=="tata");
 	}
@@ -70,7 +74,10 @@ public class UsersTest extends TestCase {
 	 * Test method for 'xagdop.Model.Users.getPasswd()'
 	 */
 	public void testGetPasswd() {
-		Users us = new Users("toto","totopass",1,true,false);
+		//	Creation d'un utilisateur
+		Users us = new Users("toto","totopass",true,false);
+		
+		//Tests
 		assertEquals(us.getPasswd(),"totopass");
 		assertFalse(us.getPasswd()!="totopass");
 	}
@@ -79,18 +86,26 @@ public class UsersTest extends TestCase {
 	 * Test method for 'xagdop.Model.Users.setPasswd(String)'
 	 */
 	public void testSetPasswd() {
-		Users us = new Users("toto","totopass",1,true,false);
+		//Creation d'un utilisateur
+		Users us = new Users("toto","totopass",true,false);
+		
+		//changer le mot de passe
 		us.setPasswd("tatapass");
+		
+		//Tests
 		assertEquals(us.getPasswd(),"tatapass");
 		assertFalse(us.getPasswd()=="totopass");
 	}
 
 	/*
-	 * Test method for 'xagdop.Model.Users.isPmanager()'
+	 * Test method for 'xagdop.Model.Users.isPcreator()'
 	 */
-	public void testIsPmanager() {
-		Users us = new Users("toto","totopass",1,true,false);
-		assertTrue(us.isPmanager()==false);
+	public void testIsPcreator() {
+		//	Creation d'un utilisateur
+		Users us = new Users("toto","totopass",true,false);
+		
+        //Tests
+		assertTrue(us.isPcreator()==false);
 		
 		
 	}
@@ -99,9 +114,14 @@ public class UsersTest extends TestCase {
 	 * Test method for 'xagdop.Model.Users.setPmanager(boolean)'
 	 */
 	public void testSetPmanager() {
-		Users us = new Users("toto","totopass",1,true,false);
+		//	Creation d'un utilisateur
+		Users us = new Users("toto","totopass",true,false);
+		
+		//donner l'attribut Pmanager a toto
 		us.setPmanager(true);
-		assertTrue(us.isPmanager()==true);
+		
+		//Tests
+		assertTrue(us.isPcreator()==true);
 		
 		
 	}
@@ -110,17 +130,19 @@ public class UsersTest extends TestCase {
 	 * Test method for 'xagdop.Model.Users.isArchitect(String)'
 	 */
 	public void testIsArchitect() {
-//		ProjectsParser pj = new ProjectsParser();
-//		UsersParser up = new UsersParser();
-//		Users user = new Users("toto", "tata", 0, false, false);
-//		Users user1 = new Users("titi", "tutu", 1, false, false);
-//		pj.addProject("blbl",user,"blabla");
-//		up.addUser(user);
-//		up.addUser(user1);
-//		pj.setAttribute("blbl",0,"archi","true");
-//		assertEquals(user.isArchitect("blbl"),true);
-//		assertFalse(user1.isArchitect("blbl")==true);
-	}
+//		Users us = new Users("toto","totopass",true,false);
+//		ProjectsParser pp= new ProjectsParser();
+//		ArrayList list= new ArrayList();
+//		ArrayList id =new ArrayList();
+//		Projects p = new Projects("projTest",list,id);
+//		pp.addProject("projTest",us,"desc");
+//
+//		pp.addUser("projTest",us,true,true,true,true);
+//		
+//		
+//		assertTrue(us.isArchitect("projTest")==true);
+		
+		}
 
 	/*
 	 * Test method for 'xagdop.Model.Users.isRedactor(String)'
