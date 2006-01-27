@@ -2,12 +2,13 @@ package xagdop.Parser;
 
 import java.util.ArrayList;
 
-import xagdop.Model.Users;
+import xagdop.Model.User;
+
 
 public class TestsUsersParsers {
 	public static void main(String[] args) {
-		UsersParser up = new UsersParser();
-		Users user;
+		UsersParser up = UsersParser.getInstance();
+		User user;
 		
 		/*
 		// isUser
@@ -47,7 +48,7 @@ public class TestsUsersParsers {
 		
 		ArrayList al = up.getAllUsers();
 		for (int i = 0; i < al.size(); i++) {
-			user = (Users) al.get(i);
+			user = (User) al.get(i);
 			System.out.println(user.toString());
 		}
 	}
