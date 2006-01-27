@@ -27,7 +27,7 @@ import javax.swing.table.TableCellRenderer;
 
 import xagdop.Controleur.CAdmin;
 
-import xagdop.Model.Users;
+import xagdop.Model.User;
 import xagdop.Parser.UsersParser;
 import xagdop.ressources.Bundle;
 
@@ -314,10 +314,10 @@ public class IJAdmin extends JFrame{
 			while(iter.hasNext())
 			{
 				Object o = iter.next();
-				this.rowData[i][0] = ((Users)o).getLogin();
+				this.rowData[i][0] = ((User)o).getLogin();
 				//System.out.println(this.rowData[i][0]);
-				this.rowData[i][1] = new Boolean(((Users)o).isPcreator());
-				this.rowData[i][2] = new Boolean(((Users)o).isAdmin());
+				this.rowData[i][1] = new Boolean(((User)o).isPcreator());
+				this.rowData[i][2] = new Boolean(((User)o).isAdmin());
 				this.rowData[i][3] = new JButton(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/supprimer.gif")));
 				i++;
 			}
