@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import xagdop.Identity;
+
 import xagdop.Interface.IPreferences;
 
 
@@ -97,12 +97,5 @@ public class CTreeNode extends DefaultMutableTreeNode implements Serializable
 		//return getName();
 	}
 	
-	public String getID()
-	{
-		if( getUserObject() instanceof Identity )
-		{
-			return ((Identity)getUserObject()).getID();
-		}
-		return null;
-	}	
+	
 }

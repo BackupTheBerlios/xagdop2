@@ -6,6 +6,7 @@ import java.awt.Component;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.net.URL;
+import java.security.Identity;
 import java.util.Map;
 
 import javax.swing.Icon;
@@ -24,7 +25,6 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-import xagdop.Identity;
 import xagdop.Interface.ICentralPanel;
 import xagdop.Interface.IPreferences;
 import xagdop.Interface.ThreadWait;
@@ -208,45 +208,7 @@ public class CTree implements TreeModel
 		mListenerList.remove(TreeModelListener.class, l);
 	}
 	
-	/**
-	 * Recursive search by the id of an element
-	 * 
-	 * @param id the id of the element to find
-	 * @param current the current node
-	 * @return the corresponding node or null
-	 */
-	private CTreeNode findWithID(String id, CTreeNode current)
-	{
-		if( current instanceof Identity && ((Identity)current).getID().equals(id) )
-		{
-			return current;
-		}
-		
-		for(int i=0; i<getChildCount(current); i++)
-		{
-			CTreeNode node = (CTreeNode)getChild(current, i);
-			
-			node = findWithID(id, node);
-			
-			if(node!=null)
-			{
-				return node;
-			}
-		}
-		
-		return null;
-	}
 	
-	/**
-	 * Find an element by its id
-	 * 
-	 * @param id the id of the element to find
-	 * @return the corresponding node or null
-	 */
-	public CTreeNode findWithID(String id)
-	{
-		return findWithID(id, mRoot);
-	}
 	
 	
 	
@@ -256,7 +218,7 @@ public class CTree implements TreeModel
 	 * @param elements the nodes to insert
 	 * @param parents the parents of each nodes
 	 * @param extras 
-	 */
+	 *//*
 	protected void handleInsert(Object[] elements,	Object[] parents,Map extras)
 	{
 	    if (elements.length < 1)
@@ -289,7 +251,7 @@ public class CTree implements TreeModel
 				fireTreeNodesInserted( this, parent.getPath(), new int[]{ parent.getIndex(node) }, new Object[]{ node });
 			}	    
 		}
-	}
+	}*/
 	
 	/**
 	 * remove nodes from the tree
@@ -297,7 +259,7 @@ public class CTree implements TreeModel
 	 * @param elements the nodes to remove
 	 * @param parents the parents of each nodes
 	 * @param extras 
-	 */
+	 *//*
 	protected void handleRemove(Object[] elements,	Object[] parents,Map extras)
 	{
 		CTreeNode node = null;
@@ -327,7 +289,7 @@ public class CTree implements TreeModel
 				fireTreeNodesRemoved( this, parent.getPath(), new int[]{ parent.getIndex(node) }, new Object[]{ node });
 			}	    
 		}
-	}
+	}*/
 	
 	/*public void refresh(CTreeNode node){
 		
