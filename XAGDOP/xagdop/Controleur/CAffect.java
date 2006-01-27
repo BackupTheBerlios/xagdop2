@@ -14,12 +14,11 @@ public class CAffect {
 	{
 		ProjectsParser PP = new ProjectsParser();
 		UsersParser UP = new UsersParser();
-		int id = UP.getId(login);
-		if (id==0)
+		if (!UP.isUser(login))
 			throw new InstanceNotFoundException();
 		else
 		{
-			if (PP.exist(project,login))
+			if (PP.isProject(project))
 				throw new Exception();
 			else
 		
@@ -54,7 +53,7 @@ public class CAffect {
 					anal = "false";
 				
 				
-				PP.addUser(project, id, pMana, arch, anal,redac);
+				PP.addUser(project, login, pmanager, archi, analyst,redactor);
 
 			}
 		}	
