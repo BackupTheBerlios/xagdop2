@@ -66,19 +66,21 @@ public class IJTeamManagementTableCellEditor extends AbstractCellEditor
 		if(out == JOptionPane.YES_OPTION) 
 		{
 			rowToDelete =this.IJTM.getTable().getSelectedRow();
-			System.out.println("user : "+((String)this.IJTM.getTable().getModel().getValueAt(rowToDelete,0)));
-			Iterator i = this.IJTM.getUsers().iterator();
-			while(i.hasNext())
-			{
-				Users o = ((Users)i.next());
-				if(o.getLogin() == ((String)this.IJTM.getTable().getModel().getValueAt(rowToDelete,0)))
-				{
-					this.IJTM.getProjectParser().removeUser(this.nomProjet,o.getId());
-				}
+		//	System.out.println("user : "+((String)this.IJTM.getTable().getModel().getValueAt(rowToDelete,0)));
+		//	Iterator i = this.IJTM.getUsers().iterator();
+			
+		//	while(i.hasNext())
+		//	{
+		//		Users o = ((Users)i.next());
+		//		if(o.getLogin() == ((String)this.IJTM.getTable().getModel().getValueAt(rowToDelete,0)))
+		//		{
+					this.IJTM.getProjectParser().removeUser(this.nomProjet,((String)this.IJTM.getTable().getModel().getValueAt(rowToDelete,0)));
+					IJTeamManagement.getIJTM(this.nomProjet).refreshUsers();
+					
+		//		}
 				
 			}
-			IJTeamManagement.getIJTM().refreshUsers();
 		}
-	}
+	
 	
 }

@@ -42,6 +42,7 @@ public class IJTeamManagement extends JFrame{
 	private static final long serialVersionUID = -1080162447493236178L;
 	private static IJTeamManagement IJTM= null;
 	
+	private JButton ButtonAffecter = new JButton();
 	private JButton ButtonCancel = new JButton();
     private JButton ButtonOK = new JButton();
     private JPanel newPanel = new JPanel();
@@ -56,11 +57,11 @@ public class IJTeamManagement extends JFrame{
 	private String nomProjet;
 	public static String nP;
 	
-	public IJTeamManagement(String ProjectName){
+	private IJTeamManagement(String ProjectName){
 		nP = ProjectName;
 		this.setNomProjet(ProjectName);
-		users = new UsersParser();  
-		projects = new ProjectsParser();
+		users = UsersParser.getInstance();  
+		projects = ProjectsParser.getInstance();
 		init();
 	}
 	
@@ -68,7 +69,7 @@ public class IJTeamManagement extends JFrame{
 	private void init(){
 		getContentPane().setLayout(new GridBagLayout());
 		nP = this.getNomProjet();
-		this.projet = this.getProjectParser().getAllUsers(this.nomProjet);
+		this.projet = this.getProjectParser().buildProject(this.nomProjet);
 		CTeamM = new CTeamManagement(nP);		
 				
 		newPanel.setLayout(new GridBagLayout());
@@ -83,7 +84,7 @@ public class IJTeamManagement extends JFrame{
         		int i=0;
         		while(i<j)
         		{
-        			CTeamM.Apply(projects,users.getId((String)JT.getValueAt(i,0)),((Boolean)JT.getValueAt(i,2)).booleanValue(),((Boolean)JT.getValueAt(i,1)).booleanValue(),((Boolean)JT.getValueAt(i,3)).booleanValue(),((Boolean)JT.getValueAt(i,4)).booleanValue());
+        			CTeamM.Apply(projects,(String)JT.getValueAt(i,0),((Boolean)JT.getValueAt(i,1)).booleanValue(),((Boolean)JT.getValueAt(i,2)).booleanValue(),((Boolean)JT.getValueAt(i,3)).booleanValue(),((Boolean)JT.getValueAt(i,4)).booleanValue());
         			i++;  
         		}
         	
@@ -96,6 +97,21 @@ public class IJTeamManagement extends JFrame{
             }
         });	// Fin bouton OK
         
+        ButtonAffecter.setText("Affecter");
+        ButtonAffecter.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+            	//IUserCreate IUC = IUserCreate.getIUC();
+        		//IUC.setVisible(true);
+        		//getContentPane().validate();
+            	//CTeamM.Apply(projects,users.getId((String)JT.getValueAt(i,0)),((Boolean)JT.getValueAt(i,1)).booleanValue(),((Boolean)JT.getValueAt(i,2)).booleanValue(),((Boolean)JT.getValueAt(i,3)).booleanValue(),((Boolean)JT.getValueAt(i,4)).booleanValue());
+        		IAffect IA = IAffect.getIA();
+           	    IA.setProjectName(nP);
+           	    IA.setVisible(true);
+                //fermer la fenetre
+           	    //refreshUsers();
+           	    
+            }
+        }); // Fin bouton Affecter
         
         ButtonCancel.setText("Annuler");
         ButtonCancel.addActionListener(new ActionListener() {
@@ -106,7 +122,7 @@ public class IJTeamManagement extends JFrame{
         }); // Fin bouton Cancel
         
         
-        JT = new JTable(new IJTeamManagementTableModel(this.getUsers(),nP));
+        JT = new JTable(new IJTeamManagementTableModel(projet.getUsersLogin(),nP));
         JT.setDefaultRenderer(JButton.class, new IJTeamManagementTableCellrenderer());
         JT.setDefaultEditor(JButton.class, new IJTeamManagementTableCellEditor(this,this.nomProjet));
         JT.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -133,6 +149,8 @@ public class IJTeamManagement extends JFrame{
         newPanel.add(ButtonOK, gbc);
         this.donnerContrainte(gbc,1,1,1,1,100,100,GridBagConstraints.NONE);
         newPanel.add(ButtonCancel,gbc);
+        this.donnerContrainte(gbc,2,1,1,1,100,100,GridBagConstraints.NONE);
+        newPanel.add(ButtonAffecter,gbc);
         
         getContentPane().add(newPanel, new GridBagConstraints());
         pack();
@@ -148,9 +166,9 @@ public class IJTeamManagement extends JFrame{
 		GridBagConstraints gbc = new GridBagConstraints();
         this.donnerContrainte(gbc,0,0,3,1,100,100,GridBagConstraints.BOTH);
         
-		this.projects = new ProjectsParser();
-		this.projet = this.projects.getAllUsers(this.nomProjet);
-		((IJTeamManagementTableModel)this.JT.getModel()).init(this.getUsers());
+		this.projects = ProjectsParser.getInstance();
+		this.projet = this.projects.buildProject(this.nomProjet);
+		((IJTeamManagementTableModel)this.JT.getModel()).init(projet.getUsersLogin());
 		JT.setDefaultEditor(JButton.class, new IJTeamManagementTableCellEditor(this,this.nomProjet));
 		this.remove(newPanel);
 		this.newPanel.remove(JSP);
@@ -216,7 +234,7 @@ public class IJTeamManagement extends JFrame{
 		return nomProjet;
 	}
 
-	public static IJTeamManagement getIJTM() {
+	public static IJTeamManagement getIJTM(String nP) {
 		if (IJTM==null){
 			IJTM = new IJTeamManagement(nP); 
 		}
@@ -228,10 +246,10 @@ public class IJTeamManagement extends JFrame{
 		return this.JT;
 	}
 	
-	public ArrayList getUsers()
+	/*public ArrayList getUsers(int g)
 	{
 		ArrayList usersProject = new ArrayList();
-		ArrayList usersProjetId = this.projet.getUsersId();
+		ArrayList usersProjetId = this.projet.getUsersLogin();
 		Iterator i = this.users.getAllUsers().iterator();
 		Iterator j = usersProjetId.iterator();
 		Integer usersProjet;
@@ -254,7 +272,7 @@ public class IJTeamManagement extends JFrame{
 			
 		}
 		return usersProject;
-	}
+	}*/
 	
 	public ProjectsParser getProjectParser()
 	{
