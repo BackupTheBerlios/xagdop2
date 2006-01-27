@@ -5,9 +5,6 @@ import java.io.File;
 
 import javax.management.InstanceNotFoundException;
 import javax.swing.JOptionPane;
-
-import sun.security.jca.GetInstance;
-
 import xagdop.Interface.IPreferences;
 import xagdop.Interface.XAGDOP;
 import xagdop.Model.Users;
