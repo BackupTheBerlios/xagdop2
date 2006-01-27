@@ -32,6 +32,7 @@ public class ProjectsParser {
 	private DocumentBuilder db;
 	private Document doc;
 	private File projectXML;
+	private static ProjectsParser PPInstance = null;
 	
 	public static final String ATTR_ARCHI = "archi";
 	public static final String ATTR_ANALYST = "analyste";
@@ -42,7 +43,13 @@ public class ProjectsParser {
 	public static final String ATTR_LOGIN = "login";
 	public static final String ATTR_DESC = "desc";
 	
-	public ProjectsParser()
+	public static ProjectsParser getInstance() {
+		if (PPInstance == null)
+			PPInstance = new ProjectsParser();
+		return PPInstance;
+	}
+	
+	private ProjectsParser()
 	{
 		try {
 			SvnUpdate svnu = new SvnUpdate();
@@ -59,7 +66,7 @@ public class ProjectsParser {
 	
 	/**
 	 * Charge en memoire l'arbre associe a un fichier XML 
-	 * @param fichier Fichier à charger
+	 * @param fichier Fichier ? charger
 	 * @throws Exception
 	 */
 	private void loadTreeInMemory(File fichier) throws Exception {
@@ -115,7 +122,7 @@ public class ProjectsParser {
 	
 	
 	/**
-	 * Recupere la valeur d'un attribut d'un utilisateur associé à un projet
+	 * Recupere la valeur d'un attribut d'un utilisateur associ? ? un projet
 	 * @param projectName
 	 * @param attr
 	 * @param login
@@ -150,10 +157,10 @@ public class ProjectsParser {
 	
 	
 	/**
-	 * Permet de savoir si un utilisateur X est associé à un projet Y 
+	 * Permet de savoir si un utilisateur X est associ? ? un projet Y 
 	 * @param pName Nom du projet
 	 * @param login Login de l'utilisateur
-	 * @return TRUE si l'utilisateur est associé au projet, FALSE sinon 
+	 * @return TRUE si l'utilisateur est associ? au projet, FALSE sinon 
 	 */
 	public boolean isUserInProject(String pName, String login)
 	{
@@ -207,7 +214,7 @@ public class ProjectsParser {
 	
 	
 	/**
-	 * Fixe la valeur d'un attribut d'un utilisateur associé à un projet
+	 * Fixe la valeur d'un attribut d'un utilisateur associ? ? un projet
 	 * @param projectName
 	 * @param login
 	 * @param attr
@@ -249,7 +256,7 @@ public class ProjectsParser {
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//*";
 		
-		UsersParser userP = new UsersParser();
+		UsersParser userP = UsersParser.getInstance();
 		
 		if(!userP.isUser(user.getLogin()))
 		{
@@ -287,7 +294,7 @@ public class ProjectsParser {
 	
 	
 	/**
-	 * Ajout d'un utilisateur à un projet
+	 * Ajout d'un utilisateur ? un projet
 	 * @param projectName
 	 * @param login
 	 * @param chef
@@ -297,7 +304,7 @@ public class ProjectsParser {
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//project[@name='"+projectName+"']";
 		
-		UsersParser user = new UsersParser();
+		UsersParser user = UsersParser.getInstance();
 		
 		if(!user.isUser(login))
 		{
@@ -333,7 +340,7 @@ public class ProjectsParser {
 	
 	
 	/**
-	 * Ajout d'un utilisateur à un projet
+	 * Ajout d'un utilisateur ? un projet
 	 * @param projectName
 	 * @param login
 	 * @param chef
@@ -344,7 +351,7 @@ public class ProjectsParser {
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//project[@name='"+projectName+"']";
 		
-		UsersParser user = new UsersParser();
+		UsersParser user = UsersParser.getInstance();
 		
 		if(!user.isUser(login))
 		{
@@ -380,7 +387,7 @@ public class ProjectsParser {
 	
 
 	/**
-	 * Ajout d'un utilisateur à un projet
+	 * Ajout d'un utilisateur ? un projet
 	 * @param projectName
 	 * @param login
 	 * @param chef
@@ -392,7 +399,7 @@ public class ProjectsParser {
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//project[@name='"+projectName+"']";
 		
-		UsersParser user = new UsersParser();
+		UsersParser user = UsersParser.getInstance();
 		
 		if(!user.isUser(login))
 		{
@@ -428,7 +435,7 @@ public class ProjectsParser {
 	
 	
 	/**
-	 * Ajout d'un utilisateur à un projet
+	 * Ajout d'un utilisateur ? un projet
 	 * @param projectName
 	 * @param login
 	 * @param chef
@@ -441,7 +448,7 @@ public class ProjectsParser {
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//project[@name='"+projectName+"']";
 		
-		UsersParser user = new UsersParser();
+		UsersParser user = UsersParser.getInstance();
 		
 		if(!user.isUser(login))
 		{
@@ -477,7 +484,7 @@ public class ProjectsParser {
 	
 
 	/**
-	 * Ajoute un utilisateur à un projet existant en fixant ses droits au sein du projet (en passant un User)
+	 * Ajoute un utilisateur ? un projet existant en fixant ses droits au sein du projet (en passant un User)
 	 * @param projectName
 	 * @param user
 	 * @param chef
@@ -491,7 +498,7 @@ public class ProjectsParser {
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//project[@name='"+projectName+"']";
 		
-		UsersParser userP = new UsersParser();
+		UsersParser userP = UsersParser.getInstance();
 		
 		if(!userP.isUser(user.getLogin()))
 		{
@@ -518,7 +525,7 @@ public class ProjectsParser {
 				newElem.setAttribute(ATTR_REDACTEUR, Boolean.toString(redacteur));
 				elem.appendChild(newElem);
 				saveDocument();
-				System.out.println("Ajout de l'utilisateur "+user.getLogin()+" effectuée");//debug
+				System.out.println("Ajout de l'utilisateur "+user.getLogin()+" effectu?e");//debug
 				return true;
 			}
 			else {
@@ -530,7 +537,7 @@ public class ProjectsParser {
 	
 
 	/**
-	 * Ajout d'un utilisateur à un projet
+	 * Ajout d'un utilisateur ? un projet
 	 * @param projectName
 	 * @param login
 	 */
@@ -539,7 +546,7 @@ public class ProjectsParser {
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//project[@name='"+projectName+"']";
 		
-		UsersParser user = new UsersParser();
+		UsersParser user = UsersParser.getInstance();
 		
 		if(!user.isUser(login))
 		{
@@ -575,7 +582,7 @@ public class ProjectsParser {
 	
 	
 	/**
-	 * Retrait d'un utilisateur associé à un projet
+	 * Retrait d'un utilisateur associ? ? un projet
 	 * @param projectName
 	 * @param idUser
 	 */
@@ -584,7 +591,7 @@ public class ProjectsParser {
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//project[@name='"+projectName+"']";
 		String expr = "//project[@name='"+projectName+"']/user[@login='"+login+"']";
-		UsersParser user = new UsersParser();
+		UsersParser user = UsersParser.getInstance();
 		
 		if(!user.isUser(login))
 		{

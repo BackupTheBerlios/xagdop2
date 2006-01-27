@@ -26,7 +26,7 @@ public class UsersParser {
 	private DocumentBuilderFactory dbf;
 	private DocumentBuilder db;
 	private Document doc;
-	private UsersParser UPInstance = null;
+	private static UsersParser UPInstance = null;
 	
 	private File fichierXML ;
 	
@@ -36,7 +36,7 @@ public class UsersParser {
 	public static final String ATTR_ADMIN = "admin";
 	
 	
-	public UsersParser getInstance() {
+	public static UsersParser getInstance() {
 		if (UPInstance == null)
 			UPInstance = new UsersParser();
 		return UPInstance;
