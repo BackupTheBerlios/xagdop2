@@ -104,8 +104,8 @@ public class IUserCreate extends JFrame{
 		
 		
 		/*Creation des boutons*/
-		JButton valide = new JButton(Bundle.getText("iuser.button.ok"));
-		JButton cancel = new JButton(Bundle.getText("iuser.button.cancel"));
+		JButton valide = new JButton(Bundle.getText("button.ok"));
+		JButton cancel = new JButton(Bundle.getText("button.cancel"));
 		gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.insets= new Insets(0,0,0,0);
@@ -122,7 +122,7 @@ public class IUserCreate extends JFrame{
 		valide.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				try {
-					if(CU.creerUser(userID.getText(),password.getText(),passConf.getText())){
+					if(CU.creerUser(userID.getText(),new String(password.getPassword()),new String(passConf.getPassword()))){
 						IUC.setVisible(false);
 						IJAdmin.getIJA().refreshUsers();
 						IUC = null;

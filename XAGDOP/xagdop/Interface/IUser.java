@@ -87,8 +87,8 @@ public class IUser extends JFrame{
       
 	
 		/*Creation des boutons*/
-		JButton valide = new JButton(Bundle.getText("iuser.button.ok"));
-		JButton cancel = new JButton(Bundle.getText("iuser.button.cancel"));
+		JButton valide = new JButton(Bundle.getText("button.ok"));
+		JButton cancel = new JButton(Bundle.getText("button.cancel"));
 		
 		gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -105,7 +105,7 @@ public class IUser extends JFrame{
         /*Action relative aux boutons*/		
 		valide.addActionListener(new ActionListener(){
 				    public void actionPerformed(ActionEvent e){
-				    	if (CU.verifUser(userID.getText(),password.getText()))
+				    	if (CU.verifUser(userID.getText(),new String(password.getPassword())))
 				    	{
 				    		IU.setVisible(false);		    		
 				    	}

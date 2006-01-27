@@ -1,7 +1,5 @@
 package xagdop.JUnit;
 
-import javax.swing.tree.TreeNode;
-
 import junit.framework.TestCase;
 import xagdop.Controleur.*;
 public class CTreeTest extends TestCase {

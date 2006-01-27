@@ -1,10 +1,7 @@
 package xagdop.JUnit;
 
-import java.util.ArrayList;
-
 import junit.framework.TestCase;
 import xagdop.Model.*;
-import xagdop.Parser.ProjectsParser;
 
 
 public class UserTest extends TestCase {

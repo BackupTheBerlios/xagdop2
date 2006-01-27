@@ -19,7 +19,6 @@ import javax.swing.WindowConstants;
 import xagdop.Controleur.CTeamManagement;
 import xagdop.Model.Project;
 import xagdop.Parser.ProjectsParser;
-import xagdop.Parser.UsersParser;
 
 public class ITeamManagement extends JFrame{
 	
@@ -46,7 +45,6 @@ public class ITeamManagement extends JFrame{
 	private GridBagConstraints gridBagConstraints = new GridBagConstraints();
 	private ProjectsParser projects;
 	private Project projet;
-	private UsersParser users;
 	private CTeamManagement CTeamM; 
 	
 	private String nomProjet;
@@ -71,8 +69,6 @@ public class ITeamManagement extends JFrame{
 		        
 		        ArrayList list = projet.getUsersLogin();
 		        UserListCombo = new JComboBox() ;   	 	
-		   	 	
-		        users = UsersParser.getInstance();
 		        
 		    	//Remplissage de la combobox avec les valeurs de la list
 		      	for(int i=0; i<list.size(); i++)
