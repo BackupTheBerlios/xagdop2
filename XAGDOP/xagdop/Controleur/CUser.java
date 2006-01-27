@@ -20,7 +20,7 @@ public class CUser {
 	public boolean verifUser(String login, String passwd){
 		UsersParser UParser = UsersParser.getInstance();
 		
-		User user = UParser.getUser(login,passwd);
+		User user = UParser.getUser(login,CEncrypt.getEncodedPassword(passwd));
     	if (user != null){
     		IPreferences.setDefaultPath(IPreferences.getDefaultPath()+user.getLogin()+File.separator);
     		XAGDOP.getInstance().setUser(user);
@@ -41,7 +41,7 @@ public class CUser {
 		if (passwd.equals(passwdconf)){
     		if (passwd.length()>3){
     			if (!UP.isUser(login)){
-    				UP.addUser(login,passwd);
+    				UP.addUser(login,CEncrypt.getEncodedPassword(passwd));
     				JOptionPane.showMessageDialog(null ,Bundle.getText("cuser.create.text"), Bundle.getText("iusercreate.title"), 1) ;
     				return true;
     			}
