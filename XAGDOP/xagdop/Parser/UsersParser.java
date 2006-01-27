@@ -35,7 +35,11 @@ public class UsersParser {
 	public static final String ATTR_PCREATOR = "pcreator";
 	public static final String ATTR_ADMIN = "admin";
 	
-	
+	/**
+	 * Cette fonction est l'implementation du pattern singleton. Elle permet l'utilisation d'un 
+	 * objet UsersParser unique en memoire. Elle cree l'objet s'il n'existe pas deja
+	 * @return objet UsersParser
+	 */
 	public static UsersParser getInstance() {
 		if (UPInstance == null)
 			UPInstance = new UsersParser();
@@ -206,6 +210,8 @@ public class UsersParser {
 	 * renvoie la valeur d'un attribut donne d'un utilisateur donne
 	 * @userName nom d'utilisateur
 	 * @attr attribut 
+	 * @return String, ou Boolean indiquant la valeur de l'attribut. Attention, en cas de balise
+	 * non existante, renvoie Boolean.FALSE et non NULL.
 	 */
 	public Object getAttribute(String login, String attr)
 	{
