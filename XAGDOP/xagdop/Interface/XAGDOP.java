@@ -385,7 +385,7 @@ public class XAGDOP extends JFrame{
 			
 			if (XAGDOP.getInstance().getUser().isPManager(projectName))
 			{
-				IJTeamManagement ijteam = new IJTeamManagement(projectName);
+				IJTeamManagement ijteam = IJTeamManagement.getIJTM(projectName);
 				//iteam.refreshCombo();
 				ijteam.setVisible(true);
 			}
