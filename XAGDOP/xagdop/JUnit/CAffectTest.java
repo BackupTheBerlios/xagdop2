@@ -18,7 +18,7 @@ public class CAffectTest extends TestCase {
 		CAffect CA = new CAffect();
 		ArrayList list= new ArrayList();
 		ArrayList id =new ArrayList();
-		UsersParser UP = UsersParser.getInstance();
+		
 		Project p = new Project("blabla",list,id);
 		User us = new User("toto","totopass",true,false);
 		
