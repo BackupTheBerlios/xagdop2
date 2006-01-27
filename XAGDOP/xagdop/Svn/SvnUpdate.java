@@ -70,12 +70,12 @@ public class SvnUpdate{
 	
 	/**
 	 * @throws SVNException
-	 * Récupére les fichiers xml contenu sur le serveur
+	 * R??cup??re les fichiers xml contenu sur le serveur
 	 */
 	public void getFiles() throws SVNException{
 		
 		SVNUpdateClient up = new SVNUpdateClient(repository.getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
-		//Test si les dossiers des différents utilisateurs existent sinon il les crée
+		//Test si les dossiers des diff??rents utilisateurs existent sinon il les cr??e
 		File projectDirectoryLocal = new File(IPreferences.getRootPath());
 		if(!projectDirectoryLocal.exists())
 			projectDirectoryLocal.mkdir();
@@ -84,7 +84,7 @@ public class SvnUpdate{
 			projectLocal.mkdir();
 		projectLocal = new File(IPreferences.getRootPath()+".xagdop"+File.separator+repository.getRepositoryUUID()+File.separator);
 		
-		//Récupération des fichiers
+		//R??cup??ration des fichiers
 		if(projectLocal.exists())
 			up.doUpdate(projectLocal,SVNRevision.HEAD,false);
 		else
@@ -99,11 +99,11 @@ public class SvnUpdate{
 		
 		SVNUpdateClient up = new SVNUpdateClient(repository.getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
 	
-		//Création du dossier local
+		//Cr??ation du dossier local
 		File projectDirectoryLocal = new File(IPreferences.getDefaultPath());
 		if(!projectDirectoryLocal.exists())
 			projectDirectoryLocal.mkdir();
-		//Si il n'est pas versionné alors on fait un checkout sinon un update
+		//Si il n'est pas versionn?? alors on fait un checkout sinon un update
 		if(SvnHistory.isUnderVersion(projectDirectoryLocal))
 			up.doUpdate(projectDirectoryLocal,SVNRevision.HEAD,true);
 		else
@@ -125,7 +125,7 @@ public class SvnUpdate{
 			}
 		});
 		for(int i = 0; i < fileInDirectory.length; i++){
-			if(!pp.exist(fileInDirectory[i].getName(),user.getLogin()))
+			if(!pp.isUserInProject(fileInDirectory[i].getName(),user.getLogin()))
 				deleteDirectory(fileInDirectory[i]);
 		}
 	}
@@ -150,7 +150,7 @@ public class SvnUpdate{
 		
         while (iterator.hasNext()) {
             SVNDirEntry entry = (SVNDirEntry) iterator.next();
-            if(pp.exist(entry.getName(),user.getLogin())){
+            if(pp.isUserInProject(entry.getName(),user.getLogin())){
             	if(entry.getKind()==SVNNodeKind.DIR){
             		File projectDirectory = new File(IPreferences.getDefaultPath()+entry.getName());
             		if(!projectDirectory.exists()){
