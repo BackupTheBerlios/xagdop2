@@ -8,8 +8,8 @@ import javax.swing.JButton;
 import javax.swing.table.AbstractTableModel;
 
 import xagdop.Parser.ProjectsParser;
-import xagdop.Model.Projects;
-import xagdop.Model.Users;
+import xagdop.Model.Project;
+import xagdop.Model.User;
 
 
 public class IJTeamManagementTableModel extends AbstractTableModel {
@@ -23,7 +23,7 @@ public class IJTeamManagementTableModel extends AbstractTableModel {
 	private Object[][] rowData;
 	private ArrayList users;
 	private ProjectsParser projetParser;
-	private Projects projet;
+	private Project projet;
 	private String nP;
 	
 	public IJTeamManagementTableModel(ArrayList usersParser, String nomProjet) {
@@ -72,11 +72,11 @@ public class IJTeamManagementTableModel extends AbstractTableModel {
 		while (it.hasNext())
 		{
 			Object o = it.next();
-			rowData[i][0] =	((Users)o).getLogin();
-			rowData[i][1] = new Boolean(((Users)o).isArchitect(this.nP));
-			rowData[i][2] = new Boolean(((Users)o).isAnalyst(this.nP));
-			rowData[i][3] = new Boolean(((Users)o).isRedactor(this.nP));
-			rowData[i][4] = new Boolean(((Users)o).isPManager(this.nP));
+			rowData[i][0] =	((User)o).getLogin();
+			rowData[i][1] = new Boolean(((User)o).isArchitect(this.nP));
+			rowData[i][2] = new Boolean(((User)o).isAnalyst(this.nP));
+			rowData[i][3] = new Boolean(((User)o).isRedactor(this.nP));
+			rowData[i][4] = new Boolean(((User)o).isPManager(this.nP));
 			rowData[i][5] = new JButton(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/supprimer.gif")));
 			i++;	
 		}

@@ -28,11 +28,11 @@ import xagdop.Controleur.CTeamManagement;
 import xagdop.Interface.IJAdmin.IJAdminTableCellEditor;
 import xagdop.Interface.IJAdmin.IJAdminTableCellRenderer;
 import xagdop.Interface.IJAdmin.IJAdminTableModel;
-import xagdop.Model.Projects;
+import xagdop.Model.Project;
 import xagdop.Parser.ProjectsParser;
 import xagdop.Parser.UsersParser;
 import xagdop.ressources.Bundle;
-import xagdop.Model.Users;
+import xagdop.Model.User;
 
 public class IJTeamManagement extends JFrame{
 	
@@ -50,7 +50,7 @@ public class IJTeamManagement extends JFrame{
     private JScrollPane JSP;
 	private GridBagConstraints gbc = new GridBagConstraints();
 	private ProjectsParser projects;
-	private Projects projet;
+	private Project projet;
 	private UsersParser users;
 	private CTeamManagement CTeamM; 
 	

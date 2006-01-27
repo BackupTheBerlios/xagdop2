@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 
-import xagdop.Model.Users;
+import xagdop.Model.User;
 
 public class IJTeamManagementTableCellEditor extends AbstractCellEditor 
 										implements TableCellEditor, ActionListener{
