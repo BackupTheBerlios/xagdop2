@@ -22,8 +22,8 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import xagdop.Model.Projects;
-import xagdop.Model.Users;
+import xagdop.Model.Project;
+import xagdop.Model.User;
 import xagdop.Svn.SvnCommit;
 import xagdop.Svn.SvnUpdate;
 
@@ -251,7 +251,7 @@ public class ProjectsParser {
 	 * @param description
 	 * @return
 	 */
-	public boolean addProject(String projectName, Users user, String description)
+	public boolean addProject(String projectName, User user, String description)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//*";
@@ -493,7 +493,7 @@ public class ProjectsParser {
 	 * @param redacteur
 	 * @return
 	 */
-	public boolean addUser(String projectName, Users user, boolean chef, boolean archi, boolean analyste, boolean redacteur)
+	public boolean addUser(String projectName, User user, boolean chef, boolean archi, boolean analyste, boolean redacteur)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//project[@name='"+projectName+"']";
@@ -690,13 +690,13 @@ public class ProjectsParser {
 	 * @param projectName
 	 * @return
 	 */
-	public Projects buildProject(String projectName)
+	public Project buildProject(String projectName)
 	{
 		ArrayList usersList = new ArrayList();
 		ArrayList userRights= new ArrayList();
 		ArrayList usersLogin= new ArrayList();
 		
-		//Projects projet;
+		//Project projet;
 		
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//project[@name='"+projectName+"']";
@@ -784,7 +784,7 @@ public class ProjectsParser {
 			System.out.println("buildProject: Le projet "+projectName+" n'existe pas.");
 			e.printStackTrace();
 		}
-		return new Projects(projectName, usersList, usersLogin);
+		return new Project(projectName, usersList, usersLogin);
 	}
 	
 
