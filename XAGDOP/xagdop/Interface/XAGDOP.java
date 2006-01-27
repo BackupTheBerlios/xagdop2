@@ -299,6 +299,12 @@ public class XAGDOP extends JFrame{
 		setTitle(Bundle.getText("main.title"));
 		setSize(700, 400);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//Initialisation des boutons
+		equipe.setEnabled(false);
+		menuProjetTeam.setEnabled(false);
+		
+		
+		
 		
 	}
 	
@@ -420,7 +426,7 @@ public class XAGDOP extends JFrame{
 	 */
 	public static XAGDOP getInstance() {
 		if (xag==null){
-			xag = new XAGDOP(new Users("Claire","PasswdDeClaire",1,false,false)); 
+			xag = new XAGDOP(new Users("Claire","PasswdDeClaire",false,false)); 
 		}
 		
 		return xag;
@@ -451,7 +457,7 @@ public class XAGDOP extends JFrame{
 	}
 	
 	public void refreshButton(){
-		if (getUser().isPmanager()){
+		if (getUser().isPcreator()){
 			projet.setEnabled(true);
 			menuProjetCreate.setEnabled(true);
 		}
