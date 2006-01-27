@@ -74,10 +74,10 @@ public class ProjectsParserTest extends TestCase {
 		ProjectsParser pp= new ProjectsParser();
 		pp.addProject("projTest",usr,"descrTest");
 		
-		System.out.println("isUserInProjectOK: "+pp.isUserInProject("projTest","loginTest"));
+		//System.out.println("isUserInProjectOK: "+pp.isUserInProject("projTest","loginTest"));
 		assertTrue(pp.isUserInProject("projTest","loginTest"));
 		
-		System.out.println("isUserInProjectKO: "+pp.isUserInProject("projTest","loginTestKO"));
+		//System.out.println("isUserInProjectKO: "+pp.isUserInProject("projTest","loginTestKO"));
 		assertFalse(pp.isUserInProject("projTest","loginTestKO"));
 
 		pp.removeProject("projTest");
@@ -198,11 +198,20 @@ public class ProjectsParserTest extends TestCase {
 	}
 
 	/*
-	 * Test A FAIRE 'xagdop.Parser.ProjectsParser.removeProject(String)'
+	 * Test A REPASSER apres correction de isProject
 	 */
 	public void testRemoveProject() {
-
+		Users usr=new Users("loginTest","passTest",true,true);
+		UsersParser up=new UsersParser();
+		up.addUser(usr);
+		ProjectsParser pp= new ProjectsParser();
 		
+		pp.addProject("projTest",usr,"descrTest");
+		assertTrue(pp.isProject("projTest"));
+		pp.removeProject("projTest");
+		assertFalse(pp.isProject("projTest"));
+		
+		up.removeUser(usr.getLogin());		
 	}
 
 	/*
