@@ -12,6 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
+
+import xagdop.Controleur.CEncrypt;
 import xagdop.Controleur.CUser;
 import xagdop.ressources.Bundle;
 
