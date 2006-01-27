@@ -2,6 +2,7 @@ package xagdop.Parser;
 
 import java.io.File;
 import java.util.ArrayList;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
@@ -14,35 +15,22 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
 import xagdop.Model.Projects;
 import xagdop.Model.Users;
 import xagdop.Svn.SvnCommit;
 import xagdop.Svn.SvnUpdate;
 
 public class ProjectsParser {
-	/**
-	 * @uml.property  name="dbf"
-	 * @uml.associationEnd  multiplicity="(1 1)"
-	 */
 	private DocumentBuilderFactory dbf;
-	/**
-	 * @uml.property  name="db"
-	 * @uml.associationEnd  multiplicity="(1 1)"
-	 */
 	private DocumentBuilder db;
-	/**
-	 * @uml.property  name="doc"
-	 * @uml.associationEnd  multiplicity="(1 1)"
-	 */
 	private Document doc;
-	/**
-	 * @uml.property  name="projectXML"
-	 */
 	private File projectXML;
 	
 	public static final String ATTR_ARCHI = "archi";
@@ -51,7 +39,7 @@ public class ProjectsParser {
 	public static final String ATTR_MANAGER = "pmanager";
 	public static final String ATTR_NAME = "name";
 	public static final String ATTR_URLREPO = "urlRepo";
-	public static final String ATTR_IDUSER = "id";	
+	public static final String ATTR_LOGIN = "login";
 	public static final String ATTR_DESC = "desc";
 	
 	public ProjectsParser()
@@ -68,6 +56,12 @@ public class ProjectsParser {
 		}
 	}
 	
+	
+	/**
+	 * Charge en memoire l'arbre associe a un fichier XML 
+	 * @param fichier Fichier à charger
+	 * @throws Exception
+	 */
 	private void loadTreeInMemory(File fichier) throws Exception {
 		this.dbf = DocumentBuilderFactory.newInstance();
 		this.dbf.setValidating(false);
@@ -75,19 +69,30 @@ public class ProjectsParser {
 		this.doc = db.parse(fichier);
 	}
 	
+	
+	/**
+	 * Charge a nouveau le fichier en memoire 
+	 */	
 	public void refresh()
 	{
 		try {
 			loadTreeInMemory(projectXML);
 		} catch (Exception e) {
-			////System.out.println("CACA");
+			//System.out.println("refresh");
 		}
 	}
 	
+	
+	/**
+	 * Recupere la valeur d'un attribut d'un projet
+	 * @param projectName
+	 * @param attr
+	 * @return
+	 */
 	public Object getAttribute(String projectName,String attr)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//project[@name=\""+projectName+"\"]";
+		String expression = "//project[@name='"+projectName+"']";
 		String res = "";
 		Element elem = null;
 		
@@ -103,22 +108,30 @@ public class ProjectsParser {
 			return res;
 		}
 		else {
-			//System.out.println("R??cup??ration de l'attribut "+ attr + " impossible!"); 
+			System.out.println("Recuperation de l'attribut "+ attr + " impossible!"); 
 			return res;
 		}		
 	}
 	
-	public Object getAttribute(String projectName,String attr, int idUser)
+	
+	/**
+	 * Recupere la valeur d'un attribut d'un utilisateur associé à un projet
+	 * @param projectName
+	 * @param attr
+	 * @param login
+	 * @return
+	 */
+	public Object getAttribute(String projectName,String attr, String login)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//project[@name=\""+projectName+"\"]/user[@id="+idUser+"]";
+		String expression = "//project[@name='"+projectName+"']/user[@login='"+login+"']";
 		String res = "";
 		Element elem = null;
+		
 		try {
 			elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
 		}
 		catch (XPathExpressionException e) {
-			
 			e.printStackTrace();
 		}
 		if ( elem != null ) {
@@ -130,23 +143,24 @@ public class ProjectsParser {
 			
 		}
 		else {
-
-			//System.out.println("R??cup??ration de l'attribut "+ attr + " pour l'utilisateur "+idUser+" impossible!"); 
+			System.out.println("Recuperation de l'attribut "+ attr + " pour l'utilisateur "+login+" impossible!"); 
 			return Boolean.FALSE;
 		}		
 	}
 	
-	public boolean exist(String pName, String login)
+	
+	/**
+	 * Permet de savoir si un utilisateur X est associé à un projet Y 
+	 * @param pName Nom du projet
+	 * @param login Login de l'utilisateur
+	 * @return TRUE si l'utilisateur est associé au projet, FALSE sinon 
+	 */
+	public boolean isUserInProject(String pName, String login)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		
-		UsersParser users = new UsersParser();
-		int id = users.getId(login);
-		
-		String expression = "//project[@name=\""+pName+"\"]/user[@id="+id+"]";
+				
+		String expression = "//project[@name='"+pName+"']/user[@login='"+login+"']";
 		//boolean res = false;
-		
-		
 		Element elem = null;
 			
 		try {
@@ -162,10 +176,17 @@ public class ProjectsParser {
 			return false;	
 	}
 	
+	
+	/**
+	 * Fixe la valeur d'un attribut d'un projet
+	 * @param projectName
+	 * @param attr
+	 * @param newValue
+	 */
 	public void setAttribute(String projectName, String attr ,String newValue)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//project[@name=\""+projectName+"\"]";
+		String expression = "//project[@name='"+projectName+"']";
 		Element elem = null;
 		
 		try {
@@ -180,14 +201,22 @@ public class ProjectsParser {
 			saveDocument();
 		}
 		else {
-			//System.out.println("Modification de l'attribut "+ attr + " impossible!"); 
+			System.out.println("Modification de l'attribut "+ attr + " impossible!"); 
 		}
 	}
 	
-	public void setAttribute(String projectName,int idUser, String attr ,String newValue)
+	
+	/**
+	 * Fixe la valeur d'un attribut d'un utilisateur associé à un projet
+	 * @param projectName
+	 * @param login
+	 * @param attr
+	 * @param newValue
+	 */
+	public void setAttribute(String projectName,String login, String attr, String newValue)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//project[@name=\""+projectName+"\"]/user[@id="+idUser+"]";
+		String expression = "//project[@name='"+projectName+"']/user[@login='"+login+"']";
 		Element elem = null;
 		
 		try {
@@ -200,92 +229,21 @@ public class ProjectsParser {
 		if ( elem != null ) {
 			elem.setAttribute(attr, newValue);
 			saveDocument();
+			System.out.println("Modification de l'attribut "+ attr + " pour l'utilisateur "+login+" effectuee");//debug
 		}
 		else {
-			//System.out.println("Modification de l'attribut "+ attr + " pour l'utilisateur "+idUser+" impossible!"); 
+			System.out.println("Modification de l'attribut "+ attr + " pour l'utilisateur "+login+" impossible!"); 
 		}
 	}
 	
 	
-	public void addUser(String projectName, int idUser, String chef, String archi, String analyste, String redacteur)
-	{
-		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//project[@name=\""+projectName+"\"]";
-		
-		UsersParser user = new UsersParser();
-		
-		if(!user.isUser(idUser))
-		{
-			////System.out.println("L'utilisateur n'existe pas!!");
-		}
-		else
-		{
-			Element elem = null;
-			Element newElem = doc.createElement("user");
-			
-			try {
-				elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
-			}
-			catch (XPathExpressionException e) {
-				
-				e.printStackTrace();
-			}
-			if ( elem != null ) {
-				newElem.setAttribute(ATTR_IDUSER, Integer.toString(idUser));
-				newElem.setAttribute(ATTR_MANAGER, chef);
-				newElem.setAttribute(ATTR_ARCHI, archi);
-				newElem.setAttribute(ATTR_ANALYST, analyste);
-				newElem.setAttribute(ATTR_REDACTEUR, redacteur);
-				elem.appendChild(newElem);
-				saveDocument();
-			}
-			else {
-				//System.out.println("Ajout de l'utilisateur "+idUser+" impossible!"); 
-			}
-		}
-	}
-	
-	public boolean addUser(String projectName, Users user, boolean chef, boolean archi, boolean analyste, boolean redacteur)
-	{
-		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//project[@name=\""+projectName+"\"]";
-		
-		UsersParser userP = new UsersParser();
-		
-		if(!userP.isUser(user.getId()))
-		{
-			////System.out.println("L'utilisateur n'existe pas!!");
-			return false;
-		}
-		else
-		{
-			Element elem = null;
-			Element newElem = doc.createElement("user");
-			
-			try {
-				elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
-			}
-			catch (XPathExpressionException e) {
-				
-				e.printStackTrace();
-			}
-			if ( elem != null ) {
-				newElem.setAttribute(ATTR_IDUSER, Integer.toString(user.getId()));
-				newElem.setAttribute(ATTR_MANAGER, Boolean.toString(chef));
-				newElem.setAttribute(ATTR_ARCHI, Boolean.toString(archi));
-				newElem.setAttribute(ATTR_ANALYST, Boolean.toString(analyste));
-				newElem.setAttribute(ATTR_REDACTEUR, Boolean.toString(redacteur));
-				elem.appendChild(newElem);
-				saveDocument();
-				return true;
-			}
-			else {
-				//System.out.println("Ajout de l'utilisateur "+user.getLogin()+" impossible!");
-				return false;
-			}
-		}
-	}
-	
+	/**
+	 * Creation d'un projet
+	 * @param projectName
+	 * @param user
+	 * @param description
+	 * @return
+	 */
 	public boolean addProject(String projectName, Users user, String description)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
@@ -293,9 +251,9 @@ public class ProjectsParser {
 		
 		UsersParser userP = new UsersParser();
 		
-		if(!userP.isUser(user.getId()))
+		if(!userP.isUser(user.getLogin()))
 		{
-			////System.out.println("L'utilisateur n'existe pas!!");
+			//System.out.println("L'utilisateur n'existe pas!!");
 			return false;
 		}
 		else
@@ -321,22 +279,29 @@ public class ProjectsParser {
 				return true;
 			}
 			else {
-				//System.out.println("Ajout de l'utilisateur "+user.getLogin()+" impossible!");
+				System.out.println("Ajout de l'utilisateur "+user.getLogin()+" impossible!");
 				return false;
 			}
 		}
 	}
 	
-	public void addUser(String projectName, int idUser, String chef)
+	
+	/**
+	 * Ajout d'un utilisateur à un projet
+	 * @param projectName
+	 * @param login
+	 * @param chef
+	 */
+	public void addUser(String projectName, String login, boolean chef)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//project[@name=\""+projectName+"\"]";
+		String expression = "//project[@name='"+projectName+"']";
 		
 		UsersParser user = new UsersParser();
 		
-		if(!user.isUser(idUser))
+		if(!user.isUser(login))
 		{
-			////System.out.println("L'utilisateur n'existe pas!!");
+			//System.out.println("L'utilisateur n'existe pas!!");
 		}
 		else
 		{
@@ -351,30 +316,39 @@ public class ProjectsParser {
 				e.printStackTrace();
 			}
 			if ( elem != null ) {
-				newElem.setAttribute(ATTR_IDUSER, Integer.toString(idUser));
-				newElem.setAttribute(ATTR_MANAGER, chef);
+				newElem.setAttribute(ATTR_LOGIN, login);
+				newElem.setAttribute(ATTR_MANAGER, Boolean.toString(chef));
 				newElem.setAttribute(ATTR_ARCHI, "false");
 				newElem.setAttribute(ATTR_ANALYST, "false");
 				newElem.setAttribute(ATTR_REDACTEUR, "false");
 				elem.appendChild(newElem);
 				saveDocument();
+				System.out.println("Ajout de l'utilisateur "+login+" effectue");
 			}
 			else {
-				//System.out.println("Ajout de l'utilisateur "+idUser+" impossible!"); 
+				System.out.println("Ajout de l'utilisateur "+login+" impossible!"); 
 			}
 		}		
 	}
 	
-	public void addUser(String projectName, int idUser, String chef, String archi)
+	
+	/**
+	 * Ajout d'un utilisateur à un projet
+	 * @param projectName
+	 * @param login
+	 * @param chef
+	 * @param archi
+	 */
+	public void addUser(String projectName, String login, boolean chef, boolean archi)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//project[@name=\""+projectName+"\"]";
+		String expression = "//project[@name='"+projectName+"']";
 		
 		UsersParser user = new UsersParser();
 		
-		if(!user.isUser(idUser))
+		if(!user.isUser(login))
 		{
-			////System.out.println("L'utilisateur n'existe pas!!");
+			System.out.println("L'utilisateur n'existe pas!!");
 		}
 		else
 		{
@@ -389,30 +363,40 @@ public class ProjectsParser {
 				e.printStackTrace();
 			}
 			if ( elem != null ) {
-				newElem.setAttribute(ATTR_IDUSER, Integer.toString(idUser));
-				newElem.setAttribute(ATTR_MANAGER, chef);
-				newElem.setAttribute(ATTR_ARCHI, archi);
+				newElem.setAttribute(ATTR_LOGIN, login);
+				newElem.setAttribute(ATTR_MANAGER, Boolean.toString(chef));
+				newElem.setAttribute(ATTR_ARCHI, Boolean.toString(archi));
 				newElem.setAttribute(ATTR_ANALYST, "false");
 				newElem.setAttribute(ATTR_REDACTEUR, "false");
 				elem.appendChild(newElem);
 				saveDocument();
+				System.out.println("Ajout de l'utilisateur "+login+" effectue");//debug
 			}
 			else {
-				//System.out.println("Ajout de l'utilisateur "+idUser+" impossible!"); 
+				System.out.println("Ajout de l'utilisateur "+login+" impossible!"); 
 			}
 		}		
 	}
 	
-	public void addUser(String projectName, int idUser, String chef, String archi, String analyste)
+
+	/**
+	 * Ajout d'un utilisateur à un projet
+	 * @param projectName
+	 * @param login
+	 * @param chef
+	 * @param archi
+	 * @param analyste
+	 */
+	public void addUser(String projectName, String login, boolean chef, boolean archi, boolean analyste)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//project[@name=\""+projectName+"\"]";
+		String expression = "//project[@name='"+projectName+"']";
 		
 		UsersParser user = new UsersParser();
 		
-		if(!user.isUser(idUser))
+		if(!user.isUser(login))
 		{
-			////System.out.println("L'utilisateur n'existe pas!!");
+			//System.out.println("L'utilisateur n'existe pas!!");
 		}
 		else
 		{
@@ -427,30 +411,41 @@ public class ProjectsParser {
 				e.printStackTrace();
 			}
 			if ( elem != null ) {
-				newElem.setAttribute(ATTR_IDUSER, Integer.toString(idUser));
-				newElem.setAttribute(ATTR_MANAGER, chef);
-				newElem.setAttribute(ATTR_ARCHI, archi);
-				newElem.setAttribute(ATTR_ANALYST, analyste);
+				newElem.setAttribute(ATTR_LOGIN, login);
+				newElem.setAttribute(ATTR_MANAGER, Boolean.toString(chef));
+				newElem.setAttribute(ATTR_ARCHI, Boolean.toString(archi));
+				newElem.setAttribute(ATTR_ANALYST, Boolean.toString(analyste));
 				newElem.setAttribute(ATTR_REDACTEUR, "false");
 				elem.appendChild(newElem);
 				saveDocument();
+				System.out.println("Ajout de l'utilisateur "+login+" effectue");//debug
 			}
 			else {
-				//System.out.println("Ajout de l'utilisateur "+idUser+" impossible!"); 
+				System.out.println("Ajout de l'utilisateur "+login+" impossible!"); 
 			}
 		}		
 	}
 	
-	public void addUser(String projectName, int idUser)
+	
+	/**
+	 * Ajout d'un utilisateur à un projet
+	 * @param projectName
+	 * @param login
+	 * @param chef
+	 * @param archi
+	 * @param analyste
+	 * @param redacteur
+	 */
+	public void addUser(String projectName, String login, boolean chef, boolean archi, boolean analyste,boolean redacteur)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//project[@name=\""+projectName+"\"]";
+		String expression = "//project[@name='"+projectName+"']";
 		
 		UsersParser user = new UsersParser();
 		
-		if(!user.isUser(idUser))
+		if(!user.isUser(login))
 		{
-			////System.out.println("L'utilisateur n'existe pas!!");
+			//System.out.println("L'utilisateur n'existe pas!!");
 		}
 		else
 		{
@@ -465,30 +460,135 @@ public class ProjectsParser {
 				e.printStackTrace();
 			}
 			if ( elem != null ) {
-				newElem.setAttribute(ATTR_IDUSER, Integer.toString(idUser));
+				newElem.setAttribute(ATTR_LOGIN, login);
+				newElem.setAttribute(ATTR_MANAGER, Boolean.toString(chef));
+				newElem.setAttribute(ATTR_ARCHI, Boolean.toString(archi));
+				newElem.setAttribute(ATTR_ANALYST, Boolean.toString(analyste));
+				newElem.setAttribute(ATTR_REDACTEUR, Boolean.toString(redacteur));
+				elem.appendChild(newElem);
+				saveDocument();
+				System.out.println("Ajout de l'utilisateur "+login+" effectue");//debug
+			}
+			else {
+				System.out.println("Ajout de l'utilisateur "+login+" impossible!"); 
+			}
+		}		
+	}
+	
+
+	/**
+	 * Ajoute un utilisateur à un projet existant en fixant ses droits au sein du projet (en passant un User)
+	 * @param projectName
+	 * @param user
+	 * @param chef
+	 * @param archi
+	 * @param analyste
+	 * @param redacteur
+	 * @return
+	 */
+	public boolean addUser(String projectName, Users user, boolean chef, boolean archi, boolean analyste, boolean redacteur)
+	{
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		String expression = "//project[@name='"+projectName+"']";
+		
+		UsersParser userP = new UsersParser();
+		
+		if(!userP.isUser(user.getLogin()))
+		{
+			System.out.println("addUser: L'utilisateur "+user.getLogin()+" n'existe pas!!");//debug
+			return false;
+		}
+		else
+		{
+			Element elem = null;
+			Element newElem = doc.createElement("user");
+			
+			try {
+				elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+			}
+			catch (XPathExpressionException e) {
+				
+				e.printStackTrace();
+			}
+			if ( elem != null ) {
+				newElem.setAttribute(ATTR_LOGIN, user.getLogin());
+				newElem.setAttribute(ATTR_MANAGER, Boolean.toString(chef));
+				newElem.setAttribute(ATTR_ARCHI, Boolean.toString(archi));
+				newElem.setAttribute(ATTR_ANALYST, Boolean.toString(analyste));
+				newElem.setAttribute(ATTR_REDACTEUR, Boolean.toString(redacteur));
+				elem.appendChild(newElem);
+				saveDocument();
+				System.out.println("Ajout de l'utilisateur "+user.getLogin()+" effectuée");//debug
+				return true;
+			}
+			else {
+				System.out.println("Ajout de l'utilisateur "+user.getLogin()+" impossible!");
+				return false;
+			}
+		}
+	}
+	
+
+	/**
+	 * Ajout d'un utilisateur à un projet
+	 * @param projectName
+	 * @param login
+	 */
+	public void addUser(String projectName, String login)
+	{
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		String expression = "//project[@name='"+projectName+"']";
+		
+		UsersParser user = new UsersParser();
+		
+		if(!user.isUser(login))
+		{
+			System.out.println("L'utilisateur "+login+" n'existe pas!");
+		}
+		else
+		{
+			Element elem = null;
+			Element newElem = doc.createElement("user");
+			
+			try {
+				elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+			}
+			catch (XPathExpressionException e) {
+				
+				e.printStackTrace();
+			}
+			if ( elem != null ) {
+				newElem.setAttribute(ATTR_LOGIN, login);
 				newElem.setAttribute(ATTR_MANAGER, "false");
 				newElem.setAttribute(ATTR_ARCHI, "false");
 				newElem.setAttribute(ATTR_ANALYST, "false");
 				newElem.setAttribute(ATTR_REDACTEUR, "false");
 				elem.appendChild(newElem);
 				saveDocument();
+				System.out.println("Ajout de l'utilisateur "+login+" effectue");//debug
 			}
 			else {
-				//System.out.println("Ajout de l'utilisateur "+idUser+" impossible!"); 
+				System.out.println("Ajout de l'utilisateur "+login+" impossible!"); 
 			}
 		}		
 	}
 	
-	public void removeUser(String projectName, int idUser)
+	
+	/**
+	 * Retrait d'un utilisateur associé à un projet
+	 * @param projectName
+	 * @param idUser
+	 */
+	public void removeUser(String projectName, String login)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//project[@name=\""+projectName+"\"]";
-		String expr = "//project[@name=\""+projectName+"\"]/user[@id="+idUser+"]";
+		String expression = "//project[@name='"+projectName+"']";
+		String expr = "//project[@name='"+projectName+"']/user[@login='"+login+"']";
 		UsersParser user = new UsersParser();
 		
-		if(!user.isUser(idUser))
+		if(!user.isUser(login))
 		{
-			////System.out.println("L'utilisateur n'existe pas!!");
+			System.out.println("L'utilisateur "+login+" n'existe pas!");
 		}
 		else
 		{
@@ -506,20 +606,25 @@ public class ProjectsParser {
 			if ( elem != null ) {
 				elem.removeChild(oldElem);
 				saveDocument();
-				//System.out.println("Suppression de l'utilisateur "+idUser+" effectu??e!"); 
+				System.out.println("Suppression de l'utilisateur "+login+" effectuee!"); 
 			}
 			else {
-				//System.out.println("Suppression de l'utilisateur "+idUser+" impossible!"); 
+				System.out.println("Suppression de l'utilisateur "+login+" impossible!"); 
 			}
 		}		
 		
 	}
+		
 	
+	/**
+	 * Suppression d'un projet
+	 * @param projectName
+	 */
 	public void removeProject(String projectName)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//*";
-		String expr = "//project[@name=\""+projectName+"\"]";
+		String expr = "//project[@name='"+projectName+"']";
 		
 		
 		Element elem = null;
@@ -536,26 +641,59 @@ public class ProjectsParser {
 		if ( elem != null ) {
 			elem.removeChild(oldElem);
 			saveDocument();
-			//System.out.println("Suppression du projet "+projectName+" effectu??e!"); 
+			System.out.println("Suppression du projet "+projectName+" effectuee"); 
 		}
 		else {
-			//System.out.println("Suppression du projet "+projectName+" impossible!"); 
+			System.out.println("Suppression du projet "+projectName+" impossible!"); 
 		}
 		
 		
 	}
 	
-	public Projects getAllUsers(String pName)
+	/**
+	 * Permet de savoir si un projet existe
+	 * @param projectName
+	 * @return
+	 */
+	public boolean isProject(String projectName){
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		String expression = "//project[@name='"+projectName+"']";
+		Element elem = null;
+		
+		try {
+			elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+		}
+		catch (XPathExpressionException e) {
+			
+			e.printStackTrace();
+		}
+		if ( elem != null ) {
+			return true;
+		}
+		else{
+			return false;
+		}
+			
+			
+			
+	}
+
+	/**
+	 * Ancien getAllUsers
+	 * @param projectName
+	 * @return
+	 */
+	public Projects buildProject(String projectName)
 	{
 		ArrayList usersList = new ArrayList();
-		ArrayList userRights;
-		ArrayList usersId = new ArrayList();
+		ArrayList userRights= new ArrayList();
+		ArrayList usersLogin= new ArrayList();
 		
 		//Projects projet;
 		
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//project[@name=\""+pName+"\"]";
-		int num = 0;
+		String expression = "//project[@name='"+projectName+"']";
+		String login="";
 		boolean pmanager = false;
 		boolean archi = false;
 		boolean redac = false;
@@ -571,7 +709,7 @@ public class ProjectsParser {
 			if(usersNode.hasChildNodes()){
 				
 				Node nodeAll = null;
-				Node nodeN = null;
+				Node nodeLogin = null;
 				Node nodeAn = null;
 				Node nodeMan = null;
 				Node nodeArchi = null;
@@ -586,15 +724,15 @@ public class ProjectsParser {
 					
 					if(map!=null){
 						
-						nodeN = map.getNamedItem(ATTR_IDUSER);
+						nodeLogin = map.getNamedItem(ATTR_LOGIN);
 						nodeAn = map.getNamedItem(ATTR_ANALYST);
 						nodeMan = map.getNamedItem(ATTR_MANAGER);
 						nodeArchi = map.getNamedItem(ATTR_ARCHI);
 						nodeRedac = map.getNamedItem(ATTR_REDACTEUR);
 						
-						if(nodeN!=null){		
+						if(nodeLogin!=null){		
 							
-							num = Integer.parseInt(nodeN.getNodeValue());			
+							login = nodeLogin.getNodeValue();
 							
 							if(nodeAn.getNodeValue().equalsIgnoreCase("true"))
 								analyst = true;
@@ -625,32 +763,31 @@ public class ProjectsParser {
 							
 							usersList.add(userRights);
 							
-							usersId.add(new Integer(num));
+							usersLogin.add(login);
 						}
 					}
 				}
 			}
 			else {
-				//System.out.println("Pas de fils");
+				System.out.println("Pas de fils");
 			}
 			
 		}
 		catch (XPathExpressionException e) {
-			
+			System.out.println("buildProject: Le projet "+projectName+" n'existe pas.");
 			e.printStackTrace();
 		}
-		return new Projects(pName, usersList, usersId);
+		return new Projects(projectName, usersList, usersLogin);
 	}
 	
+
 	public void saveDocument()
 	{
 		TransformerFactory tFactory = TransformerFactory.newInstance();
 		Transformer transformer = null;
 		try {
 			transformer = tFactory.newTransformer();
-
 		} catch (TransformerConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 		try {
@@ -659,10 +796,8 @@ public class ProjectsParser {
 			svnc.sendFile(projectXML,"");
 			loadTreeInMemory(projectXML);
 		} catch (TransformerException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
