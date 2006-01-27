@@ -8,37 +8,38 @@ public class Projects {
 	
 	//La liste contient pour chaque id de User, la liste des droits
 	//manager, architecte, analyste, rédacteur
-	private ArrayList users;
-	//La liste des identifiants des utilisateurs travaillant sur le projet
-	private ArrayList usersId;
+	private ArrayList rights;
+	//La liste des logins des utilisateurs travaillant sur le projet
+	private ArrayList usersLogin;
 	
-	public Projects(String name, ArrayList list, ArrayList id)
+	public Projects(String name, ArrayList rights, ArrayList logins)
 	{
-		projectName = name;
-		users = list;
-		usersId = id;
+		this.projectName = name;
+		this.rights = rights;
+		this.usersLogin = logins;
 	}
 	
 	public String getProjectName() {
 		return projectName;
 	}
+	
 	public void setProjectName(String projectName) {
 		this.projectName = projectName;
 	}
 
-	public ArrayList getUsersId() {
-		return usersId;
+	public ArrayList getUsersLogin() {
+		return usersLogin;
 	}
 
-	public void setUsersId(ArrayList usersId) {
-		this.usersId = usersId;
+	public void setUsersLogin(ArrayList usersLogins) {
+		this.usersLogin = usersLogins;
 	}
 	
-	public boolean isManager(int idUser)
+	public boolean isManager(String login)
 	{
 		boolean res = false;
-		int index = usersId.indexOf(new Integer(idUser));
-		ArrayList droits = (ArrayList)users.get(index);
+		int index = usersLogin.indexOf(login);
+		ArrayList droits = (ArrayList)rights.get(index);
 		
 
 		if(((Boolean)droits.get(0)).booleanValue()) {
@@ -48,11 +49,11 @@ public class Projects {
 		return res;
 	}
 	
-	public boolean isArchitecte(int idUser)
+	public boolean isArchitecte(String login)
 	{
 		boolean res = false;
-		int index = usersId.indexOf(new Integer(idUser));
-		ArrayList droits = (ArrayList)users.get(index);
+		int index = usersLogin.indexOf(login);
+		ArrayList droits = (ArrayList)usersLogin.get(index);
 		
 		if(((Boolean)droits.get(1)).booleanValue()) {
 			res = true;
@@ -61,11 +62,11 @@ public class Projects {
 		return res;
 	}
 	
-	public boolean isAnalyst(int idUser)
+	public boolean isAnalyst(String login)
 	{
 		boolean res = false;
-		int index = usersId.indexOf(new Integer(idUser));
-		ArrayList droits = (ArrayList)users.get(index);
+		int index = usersLogin.indexOf(login);
+		ArrayList droits = (ArrayList)usersLogin.get(index);
 		
 		if(((Boolean)droits.get(2)).booleanValue()) {
 			res = true;
@@ -74,11 +75,11 @@ public class Projects {
 		return res;
 	}
 	
-	public boolean isRedacteur(int idUser)
+	public boolean isRedacteur(String login)
 	{
 		boolean res = false;
-		int index = usersId.indexOf(new Integer(idUser));
-		ArrayList droits = (ArrayList)users.get(index);
+		int index = usersLogin.indexOf(login);
+		ArrayList droits = (ArrayList)usersLogin.get(index);
 		
 		if(((Boolean)droits.get(3)).booleanValue()) {
 			res = true;
