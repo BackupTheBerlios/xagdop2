@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 
 import xagdop.Interface.IPreferences;
 import xagdop.Interface.XAGDOP;
+import xagdop.Model.User;
 import xagdop.Parser.UsersParser;
 import xagdop.ressources.Bundle;
 

@@ -17,7 +17,7 @@ import org.tmatesoft.svn.core.wc.SVNWCUtil;
 import xagdop.Controleur.CTreeNode;
 import xagdop.Interface.IPreferences;
 import xagdop.Interface.XAGDOP;
-import xagdop.Model.Users;
+import xagdop.Model.User;
 import xagdop.Parser.DependenciesParser;
 import xagdop.Parser.ProjectsParser;
 
@@ -114,7 +114,7 @@ public class SvnUpdate{
 	}
 	
 	public void cleanUp(File file){
-		Users user = XAGDOP.getInstance().getUser();
+		User user = XAGDOP.getInstance().getUser();
 		ProjectsParser pp = ProjectsParser.getInstance();
 		File[] fileInDirectory = file.listFiles(new FilenameFilter() {
 			public boolean accept(File dir, String name) {
@@ -135,7 +135,7 @@ public class SvnUpdate{
 	
 	public void checkOut(CTreeNode node) throws SVNException{
 		SVNUpdateClient up = new SVNUpdateClient(repository.getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
-		Users user = XAGDOP.getInstance().getUser();
+		User user = XAGDOP.getInstance().getUser();
 		ProjectsParser pp = ProjectsParser.getInstance();
 		
 		//IPreferences.setDefaultPath(IPreferences.getDefaultPath()+user.getLogin());
