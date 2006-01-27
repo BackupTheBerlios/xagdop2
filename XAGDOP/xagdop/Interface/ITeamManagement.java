@@ -66,13 +66,13 @@ public class ITeamManagement extends JFrame{
 
         
 		
-		        projects = new ProjectsParser();
+		        projects = ProjectsParser.getInstance();
 		        projet = projects.getAllUsers(nP);
 		        
 		        ArrayList list = projet.getUsersId();
 		        UserListCombo = new JComboBox() ;   	 	
 		   	 	
-		        users = new UsersParser();
+		        users = UsersParser.getInstance();
 		        
 		    	//Remplissage de la combobox avec les valeurs de la list
 		      	for(int i=0; i<list.size(); i++)
@@ -122,7 +122,7 @@ public class ITeamManagement extends JFrame{
         ButtonAffect.setText("Affecter");
         ButtonAffect.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                CTeamM.Apply(projects,users.getId((String)UserListCombo.getSelectedItem()),ArchitectCheck.isSelected(),AnalystCheck.isSelected(),RedacterCheck.isSelected(),PManagerCheck.isSelected());
+                CTeamM.Apply(projects,((String)UserListCombo.getSelectedItem()),ArchitectCheck.isSelected(),AnalystCheck.isSelected(),RedacterCheck.isSelected(),PManagerCheck.isSelected());
            	    IAffect IA = IAffect.getIA();
            	    IA.setProjectName(nP);
            	    IA.setVisible(true);
@@ -183,7 +183,7 @@ public class ITeamManagement extends JFrame{
         ButtonOK.setText("Ok");
         ButtonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                CTeamM.Apply(projects,users.getId((String)UserListCombo.getSelectedItem()),ArchitectCheck.isSelected(),AnalystCheck.isSelected(),RedacterCheck.isSelected(),PManagerCheck.isSelected());
+                CTeamM.Apply(projects,((String)UserListCombo.getSelectedItem()),ArchitectCheck.isSelected(),AnalystCheck.isSelected(),RedacterCheck.isSelected(),PManagerCheck.isSelected());
            	    
                 //fermer la fenetre
             	dispose();
@@ -214,9 +214,9 @@ public class ITeamManagement extends JFrame{
         ButtonApply.setText("Appliquer");
         ButtonApply.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-            	 CTeamM.Apply(projects,users.getId((String)UserListCombo.getSelectedItem()),ArchitectCheck.isSelected(),AnalystCheck.isSelected(),RedacterCheck.isSelected(),PManagerCheck.isSelected());
+            	 CTeamM.Apply(projects,((String)UserListCombo.getSelectedItem()),ArchitectCheck.isSelected(),AnalystCheck.isSelected(),RedacterCheck.isSelected(),PManagerCheck.isSelected());
             	 //projects.refresh();
-            	 projet = projects.getAllUsers("Projet1");
+            	 projet = projects.buildProject("Projet1");
             }
         });
 
@@ -239,10 +239,10 @@ public class ITeamManagement extends JFrame{
 	
 	public void refresh(){
 		
-		AnalystCheck.setSelected(projet.isAnalyst(users.getId((String)UserListCombo.getSelectedItem())));
-		RedacterCheck.setSelected(projet.isRedacteur(users.getId((String)UserListCombo.getSelectedItem())));
-		ArchitectCheck.setSelected(projet.isArchitecte(users.getId((String)UserListCombo.getSelectedItem())));
-		PManagerCheck.setSelected(projet.isManager(users.getId((String)UserListCombo.getSelectedItem())));
+		AnalystCheck.setSelected(projet.isAnalyst(((String)UserListCombo.getSelectedItem())));
+		RedacterCheck.setSelected(projet.isRedacteur(((String)UserListCombo.getSelectedItem())));
+		ArchitectCheck.setSelected(projet.isArchitecte(((String)UserListCombo.getSelectedItem())));
+		PManagerCheck.setSelected(projet.isManager(((String)UserListCombo.getSelectedItem())));
 		
 	 	 
 	}
