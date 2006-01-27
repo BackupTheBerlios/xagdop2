@@ -28,11 +28,11 @@ public class IJTeamManagementTableModel extends AbstractTableModel {
 	
 	public IJTeamManagementTableModel(ArrayList usersParser, String nomProjet) {
 	    this.nP = nomProjet;
-		this.users = usersParser;
+		
 		projetParser = ProjectsParser.getInstance(); 		
 		this.nP = nomProjet;				
 		projet = projetParser.buildProject(nomProjet);	
-		this.init(users);
+		this.init();
 			
 		
 	}
@@ -60,19 +60,21 @@ public class IJTeamManagementTableModel extends AbstractTableModel {
 		return this.nomColonne[colonne];
 	}
 	
-	public void init(ArrayList ff) {
-		this.users = ff;
+	public void init() {
+		ArrayList users = this.projet.getUsersLogin();
+		
 		this.rowData = new Object[users.size()][this.getColumnCount()];
 		Iterator it = users.iterator();
 		int i = 0;
 		while (it.hasNext())
 		{
-			Object o = it.next();
-			rowData[i][0] =	((User)o).getLogin();
-			rowData[i][1] = new Boolean(((User)o).isArchitect(this.nP));
-			rowData[i][2] = new Boolean(((User)o).isAnalyst(this.nP));
-			rowData[i][3] = new Boolean(((User)o).isRedactor(this.nP));
-			rowData[i][4] = new Boolean(((User)o).isPManager(this.nP));
+			String o = ((String)it.next());
+			System.out.println(o);
+			rowData[i][0] =	o;
+			rowData[i][1] = new Boolean(this.projet.isArchitecte(o));
+			rowData[i][2] = new Boolean(this.projet.isAnalyst(o));
+			rowData[i][3] = new Boolean(this.projet.isRedacteur(o));
+			rowData[i][4] = new Boolean(this.projet.isManager(o));
 			rowData[i][5] = new JButton(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/supprimer.gif")));
 			i++;	
 		}

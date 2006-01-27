@@ -17,6 +17,7 @@ import xagdop.Controleur.CTeamManagement;
 import xagdop.Model.Project;
 import xagdop.Parser.ProjectsParser;
 import xagdop.Parser.UsersParser;
+import xagdop.ressources.Bundle;
 
 public class IJTeamManagement extends JFrame{
 	
@@ -43,7 +44,7 @@ public class IJTeamManagement extends JFrame{
 	
 	private IJTeamManagement(String ProjectName){
 		nP = ProjectName;
-		this.setNomProjet(ProjectName);
+		this.nomProjet = ProjectName ;
 		users = UsersParser.getInstance();  
 		projects = ProjectsParser.getInstance();
 		init();
@@ -54,6 +55,7 @@ public class IJTeamManagement extends JFrame{
 		getContentPane().setLayout(new GridBagLayout());
 		nP = this.getNomProjet();
 		this.projet = this.getProjectParser().buildProject(this.nomProjet);
+		System.out.println(nomProjet);
 		CTeamM = new CTeamManagement(nP);		
 				
 		newPanel.setLayout(new GridBagLayout());
@@ -136,7 +138,7 @@ public class IJTeamManagement extends JFrame{
         pack();
         this.getContentPane().validate();
         IJTM=this;
-        super.setTitle("Affectation des ?quipes");
+        super.setTitle(Bundle.getText("main.button.team"));
         super.setVisible(true);
 	}// Fin Init
 	
@@ -148,7 +150,7 @@ public class IJTeamManagement extends JFrame{
         
 		this.projects = ProjectsParser.getInstance();
 		this.projet = this.projects.buildProject(this.nomProjet);
-		((IJTeamManagementTableModel)this.JT.getModel()).init(projet.getUsersLogin());
+		((IJTeamManagementTableModel)this.JT.getModel()).init();
 		JT.setDefaultEditor(JButton.class, new IJTeamManagementTableCellEditor(this,this.nomProjet));
 		this.remove(newPanel);
 		this.newPanel.remove(JSP);
@@ -215,9 +217,11 @@ public class IJTeamManagement extends JFrame{
 	}
 
 	public static IJTeamManagement getIJTM(String nP) {
+		
 		if (IJTM==null){
 			IJTM = new IJTeamManagement(nP); 
 		}
+		IJTM.setNomProjet(nP);
 		
 		return IJTM;
 	}
