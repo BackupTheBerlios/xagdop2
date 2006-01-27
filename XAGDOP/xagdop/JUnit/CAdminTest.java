@@ -1,7 +1,7 @@
 package xagdop.JUnit;
 
 import xagdop.Controleur.CAdmin;
-import xagdop.Model.Users;
+import xagdop.Model.User;
 import xagdop.Parser.UsersParser;
 import junit.framework.TestCase;
 
@@ -12,24 +12,24 @@ public class CAdminTest extends TestCase {
 	 */
 	public void testApply() {
 		//Declaration
-		UsersParser usrp = new UsersParser();
+		UsersParser usrp = UsersParser.getInstance();
 		CAdmin cadmin = new CAdmin();
 		
 		//Creation d'un nouveau utilisateur
-		Users usr = new Users("toto","totopass",1,true,false);
+		User usr = new User("toto","totopass",true,false);
 		
 		//Ajouter un nouveau utilisateur dans UsersParsers
 		usrp.addUser(usr);
 		
 		//Modification des attributs de l'utilisateur
-		cadmin.Apply(usrp,usr.getId(),false,true);
+		cadmin.Apply(usrp,usr.getLogin(),false,true);
 		
 		//Tests
-		assertTrue((usrp.getUserById(usr.getId())).isPmanager()==true);
-		assertTrue((usrp.getUserById(usr.getId())).isAdmin()==false);
+		assertTrue((usrp.getUserByLogin(usr.getLogin())).isPcreator()==true);
+		assertTrue((usrp.getUserByLogin(usr.getLogin())).isAdmin()==false);
 
 		//Supprimer l'utilisateur ajoute a UsersParser
-		usrp.removeUser(usr.getId());
+		usrp.removeUser(usr.getLogin());
 	}
 
 }
