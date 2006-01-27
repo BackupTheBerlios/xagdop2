@@ -47,21 +47,32 @@ public class IJAdmin extends JFrame{
     private CAdmin cadmin;
     private JTable JT;
     private JScrollPane JSP;
+    private GridBagConstraints gbc = new GridBagConstraints();
     
+    /**
+     * Constructeur de la classe <CODE>IJAdmin</CODE>
+     * Appelle la fonction <CODE>init()</CODE>
+     *
+     */
 	private IJAdmin(){
 		init();
 	}
 
+	/**
+	 * Fonction d'initialisation de la fenetre.
+	 *
+	 */
 	private void init(){
         getContentPane().setLayout(new GridBagLayout());
         cadmin = new CAdmin();
-
-        users = new UsersParser();        
+        users = UsersParser.getInstance();        
         
+        //Layout manager GridBagLayout
+        //Configuration de la taille minimale
         newPanel.setLayout(new GridBagLayout());
-
         newPanel.setMinimumSize(new Dimension(296, 130));
 
+        //Creation du bouton OK et configuration de l'action a effectuer
         ButtonOK.setText(Bundle.getText("button.ok"));
         ButtonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
@@ -70,6 +81,7 @@ public class IJAdmin extends JFrame{
         		int i=0;
         		while(i<j)
         		{
+        			//Mise a jour des attributs de chaque utilisateur
         			cadmin.Apply(users,((String)JT.getValueAt(i,0)),((Boolean)JT.getValueAt(i,2)).booleanValue(),((Boolean)JT.getValueAt(i,1)).booleanValue());
         			i++;  
         		}      	
@@ -79,9 +91,11 @@ public class IJAdmin extends JFrame{
               }
         });
 
+        //Creation du bouton Cancel et configuration de l'action a effectuer
         ButtonCancel.setText(Bundle.getText("button.cancel"));
         ButtonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
+            	//Rafraichissement et destruction de la fenetre
             	IJA.refreshUsers();
                 IJA.dispose();
                 IJA = null;
@@ -89,67 +103,85 @@ public class IJAdmin extends JFrame{
             }
         });
 
+        //Creation du bouton Creer User et configuration de l'action a effectuer
         ButtonCreateUser.setText(Bundle.getText("ijadmin.createUser"));
         ButtonCreateUser.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent evt) {
+        		//Creation de la fenetre de creation d'un utilisateur
         		IUserCreate IUC = IUserCreate.getIUC();
         		IUC.setVisible(true);
         		getContentPane().validate();
         	}
         });
         
+        //Creation de la JTable avec la liste des utilisateurs en parametres
         JT = new JTable(new IJAdminTableModel(users.getAllUsers()));
+        
+        //Changement du modele de rendu par defaut et du modele d'edition par defaut
         JT.setDefaultRenderer(JButton.class, new IJAdminTableCellRenderer());
         JT.setDefaultEditor(JButton.class, new IJAdminTableCellEditor(this));
+        
+        //JTable non redimensionnable
         JT.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         JT.setSize(new Dimension(450,200));
         JT.setPreferredScrollableViewportSize(JT.getSize());
-        JT.getColumn(new String("")).setResizable(false);
+        
+        //Colonnes non redimensionnables
         JT.getColumnModel().getColumn(0).setResizable(false);
         JT.getColumnModel().getColumn(1).setResizable(false);
         JT.getColumnModel().getColumn(2).setResizable(false);
         JT.getColumnModel().getColumn(3).setResizable(false);
         
+        //Configuration des tailles des colonnes
         JT.getColumnModel().getColumn(0).setMinWidth(200);
         JT.getColumnModel().getColumn(1).setMinWidth(105);
         JT.getColumnModel().getColumn(2).setMinWidth(105);
         JT.getColumnModel().getColumn(3).setMaxWidth(40);
         
-        GridBagConstraints gbc = new GridBagConstraints();
-        this.donnerContrainte(gbc,0,0,3,1,100,100,GridBagConstraints.BOTH);
+        //Ajout de la JTable dans le panel d'affichage
+        this.donnerContrainte(this.gbc,0,0,3,1,100,100,GridBagConstraints.BOTH);
         JSP = new JScrollPane(JT);
-        newPanel.add(JSP,gbc);
+        newPanel.add(JSP,this.gbc);
         
-        this.donnerContrainte(gbc,0,1,1,1,100,100,GridBagConstraints.NONE);
-        newPanel.add(ButtonOK, gbc);
+        //Ajout du bouton OK dans le panel d'affichage
+        this.donnerContrainte(this.gbc,0,1,1,1,100,100,GridBagConstraints.NONE);
+        newPanel.add(ButtonOK, this.gbc);
         
-        this.donnerContrainte(gbc,1,1,1,1,100,100,GridBagConstraints.NONE);
-        newPanel.add(ButtonCancel,gbc);
+        //Ajout du bouton Cancel dans le panel d'affichage
+        this.donnerContrainte(this.gbc,1,1,1,1,100,100,GridBagConstraints.NONE);
+        newPanel.add(ButtonCancel,this.gbc);
         
-        this.donnerContrainte(gbc,2,1,1,1,100,100,GridBagConstraints.NONE);
-        newPanel.add(ButtonCreateUser, gbc);
+        //Ajout du bouton CreateUser dans le panel d'affichage
+        this.donnerContrainte(this.gbc,2,1,1,1,100,100,GridBagConstraints.NONE);
+        newPanel.add(ButtonCreateUser, this.gbc);
         
-        
+        //Ajout du panel a la fenetre
         getContentPane().add(newPanel, new GridBagConstraints());
         pack();
 		setTitle(Bundle.getText("ijadmin.title"));
+		
+		//Fenetre non redimensionnable
 		this.setResizable(false);
 		
 	}
 	
-	public void refresh(){
+	/*public void refresh(){
 		//AdminCheck.setSelected(users.getUserByLogin((String)UserListCombo.getSelectedItem()).isAdmin());
 		//PManagerCheck.setSelected(users.getUserByLogin((String)UserListCombo.getSelectedItem()).isPmanager());
 		
 		
-		}
+		}*/
 	
+	/**
+	 * Methode de rafraichissement de l'affichage des utilisateurs dans la table
+	 * Fonction appelee apres un ajout ou une suppression.
+	 */
 	public void refreshUsers()
 	{
 		GridBagConstraints gbc = new GridBagConstraints();
         this.donnerContrainte(gbc,0,0,3,1,100,100,GridBagConstraints.BOTH);
         
-		this.users = new UsersParser();
+		this.users = UsersParser.getInstance();
 		((IJAdminTableModel)this.JT.getModel()).init(this.users.getAllUsers());
 		JT.setDefaultEditor(JButton.class, new IJAdminTableCellEditor(this));
 		this.remove(newPanel);
@@ -216,14 +248,19 @@ public class IJAdmin extends JFrame{
 		return IJA;
 	}
 	
+	/**
+	 * Fonction qui retourne l'instance de JTable prsente dans cette fenetre.
+	 * @return <CODE>JTable</CODE>
+	 */
 	public JTable getTable()
 	{
 		return this.JT;
 	}
 	
 	/**
-	 *
-	 * @return <CODE>
+	 *	Fonction qui retourne l'instance de <CODE>UsersParser</CODE>.
+	 * @return <CODE>UsersParser</CODE> Le parser XML permettant de faire
+	 * des modifications au niveau des utilisateurs (ajout, modif, suppr.).
 	 */
 	public UsersParser getUsers()
 	{
