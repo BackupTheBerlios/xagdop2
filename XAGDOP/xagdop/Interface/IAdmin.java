@@ -50,7 +50,7 @@ public class IAdmin extends JFrame{
         getContentPane().setLayout(new GridBagLayout());
         cadmin = new CAdmin();
 
-        users = new UsersParser();
+        users = UsersParser.getInstance();
         ArrayList list = users.getAllUsers();
         
         
@@ -115,7 +115,7 @@ public class IAdmin extends JFrame{
         ButtonOK.setText("Ok");
         ButtonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-               cadmin.Apply(users,users.getId((String)UserListCombo.getSelectedItem()),AdminCheck.isSelected(),PManagerCheck.isSelected());
+               cadmin.Apply(users,(String)UserListCombo.getSelectedItem(),AdminCheck.isSelected(),PManagerCheck.isSelected());
             }
         });
 
@@ -142,7 +142,7 @@ public class IAdmin extends JFrame{
         gridBagConstraints.gridy = 5;
         ButtonApply.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-               cadmin.Apply(users,users.getId((String)UserListCombo.getSelectedItem()),AdminCheck.isSelected(),PManagerCheck.isSelected());
+               cadmin.Apply(users,((String)UserListCombo.getSelectedItem()),AdminCheck.isSelected(),PManagerCheck.isSelected());
             }
         });
         newPanel.add(ButtonApply, gridBagConstraints);
@@ -167,7 +167,7 @@ public class IAdmin extends JFrame{
 	
 	public void refresh(){
 		AdminCheck.setSelected(users.getUserByLogin((String)UserListCombo.getSelectedItem()).isAdmin());
-		PManagerCheck.setSelected(users.getUserByLogin((String)UserListCombo.getSelectedItem()).isPmanager());
+		PManagerCheck.setSelected(users.getUserByLogin((String)UserListCombo.getSelectedItem()).isPcreator());
 		
 		
 		}
