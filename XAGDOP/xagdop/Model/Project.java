@@ -53,7 +53,8 @@ public class Project {
 	{
 		boolean res = false;
 		int index = usersLogin.indexOf(login);
-		ArrayList droits = (ArrayList)usersLogin.get(index);
+		System.out.println(index);
+		ArrayList droits = (ArrayList)rights.get(index);
 		
 		if(((Boolean)droits.get(1)).booleanValue()) {
 			res = true;
@@ -66,7 +67,7 @@ public class Project {
 	{
 		boolean res = false;
 		int index = usersLogin.indexOf(login);
-		ArrayList droits = (ArrayList)usersLogin.get(index);
+		ArrayList droits = (ArrayList)rights.get(index);
 		
 		if(((Boolean)droits.get(2)).booleanValue()) {
 			res = true;
@@ -79,7 +80,7 @@ public class Project {
 	{
 		boolean res = false;
 		int index = usersLogin.indexOf(login);
-		ArrayList droits = (ArrayList)usersLogin.get(index);
+		ArrayList droits = (ArrayList)rights.get(index);
 		
 		if(((Boolean)droits.get(3)).booleanValue()) {
 			res = true;
