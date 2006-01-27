@@ -6,7 +6,7 @@ import javax.management.InstanceNotFoundException;
 
 import xagdop.Controleur.CAffect;
 import xagdop.Model.*;
-import xagdop.Parser.UsersParser;
+
 import junit.framework.TestCase;
 
 public class CAffectTest extends TestCase {
