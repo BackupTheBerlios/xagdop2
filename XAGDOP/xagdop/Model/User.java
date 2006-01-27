@@ -53,25 +53,25 @@ public class User {
 	
 	public boolean isArchitect(String pName)
 	{
-		ProjectsParser projet = new ProjectsParser();
+		ProjectsParser projet = ProjectsParser.getInstance();
 		return ((Boolean)projet.getAttribute(pName, ProjectsParser.ATTR_ARCHI, this.login)).booleanValue();
 	}
 
 	public boolean isRedactor(String pName)
 	{
-		ProjectsParser projet = new ProjectsParser();
+		ProjectsParser projet = ProjectsParser.getInstance();
 		return ((Boolean)projet.getAttribute(pName, ProjectsParser.ATTR_REDACTEUR, this.login)).booleanValue();
 	}
 
 	public boolean isAnalyst(String pName)
 	{
-		ProjectsParser projet = new ProjectsParser();
+		ProjectsParser projet = ProjectsParser.getInstance();
 		return ((Boolean)projet.getAttribute(pName, ProjectsParser.ATTR_ANALYST, this.login)).booleanValue();
 	}
 
 	public boolean isPManager(String pName)
 	{
-		ProjectsParser projet = new ProjectsParser();
+		ProjectsParser projet = ProjectsParser.getInstance();
 		return ((Boolean)projet.getAttribute(pName, ProjectsParser.ATTR_MANAGER, this.login)).booleanValue();
 	}
 
