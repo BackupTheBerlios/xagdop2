@@ -52,10 +52,10 @@ public class ProjectsParser {
 	private ProjectsParser()
 	{
 		try {
-			SvnUpdate svnu = new SvnUpdate();
+			/*SvnUpdate svnu = new SvnUpdate();
 			if((projectXML = svnu.getProjectFile())==null)
-				System.out.println("Erreur");
-			//projectXML = new File("./projects.xml");	//debug Attention ? ne pas le commit
+				System.out.println("Erreur");*/
+			projectXML = new File("xagdop/Parser/projects_old.xml");	//debug Attention ? ne pas le commit
 			loadTreeInMemory(projectXML);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -167,20 +167,18 @@ public class ProjectsParser {
 		XPath xpath = XPathFactory.newInstance().newXPath();
 				
 		String expression = "//project[@name='"+pName+"']/user[@login='"+login+"']";
-		//boolean res = false;
 		Element elem = null;
 			
 		try {
 			elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
 		}
 		catch (XPathExpressionException e) {
-			
 			e.printStackTrace();
 		}
 		if ( elem != null ) 
 			return true;			
 		else 
-			return false;	
+			return false;
 	}
 	
 	
@@ -260,7 +258,6 @@ public class ProjectsParser {
 		
 		if(!userP.isUser(user.getLogin()))
 		{
-			//System.out.println("L'utilisateur n'existe pas!!");
 			return false;
 		}
 		else
@@ -686,6 +683,24 @@ public class ProjectsParser {
 	}
 
 	/**
+	 * Fixe les droits d'un utlilisateur associ? ? un projet
+	 * @param projectName
+	 * @param login
+	 * @param pmanager
+	 * @param pmanager
+	 * @param pmanager
+	 * @param pmanager
+	 */
+	public void setRights(String projectName, String login, boolean pmanager, boolean archi,boolean redac,boolean analyst)
+	{	
+		setAttribute(projectName,login,ProjectsParser.ATTR_MANAGER,Boolean.toString(pmanager));	
+		setAttribute(projectName,login,ProjectsParser.ATTR_ARCHI,Boolean.toString(archi));
+		setAttribute(projectName,login,ProjectsParser.ATTR_REDACTEUR,Boolean.toString(redac));
+		setAttribute(projectName,login,ProjectsParser.ATTR_ANALYST,Boolean.toString(analyst));
+	}
+	
+	
+	/**
 	 * Ancien getAllUsers
 	 * @param projectName
 	 * @return
@@ -799,8 +814,10 @@ public class ProjectsParser {
 		} 
 		try {
 			transformer.transform(new DOMSource(doc), new StreamResult(projectXML));
+			/*
 			SvnCommit svnc = new SvnCommit();
 			svnc.sendFile(projectXML,"");
+			*/
 			loadTreeInMemory(projectXML);
 		} catch (TransformerException e) {
 			e.printStackTrace();
