@@ -52,10 +52,10 @@ public class ProjectsParser {
 	private ProjectsParser()
 	{
 		try {
-			/*SvnUpdate svnu = new SvnUpdate();
+			SvnUpdate svnu = new SvnUpdate();
 			if((projectXML = svnu.getProjectFile())==null)
-				System.out.println("Erreur");*/
-			projectXML = new File("xagdop/Parser/projects_old.xml");	//debug Attention ? ne pas le commit
+				System.out.println("Erreur");
+			//projectXML = new File("xagdop/Parser/projects_old.xml"); //debug
 			loadTreeInMemory(projectXML);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -814,10 +814,10 @@ public class ProjectsParser {
 		} 
 		try {
 			transformer.transform(new DOMSource(doc), new StreamResult(projectXML));
-			/*
+			
 			SvnCommit svnc = new SvnCommit();
 			svnc.sendFile(projectXML,"");
-			*/
+			
 			loadTreeInMemory(projectXML);
 		} catch (TransformerException e) {
 			e.printStackTrace();
