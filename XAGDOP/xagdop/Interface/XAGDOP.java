@@ -31,7 +31,7 @@ import javax.swing.table.AbstractTableModel;
 
 import xagdop.Controleur.CProject;
 import xagdop.Controleur.CTree;
-import xagdop.Model.Users;
+import xagdop.Model.User;
 import xagdop.Parser.DependenciesParser;
 import xagdop.ressources.Bundle;
 
