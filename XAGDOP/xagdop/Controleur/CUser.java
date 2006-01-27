@@ -6,6 +6,8 @@ import java.io.File;
 import javax.management.InstanceNotFoundException;
 import javax.swing.JOptionPane;
 
+import sun.security.jca.GetInstance;
+
 import xagdop.Interface.IPreferences;
 import xagdop.Interface.XAGDOP;
 import xagdop.Model.Users;
@@ -18,7 +20,8 @@ public class CUser {
 	}
 	
 	public boolean verifUser(String login, String passwd){
-		UsersParser UParser = new UsersParser();
+		UsersParser UParser = UsersParser.getInstance();
+		
 		Users user = UParser.getUser(login,passwd);
     	if (user != null){
     		IPreferences.setDefaultPath(IPreferences.getDefaultPath()+user.getLogin()+File.separator);
@@ -36,7 +39,7 @@ public class CUser {
 	
 	public boolean creerUser(String login, String passwd, String passwdconf) throws Exception,InstanceNotFoundException
 	{
-		UsersParser UP = new UsersParser();
+		UsersParser UP = UsersParser.getInstance();
 		if (passwd.equals(passwdconf)){
     		if (passwd.length()>3){
     			if (!UP.isUser(login)){
