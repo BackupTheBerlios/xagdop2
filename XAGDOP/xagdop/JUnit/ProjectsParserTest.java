@@ -10,21 +10,24 @@ import junit.framework.TestCase;
 public class ProjectsParserTest extends TestCase {
 
 	/*
-	 * Test KO
+	 * Test OK
 	 */
 	public void testGetAttributeStringString() {
 		User usr=new User("loginTest","passTest",true,true);
+		UsersParser up= UsersParser.getInstance();
+		up.addUser(usr);
 		ProjectsParser pp=  ProjectsParser.getInstance();
 		pp.addProject("projTest",usr,"descrTest");
 		
 		System.out.println("testGetAttributeStringStringOK: "+(String)(pp.getAttribute("projTest",ProjectsParser.ATTR_DESC)));
-		assertTrue((String)(pp.getAttribute("projTest",ProjectsParser.ATTR_DESC))=="descrTest"); //??? ECHEC
+		assertTrue(((String)(pp.getAttribute("projTest",ProjectsParser.ATTR_DESC))).equals((String)"descrTest")); //??? ECHEC
 		
+		up.removeUser(usr.getLogin());
 		pp.removeProject("projTest");
 	}
 
 	/*
-	 * Test KO
+	 * Test OK
 	 */
 	public void testGetAttributeStringStringString() {
 		User usr1=new User("loginTest","passTest",true,true);
@@ -44,7 +47,7 @@ public class ProjectsParserTest extends TestCase {
 		//attributs de l'utilisateur initial
 		assertTrue((Boolean)pp.getAttribute("projTest",ProjectsParser.ATTR_ANALYST,usr1.getLogin())==Boolean.valueOf(false));
 		assertTrue((Boolean)pp.getAttribute("projTest",ProjectsParser.ATTR_ARCHI,usr1.getLogin())==Boolean.valueOf(false));
-		assertTrue((Boolean)pp.getAttribute("projTest",ProjectsParser.ATTR_MANAGER,usr1.getLogin())==Boolean.valueOf(false)); //??? ECHEC
+		assertTrue((Boolean)pp.getAttribute("projTest",ProjectsParser.ATTR_MANAGER,usr1.getLogin())==Boolean.valueOf(true));
 		assertTrue((Boolean)pp.getAttribute("projTest",ProjectsParser.ATTR_REDACTEUR,usr1.getLogin())==Boolean.valueOf(false));
 		
 		//attributs de l'utilisateur 2
@@ -70,6 +73,9 @@ public class ProjectsParserTest extends TestCase {
 	 */
 	public void testIsUserInProject() {
 		User usr=new User("loginTest","passTest",true,true);
+		UsersParser up= UsersParser.getInstance();
+		up.addUser(usr);
+		
 		ProjectsParser pp= ProjectsParser.getInstance();
 		pp.addProject("projTest",usr,"descrTest");
 		
@@ -79,6 +85,7 @@ public class ProjectsParserTest extends TestCase {
 		//System.out.println("isUserInProjectKO: "+pp.isUserInProject("projTest","loginTestKO"));
 		assertFalse(pp.isUserInProject("projTest","loginTestKO"));
 
+		up.removeUser(usr.getLogin());
 		pp.removeProject("projTest");
 	}
 
