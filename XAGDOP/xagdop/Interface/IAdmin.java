@@ -15,7 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import xagdop.Controleur.CAdmin;
-import xagdop.Model.Users;
+import xagdop.Model.User;
 import xagdop.Parser.UsersParser;
 
 public class IAdmin extends JFrame{
@@ -69,7 +69,7 @@ public class IAdmin extends JFrame{
     	//Remplissage de la combobox avec les valeurs de la list
       	for(int i=0; i<list.size(); i++)
     	{
-      		UserListCombo.addItem(((Users)list.get(i)).getLogin());
+      		UserListCombo.addItem(((User)list.get(i)).getLogin());
 		}   
       	
       	

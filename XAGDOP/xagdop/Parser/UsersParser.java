@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import org.w3c.dom.*;
 
-import xagdop.Model.Users;
+import xagdop.Model.User;
 import xagdop.Svn.SvnCommit;
 import xagdop.Svn.SvnUpdate;
 
@@ -102,12 +102,12 @@ public class UsersParser {
 	 * @param login
 	 * @return 
 	 */
-	public Users getUserByLogin(String login)
+	public User getUserByLogin(String login)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//user[@login='"+login+"']";
 		Element elem = null;
-		Users user = null;
+		User user = null;
 		
 		try {
 			elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
@@ -140,7 +140,7 @@ public class UsersParser {
 				e.printStackTrace();
 			}
 			if (elem != null) pcreat = true;
-			user = new Users(login, passwd, admin, pcreat);
+			user = new User(login, passwd, admin, pcreat);
 			return user;		
 		}
 		else {
@@ -156,12 +156,12 @@ public class UsersParser {
 	 * @param passwd
 	 * @return
 	 */
-	public Users getUser(String login, String passwd)
+	public User getUser(String login, String passwd)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//user[@login='"+login+"'][@passwd='"+passwd+"']";
 		Element elem = null;
-		Users user = null;
+		User user = null;
 		
 		try {
 			elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
@@ -192,7 +192,7 @@ public class UsersParser {
 				e.printStackTrace();
 			}
 			if (elem != null) pcreat = true;
-			user = new Users(login, passwd, admin, pcreat);
+			user = new User(login, passwd, admin, pcreat);
 			return user;		
 		}
 		else {
@@ -417,7 +417,7 @@ public class UsersParser {
 	 * et proprietes
 	 * @param user contient les donnees de l'utilisateur a ajouter
 	 */
-	public void addUser(Users user)
+	public void addUser(User user)
 	{
 		addUser(user.getLogin(), user.getPasswd(), user.isAdmin(), user.isPcreator());
 	}
@@ -526,7 +526,7 @@ public class UsersParser {
 							if (elem != null) pcreator = true;
 							else pcreator = false;
 							
-							Users user = new Users(login, passwd, admin, pcreator);
+							User user = new User(login, passwd, admin, pcreator);
 							usersList.add(user);
 						}
 					}
