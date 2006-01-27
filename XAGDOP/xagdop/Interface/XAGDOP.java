@@ -83,6 +83,8 @@ public class XAGDOP extends JFrame{
 	JMenuItem menuProjetTeam = new JMenuItem(Bundle.getText("main.menu.project.team"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/equipe.jpeg")));
 	JMenuItem menuProjetCreate = new JMenuItem(Bundle.getText("main.menu.project.newProject"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/new-tab.png")));
 	JMenuItem menuProjetDelete = new JMenuItem(Bundle.getText("main.menu.project.delProject"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/supprimer.gif")));
+	JMenuItem menuProjetPreferences = new JMenuItem("Fichier Preferences");
+	
 	
 	JMenu menuHelp = new JMenu(Bundle.getText("main.menu.help"));
 	JMenuItem menuHelpAbout = new JMenuItem(Bundle.getText("main.menu.help.about"));
@@ -174,6 +176,8 @@ public class XAGDOP extends JFrame{
 		menuProjetCreate.setMnemonic('C');
 		menuProjetDelete.setMnemonic('E');
 		menuProjetDelete.addActionListener(new delProject());
+		menuProjetPreferences.addActionListener(new openFilePreferences());
+		
 		
 		menuEditeUpdate.addActionListener(new actionUpdate());
 		menuEditeUpdate.setMnemonic('T');
@@ -235,6 +239,8 @@ public class XAGDOP extends JFrame{
 		menuProjet.add(menuProjetTeam);
 		menuProjet.add(menuProjetCreate);
 		menuProjet.add(menuProjetDelete);
+		menuProjet.add(menuProjetPreferences);
+		
 		menuEdite.add(menuEditeUpdate);
 		menuEdite.add(menuEditeCommit);
 		menuEdite.add(menuEditeCheck);
@@ -409,6 +415,12 @@ public class XAGDOP extends JFrame{
 	class openIPreferences implements ActionListener { 
 		public void actionPerformed (ActionEvent e)  {
 			IPreferences preferences = IPreferences.getIPref();
+			preferences.setVisible(true);
+		}
+	}
+	class openFilePreferences implements ActionListener { 
+		public void actionPerformed (ActionEvent e)  {
+			IPreferencesFile preferences = IPreferencesFile.getInstance();
 			preferences.setVisible(true);
 		}
 	}
