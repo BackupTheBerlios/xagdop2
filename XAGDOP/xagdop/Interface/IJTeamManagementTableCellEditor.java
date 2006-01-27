@@ -3,8 +3,6 @@ package xagdop.Interface;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Iterator;
-import java.util.ArrayList;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.ImageIcon;
@@ -12,8 +10,6 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
-
-import xagdop.Model.User;
 
 public class IJTeamManagementTableCellEditor extends AbstractCellEditor 
 										implements TableCellEditor, ActionListener{
@@ -66,21 +62,12 @@ public class IJTeamManagementTableCellEditor extends AbstractCellEditor
 		if(out == JOptionPane.YES_OPTION) 
 		{
 			rowToDelete =this.IJTM.getTable().getSelectedRow();
-		//	System.out.println("user : "+((String)this.IJTM.getTable().getModel().getValueAt(rowToDelete,0)));
-		//	Iterator i = this.IJTM.getUsers().iterator();
-			
-		//	while(i.hasNext())
-		//	{
-		//		Users o = ((Users)i.next());
-		//		if(o.getLogin() == ((String)this.IJTM.getTable().getModel().getValueAt(rowToDelete,0)))
-		//		{
+		
 					this.IJTM.getProjectParser().removeUser(this.nomProjet,((String)this.IJTM.getTable().getModel().getValueAt(rowToDelete,0)));
 					IJTeamManagement.getIJTM(this.nomProjet).refreshUsers();
 					
-		//		}
 				
-			}
 		}
-	
+	}
 	
 }

@@ -1,38 +1,22 @@
 package xagdop.Interface;
 
-import java.awt.Component;
+
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Iterator;
 
-import javax.swing.AbstractCellEditor;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.WindowConstants;
-import javax.swing.table.TableCellEditor;
-
 
 import xagdop.Controleur.CTeamManagement;
-import xagdop.Interface.IJAdmin.IJAdminTableCellEditor;
-import xagdop.Interface.IJAdmin.IJAdminTableCellRenderer;
-import xagdop.Interface.IJAdmin.IJAdminTableModel;
 import xagdop.Model.Project;
 import xagdop.Parser.ProjectsParser;
 import xagdop.Parser.UsersParser;
-import xagdop.ressources.Bundle;
-import xagdop.Model.User;
 
 public class IJTeamManagement extends JFrame{
 	
@@ -100,16 +84,12 @@ public class IJTeamManagement extends JFrame{
         ButtonAffecter.setText("Affecter");
         ButtonAffecter.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-            	//IUserCreate IUC = IUserCreate.getIUC();
-        		//IUC.setVisible(true);
-        		//getContentPane().validate();
+            	
             	//CTeamM.Apply(projects,users.getId((String)JT.getValueAt(i,0)),((Boolean)JT.getValueAt(i,1)).booleanValue(),((Boolean)JT.getValueAt(i,2)).booleanValue(),((Boolean)JT.getValueAt(i,3)).booleanValue(),((Boolean)JT.getValueAt(i,4)).booleanValue());
         		IAffect IA = IAffect.getIA();
            	    IA.setProjectName(nP);
            	    IA.setVisible(true);
-                //fermer la fenetre
-           	    //refreshUsers();
-           	    
+                
             }
         }); // Fin bouton Affecter
         

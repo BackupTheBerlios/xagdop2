@@ -29,13 +29,9 @@ public class IJTeamManagementTableModel extends AbstractTableModel {
 	public IJTeamManagementTableModel(ArrayList usersParser, String nomProjet) {
 	    this.nP = nomProjet;
 		this.users = usersParser;
-		projetParser = ProjectsParser.getInstance(); 
-		
-		this.nP = nomProjet;
-		
-		//nomProjet = this.projet.getProjectName();
-		projet = projetParser.buildProject(nomProjet);
-	
+		projetParser = ProjectsParser.getInstance(); 		
+		this.nP = nomProjet;				
+		projet = projetParser.buildProject(nomProjet);	
 		this.init(users);
 			
 		
