@@ -7,7 +7,7 @@ import org.tmatesoft.svn.core.SVNCommitInfo;
 import org.tmatesoft.svn.core.SVNException;
 
 import xagdop.Interface.XAGDOP;
-import xagdop.Model.Users;
+import xagdop.Model.User;
 import xagdop.Parser.ProjectsParser;
 import xagdop.Svn.SvnCommit;
 import xagdop.Svn.SvnDisplayRepositoryTree;
@@ -40,9 +40,9 @@ public class CProject {
 				SvnCommit 	svnC = new SvnCommit();
 				SVNCommitInfo report = svnC.createProject(projectName, description);
 				// Enregistrement dans le XML du projet
-				ProjectsParser PP = ProjectsParser.getInstance();
-				Users user = XAGDOP.getInstance().getUser();	
-				PP.addProject(projectName,user,description);
+				ProjectsParser pp = ProjectsParser.getInstance();
+				User user = XAGDOP.getInstance().getUser();	
+				pp.addProject(projectName,user,description);
 				
 				if(report.getError()!=null){
 					throw new Exception(report.toString());

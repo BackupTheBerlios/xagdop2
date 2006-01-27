@@ -5,9 +5,9 @@ import java.io.File;
 
 import javax.management.InstanceNotFoundException;
 import javax.swing.JOptionPane;
+
 import xagdop.Interface.IPreferences;
 import xagdop.Interface.XAGDOP;
-import xagdop.Model.Users;
 import xagdop.Parser.UsersParser;
 import xagdop.ressources.Bundle;
 
@@ -19,7 +19,7 @@ public class CUser {
 	public boolean verifUser(String login, String passwd){
 		UsersParser UParser = UsersParser.getInstance();
 		
-		Users user = UParser.getUser(login,passwd);
+		User user = UParser.getUser(login,passwd);
     	if (user != null){
     		IPreferences.setDefaultPath(IPreferences.getDefaultPath()+user.getLogin()+File.separator);
     		XAGDOP.getInstance().setUser(user);
