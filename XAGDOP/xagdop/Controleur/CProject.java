@@ -3,14 +3,12 @@ package xagdop.Controleur;
 
 import javax.swing.JOptionPane;
 
-import org.tmatesoft.svn.core.SVNCommitInfo;
 import org.tmatesoft.svn.core.SVNException;
 
 import xagdop.Interface.XAGDOP;
 import xagdop.Model.User;
 import xagdop.Parser.ProjectsParser;
 import xagdop.Svn.SvnCommit;
-import xagdop.Svn.SvnDisplayRepositoryTree;
 import xagdop.Svn.SvnRemove;
 
 
@@ -31,22 +29,21 @@ public class CProject {
 	}
 	
 	public void createProject(String projectName,String description) throws Exception, SVNException{
-		
 		if((projectName.equals("")==false))
 		{
-			SvnDisplayRepositoryTree project;
-			project = new SvnDisplayRepositoryTree();
-			if(project.existProject(projectName)==false){
+			ProjectsParser pp = ProjectsParser.getInstance();
+			if(pp.isProject(projectName)==false){
 				SvnCommit 	svnC = new SvnCommit();
-				SVNCommitInfo report = svnC.createProject(projectName, description);
+				//SVNCommitInfo report = 
+				svnC.createProject(projectName, description);
 				// Enregistrement dans le XML du projet
-				ProjectsParser pp = ProjectsParser.getInstance();
+				
 				User user = XAGDOP.getInstance().getUser();	
 				pp.addProject(projectName,user,description);
 				
-				if(report.getError()!=null){
+				/*if(report.getError()!=null){
 					throw new Exception(report.toString());
-				}
+				}*/
 				
 			}else throw new Exception("Projet existant");		
 		}
@@ -68,7 +65,7 @@ public class CProject {
 		}
 		
 		try {
-			svnR.deleteDir(node);
+			svnR.delete(node);
 		} catch (SVNException e) {
 			JOptionPane.showMessageDialog(null ,"Impossible de se connecter au server subversion", "Validation" , 1) ;
 			e.printStackTrace();
@@ -78,7 +75,7 @@ public class CProject {
 			JOptionPane.showMessageDialog(null ,"Le projet "+node.getName()+" n'a pu etre supprimer ", "Validation" , 1) ;
 			return error;
 		}*/
-		JOptionPane.showMessageDialog(null ,"Le projet "+node.getName()+" est supprime", "Validation" , 1) ;
+		JOptionPane.showMessageDialog(null ,"Le projet "+node.getName()+" sera supprimer lors du prochain commit", "Validation" , 1) ;
 		//Enregistrement dans le XML du projet
 		ProjectsParser PP = ProjectsParser.getInstance();
 		PP.removeProject(node.getName());

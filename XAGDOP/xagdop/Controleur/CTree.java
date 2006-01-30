@@ -6,6 +6,7 @@ import java.awt.Component;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.net.URL;
+import java.util.ArrayList;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -421,21 +422,24 @@ public class CTree implements TreeModel
 	}
 	
 	public void refreshFromLocal(CTreeNode parent){
-		
-		//relativePath("/home/nephos/IUP/BE/xagdop/XAGDOP/project/user/nom/bla/bla/bla/bli.pre","/home/nephos/IUP/BE/xagdop/XAGDOP/project/user/test/test/bla.pog");
 		File localFiles = new File(parent.getLocalPath());
 		parent.removeAllChildren();
 		
 		File[] allFiles = localFiles.listFiles(new FilenameFilter() {
 			
 			public boolean accept(File dir, String name) {
-				File directory = new File(dir.getAbsolutePath()+File.separator+name); 
-				if(directory.isDirectory()&&!directory.isHidden())
-					return true;
-				//System.out.println(dir.getAbsolutePath()+", "+dir.getName().endsWith(".pre")+", "+dir.isDirectory());
-				if(name.endsWith(".pre")||name.endsWith(".pog")||name.endsWith(".apes"))
-					return true;
-
+				File directory = new File(dir.getAbsolutePath()+File.separator+name);
+					if(directory.isDirectory()&&!directory.isHidden())
+						return true;
+					if(name.endsWith(".apes")||name.endsWith(".iepp")||name.endsWith(".pog")){
+						return true;
+						
+					//int i = 0;
+					//while(i < right.size()){
+					//	if(name.endsWith((String)right.get(i)))
+					//		return true;
+					//}
+				}
 				return false;
 				
 			}
@@ -458,12 +462,12 @@ public class CTree implements TreeModel
 				if(tmp.isModified()&&!allFiles[i].isHidden())
 					parent.setIsModified(true);
 		
-				if(!allFiles[i].isHidden()&&SvnHistory.isCurrentRepository(allFiles[i]))
+				if(!allFiles[i].isHidden()/*&&SvnHistory.isCurrentRepository(allFiles[i])*/)
 					parent.add(tmp);
 				
 				
 				
-				if(allFiles[i].isDirectory()&&!allFiles[i].isHidden()&&SvnHistory.isCurrentRepository(allFiles[i]))
+				if(allFiles[i].isDirectory()&&!allFiles[i].isHidden()/*&&SvnHistory.isCurrentRepository(allFiles[i])*/)
 					refreshFromLocal(tmp);
 				
 				i++;

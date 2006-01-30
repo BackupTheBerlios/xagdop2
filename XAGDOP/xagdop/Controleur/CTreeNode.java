@@ -63,9 +63,20 @@ public class CTreeNode extends DefaultMutableTreeNode implements Serializable
 		return false;
 	}
 
+	public CTreeNode getProject(){
+		if(this.isRoot())
+			return null;
+		CTreeNode node = this;
+		while(!((CTreeNode)node.getParent()).isRoot()){
+			node = (CTreeNode)node.getParent();
+		}
+		return node;
+	}
+	
 	public String getLocalPath() {
 		return localPath;
 	}
+	
 
 	public void setLocalPath(String localPath) {
 		File localFilePath = new File(localPath);

@@ -1,4 +1,8 @@
 package xagdop.Controleur;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class CFile {
 	/*
 	 * 
@@ -6,7 +10,9 @@ public class CFile {
 	 * 
 	 * 
 	 */
-	
+	protected List archi = new ArrayList();
+	protected List redactor = new ArrayList();
+	protected List analyst = new ArrayList();
 	/*
 	 * Constructeur
 	 */
