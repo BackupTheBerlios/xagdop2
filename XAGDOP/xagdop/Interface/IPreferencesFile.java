@@ -1,6 +1,5 @@
 package xagdop.Interface;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -116,18 +115,18 @@ public class IPreferencesFile extends JFrame {
     }
 
     public class FiltreSimple extends FileFilter{
-        //Description et extension acceptée par le filtre
+        //Description et extension acceptï¿½e par le filtre
         private String description;
         private String extension;
-        //Constructeur à partir de la description et de l'extension acceptée
+        //Constructeur ï¿½ partir de la description et de l'extension acceptï¿½e
         public FiltreSimple(String description, String extension){
            if(description == null || extension ==null){
-              throw new NullPointerException("La description (ou extension) ne peut être null.");
+              throw new NullPointerException("La description (ou extension) ne peut ï¿½tre null.");
            }
            this.description = description;
            this.extension = extension;
         }
-        //Implémentation de FileFilter
+        //Implï¿½mentation de FileFilter
         public boolean accept(File file){
            if(file.isDirectory()) { 
               return true; 

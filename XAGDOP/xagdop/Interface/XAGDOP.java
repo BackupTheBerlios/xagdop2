@@ -33,6 +33,8 @@ import xagdop.Controleur.CProject;
 import xagdop.Controleur.CTree;
 import xagdop.Model.User;
 import xagdop.Parser.DependenciesParser;
+import xagdop.Parser.ProjectsParser;
+import xagdop.Parser.UsersParser;
 import xagdop.ressources.Bundle;
 
 //import ressources.Bundle;
@@ -283,7 +285,7 @@ public class XAGDOP extends JFrame{
 		tableVersion.setBorder(BorderUIResource.getBlackLineBorderUIResource()  );
 		
 		tree = new IProjectTree();
-		DependenciesParser.getInstance();
+		
 		JScrollPane mScroll = new JScrollPane();
 		mScroll.setPreferredSize(new Dimension(150,450));
 		
@@ -308,6 +310,10 @@ public class XAGDOP extends JFrame{
 		//Initialisation des boutons
 		equipe.setEnabled(false);
 		menuProjetTeam.setEnabled(false);
+		//Création des parsers
+		DependenciesParser.getInstance();
+		UsersParser.getInstance();
+		ProjectsParser.getInstance();
 		
 		
 		
@@ -387,7 +393,7 @@ public class XAGDOP extends JFrame{
 			
 			
 			String projectName = tree.getSelectedNode().getName();
-			System.out.println(projectName);
+			//System.out.println(projectName);
 			
 			if (XAGDOP.getInstance().getUser().isPManager(projectName))
 			{

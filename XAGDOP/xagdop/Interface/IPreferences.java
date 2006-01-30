@@ -14,10 +14,11 @@ public class IPreferences extends JFrame{
 	 */
 	private static final long serialVersionUID = 1L;
 	private static IPreferences IPref = null;
-	private static String defaultPath="project"+File.separator; 
-	private static String rootPath="project"+File.separator; 
+	private static String defaultPath= ((File)new File("project")).getAbsolutePath()+File.separator; 
+	private static String rootPath=((File)new File("project")).getAbsolutePath()+File.separator; 
 	
 	private IPreferences(){
+		
 		init();
 	}
 	
