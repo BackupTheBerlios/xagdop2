@@ -3,6 +3,7 @@ package xagdop.Svn;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,32 +21,58 @@ import org.tmatesoft.svn.core.wc.SVNCommitClient;
 import org.tmatesoft.svn.core.wc.SVNWCClient;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
-
-
 import xagdop.Controleur.CTreeNode;
+import xagdop.Interface.IPreferences;
+import xagdop.Interface.XAGDOP;
 import xagdop.Parser.DependenciesParser;
 
 
 
 public class SvnCommit{
-	SVNRepository repository;
-	SVNCommitClient svnCC;
+	protected SVNCommitClient svnCC;
 	public SvnCommit(String url, String name, String password) throws SVNException{
-		//super(SVNWCUtil.createDefaultAuthenticationManager(SvnConnect.getInstance().getName(), SvnConnect.getInstance().getPassword()),SVNWCUtil.createDefaultOptions(true));
-		repository = SvnConnect.getInstance(url,name,password).getRepository();
+		SVNRepository repository = SvnConnect.getInstance(url,name,password).getRepository();
 		svnCC = new SVNCommitClient(repository.getAuthenticationManager(),SVNWCUtil.createDefaultOptions(true) );
 	}
 	public SvnCommit() throws SVNException{
-		//super(SVNWCUtil.createDefaultAuthenticationManager(SvnConnect.getInstance().getName(), SvnConnect.getInstance().getPassword()),SVNWCUtil.createDefaultOptions(true));
-		repository = SvnConnect.getInstance().getRepository();
+		SVNRepository repository = SvnConnect.getInstance().getRepository();
 		svnCC = new SVNCommitClient(repository.getAuthenticationManager(),SVNWCUtil.createDefaultOptions(true) );
 	}
 	
 	
+	public void createProject(String projectName, String description) throws SVNException {
+		//SVNWCClient wcClient = new SVNWCClient(SvnConnect.getInstance().getRepository().getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
+		if(!SvnHistory.isUnderVersion(new File(IPreferences.getDefaultPath()))){
+			SvnUpdate svnu = new SvnUpdate() ;
+			svnu.checkOut((CTreeNode)XAGDOP.getInstance().getTree().getSelectedNode().getRoot());
+		}
+		File project = new File(IPreferences.getDefaultPath()+projectName);
+		if(!project.exists())
+			project.mkdir();
+		File icon = new File(IPreferences.getDefaultPath()+projectName+File.separator+"icones");
+		if(!icon.exists())
+			icon.mkdir();
+		FileWriter dependencies;
+		try {
+			dependencies = new FileWriter(project.getAbsolutePath()+File.separator+"dependencies.xml");
+			dependencies.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?><files><dependencies></files></dependencies>");
+			dependencies.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		//wcClient.doAdd(project,false,false,false,true);
+		
+		//sendFile(project,description);
+		
+	}
 	
-	public SVNCommitInfo createProject(String projectName, String description) throws SVNException {
+	
+	public SVNCommitInfo createProjec(String projectName, String description) throws SVNException {
 		
-		
+		SVNRepository repository = SvnConnect.getInstance().getRepository();
 		String dirPath = projectName;
 		ISVNEditor editor = null;
 		SVNCommitInfo commitInfo = null;
@@ -233,7 +260,6 @@ public class SvnCommit{
 	 * Envoi les modifications faites sur les fichiers ainsi que les nouveaux fichiers crées
 	 */
 	public void commit(CTreeNode node, String commitMessage) throws SVNException{
-		SVNCommitClient svnCC = new SVNCommitClient(repository.getAuthenticationManager(),SVNWCUtil.createDefaultOptions(true) );
 		File toCommit = new File(node.getLocalPath());
 		//Si on doit envoyer un dossier
 		if(toCommit.isDirectory()){
@@ -252,7 +278,7 @@ public class SvnCommit{
 						File directory = new File(dir.getAbsolutePath()+"/"+name); 
 						if(directory.isDirectory()&&!directory.isHidden())
 							return true;
-						if(name.endsWith(".pre")||name.endsWith(".pog")||name.endsWith(".apes"))
+						if(name.endsWith(".xml")||name.endsWith(".pre")||name.endsWith(".pog")||name.endsWith(".apes"))
 							return true;
 
 						return false;

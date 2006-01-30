@@ -95,7 +95,7 @@ public class SvnUpdate{
 	 * @param node Neoud que l'on veut recuperer
 	 * @throws SVNException
 	 */
-	public void checkOut_(CTreeNode node) throws SVNException{
+	public void checkOut(CTreeNode node) throws SVNException{
 		
 		SVNUpdateClient up = new SVNUpdateClient(repository.getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
 	
@@ -103,6 +103,10 @@ public class SvnUpdate{
 		File projectDirectoryLocal = new File(IPreferences.getDefaultPath());
 		if(!projectDirectoryLocal.exists())
 			projectDirectoryLocal.mkdir();
+		
+		projectDirectoryLocal = new File(node.getLocalPath());
+		
+		//System.out.println(IPreferences.getDefaultPath()+" : "+projectDirectoryLocal.exists());
 		//Si il n'est pas versionn?? alors on fait un checkout sinon un update
 		if(SvnHistory.isUnderVersion(projectDirectoryLocal))
 			up.doUpdate(projectDirectoryLocal,SVNRevision.HEAD,true);
@@ -133,7 +137,7 @@ public class SvnUpdate{
 	
 	
 	
-	public void checkOut(CTreeNode node) throws SVNException{
+	public void checkOut_(CTreeNode node) throws SVNException{
 		SVNUpdateClient up = new SVNUpdateClient(repository.getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
 		User user = XAGDOP.getInstance().getUser();
 		ProjectsParser pp = ProjectsParser.getInstance();

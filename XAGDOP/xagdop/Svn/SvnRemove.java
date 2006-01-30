@@ -1,22 +1,10 @@
 package xagdop.Svn;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
-import org.tmatesoft.svn.core.SVNCommitInfo;
 import org.tmatesoft.svn.core.SVNException;
-import org.tmatesoft.svn.core.SVNURL;
-import org.tmatesoft.svn.core.io.ISVNEditor;
-import org.tmatesoft.svn.core.io.ISVNWorkspaceMediator;
 import org.tmatesoft.svn.core.io.SVNRepository;
-import org.tmatesoft.svn.core.wc.SVNCommitClient;
+import org.tmatesoft.svn.core.wc.SVNWCClient;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
 import xagdop.Controleur.CTreeNode;
@@ -40,7 +28,7 @@ public class SvnRemove {
 	 * @param filePath fichier à supprimer
 	 * @return Les infos de comment s'est passé la suppression
 	 * @throws SVNException
-	 */
+	 *//*
 	public  SVNCommitInfo removeFile(String dirPath, String filePath) throws SVNException{
 		ISVNEditor editor  = null;
 
@@ -68,17 +56,41 @@ public class SvnRemove {
 		
 		//Renvoi les infos de cla suppression
 		return editor.closeEdit();
+	}*/
+	
+	
+	public  void delete(CTreeNode node)	
+	throws SVNException {
+		File toDelete = new File(node.getLocalPath());
+		SVNWCClient svnWCC = new SVNWCClient(repository.getAuthenticationManager(),SVNWCUtil.createDefaultOptions(true) );
+		if(SvnHistory.isUnderVersion(toDelete)){
+			svnWCC.doDelete(toDelete,true,true,false);
+		}else deleteFile(toDelete);
+			
 	}
 	
+	private void deleteFile(File file){
+		int i = 0 ;
+		//System.out.println(dir.getName());
+		if(file.isDirectory())
+		{
+			File[] allFile = file.listFiles();
+			while(i<allFile.length){
+				if(allFile[i].isDirectory())
+					deleteFile(allFile[i]);
+				allFile[i].delete();
+				i++;
+			}
+		}
+		file.delete();
+		
+	}
 	
-	
-	
-
 	
 	/**
 	 * @param node Noeud
 	 * @throws SVNException
-	 */
+	 *//*
 	public  void deleteDir(CTreeNode node)
 	throws SVNException {
 		SVNCommitClient svnCC = new SVNCommitClient(repository.getAuthenticationManager(),SVNWCUtil.createDefaultOptions(true) );
@@ -88,8 +100,8 @@ public class SvnRemove {
 		
 		svnCC.doDelete((SVNURL[])urlDirectory.toArray(url),"");
 	
-	}
-	private static class WorkspaceMediator implements
+	}*/
+	/*private static class WorkspaceMediator implements
 	ISVNWorkspaceMediator {
 		private Map myTmpFiles = new HashMap();
 		
@@ -107,7 +119,7 @@ public class SvnRemove {
 		 * temporary storage identifier. Returns  an  OutputStream to write  the
 		 * delta data into the temporary storage.
 		 */
-		public OutputStream createTemporaryLocation(String path, Object id)
+	/*	public OutputStream createTemporaryLocation(String path, Object id)
 		throws IOException {
 			ByteArrayOutputStream tempStorageOS = new ByteArrayOutputStream();
 			myTmpFiles.put(id, tempStorageOS);
@@ -118,7 +130,7 @@ public class SvnRemove {
 		 * Returns an InputStream of the temporary file delta storage identified
 		 * by id to read the delta.
 		 */
-		public InputStream getTemporaryLocation(Object id) throws IOException {
+		/*public InputStream getTemporaryLocation(Object id) throws IOException {
 			return new ByteArrayInputStream(((ByteArrayOutputStream)myTmpFiles.get(id)).toByteArray());
 		}
 		
@@ -126,7 +138,7 @@ public class SvnRemove {
 		 * Gets the length of the  delta  that  was  written  to  the  temporary 
 		 * storage identified by id.
 		 */
-		public long getLength(Object id) throws IOException {
+		/*public long getLength(Object id) throws IOException {
 			ByteArrayOutputStream tempStorageOS = (ByteArrayOutputStream)myTmpFiles.get(id);
 			if (tempStorageOS != null) {
 				return tempStorageOS.size();
@@ -137,10 +149,10 @@ public class SvnRemove {
 		/*
 		 * Deletes the temporary file delta storage identified by id.
 		 */
-		public void deleteTemporaryLocation(Object id) {
+		/*public void deleteTemporaryLocation(Object id) {
 			myTmpFiles.remove(id);
 		}
-	}
+	}*/
 	
 	
 	

@@ -42,17 +42,24 @@ public class SvnHistory {
     	public static boolean  isUnderVersion(File file){
     		
     		SVNStatusClient ssClient;
+    		SVNStatus sStatus;
+    		file = new File(file.getAbsolutePath());
 			try {
 				ssClient = new SVNStatusClient(SvnConnect.getInstance().getRepository().getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
-				SVNStatus sStatus = ssClient.doStatus(file, false);
+				if(ssClient!=null)
+					sStatus = ssClient.doStatus(file, false);
+				else 
+					return false;
+				if(sStatus==null)
+					return false;
 				SVNStatusType ssType = sStatus.getContentsStatus();
 				if(ssType == SVNStatusType.STATUS_UNVERSIONED)
 					return false;
-				
 					
 			} catch (SVNException e) {
 				// TODO Auto-generated catch block
 				//e.printStackTrace();
+				System.out.println("Exception");
 				return false;
 			}
 			return true;
@@ -87,7 +94,7 @@ public class SvnHistory {
     	 * @param file Teste le fichier fait parti du repository courant
     	 * @return Vrai si il appartient au repository courant, faux sinon
     	 * Marche pas
-    	 */
+    	 *//*
     	public static boolean isCurrentRepository(File file){
     		SVNStatusClient ssClient;
 			try {
@@ -97,9 +104,9 @@ public class SvnHistory {
 				
 			} catch (SVNException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				//e.printStackTrace();
+				return true;
 			}
-			return false;
     	}
     	
     	/**
