@@ -12,6 +12,7 @@ import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
 public class SvnConnect {
 	protected String _url = "svn://marine.edu.ups-tlse.fr/users/iupisi/m1isb4/svn/XAGDOP/";//"svn://marine.edu.ups-tlse.fr/users/iupisi/m1isb4/svn/repositoryAubry";
+	//protected String _url = "svn://127.0.0.1/svn/XAGDOP/"; //debug Mika
 	protected String _name = "XAGDOP";
 	protected String _password = "blabla";
 	protected SVNRepository repository = null;
