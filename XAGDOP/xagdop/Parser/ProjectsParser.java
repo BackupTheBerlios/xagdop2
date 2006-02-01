@@ -762,6 +762,22 @@ public class ProjectsParser {
 
 	
 	/**
+	 * Permet de recuperer une ArrayList des noms des projets auquel appartient un utilisateur
+	 * @param login Login de l'utilisateur
+	 * @return ArrayList de String
+	 */
+	public ArrayList getProjects(String login){
+		ArrayList listRes = new ArrayList();
+		
+		
+		//a coder
+		
+		
+		return listRes;
+	}
+	
+	
+	/**
 	 * Genere le fichier XML a partir de l'arbre en memoire
 	 *
 	 */
