@@ -54,25 +54,29 @@ public class User {
 	public boolean isArchitect(String pName)
 	{
 		ProjectsParser projet = ProjectsParser.getInstance();
-		return ((Boolean)projet.getAttribute(pName, ProjectsParser.ATTR_ARCHI, this.login)).booleanValue();
+		//return ((Boolean)projet.getAttribute(pName, ProjectsParser.RIGHT_ARCHITECT, this.login)).booleanValue();
+		return ((Boolean)(projet.getRights(pName,this.login).get(1))).booleanValue();
 	}
 
 	public boolean isRedactor(String pName)
 	{
 		ProjectsParser projet = ProjectsParser.getInstance();
-		return ((Boolean)projet.getAttribute(pName, ProjectsParser.ATTR_REDACTEUR, this.login)).booleanValue();
+		//return ((Boolean)projet.getAttribute(pName, ProjectsParser.RIGHT_REDACTOR, this.login)).booleanValue();
+		return ((Boolean)(projet.getRights(pName,this.login).get(3))).booleanValue();
 	}
 
 	public boolean isAnalyst(String pName)
 	{
 		ProjectsParser projet = ProjectsParser.getInstance();
-		return ((Boolean)projet.getAttribute(pName, ProjectsParser.ATTR_ANALYST, this.login)).booleanValue();
+		//return ((Boolean)projet.getAttribute(pName, ProjectsParser.RIGHT_ANALYST, this.login)).booleanValue();
+		return ((Boolean)(projet.getRights(pName,this.login).get(2))).booleanValue();
 	}
 
 	public boolean isPManager(String pName)
 	{
 		ProjectsParser projet = ProjectsParser.getInstance();
-		return ((Boolean)projet.getAttribute(pName, ProjectsParser.ATTR_MANAGER, this.login)).booleanValue();
+		//return ((Boolean)projet.getAttribute(pName, ProjectsParser.RIGHT_PMANAGER, this.login)).booleanValue();
+		return ((Boolean)(projet.getRights(pName,this.login).get(0))).booleanValue();
 	}
 
 }
