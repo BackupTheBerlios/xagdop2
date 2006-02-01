@@ -183,9 +183,11 @@ public class XAGDOP extends JFrame{
 		
 		menuEditeUpdate.addActionListener(new actionUpdate());
 		menuEditeUpdate.setMnemonic('T');
-//		TODO FonctionCommit		menuEditeCommit.addActionListener(new actionUpdate());
+//		TODO FonctionCommit		
+		menuEditeCommit.addActionListener(new actionCommit());
 		menuEditeCommit.setMnemonic('C');
-//		TODO FonctionCheck		menuEditeCheck.addActionListener(new actionUpdate());
+//		TODO FonctionCheck		
+		menuEditeCheck.addActionListener(new actionUpdate());
 		menuEditeCheck.setMnemonic('K');
 		
 		menuConfPreferences.addActionListener(new openIPreferences());
@@ -301,6 +303,9 @@ public class XAGDOP extends JFrame{
 		pan.add(pan2,BorderLayout.CENTER);
 		projet.addActionListener (new openIprojet());
 		equipe.addActionListener (new openIUser());
+		//****************************
+		commit.addActionListener (new actionCommit());
+		//****************************
 		delProject.addActionListener(new delProject());
 		preferences.addActionListener(new openIPreferences());
 		admin.addActionListener(new openIAdmin());
@@ -412,7 +417,15 @@ public class XAGDOP extends JFrame{
 		}
 		
 	}
-	
+//	****************************
+	class actionCommit implements ActionListener 
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+				ICommit IC = new ICommit(tree.getSelectedNode());
+		}
+	}
+//	****************************
 	class actionUpdate implements ActionListener {
 		public void actionPerformed(ActionEvent e){
 				((CTree)tree.getModel()).refresh(tree.getSelectedNode());
