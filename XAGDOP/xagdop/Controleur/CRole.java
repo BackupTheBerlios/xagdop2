@@ -23,7 +23,7 @@ public class CRole {
 			User current = XAGDOP.getInstance().getUser();
 			ProjectsParser pp = ProjectsParser.getInstance();
 			Project project = pp.buildProject(_project);
-			madeRole(project.isManager(current.getLogin()),project.isAnalyst(current.getLogin()),project.isArchitecte(current.getLogin()),project.isRedacteur(current.getLogin()));
+			madeRole(project.isManager(current.getLogin()),project.isAnalyst(current.getLogin()),project.isArchitect(current.getLogin()),project.isRedactor(current.getLogin()));
 		}
 	}
 	

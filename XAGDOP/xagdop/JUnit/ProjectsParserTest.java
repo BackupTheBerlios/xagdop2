@@ -12,62 +12,41 @@ public class ProjectsParserTest extends TestCase {
 	/*
 	 * Test OK
 	 */
-	public void testGetAttributeStringString() {
+	public void testGetProjectDescriptionString() {
 		User usr=new User("loginTest","passTest",true,true);
 		UsersParser up= UsersParser.getInstance();
 		up.addUser(usr);
-		ProjectsParser pp=  ProjectsParser.getInstance();
+		ProjectsParser pp= ProjectsParser.getInstance();
 		pp.addProject("projTest",usr,"descrTest");
 		
-		System.out.println("testGetAttributeStringStringOK: "+(String)(pp.getAttribute("projTest",ProjectsParser.ATTR_DESC)));
-		assertTrue(((String)(pp.getAttribute("projTest",ProjectsParser.ATTR_DESC))).equals((String)"descrTest")); //??? ECHEC
+		System.out.println("testGetProjectDescriptionOK: "+(String)(pp.getProjectDescription("projTest")));
+		assertTrue(((String)(pp.getProjectDescription("projTest"))).equals((String)"descrTest"));
 		
 		up.removeUser(usr.getLogin());
 		pp.removeProject("projTest");
 	}
 
+	
 	/*
 	 * Test OK
 	 */
-	public void testGetAttributeStringStringString() {
-		User usr1=new User("loginTest","passTest",true,true);
-		User usr2=new User("loginTest2","passTest2",true,true);
-		User usr3=new User("loginTest3","passTest3",true,true);
-		
+	public void testSetProjectDescriptionStringString() {
+		User usr=new User("loginTest","passTest",true,true);
 		UsersParser up= UsersParser.getInstance();
-		up.addUser(usr1);
-		up.addUser(usr2);
-		up.addUser(usr3);
-		
+		up.addUser(usr);
 		ProjectsParser pp= ProjectsParser.getInstance();
-		pp.addProject("projTest",usr1,"descrTest");
-		pp.addUser("projTest",usr2,true,true,true,true);
-		pp.addUser("projTest",usr3,false,false,false,false);
+		pp.addProject("projTest",usr,"descrTest");
 		
-		//attributs de l'utilisateur initial
-		assertTrue((Boolean)pp.getAttribute("projTest",ProjectsParser.ATTR_ANALYST,usr1.getLogin())==Boolean.valueOf(false));
-		assertTrue((Boolean)pp.getAttribute("projTest",ProjectsParser.ATTR_ARCHI,usr1.getLogin())==Boolean.valueOf(false));
-		assertTrue((Boolean)pp.getAttribute("projTest",ProjectsParser.ATTR_MANAGER,usr1.getLogin())==Boolean.valueOf(true));
-		assertTrue((Boolean)pp.getAttribute("projTest",ProjectsParser.ATTR_REDACTEUR,usr1.getLogin())==Boolean.valueOf(false));
+		assertTrue(((String)(pp.getProjectDescription("projTest"))).equals((String)"descrTest"));
+		pp.setProjectDescription("projTest","newDescr");
+		assertFalse(((String)(pp.getProjectDescription("projTest"))).equals((String)"descrTest"));
+		assertTrue(((String)(pp.getProjectDescription("projTest"))).equals((String)"newDescr"));
 		
-		//attributs de l'utilisateur 2
-		assertTrue((Boolean)pp.getAttribute("projTest",ProjectsParser.ATTR_ANALYST,usr2.getLogin())==Boolean.valueOf(true));
-		assertTrue((Boolean)pp.getAttribute("projTest",ProjectsParser.ATTR_ARCHI,usr2.getLogin())==Boolean.valueOf(true));
-		assertTrue((Boolean)pp.getAttribute("projTest",ProjectsParser.ATTR_MANAGER,usr2.getLogin())==Boolean.valueOf(true));
-		assertTrue((Boolean)pp.getAttribute("projTest",ProjectsParser.ATTR_REDACTEUR,usr2.getLogin())==Boolean.valueOf(true));
-
-		//attributs de l'utilisateur 3
-		assertTrue((Boolean)pp.getAttribute("projTest",ProjectsParser.ATTR_ANALYST,usr3.getLogin())==Boolean.valueOf(false));
-		assertTrue((Boolean)pp.getAttribute("projTest",ProjectsParser.ATTR_ARCHI,usr3.getLogin())==Boolean.valueOf(false));
-		assertTrue((Boolean)pp.getAttribute("projTest",ProjectsParser.ATTR_MANAGER,usr3.getLogin())==Boolean.valueOf(false));
-		assertTrue((Boolean)pp.getAttribute("projTest",ProjectsParser.ATTR_REDACTEUR,usr3.getLogin())==Boolean.valueOf(false));
-
-		up.removeUser(usr1.getLogin());
-		up.removeUser(usr2.getLogin());
-		up.removeUser(usr3.getLogin());
+		up.removeUser(usr.getLogin());
 		pp.removeProject("projTest");
 	}
 
+	
 	/*
 	 * Test OK
 	 */
@@ -89,18 +68,24 @@ public class ProjectsParserTest extends TestCase {
 		pp.removeProject("projTest");
 	}
 
-	/*
-	 * Test A FAIRE
-	 */
-	public void testSetAttributeStringStringString() {
-
-	}
 
 	/*
-	 * Test A FAIRE
+	 * Test OK
 	 */
-	public void testSetAttributeStringStringStringString() {
-
+	public void testIsProjectString() {
+		User usr=new User("loginTest","passTest",true,true);
+		
+		UsersParser up= UsersParser.getInstance();
+		up.addUser(usr);
+		
+		ProjectsParser pp= ProjectsParser.getInstance();
+		pp.addProject("projTest",usr,"descrTest");
+		
+		assertTrue(pp.isProject("projTest"));
+		pp.removeProject("projTest");
+		assertFalse(pp.isProject("projTest"));
+		
+		up.removeUser(usr.getLogin());
 	}
 
 
@@ -119,38 +104,49 @@ public class ProjectsParserTest extends TestCase {
 		pp.addProject("projTest",usr1,"descrTest");
 		pp.addUser("projTest",usr2,true,false,true,false);
 		
-		assertTrue((Boolean)pp.getAttribute("projTest",ProjectsParser.ATTR_ANALYST,usr2.getLogin())==Boolean.valueOf(true));
-		assertTrue((Boolean)pp.getAttribute("projTest",ProjectsParser.ATTR_ARCHI,usr2.getLogin())==Boolean.valueOf(false));
-		assertTrue((Boolean)pp.getAttribute("projTest",ProjectsParser.ATTR_MANAGER,usr2.getLogin())==Boolean.valueOf(true));
-		assertTrue((Boolean)pp.getAttribute("projTest",ProjectsParser.ATTR_REDACTEUR,usr2.getLogin())==Boolean.valueOf(false));
+		ArrayList usr2Rights = pp.getRights("projTest",usr2.getLogin());
+		assertTrue( (Boolean)usr2Rights.get(0)==Boolean.TRUE );
+		assertTrue( (Boolean)usr2Rights.get(1)==Boolean.FALSE );
+		assertTrue( (Boolean)usr2Rights.get(2)==Boolean.TRUE );
+		assertTrue( (Boolean)usr2Rights.get(3)==Boolean.FALSE );
 		
 		up.removeUser(usr1.getLogin());
 		up.removeUser(usr2.getLogin());
 		pp.removeProject("projTest");
 	}
 
-	/*
-	 * Test A REPASSER apres correction de isProject
-	 */
-	public void testAddProject() {
-		User usr=new User("loginTest","passTest",true,true);
-		
-		UsersParser up= UsersParser.getInstance();
-		up.addUser(usr);
-		
-		ProjectsParser pp= ProjectsParser.getInstance();
-		pp.addProject("projTest",usr,"descrTest");
-		
-		assertTrue(pp.isProject("projTest"));
-		
-		up.removeUser(usr.getLogin());
-		pp.removeProject("projTest");
-	}
-
+	
 	/*
 	 * Test OK
 	 */
-	public void testAddUserStringString() {
+	public void testAddUserStringStringBooleanBooleanBooleanBoolean() {
+		User usr1=new User("loginTest","passTest",true,true);
+		User usr2=new User("loginTest2","passTest2",true,true);
+		
+		UsersParser up=UsersParser.getInstance();
+		up.addUser(usr1);
+		up.addUser(usr2);
+		
+		ProjectsParser pp= ProjectsParser.getInstance();
+		pp.addProject("projTest",usr1,"descrTest");
+		pp.addUser("projTest",usr2.getLogin(),true,false,true,false);
+		
+		ArrayList usr2Rights = pp.getRights("projTest",usr2.getLogin());
+		assertTrue( (Boolean)usr2Rights.get(0)==Boolean.TRUE );
+		assertTrue( (Boolean)usr2Rights.get(1)==Boolean.FALSE );
+		assertTrue( (Boolean)usr2Rights.get(2)==Boolean.TRUE );
+		assertTrue( (Boolean)usr2Rights.get(3)==Boolean.FALSE );
+		
+		up.removeUser(usr1.getLogin());
+		up.removeUser(usr2.getLogin());
+		pp.removeProject("projTest");
+	}
+	
+	
+	/*
+	 * Test OK
+	 */
+	public void testAddUserStringString2() {
 		User usr1=new User("loginTest","passTest",true,true);
 		User usr2=new User("loginTest2","passTest2",true,true);
 		
@@ -173,6 +169,53 @@ public class ProjectsParserTest extends TestCase {
 		pp.removeProject("projTest");
 	}
 
+	
+	/*
+	 * Test OK
+	 */
+	public void testAddUserStringString() {
+		User usr1=new User("loginTest","passTest",true,true);
+		User usr2=new User("loginTest2","passTest2",true,true);
+		
+		UsersParser up=UsersParser.getInstance();
+		up.addUser(usr1);
+		up.addUser(usr2);
+		
+		ProjectsParser pp= ProjectsParser.getInstance();
+		pp.addProject("projTest",usr1,"descrTest");
+		pp.addUser("projTest",usr2.getLogin(),true,false,true,false);
+		
+		ArrayList usr2Rights = pp.getRights("projTest",usr2.getLogin());
+		assertTrue( (Boolean)usr2Rights.get(0)==Boolean.TRUE );
+		assertTrue( (Boolean)usr2Rights.get(1)==Boolean.FALSE );
+		assertTrue( (Boolean)usr2Rights.get(2)==Boolean.TRUE );
+		assertTrue( (Boolean)usr2Rights.get(3)==Boolean.FALSE );
+		
+		up.removeUser(usr1.getLogin());
+		up.removeUser(usr2.getLogin());
+		pp.removeProject("projTest");
+	}
+	
+	
+	/*
+	 * Test OK
+	 */
+	public void testAddProject() {
+		User usr=new User("loginTest","passTest",true,true);
+		
+		UsersParser up= UsersParser.getInstance();
+		up.addUser(usr);
+		
+		ProjectsParser pp= ProjectsParser.getInstance();
+		pp.addProject("projTest",usr,"descrTest");
+		
+		assertTrue(pp.isProject("projTest"));
+		
+		up.removeUser(usr.getLogin());
+		pp.removeProject("projTest");
+	}
+
+	
 	/*
 	 * Test OK
 	 */
@@ -203,8 +246,9 @@ public class ProjectsParserTest extends TestCase {
 		pp.removeProject("projTest");
 	}
 
+	
 	/*
-	 * Test A REPASSER apres correction de isProject
+	 * Test OK
 	 */
 	public void testRemoveProject() {
 		User usr=new User("loginTest","passTest",true,true);
@@ -220,8 +264,75 @@ public class ProjectsParserTest extends TestCase {
 		up.removeUser(usr.getLogin());		
 	}
 
+	
 	/*
-	 * Test OK 'xagdop.Parser.ProjectsParser.buildProject(String)'
+	 * Test OK
+	 */
+	public void testSetRightsStringStringBooleanBooleanBooleanBoolean(){
+		User usr1=new User("loginTest","passTest",true,true);
+		User usr2=new User("loginTest2","passTest2",true,true);
+		
+		UsersParser up=UsersParser.getInstance();
+		up.addUser(usr1);
+		up.addUser(usr2);
+		
+		ProjectsParser pp= ProjectsParser.getInstance();
+		pp.addProject("projTest",usr1,"descrTest");
+		pp.addUser("projTest",usr2,true,true,true,true);
+		
+		//on verifie les droits initiaux
+		ArrayList oldRights = pp.getRights("projTest",usr2.getLogin());
+		assertTrue(oldRights.get(0)==Boolean.TRUE);
+		assertTrue(oldRights.get(1)==Boolean.TRUE);
+		assertTrue(oldRights.get(2)==Boolean.TRUE);
+		assertTrue(oldRights.get(3)==Boolean.TRUE);
+		
+		//on modifie les droits
+		pp.setRights("projTest",usr2.getLogin(),false,false,false,false);
+		ArrayList newRights = pp.getRights("projTest",usr2.getLogin());
+
+		//on verifie les modifications
+		assertTrue(newRights.get(0)==Boolean.FALSE);
+		assertTrue(newRights.get(1)==Boolean.FALSE);
+		assertTrue(newRights.get(2)==Boolean.FALSE);
+		assertTrue(newRights.get(3)==Boolean.FALSE);
+		
+		up.removeUser(usr1.getLogin());
+		up.removeUser(usr2.getLogin());
+		pp.removeProject("projTest");		
+	}
+	
+	
+	/*
+	 * Test OK
+	 */
+	public void testGetRightsStringString(){
+		User usr1=new User("loginTest","passTest",true,true);
+		User usr2=new User("loginTest2","passTest2",true,true);
+		
+		UsersParser up=UsersParser.getInstance();
+		up.addUser(usr1);
+		up.addUser(usr2);
+		
+		ProjectsParser pp= ProjectsParser.getInstance();
+		pp.addProject("projTest",usr1,"descrTest");
+		pp.addUser("projTest",usr2,true,false,true,false);
+		
+		//on verifie les droits initiaux
+		ArrayList oldRights = pp.getRights("projTest",usr2.getLogin());
+		assertTrue(oldRights.get(0)==Boolean.TRUE);
+		assertTrue(oldRights.get(1)==Boolean.FALSE);
+		assertTrue(oldRights.get(2)==Boolean.TRUE);
+		assertTrue(oldRights.get(3)==Boolean.FALSE);
+			
+		up.removeUser(usr1.getLogin());
+		up.removeUser(usr2.getLogin());
+		pp.removeProject("projTest");		
+	}
+
+	
+	/*
+	 * Test OK
 	 */
 	public void testBuildProject() {
 		User usr1=new User("loginTest","passTest",true,true);
@@ -247,32 +358,6 @@ public class ProjectsParserTest extends TestCase {
 		up.removeUser(usr1.getLogin());
 		up.removeUser(usr2.getLogin());
 		pp.removeProject("projTest");
-	}
-
-	/*
-	 * Test KO
-	 */
-	public void testIsProjectString() {
-		User usr=new User("loginTest","passTest",true,true);
-		
-		UsersParser up= UsersParser.getInstance();
-		up.addUser(usr);
-		
-		ProjectsParser pp= ProjectsParser.getInstance();
-		pp.addProject("projTest",usr,"descrTest");
-		
-		assertTrue(pp.isProject("projTest"));
-		pp.removeProject("projTest");
-		assertFalse(pp.isProject("projTest"));//??? ECHEC
-		
-		up.removeUser(usr.getLogin());
-	}
-	
-	/*
-	 * Test A FAIRE 'xagdop.Parser.ProjectsParser.saveDocument()'
-	 */
-	public void testSaveDocument() {
-
 	}
 
 }

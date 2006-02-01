@@ -6,7 +6,6 @@ import java.awt.Component;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.net.URL;
-import java.util.ArrayList;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;

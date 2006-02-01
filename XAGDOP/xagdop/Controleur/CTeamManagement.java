@@ -5,10 +5,11 @@ import xagdop.Parser.ProjectsParser;
 public class CTeamManagement{
 	
 	String _projectName;
-	public void Apply(ProjectsParser PP,String user,boolean architect, boolean analyst, boolean redacter,boolean pmanager){
+	public void Apply(ProjectsParser PP,String login, boolean architect, boolean analyst, boolean redacter,boolean pmanager){
 		//Call to XML Parser
-		String valeur="";
+		//String valeur="";
 		
+		/*
 		//Apply for Redacteur Value
 		if (redacter)
 			valeur="true";
@@ -34,7 +35,7 @@ public class CTeamManagement{
 		
 		PP.setAttribute(this._projectName,user,"analyste",valeur);
 		
-//		Apply for Analyst Value
+		//Apply for Analyst Value
 		if (pmanager)
 			valeur="true";
 		else
@@ -42,8 +43,9 @@ public class CTeamManagement{
 		
 		PP.setAttribute(this._projectName,user,"pmanager",valeur);
 		
+		*/
 		
-		
+		PP.setRights(this._projectName, login, pmanager,architect,analyst,redacter);
 		
 		
 		//Send file

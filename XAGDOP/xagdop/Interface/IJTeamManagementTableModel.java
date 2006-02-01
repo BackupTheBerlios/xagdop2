@@ -71,9 +71,9 @@ public class IJTeamManagementTableModel extends AbstractTableModel {
 			String o = ((String)it.next());
 			System.out.println(o);
 			rowData[i][0] =	o;
-			rowData[i][1] = new Boolean(this.projet.isArchitecte(o));
+			rowData[i][1] = new Boolean(this.projet.isArchitect(o));
 			rowData[i][2] = new Boolean(this.projet.isAnalyst(o));
-			rowData[i][3] = new Boolean(this.projet.isRedacteur(o));
+			rowData[i][3] = new Boolean(this.projet.isRedactor(o));
 			rowData[i][4] = new Boolean(this.projet.isManager(o));
 			rowData[i][5] = new JButton(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/supprimer.gif")));
 			i++;	

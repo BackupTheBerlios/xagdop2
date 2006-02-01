@@ -53,11 +53,11 @@ public class UsersParser {
 	private UsersParser()
 	{
 		try {
-			SvnUpdate svnu = new SvnUpdate(); 
-			fichierXML = svnu.getUsersFile();
+			/* SvnUpdate svnu = new SvnUpdate(); 
+			fichierXML = svnu.getUsersFile(); */
+			fichierXML = new File("xagdop/Parser/users.xml"); //debug
 			loadTreeInMemory(fichierXML);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -75,7 +75,7 @@ public class UsersParser {
 	}
 	
 	/**
-	 * Verifie qu' un utilisateur existe
+	 * Verifie qu'un utilisateur existe
 	 * @param idUser nom de l'utilisateur
 	 * @return vrai : utilisateur existe, faux utilisateur n'existe pas
 	 */
@@ -564,22 +564,19 @@ public class UsersParser {
 		try {
 			transformer = tFactory.newTransformer();
 		} catch (TransformerConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
 			transformer.transform(new DOMSource(doc), new StreamResult(fichierXML));
 		} catch (TransformerException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		try {
-			SvnCommit svnc = new SvnCommit();
-			svnc.sendFile(fichierXML, "");
+			 SvnCommit svnc = new SvnCommit();
+			svnc.sendFile(fichierXML, ""); 
 			loadTreeInMemory(fichierXML);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -236,8 +236,8 @@ public class ITeamManagement extends JFrame{
 	public void refresh(){
 		
 		AnalystCheck.setSelected(projet.isAnalyst(((String)UserListCombo.getSelectedItem())));
-		RedacterCheck.setSelected(projet.isRedacteur(((String)UserListCombo.getSelectedItem())));
-		ArchitectCheck.setSelected(projet.isArchitecte(((String)UserListCombo.getSelectedItem())));
+		RedacterCheck.setSelected(projet.isRedactor(((String)UserListCombo.getSelectedItem())));
+		ArchitectCheck.setSelected(projet.isArchitect(((String)UserListCombo.getSelectedItem())));
 		PManagerCheck.setSelected(projet.isManager(((String)UserListCombo.getSelectedItem())));
 		
 	 	 
