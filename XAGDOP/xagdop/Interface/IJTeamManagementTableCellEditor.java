@@ -61,11 +61,9 @@ public class IJTeamManagementTableCellEditor extends AbstractCellEditor
     	int out = JOptionPane.showOptionDialog(this.IJTM.getTable(),new String("Etes-vous sur de vouloir desaffecter cet utilisateur ?"),new String("Suppression d'un utilisateur"),JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,null,null);
 		if(out == JOptionPane.YES_OPTION) 
 		{
-			rowToDelete =this.IJTM.getTable().getSelectedRow();
-		
+					rowToDelete =this.IJTM.getTable().getSelectedRow();		
 					this.IJTM.getProjectParser().removeUser(this.nomProjet,((String)this.IJTM.getTable().getModel().getValueAt(rowToDelete,0)));
-					IJTeamManagement.getIJTM(this.nomProjet).refreshUsers();
-					
+					IJTeamManagement.getIJTM(this.nomProjet).refreshUsers();					
 				
 		}
 	}
