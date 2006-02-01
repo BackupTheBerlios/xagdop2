@@ -38,8 +38,9 @@ public class SvnUpdate{
 	 * @throws SVNException
 	 */
 	public File getUsersFile() throws SVNException{
-		getFiles();
 		File droitsLocal = new File(IPreferences.getRootPath()+".xagdop"+File.separator+repository.getRepositoryUUID()+File.separator+"users.xml");
+		if(!droitsLocal.exists())
+			getFiles();
 		droitsLocal.deleteOnExit();
 		return droitsLocal;
 		
@@ -50,8 +51,10 @@ public class SvnUpdate{
 	 * @throws SVNException
 	 */
 	public File getProjectFile() throws SVNException{
-		getFiles();
+		
 		File project = new File(IPreferences.getRootPath()+".xagdop"+File.separator+repository.getRepositoryUUID()+File.separator+"projects.xml");
+		if(!project.exists())
+			getFiles();
 		project.deleteOnExit();
 		return project;
 		
@@ -61,8 +64,10 @@ public class SvnUpdate{
 	 * @throws SVNException
 	 */
 	public File getDependenciesFile() throws SVNException{
-		getFiles();
+		
 		File dependenciesLocal = new File(IPreferences.getRootPath()+".xagdop"+File.separator+repository.getRepositoryUUID()+File.separator+"dependencies.xml");
+		if(!dependenciesLocal.exists())
+			getFiles();
 		dependenciesLocal.deleteOnExit();
 		return dependenciesLocal;
 		

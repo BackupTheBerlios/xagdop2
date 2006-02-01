@@ -21,18 +21,24 @@ public class CRole {
 		writeDirectory = new ArrayList();
 		if(_project!=""){
 			User current = XAGDOP.getInstance().getUser();
+			System.out.println(current.getLogin()+" : "+_project);
 			ProjectsParser pp = ProjectsParser.getInstance();
 			Project project = pp.buildProject(_project);
 			madeRole(project.isManager(current.getLogin()),project.isAnalyst(current.getLogin()),project.isArchitect(current.getLogin()),project.isRedactor(current.getLogin()));
 		}
+		
 	}
 	
 	
-	private  void madeRole(boolean projectManager, boolean analyst, boolean architect, boolean redactor){
+	private void madeRole(boolean projectManager, boolean analyst, boolean architect, boolean redactor){
 		
 		
 		writeFile.add(".xml");
-		
+		viewFile.add(".pref");
+		System.out.println("Manager : "+projectManager);
+		System.out.println("Archi : "+architect);
+		System.out.println("Redactor : "+redactor);
+		System.out.println("analyst : "+analyst);
 		if(projectManager)
 			addManagerRight();
 		
@@ -56,15 +62,13 @@ public class CRole {
 		
 		viewFile.add(".pog");
 		viewFile.add(".apes");
-		viewFile.add(".pref");
 	}
 	
 	protected void addArchitectRight(){
 		writeFile.add(".iepp");
 		viewFile.add(".apes");
 		viewFile.add(".pog");
-		viewDirectory.add("lib");
-		viewFile.add(".pref");
+		viewDirectory.add("lib*");
 	}	
 	
 	protected void addRedactorRight(){
@@ -72,7 +76,6 @@ public class CRole {
 		writeDirectory.add("lib*");
 		viewFile.add(".pog");
 		viewDirectory.add("lib*");
-		viewFile.add(".pref");
 		
 	}
 	

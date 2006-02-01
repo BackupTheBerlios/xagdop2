@@ -24,8 +24,6 @@ public class CUser {
     	if (user != null){
     		IPreferences.setDefaultPath(IPreferences.getDefaultPath()+user.getLogin()+File.separator);
     		XAGDOP.getInstance().setUser(user);
-    		XAGDOP.getInstance().setVisible(true);
-    		XAGDOP.getInstance().refreshButton();
     		return true;
     	}
     	else{

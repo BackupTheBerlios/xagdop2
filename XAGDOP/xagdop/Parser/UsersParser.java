@@ -53,9 +53,9 @@ public class UsersParser {
 	private UsersParser()
 	{
 		try {
-			/* SvnUpdate svnu = new SvnUpdate(); 
-			fichierXML = svnu.getUsersFile(); */
-			fichierXML = new File("xagdop/Parser/users.xml"); //debug
+			 SvnUpdate svnu = new SvnUpdate(); 
+			fichierXML = svnu.getUsersFile(); 
+			//fichierXML = new File("xagdop/Parser/users.xml"); //debug
 			loadTreeInMemory(fichierXML);
 		} catch (Exception e) {
 			e.printStackTrace();

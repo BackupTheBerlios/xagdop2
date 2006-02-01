@@ -51,7 +51,6 @@ public class Project {
 	{
 		boolean res = false;
 		int index = usersLogin.indexOf(login);
-		System.out.println(index);
 		ArrayList droits = (ArrayList)rights.get(index);
 		
 		if(((Boolean)droits.get(1)).booleanValue()) {

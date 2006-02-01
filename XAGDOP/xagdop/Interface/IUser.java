@@ -30,7 +30,7 @@ public class IUser extends JFrame{
 	private JPasswordField password;
 	private GridBagConstraints gridBagConstraints = new GridBagConstraints();
     
-	int i=0;
+	
 	
 	
 	private IUser(){
@@ -40,7 +40,7 @@ public class IUser extends JFrame{
 	
 	private void init(){
 		
-		final CUser CU = new CUser();
+		
 		panel = new JPanel();
 		panel.setLayout(new GridBagLayout());
 		panel.setMinimumSize(new Dimension(300, 200));
@@ -106,6 +106,7 @@ public class IUser extends JFrame{
         /*Action relative aux boutons*/		
 		valide.addActionListener(new ActionListener(){
 				    public void actionPerformed(ActionEvent e){
+				    	CUser CU = new CUser();
 				    	if (CU.verifUser(userID.getText(),new String(password.getPassword())))
 				    	{
 				    		IU.setVisible(false);		    		

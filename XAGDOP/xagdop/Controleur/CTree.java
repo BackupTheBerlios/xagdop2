@@ -6,6 +6,7 @@ import java.awt.Component;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.net.URL;
+import java.util.ArrayList;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -145,7 +146,6 @@ public class CTree implements TreeModel
 	}
 	
 	public String treePathName(String file){
-		System.getProperties();
 		//System.out.println(node.getLocalPath().substring(0,mRoot.getLocalPath().length()+1));
 		return file.substring(mRoot.getLocalPath().length()+1,file.length()); 
 	}
@@ -177,7 +177,7 @@ public class CTree implements TreeModel
 			res = res.concat(apesSlit[i]+File.separator);
 		
 		res = res.substring(0,res.length()-1);
-		System.out.println(res);
+		//System.out.println(res);
 		return res;
 	}
 
@@ -421,29 +421,45 @@ public class CTree implements TreeModel
 	}
 	
 	public void refreshFromLocal(CTreeNode parent){
+		final CTreeNode node = parent;
 		File localFiles = new File(parent.getLocalPath());
 		parent.removeAllChildren();
 		
 		File[] allFiles = localFiles.listFiles(new FilenameFilter() {
 			
 			public boolean accept(File dir, String name) {
+				//System.out.println("Accept File");
 				File directory = new File(dir.getAbsolutePath()+File.separator+name);
 					if(directory.isDirectory()&&!directory.isHidden())
 						return true;
-					if(name.endsWith(".apes")||name.endsWith(".iepp")||name.endsWith(".pog")){
-						return true;
+					
+					if(!node.isRoot()){
+						CRole role = new CRole(node.getProject().getName());
+						//System.out.println("bla");
+						ArrayList view = role.getViewFileRight();
+						//System.out.println("bla : "+view.size());
+						int i = 0;
+						while(i < view.size()){
+							if(name.endsWith((String)view.get(i)))
+								return true;
+							i++;
+						}
+					}
+					//if(name.endsWith(".apes")||name.endsWith(".iepp")||name.endsWith(".pog")){
+					//	return true;
 						
 					//int i = 0;
 					//while(i < right.size()){
 					//	if(name.endsWith((String)right.get(i)))
 					//		return true;
 					//}
-				}
+				//}
 				return false;
 				
 			}
 		
 		});
+		//System.out.println("Fin Accept File");
 		int i = 0;
 		if(allFiles!=null){
 			while(i<allFiles.length){

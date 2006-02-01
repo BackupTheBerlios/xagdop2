@@ -12,7 +12,7 @@ import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Locale;
+
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
@@ -32,9 +32,6 @@ import javax.swing.table.AbstractTableModel;
 import xagdop.Controleur.CProject;
 import xagdop.Controleur.CTree;
 import xagdop.Model.User;
-import xagdop.Parser.DependenciesParser;
-import xagdop.Parser.ProjectsParser;
-import xagdop.Parser.UsersParser;
 import xagdop.ressources.Bundle;
 
 //import ressources.Bundle;
@@ -51,7 +48,7 @@ public class XAGDOP extends JFrame{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static XAGDOP xag =null;
+	private static XAGDOP xag = null;
 	protected  User user;
 	protected JPanel panel = new JPanel();
 	protected JMenuBar menuBar = new JMenuBar();
@@ -70,26 +67,26 @@ public class XAGDOP extends JFrame{
 	 * Initialisation of Menu
 	 * 
 	 */
-	JMenu menuFile = new JMenu(Bundle.getText("main.menu.file"));
-	JMenuItem fileMenuQuit = new JMenuItem(Bundle.getText("main.menu.file.quit"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/menu_quit.gif"))) ;
+	protected JMenu menuFile = new JMenu(Bundle.getText("main.menu.file"));
+	protected JMenuItem fileMenuQuit = new JMenuItem(Bundle.getText("main.menu.file.quit"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/menu_quit.gif"))) ;
 	
-	JMenu menuEdite = new JMenu(Bundle.getText("main.menu.edit"));
-	JMenuItem menuEditeCommit = new JMenuItem(Bundle.getText("main.menu.edite.commit"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/envoyer.jpg")));
-	JMenuItem menuEditeUpdate = new JMenuItem(Bundle.getText("main.menu.edite.update"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/reload.png")));
-	JMenuItem menuEditeCheck = new JMenuItem(Bundle.getText("main.menu.edite.checkout"));
+	protected JMenu menuEdite = new JMenu(Bundle.getText("main.menu.edit"));
+	protected JMenuItem menuEditeCommit = new JMenuItem(Bundle.getText("main.menu.edite.commit"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/envoyer.jpg")));
+	protected JMenuItem menuEditeUpdate = new JMenuItem(Bundle.getText("main.menu.edite.update"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/reload.png")));
+	protected JMenuItem menuEditeCheck = new JMenuItem(Bundle.getText("main.menu.edite.checkout"));
 	
-	JMenu menuConf = new JMenu(Bundle.getText("main.menu.parameters"));
-	JMenuItem menuConfPreferences = new JMenuItem(Bundle.getText("main.menu.parameters.preferences"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/tools.jpg")));
+	protected JMenu menuConf = new JMenu(Bundle.getText("main.menu.parameters"));
+	protected JMenuItem menuConfPreferences = new JMenuItem(Bundle.getText("main.menu.parameters.preferences"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/tools.jpg")));
 	
-	JMenu menuProjet = new JMenu(Bundle.getText("main.menu.project"));
-	JMenuItem menuProjetTeam = new JMenuItem(Bundle.getText("main.menu.project.team"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/equipe.jpeg")));
-	JMenuItem menuProjetCreate = new JMenuItem(Bundle.getText("main.menu.project.newProject"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/new-tab.png")));
-	JMenuItem menuProjetDelete = new JMenuItem(Bundle.getText("main.menu.project.delProject"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/supprimer.gif")));
-	JMenuItem menuProjetPreferences = new JMenuItem("Fichier Preferences");
+	protected JMenu menuProjet = new JMenu(Bundle.getText("main.menu.project"));
+	protected JMenuItem menuProjetTeam = new JMenuItem(Bundle.getText("main.menu.project.team"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/equipe.jpeg")));
+	protected JMenuItem menuProjetCreate = new JMenuItem(Bundle.getText("main.menu.project.newProject"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/new-tab.png")));
+	protected JMenuItem menuProjetDelete = new JMenuItem(Bundle.getText("main.menu.project.delProject"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/supprimer.gif")));
+	protected JMenuItem menuProjetPreferences = new JMenuItem("Fichier Preferences");
 	
 	
-	JMenu menuHelp = new JMenu(Bundle.getText("main.menu.help"));
-	JMenuItem menuHelpAbout = new JMenuItem(Bundle.getText("main.menu.help.about"));
+	protected JMenu menuHelp = new JMenu(Bundle.getText("main.menu.help"));
+	protected JMenuItem menuHelpAbout = new JMenuItem(Bundle.getText("main.menu.help.about"));
 	
 	//End of Menu Initialisation
 	
@@ -104,18 +101,20 @@ public class XAGDOP extends JFrame{
 	
 	
 	
-	IProjectTree tree;
+	protected IProjectTree tree;
 	
 	private XAGDOP(){
 		
-		init();
-		
+		//init();
 		//testsParsers tests = new testsParsers(); 
 	}
-	
+	public void showFrame(){
+		init();
+		setVisible(true);
+		refreshButton();
+	}
+
 	private void init(){
-		
-		
 		java.net.URL imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/envoyer.jpg");
 		commit = new JButton(new ImageIcon(imageURL));
 		imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/equipe.jpeg");
@@ -316,11 +315,14 @@ public class XAGDOP extends JFrame{
 		equipe.setEnabled(false);
 		menuProjetTeam.setEnabled(false);
 		//Création des parsers
+		/*System.out.println("Parser");
 		DependenciesParser.getInstance();
 		UsersParser.getInstance();
 		ProjectsParser.getInstance();
-		
-		
+		System.out.println("Fin Parser");
+		CRole role = new CRole("Blabla");
+		ArrayList test = role.getViewFileRight();
+		System.out.println(test.toString());*/
 		
 		
 	}
@@ -460,21 +462,12 @@ public class XAGDOP extends JFrame{
 	 */
 	public static XAGDOP getInstance() {
 		if (xag==null){
-
 			xag = new XAGDOP(); 
-
 		}
 		
 		return xag;
 	}
 	
-	public static void main(String args[]){
-		Bundle.setCurrentLocale(Locale.FRENCH);
-
-		IUser frame = IUser.getIU();
-		frame.setVisible(true);	
-
-	}
 
 	public IProjectTree getTree() {
 		return tree;

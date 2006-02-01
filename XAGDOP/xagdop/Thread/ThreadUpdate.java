@@ -31,6 +31,7 @@ public class ThreadUpdate extends Thread {
 			e.printStackTrace();
 			System.out.println("Erreur dans le thread Update");
 		}catch (Exception e){
+			e.printStackTrace();
 			System.out.println("Erreur dans le thread Update");
 		}finally{
 		
