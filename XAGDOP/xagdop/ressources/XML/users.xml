@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><users>
+	<user login="claire" passwd="1a1dc91c907325c69271ddf0c944bc72">
+		<roles>
+			<admin/>
+			<pcreator/>
+		</roles>
+	</user>
+
+	<user login="cecile" passwd="1a1dc91c907325c69271ddf0c944bc72">
+		<roles/>
+	</user>
+
+	<user login="remy" passwd="1a1dc91c907325c69271ddf0c944bc72">
+		<roles/>
+	</user>
+
+	<user login="jeremy" passwd="1a1dc91c907325c69271ddf0c944bc72">
+		<roles>
+			<pcreator/>
+			<admin/>
+		</roles>
+	</user>
+	
+	<user login="toine" passwd="49ffe351f3dc8cd00d6875aa8bd5d53d">
+		<roles>
+			<pcreator/>
+		</roles>
+	</user>
+	
+	<user login="kibad" passwd="44d365f925ac53d3db3061035b3b2fbf">
+		<roles>
+			<pcreator/>
+		</roles>
+	</user>
+</users>
