@@ -1,7 +1,11 @@
 package xagdop.Controleur;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class CFile {
 	/*
@@ -10,9 +14,7 @@ public class CFile {
 	 * 
 	 * 
 	 */
-	protected List archi = new ArrayList();
-	protected List redactor = new ArrayList();
-	protected List analyst = new ArrayList();
+	
 	/*
 	 * Constructeur
 	 */
@@ -23,7 +25,21 @@ public class CFile {
 	/*
 	 * Methode de la classe
 	 */
-	
+//	 Copies src file to dst file.
+    // If the dst file does not exist, it is created
+    public static void copy(File src, File dst) throws IOException {
+        InputStream in = new FileInputStream(src);
+        OutputStream out = new FileOutputStream(dst);
+    
+        // Transfer bytes from in to out
+        byte[] buf = new byte[1024];
+        int len;
+        while ((len = in.read(buf)) > 0) {
+            out.write(buf, 0, len);
+        }
+        in.close();
+        out.close();
+    }
 	
 	
 	
