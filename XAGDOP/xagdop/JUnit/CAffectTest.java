@@ -24,7 +24,7 @@ public class CAffectTest extends TestCase {
 		
 		try {
 			CA.affecter(p.getProjectName(),us.getLogin(),true,false,true,false);
-			assertTrue(p.isAnalyst(us.getLogin())==false);
+			assertTrue(p.isRedactor(us.getLogin())==true);
 			assertFalse(p.isManager(us.getLogin())==false);
 		} catch (InstanceNotFoundException e) {
 			// TODO Auto-generated catch block
