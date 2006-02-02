@@ -22,13 +22,11 @@ import javax.xml.xpath.*;
  * fournit les attributs et methodes necessaires pour extraire, inserer ou modifier
  * des donnees du fichier XML contentant les donnees utilisateur
  */
-public class UsersParser {
-	private DocumentBuilderFactory dbf;
-	private DocumentBuilder db;
-	private Document doc;
+public class UsersParser extends Parser{
+
 	private static UsersParser UPInstance = null;
 	
-	private File fichierXML ;
+	private File usersXML ;
 	
 	public static final String ATTR_LOGIN = "login";
 	public static final String ATTR_PASSWD = "passwd";
@@ -54,25 +52,15 @@ public class UsersParser {
 	{
 		try {
 			 SvnUpdate svnu = new SvnUpdate(); 
-			fichierXML = svnu.getUsersFile(); 
+			usersXML = svnu.getUsersFile(); 
 			//fichierXML = new File("xagdop/Parser/users.xml"); //debug
-			loadTreeInMemory(fichierXML);
+			loadTreeInMemory(usersXML);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	/**
-	 * Charge l'arbre du ficher en memoire
-	 * @param fichier charge en memoire
-	 * @throws probleme de memoire ou d'acces fichier
-	 */
-	private void loadTreeInMemory(File fichier) throws Exception {
-		this.dbf = DocumentBuilderFactory.newInstance();
-		this.dbf.setValidating(false);
-		this.db = dbf.newDocumentBuilder();
-		this.doc = db.parse(fichier);
-	}
+
 	
 	/**
 	 * Verifie qu'un utilisateur existe
@@ -294,7 +282,7 @@ public class UsersParser {
 						}
 						Element newRole = doc.createElement(attr);
 						elem.appendChild(newRole);
-						saveDocument();
+						saveDocument(usersXML);
 					}						
 				}
 				else { // On retire la balise correspondante si elle existe
@@ -315,7 +303,7 @@ public class UsersParser {
 							e.printStackTrace();
 						}
 						parentElem.removeChild(elem);
-						saveDocument();
+						saveDocument(usersXML);
 					}
 				}
 			} // fin du if (attr != ATTR_LOGIN || attr != ATTR_PASSWD)
@@ -353,7 +341,7 @@ public class UsersParser {
 			else { // l'attribut est admin ou pcreator
 				System.out.println("Modification de l'attribut "+ attr + " pour l'utilisateur "+login+ " impossible!"); 
 			}				
-			saveDocument();
+			saveDocument(usersXML);
 		}
 		else {
 			System.out.println("Modification de l'attribut "+ attr + " pour l'utilisateur "+login+ " impossible!"); 
@@ -400,7 +388,7 @@ public class UsersParser {
 					rolesNode.appendChild(newRole);
 				}
 				elem.appendChild(newElem);
-				saveDocument();
+				saveDocument(usersXML);
 			}
 			else {
 				System.out.println("Ajout de l'utilisateur "+login+" impossible!"); 
@@ -458,7 +446,7 @@ public class UsersParser {
 			}
 			if ( elem != null ) {
 				elem.removeChild(oldElem);
-				saveDocument();
+				saveDocument(usersXML);
 				System.out.println("Suppression de l'utilisateur "+login+" effectu??e!"); 
 			}
 			else {
@@ -552,32 +540,4 @@ public class UsersParser {
 		return usersList;
 	}
 	
-
-	/**
-	 * Sauvegarde le document XML contenant les donnees utilisateur
-	 *
-	 */
-	public void saveDocument()
-	{
-		TransformerFactory tFactory = TransformerFactory.newInstance();
-		Transformer transformer = null;
-		try {
-			transformer = tFactory.newTransformer();
-		} catch (TransformerConfigurationException e) {
-			e.printStackTrace();
-		}
-		try {
-			transformer.transform(new DOMSource(doc), new StreamResult(fichierXML));
-		} catch (TransformerException e) {
-			e.printStackTrace();
-		}
-
-		try {
-			 SvnCommit svnc = new SvnCommit();
-			svnc.sendFile(fichierXML, ""); 
-			loadTreeInMemory(fichierXML);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 }
