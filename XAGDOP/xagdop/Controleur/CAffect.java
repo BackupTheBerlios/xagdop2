@@ -3,6 +3,7 @@ package xagdop.Controleur;
 import javax.management.InstanceNotFoundException;
 
 
+import xagdop.Interface.IJTeamManagement;
 import xagdop.Parser.ProjectsParser;
 import xagdop.Parser.UsersParser;
 
@@ -18,14 +19,13 @@ public class CAffect {
 			throw new InstanceNotFoundException();
 		else
 		{
-			if (PP.isProject(project))
+			if (!PP.isProject(project))
 				throw new Exception();
 			else
 		
-			{
-				
+			{				
 				PP.addUser(project, login, pmanager, archi, analyst,redactor);
-
+				IJTeamManagement.getIJTM(project).refreshUsers();
 			}
 		}	
 	}
