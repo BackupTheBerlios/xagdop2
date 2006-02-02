@@ -1,17 +1,26 @@
 package xagdop.Interface;
 
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Iterator;
 
+import javax.swing.AbstractCellEditor;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
 
 import xagdop.Controleur.CTeamManagement;
 import xagdop.Model.Project;
@@ -234,37 +243,188 @@ public class IJTeamManagement extends JFrame{
 		return this.JT;
 	}
 	
-	/*public ArrayList getUsers(int g)
-	{
-		ArrayList usersProject = new ArrayList();
-		ArrayList usersProjetId = this.projet.getUsersLogin();
-		Iterator i = this.users.getAllUsers().iterator();
-		Iterator j = usersProjetId.iterator();
-		Integer usersProjet;
-		Users usersGlobal;
-		while(j.hasNext())
-		{
-			usersProjet = ((Integer)j.next());
-			
-			while(i.hasNext())
-			{
-				usersGlobal = ((Users)i.next());
-				if(usersGlobal.getId()==usersProjet.intValue())
-				{
-					usersProject.add(usersGlobal);
-				}
-			}
-			
-			i = this.users.getAllUsers().iterator();
-			
-			
-		}
-		return usersProject;
-	}*/
-	
 	public ProjectsParser getProjectParser()
 	{
 		return this.projects;
 	}
 	
+}
+
+class IJTeamManagementTableCellEditor extends AbstractCellEditor 
+					implements TableCellEditor, ActionListener{
+
+	/**
+	* 
+	*/
+	private static final long serialVersionUID = -6769375527688617834L;
+	protected static final String EDIT = "edit";
+
+	private JButton JB;
+	private IJTeamManagement IJTM;
+	private String nomProjet;
+	
+	
+	public IJTeamManagementTableCellEditor(IJTeamManagement IJTM, String projet) 
+	{
+	this.nomProjet = projet;
+	JB = new JButton(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/supprimer.gif")));
+	JB.setActionCommand(EDIT);
+	JB.addActionListener(this);
+	JB.setBorderPainted(false);
+	this.IJTM = IJTM;
+	}
+	
+	
+	public Object getCellEditorValue() {
+	// TODO Auto-generated method stub
+	return null;
+	}
+	
+	public void actionPerformed(ActionEvent e) {
+	// TODO Auto-generated method stub
+	if (EDIT.equals(e.getActionCommand())) {
+	this.desaffecterUser();			
+	}
+	
+	}
+	
+	public Component getTableCellEditorComponent(JTable table,Object value,boolean isSelected,int row,int column) 
+	{
+	return JB;
+	}
+	
+	public void desaffecterUser() {
+	
+	int rowToDelete;
+	
+	int out = JOptionPane.showOptionDialog(this.IJTM.getTable(),new String("Etes-vous sur de vouloir desaffecter cet utilisateur ?"),new String("Suppression d'un utilisateur"),JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,null,null);
+	if(out == JOptionPane.YES_OPTION) 
+	{
+	rowToDelete =this.IJTM.getTable().getSelectedRow();		
+	this.IJTM.getProjectParser().removeUser(this.nomProjet,((String)this.IJTM.getTable().getModel().getValueAt(rowToDelete,0)));
+	IJTeamManagement.getIJTM(this.nomProjet).refreshUsers();					
+	
+	}
+	}
+	
+	}
+
+
+/**
+ * 
+ * @author JULLIEN Antoine
+ * @docRoot Classe de rendu permettant d'afficher des boutons
+ * dans la JTable.
+ * Cette classe etend JButton et implemente TableCellRenderer
+ */
+class IJTeamManagementTableCellrenderer extends JButton implements TableCellRenderer
+{
+
+	private static final long serialVersionUID = 1L;
+	
+	/**
+	 *
+	 * @docRoot Ce constructeur initialise les instances de cet objet opaques.
+	 */
+	public IJTeamManagementTableCellrenderer()
+	{
+		this.setOpaque(true);
+	}
+	
+	/**
+	 * Methode surchargee qui retourne l'objet a afficher dans une cellule
+	 */
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean arg2, boolean arg3, int arg4, int arg5) 
+	{
+		this.setIcon(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/supprimer.gif")));
+		this.setSize(new Dimension(this.getIcon().getIconHeight(),this.getIcon().getIconWidth()));
+		return this;
+	}
+}
+
+
+class IJTeamManagementTableModel extends AbstractTableModel {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private String nomColonne[] = {"Users","Architecte","Analyste","Redacteur","PManager","Desaffecter"};
+	private Object[][] rowData;
+	private ProjectsParser projetParser;
+	private Project projet;
+	private String nP;
+	
+	public IJTeamManagementTableModel(ArrayList usersParser, String nomProjet) {
+	    
+		projetParser = ProjectsParser.getInstance(); 		
+		this.nP = nomProjet;				
+		projet = projetParser.buildProject(nomProjet);	
+		this.init(projet);		
+	}
+		
+	public int getRowCount() {
+		return this.rowData.length;
+	}
+	
+	public int getColumnCount() {
+		return this.nomColonne.length;
+	}
+
+	public Object getValueAt(int rowIndex, int columnIndex) {
+		// TODO Auto-generated method stub
+		return this.rowData[rowIndex][columnIndex];
+	}
+	
+	public Class getColumnClass(int colonne) {
+		return getValueAt(0,colonne).getClass();
+	}
+	
+	public String getColumnName(int colonne) {
+		return this.nomColonne[colonne];
+	}
+	
+	public void init(Project projet) {
+		ArrayList users = projet.getUsersLogin();
+		
+		this.rowData = new Object[users.size()][this.getColumnCount()];
+		Iterator it = users.iterator();
+		int i = 0;
+		while (it.hasNext())
+		{
+			String o = ((String)it.next());
+			System.out.println(o);
+			rowData[i][0] =	o;
+			rowData[i][1] = new Boolean(this.projet.isArchitect(o));
+			rowData[i][2] = new Boolean(this.projet.isAnalyst(o));
+			rowData[i][3] = new Boolean(this.projet.isRedactor(o));
+			rowData[i][4] = new Boolean(this.projet.isManager(o));
+			rowData[i][5] = new JButton(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/supprimer.gif")));
+			i++;	
+		}
+	}
+	
+	public boolean isCellEditable(int row, int column) {
+			if (column != 0) 
+				return true;
+			else
+				return false;
+	}
+	
+	/**
+     * @param value: Object to put at a specific location
+     * @param row: row where to put value
+     * @param col: column where to put value
+     * 
+     * Update the model when data are changed and send an TableCell event
+     */
+    public void setValueAt(Object value, int row, int col) 
+    {
+    	if(col<this.getColumnCount() && row<this.getRowCount())
+        {
+    		this.rowData[row][col] = value;
+    		this.fireTableCellUpdated(row, col);
+        }
+    }
 }
