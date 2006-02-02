@@ -1,7 +1,11 @@
 package xagdop.JUnit;
 
+import java.util.ArrayList;
+
 import junit.framework.TestCase;
 import xagdop.Model.*;
+import xagdop.Parser.ProjectsParser;
+import xagdop.Parser.UsersParser;
 
 
 public class UserTest extends TestCase {
@@ -127,24 +131,56 @@ public class UserTest extends TestCase {
 	 * Test method for 'xagdop.Model.Users.isArchitect(String)'
 	 */
 	public void testIsArchitect() {
-//		Users us = new Users("toto","totopass",true,false);
-//		ProjectsParser pp= new ProjectsParser();
-//		ArrayList list= new ArrayList();
-//		ArrayList id =new ArrayList();
-//		Projects p = new Projects("projTest",list,id);
-//		pp.addProject("projTest",us,"desc");
-//
-//		pp.addUser("projTest",us,true,true,true,true);
-//		
-//		
-//		assertTrue(us.isArchitect("projTest")==true);
+		//Creation d'un utilisateur
+		User usr = new User("toto","totopass",true,false);
+
+		//Ajouter un nouveau utilisateur dans UsersParsers
+		UsersParser  usrp = UsersParser.getInstance();
+		usrp.addUser(usr);
 		
-		}
+		//Ajouter un projet dans ProjectsParser
+		ProjectsParser pp= ProjectsParser.getInstance();
+		pp.addProject("projTest",usr,"desc");
+		
+		//Affecter l'utilisateur au projTest
+		pp.addUser("projTest",usr.getLogin(),true,false,true,false);
+		
+		//Test
+		assertTrue(usr.isArchitect("projTest")==false);
+
+		//Supprimer l'utilisateur de UsersParsers
+		usrp.removeUser(usr.getLogin());
+		
+		//Supprimer le projet de ProjectsParsers
+		pp.removeProject("projTest");
+	}
 
 	/*
 	 * Test method for 'xagdop.Model.Users.isRedactor(String)'
 	 */
 	public void testIsRedactor() {
+		//Creation d'un utilisateur
+		User usr = new User("toto","totopass",true,false);
+
+		//Ajouter un nouveau utilisateur dans UsersParsers
+		UsersParser  usrp = UsersParser.getInstance();
+		usrp.addUser(usr);
+		
+		//Ajouter un projet dans ProjectsParser
+		ProjectsParser pp= ProjectsParser.getInstance();
+		pp.addProject("projTest",usr,"desc");
+		
+		//Affecter l'utilisateur au projTest
+		pp.addUser("projTest",usr.getLogin(),true,false,true,false);
+		
+		//Test
+		assertTrue(usr.isRedactor("projTest")==false);
+
+		//Supprimer l'utilisateur de UsersParsers
+		usrp.removeUser(usr.getLogin());
+		
+		//Supprimer le projet de ProjectsParsers
+		pp.removeProject("projTest");
 
 	}
 
@@ -152,6 +188,28 @@ public class UserTest extends TestCase {
 	 * Test method for 'xagdop.Model.Users.isAnalyst(String)'
 	 */
 	public void testIsAnalyst() {
+		//Creation d'un utilisateur
+		User usr = new User("toto","totopass",true,false);
+
+		//Ajouter un nouveau utilisateur dans UsersParsers
+		UsersParser  usrp = UsersParser.getInstance();
+		usrp.addUser(usr);
+		
+		//Ajouter un projet dans ProjectsParser
+		ProjectsParser pp= ProjectsParser.getInstance();
+		pp.addProject("projTest",usr,"desc");
+		
+		//Affecter l'utilisateur au projTest
+		pp.addUser("projTest",usr.getLogin(),true,false,true,false);
+		
+		//Test
+		assertTrue(usr.isAnalyst("projTest")==true);
+
+		//Supprimer l'utilisateur de UsersParsers
+		usrp.removeUser(usr.getLogin());
+		
+		//Supprimer le projet de ProjectsParsers
+		pp.removeProject("projTest");
 
 	}
 
@@ -159,6 +217,28 @@ public class UserTest extends TestCase {
 	 * Test method for 'xagdop.Model.Users.isPManager(String)'
 	 */
 	public void testIsPManager() {
+		//Creation d'un utilisateur
+		User usr = new User("toto","totopass",true,false);
+
+		//Ajouter un nouveau utilisateur dans UsersParsers
+		UsersParser  usrp = UsersParser.getInstance();
+		usrp.addUser(usr);
+		
+		//Ajouter un projet dans ProjectsParser
+		ProjectsParser pp= ProjectsParser.getInstance();
+		pp.addProject("projTest",usr,"desc");
+		
+		//Affecter l'utilisateur au projTest
+		pp.addUser("projTest",usr.getLogin(),true,false,true,false);
+		
+		//Test
+		assertTrue(usr.isPManager("projTest")==true);
+
+		//Supprimer l'utilisateur de UsersParsers
+		usrp.removeUser(usr.getLogin());
+		
+		//Supprimer le projet de ProjectsParsers
+		pp.removeProject("projTest");
 		
 		
 	}
