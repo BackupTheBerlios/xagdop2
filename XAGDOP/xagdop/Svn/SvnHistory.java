@@ -59,7 +59,7 @@ public class SvnHistory {
 			} catch (SVNException e) {
 				// TODO Auto-generated catch block
 				//e.printStackTrace();
-				System.out.println("Exception");
+				//System.out.println("Exception");
 				return false;
 			}
 			return true;
