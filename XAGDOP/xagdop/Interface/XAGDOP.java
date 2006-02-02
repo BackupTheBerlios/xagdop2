@@ -31,6 +31,7 @@ import javax.swing.table.AbstractTableModel;
 
 import xagdop.Controleur.CProject;
 import xagdop.Controleur.CTree;
+import xagdop.Controleur.CTreeNode;
 import xagdop.Model.User;
 import xagdop.ressources.Bundle;
 
@@ -99,7 +100,7 @@ public class XAGDOP extends JFrame{
 	
 	
 	
-	
+	protected CTreeNode currentNode;
 	
 	protected IProjectTree tree;
 	
@@ -314,7 +315,7 @@ public class XAGDOP extends JFrame{
 		//Initialisation des boutons
 		equipe.setEnabled(false);
 		menuProjetTeam.setEnabled(false);
-		//Création des parsers
+		//Cr??ation des parsers
 		/*System.out.println("Parser");
 		DependenciesParser.getInstance();
 		UsersParser.getInstance();
@@ -505,6 +506,12 @@ public class XAGDOP extends JFrame{
 		}
 				
 		
+	}
+	public CTreeNode getCurrentNode() {
+		return currentNode;
+	}
+	public void setCurrentNode(CTreeNode currentNode) {
+		this.currentNode = currentNode;
 	}
 	
 	
