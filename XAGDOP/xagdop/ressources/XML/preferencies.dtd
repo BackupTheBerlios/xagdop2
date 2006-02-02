@@ -1,0 +1,13 @@
+<!DOCTYPE preferencies
+[
+	<!ELEMENT preferencies (server lookNFeel langue) >
+	<!ATTLIST server
+		url NMTOKEN #REQUIRED
+	>
+	<!ATTLIST lookNFeel
+		name NMTOKEN #REQUIRED
+	>
+	<!ATTLIST lookNFeel
+		name NMTOKEN #REQUIRED
+	>
+]>
