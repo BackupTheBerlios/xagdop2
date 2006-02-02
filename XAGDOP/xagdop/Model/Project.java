@@ -1,22 +1,22 @@
 package xagdop.Model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
 
 public class Project {
 
 	private String projectName;
 	
-	//La liste contient pour chaque User, la liste des droits
-	//manager, architecte, analyste, redacteur sous forme de booleans
-	private ArrayList rights;
-	//La liste des logins des utilisateurs travaillant sur le projet
-	private ArrayList usersLogin;
+	//Contient pour chaque personne travaillant sur le projet la liste de ses droits sur le projet
+	//Donc en clef login, et la valeur associée une ArrayList contenant des booleans pour les droits
+	//pmanager, architect, analyst, redactor 
+	private HashMap usersAndRightsOnProject;
 	
-	public Project(String name, ArrayList rights, ArrayList logins)
+	public Project(String name)
 	{
 		this.projectName = name;
-		this.rights = rights;
-		this.usersLogin = logins;
+		usersAndRightsOnProject = new HashMap();
 	}
 	
 	public String getProjectName() {
@@ -27,59 +27,42 @@ public class Project {
 		this.projectName = projectName;
 	}
 
-	public ArrayList getUsersLogin() {
-		return usersLogin;
+
+	public ArrayList getUsersLogin() {		
+		return new ArrayList(usersAndRightsOnProject.keySet());
 	}
 
+	/*
 	public void setUsersLogin(ArrayList usersLogins) {
 		this.usersLogin = usersLogins;
-	}
+	}*/
 	
 	public boolean isManager(String login)
 	{
-		boolean res = false;
-		int index = usersLogin.indexOf(login);
-		ArrayList droits = (ArrayList)rights.get(index);
-
-		if(((Boolean)droits.get(0)).booleanValue()) {
-			res = true;
-		}
-		return res;
+		ArrayList lrights = (ArrayList)usersAndRightsOnProject.get(login);	
+		return ((Boolean)lrights.get(0)).booleanValue();
 	}
 	
 	public boolean isArchitect(String login)
 	{
-		boolean res = false;
-		int index = usersLogin.indexOf(login);
-		ArrayList droits = (ArrayList)rights.get(index);
-		
-		if(((Boolean)droits.get(1)).booleanValue()) {
-			res = true;
-		}
-		return res;
+		ArrayList lrights = (ArrayList)usersAndRightsOnProject.get(login);	
+		return ((Boolean)lrights.get(1)).booleanValue();
 	}
-	
+
 	public boolean isAnalyst(String login)
 	{
-		boolean res = false;
-		int index = usersLogin.indexOf(login);
-		ArrayList droits = (ArrayList)rights.get(index);
-		
-		if(((Boolean)droits.get(2)).booleanValue()) {
-			res = true;
-		}
-		return res;
+		ArrayList lrights = (ArrayList)usersAndRightsOnProject.get(login);	
+		return ((Boolean)lrights.get(2)).booleanValue();
 	}
-	
+
 	public boolean isRedactor(String login)
 	{
-		boolean res = false;
-		int index = usersLogin.indexOf(login);
-		ArrayList droits = (ArrayList)rights.get(index);
-		
-		if(((Boolean)droits.get(3)).booleanValue()) {
-			res = true;
-		}
-		return res;
+		ArrayList lrights = (ArrayList)usersAndRightsOnProject.get(login);	
+		return ((Boolean)lrights.get(3)).booleanValue();
+	}
+	
+	public void addUser(String login, ArrayList lrights)
+	{
+		usersAndRightsOnProject.put(login, lrights);
 	}
 }
