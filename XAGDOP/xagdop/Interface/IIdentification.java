@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 import xagdop.Controleur.CUser;
+import xagdop.Parser.testsParsers;
 import xagdop.ressources.Bundle;
 
 public class IIdentification extends JFrame{
@@ -52,7 +53,7 @@ public class IIdentification extends JFrame{
 		/*Creation du mot de passe */
 		userIDLabel = new JLabel(Bundle.getText("iuser.label.id"));
 		//userID = new JTextField(Bundle.getText("iuser.Jtextfield.id"));
-		userID = new JTextField("user");
+		userID = new JTextField("claire");
 		userID.setColumns(8);
 		
 		/*Creation du mot de passe */
