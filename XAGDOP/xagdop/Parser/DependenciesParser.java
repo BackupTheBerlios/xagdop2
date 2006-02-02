@@ -2,34 +2,31 @@ package xagdop.Parser;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
-
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import xagdop.Svn.SvnCommit;
+import xagdop.Controleur.CDependencies;
 import xagdop.Svn.SvnUpdate;
 
-public class DependenciesParser {
-	private DocumentBuilderFactory dbf;
-	private DocumentBuilder db;
-	private Document doc;
-	private File dependenciesXML;
+public class DependenciesParser extends Parser{
+
+	/**
+	 * @uml.property  name="dependenciesXML"
+	 */
+	/**Un fichier dépendances par projet
+	*Donc une Hashmap, avec en clef le nom du projet, et associé un File
+	*/
+	//private File dependenciesXML;
+	private HashMap dependencies;
+	private String currentProject;
 	
 	private static DependenciesParser dependenciesInstance = null; 
 	
@@ -46,36 +43,31 @@ public class DependenciesParser {
 	{
 		try {
 			
-			SvnUpdate svnu = new SvnUpdate();
-			if((dependenciesXML = svnu.getDependenciesFile())==null)
-				System.out.println("Erreur");
-				
-			//dependenciesXML = new File("xagdop/Parser/dependencies.xml");	//debug Attention ? ne pas le commit
-			loadTreeInMemory(dependenciesXML);
+			CDependencies cdep = new CDependencies();
+			dependencies = cdep.getDependenciesFiles(); 
+ 
+			//loadTreeInMemory(dependenciesXML);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
-	public void loadTreeInMemory(File fichier) throws Exception {
-		this.dbf = DocumentBuilderFactory.newInstance();
-		this.dbf.setValidating(false);
-		this.db = dbf.newDocumentBuilder();
-		this.doc = db.parse(fichier);
+
+	public File getFile(String project)
+	{
+		return (File)dependencies.get(project);
+		//return dependenciesXML;
 	}
 	
-	public void refresh()
+	public void setFile(String project)
 	{
 		try {
-			loadTreeInMemory(dependenciesXML);
+			currentProject = project;
+			loadTreeInMemory((File)dependencies.get(project));
 		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-	}
-
-	public File getFile()
-	{
-		return dependenciesXML;
 	}
 	
 	public ArrayList getPogFromApes(String apesName)
@@ -307,7 +299,7 @@ public class DependenciesParser {
 
 			if ( elem != null ) {
 				elem.appendChild(newElem);
-				saveDocument();			
+				saveDocument((File)dependencies.get(currentProject));			
 			}
 			else {
 				System.out.println("Ajout du fichier Apes impossible!"); 
@@ -350,7 +342,7 @@ public class DependenciesParser {
 
 			if ( elem != null ) {
 				elem.appendChild(newElem);
-				saveDocument();			
+				saveDocument((File)dependencies.get(currentProject));		
 			}
 			else {
 				System.out.println("Ajout du fichier Pog sans modele impossible!"); 
@@ -394,7 +386,7 @@ public class DependenciesParser {
 			}
 			if ( elem != null ) {
 				elem.appendChild(newElem);
-				saveDocument();
+				saveDocument((File)dependencies.get(currentProject));	
 			}
 			else {
 				System.out.println("Pb addToUpdate!"); 
@@ -438,7 +430,7 @@ public class DependenciesParser {
 			
 			if ( elem != null ) {
 				elem.appendChild(newElem);
-				saveDocument();
+				saveDocument((File)dependencies.get(currentProject));	
 			}
 			else {
 				System.out.println("Ajout du fichier Pog impossible!"); 
@@ -468,7 +460,7 @@ public class DependenciesParser {
 
 		if ( elem != null ) {
 				elem.appendChild(newElem);
-				saveDocument();
+				saveDocument((File)dependencies.get(currentProject));	
 			}
 		else {
 				System.out.println("Ajout du fichier Pre impossible!"); 
@@ -494,37 +486,14 @@ public class DependenciesParser {
 		}
 		if ( elem != null && oldElem != null) {
 			elem.removeChild(oldElem);
-			saveDocument(); 
+			saveDocument((File)dependencies.get(currentProject));	
 		}
 		else {
 			System.out.println("Pb delToUpdate!"); 
 		}		
 	}
 	
-	public void saveDocument()
-	{	
-		TransformerFactory tFactory = TransformerFactory.newInstance();
-		Transformer transformer = null;
-		try {
-			transformer = tFactory.newTransformer();
-			} catch (TransformerConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		try {
-			transformer.transform(new DOMSource(doc), new StreamResult(dependenciesXML));
-			SvnCommit svnc = new SvnCommit();
-			svnc.sendFile(dependenciesXML,"");
-			loadTreeInMemory(dependenciesXML);
-		} catch (TransformerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	
-	}
 	
 	
 }
