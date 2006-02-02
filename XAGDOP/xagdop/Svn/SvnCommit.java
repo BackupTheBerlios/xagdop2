@@ -24,7 +24,6 @@ import org.tmatesoft.svn.core.wc.SVNWCUtil;
 import xagdop.Controleur.CTreeNode;
 import xagdop.Interface.IPreferences;
 import xagdop.Interface.XAGDOP;
-import xagdop.Parser.DependenciesParser;
 
 
 
@@ -55,7 +54,7 @@ public class SvnCommit{
 		FileWriter dependencies;
 		try {
 			dependencies = new FileWriter(project.getAbsolutePath()+File.separator+"dependencies.xml");
-			dependencies.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?><files><dependencies></files></dependencies>");
+			dependencies.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?><files><dependencies></dependencies><toUpdate></toUpdate></files>");
 			dependencies.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
