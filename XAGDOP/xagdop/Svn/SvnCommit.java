@@ -303,8 +303,8 @@ public class SvnCommit{
 			}
 		}
 		//Si le fichiers des dépendances est modifié on l'envoi en même temps
-		if(SvnHistory.isModified(DependenciesParser.getInstance().getFile()))
-			sendFile(DependenciesParser.getInstance().getFile(),"");
+		/*if(SvnHistory.isModified(DependenciesParser.getInstance().getFile()))
+			sendFile(DependenciesParser.getInstance().getFile(),"");*/
 		
 	}
 	
