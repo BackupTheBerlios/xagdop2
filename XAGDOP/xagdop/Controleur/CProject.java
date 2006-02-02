@@ -58,24 +58,19 @@ public class CProject {
 		SvnRemove svnR;
 		try {
 			svnR = new SvnRemove();
-		} catch (SVNException e) {
-			JOptionPane.showMessageDialog(null ,"Impossible de se connecter au server subversion", "Validation" , 1) ;
-			e.printStackTrace();
-			return 1;
-		}
-		
-		try {
 			svnR.delete(node);
 		} catch (SVNException e) {
 			JOptionPane.showMessageDialog(null ,"Impossible de se connecter au server subversion", "Validation" , 1) ;
 			e.printStackTrace();
 			return 1;
 		}
+		
+		
 		/*if(report.getError()!=null){
 			JOptionPane.showMessageDialog(null ,"Le projet "+node.getName()+" n'a pu etre supprimer ", "Validation" , 1) ;
 			return error;
 		}*/
-		JOptionPane.showMessageDialog(null ,"Le projet "+node.getName()+" sera supprimer lors du prochain commit", "Validation" , 1) ;
+		JOptionPane.showMessageDialog(null ,"Le projet "+node.getName()+" sera supprim? lors du prochain commit", "Validation" , 1) ;
 		//Enregistrement dans le XML du projet
 		ProjectsParser PP = ProjectsParser.getInstance();
 		PP.removeProject(node.getName());

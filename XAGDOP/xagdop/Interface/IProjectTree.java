@@ -10,6 +10,7 @@ import java.util.Enumeration;
 
 import javax.swing.Icon;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import javax.swing.JTree;
@@ -24,8 +25,11 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
+import org.tmatesoft.svn.core.SVNException;
+
 import xagdop.Controleur.CTree;
 import xagdop.Controleur.CTreeNode;
+import xagdop.Svn.SvnRemove;
 import xagdop.ressources.Bundle;
 
 
@@ -76,6 +80,23 @@ public class IProjectTree extends JTree implements  TreeModelListener
 		public PopupListener(JPopupMenu pop) {
 			
 			popup = pop;
+			menuDelete.addActionListener(new ActionListener(){
+
+				public void actionPerformed(ActionEvent e) {
+					
+					try {
+						SvnRemove svnR = new SvnRemove();
+						svnR.delete(selectedNode);
+					} catch (SVNException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					JOptionPane.showMessageDialog(null ,"Le fichier "+selectedNode.getName()+" sera supprim? lors du prochain commit", "Validation" , 1) ;
+					
+					
+				}
+				
+			});
 			menuProperty.addActionListener(new openIProjectPreferences());
 			menuCommit.addActionListener(new openICommit());
 			menuRefrechFL.addActionListener( new ActionListener() {

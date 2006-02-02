@@ -3,7 +3,6 @@ package xagdop.Controleur;
 import java.util.ArrayList;
 
 import xagdop.Interface.XAGDOP;
-import xagdop.Model.Project;
 import xagdop.Model.User;
 import xagdop.Parser.ProjectsParser;
 
@@ -21,10 +20,12 @@ public class CRole {
 		writeDirectory = new ArrayList();
 		if(_project!=""){
 			User current = XAGDOP.getInstance().getUser();
-			System.out.println(current.getLogin()+" : "+_project);
+			//System.out.println(current.getLogin()+" : "+_project);
 			ProjectsParser pp = ProjectsParser.getInstance();
-			Project project = pp.buildProject(_project);
-			madeRole(project.isManager(current.getLogin()),project.isAnalyst(current.getLogin()),project.isArchitect(current.getLogin()),project.isRedactor(current.getLogin()));
+			//Project project = pp.buildProject(_project);
+			//madeRole(project.isManager(current.getLogin()),project.isAnalyst(current.getLogin()),project.isArchitect(current.getLogin()),project.isRedactor(current.getLogin()));
+			ArrayList right = pp.getRights(_project,current.getLogin());
+			madeRole(((Boolean)right.get(0)).booleanValue(),((Boolean)right.get(2)).booleanValue(),((Boolean)right.get(1)).booleanValue(),((Boolean)right.get(3)).booleanValue());
 		}
 		
 	}
@@ -35,10 +36,10 @@ public class CRole {
 		
 		writeFile.add(".xml");
 		viewFile.add(".pref");
-		System.out.println("Manager : "+projectManager);
+		/*System.out.println("Manager : "+projectManager);
 		System.out.println("Archi : "+architect);
 		System.out.println("Redactor : "+redactor);
-		System.out.println("analyst : "+analyst);
+		System.out.println("analyst : "+analyst);*/
 		if(projectManager)
 			addManagerRight();
 		
