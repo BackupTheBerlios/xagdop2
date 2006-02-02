@@ -591,27 +591,33 @@ public class ProjectsParser extends Parser{
 	public boolean getRight(String projectName, String login, String right){
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//project[@name='"+projectName+"']/user[@login='"+login+"']";
+		
 		boolean res = false;
-		Element elem = null;
+		Element user = null;
 		
 		try {
-			elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+			user = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
 		}
 		catch (XPathExpressionException e) {
 			e.printStackTrace();
 		}
 		//on verifie que l'utilisateur existe
-		if ( elem != null ) {
-			expression = "//project[@name='"+projectName+"']/user[@login='"+login+"']/rights/" + right;
+		if ( user != null ) {
+			String expr = "//project[@name='"+projectName+"']/user[@login='"+login+"']/rights/" + right;
+			Element ok = null;
+			
 			try {
-				elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+				ok = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
 			}
 			catch (XPathExpressionException e) {
 				e.printStackTrace();
 			}
-			if ( elem != null){
+			
+			//si la balise existe alors l'utilisateur a le droit
+			if ( ok != null){
 				res = true; 
 			}
+			//Sinon non
 			else{
 				res = false;
 			}
