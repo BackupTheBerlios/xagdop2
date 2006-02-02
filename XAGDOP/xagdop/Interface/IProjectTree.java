@@ -29,6 +29,7 @@ import org.tmatesoft.svn.core.SVNException;
 
 import xagdop.Controleur.CTree;
 import xagdop.Controleur.CTreeNode;
+import xagdop.Parser.DependenciesParser;
 import xagdop.Parser.ProjectsParser;
 import xagdop.Svn.SvnRemove;
 import xagdop.ressources.Bundle;
@@ -182,12 +183,8 @@ public class IProjectTree extends JTree implements  TreeModelListener
 			{
 				//changement du noeud courrant
 				XAGDOP.getInstance().setCurrentNode(selectedNode.getProject());
-				//rechargement de larbre en memoire
-				
-				
-				//TODO
-				//decommenter ici
-				//ProjectsParser.getInstance().setFile(selectedNode.getProject().getName());
+				//rechargement de larbre en memoire				
+				DependenciesParser.getInstance().setFile(selectedNode.getProject().getName());
 				
 				
 			}
