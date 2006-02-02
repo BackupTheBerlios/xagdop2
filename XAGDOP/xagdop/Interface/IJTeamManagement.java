@@ -297,7 +297,7 @@ class IJTeamManagementTableCellEditor extends AbstractCellEditor
 	
 	int rowToDelete;
 	
-	int out = JOptionPane.showOptionDialog(this.IJTM.getTable(),new String("Etes-vous sur de vouloir desaffecter cet utilisateur ?"),new String("Suppression d'un utilisateur"),JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,null,null);
+	int out = JOptionPane.showOptionDialog(this.IJTM.getTable(),new String(Bundle.getText("ijteam.jtableSuppression.text")),new String(Bundle.getText("ijteam.jtableSuppressionUser.text")),JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,null,null);
 	if(out == JOptionPane.YES_OPTION) 
 	{
 	rowToDelete =this.IJTM.getTable().getSelectedRow();		
