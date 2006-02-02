@@ -607,7 +607,7 @@ public class ProjectsParser extends Parser{
 			Element ok = null;
 			
 			try {
-				ok = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+				ok = (Element)xpath.evaluate(expr, this.doc, XPathConstants.NODE);
 			}
 			catch (XPathExpressionException e) {
 				e.printStackTrace();
@@ -622,9 +622,10 @@ public class ProjectsParser extends Parser{
 				res = false;
 			}
 		}	
+		/*
 		else {
 			System.out.println("Recuperation du droit "+ right + " pour l'utilisateur "+login+ " pour le projet "+projectName+" impossible!"); 
-		}
+		}*/
 		return res;
 	}
 	
