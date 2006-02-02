@@ -19,6 +19,7 @@ import javax.swing.SwingConstants;
 
 
 import xagdop.Controleur.CAffect;
+import xagdop.ressources.Bundle;
 
 public class IAffect extends JFrame
 {
@@ -63,12 +64,12 @@ public class IAffect extends JFrame
         
         jPanel1.setLayout(new GridBagLayout());
 
-        OkButton.setText("Ok");
+        OkButton.setText(Bundle.getText("button.ok"));
         OkButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
             		try {
 						CA.affecter(projectName,LoginUser.getText(),ChefCheck.isSelected(),ArchiCheck.isSelected(),RedacteurCheck.isSelected(),AnalystCheck.isSelected());
-						JOptionPane.showMessageDialog(null ,"L'utilisateur ? bien ?t? rajout?", "Reussite" , 1) ;
+						JOptionPane.showMessageDialog(null ,Bundle.getText("iaffect.userAdd.text"), Bundle.getText("iaffect.FrameReussite.text") , 1) ;
 						try
 						{
 							//ITeamManagement.getIT().refreshCombo();
@@ -77,11 +78,11 @@ public class IAffect extends JFrame
 							System.out.println("plantouille");
 						}
 					}catch(InstanceNotFoundException i){
-						JOptionPane.showMessageDialog(null ,"L'utilisateur n'existe pas", "Probleme" , 1) ;
+						JOptionPane.showMessageDialog(null ,Bundle.getText("iaffect.userNotExist.text"), Bundle.getText("iaffect.FrameErreur.text") , 1) ;
 					}
             		catch (Exception e) {
 						//Error of create
-						JOptionPane.showMessageDialog(null ,"L'utilisateur est deja present dans le projet", "Probleme" , 1) ;
+						JOptionPane.showMessageDialog(null ,Bundle.getText("iaffect.userExist.text"), Bundle.getText("iaffect.FrameErreur.text") , 1) ;
 					}
 					
             		
@@ -93,7 +94,7 @@ public class IAffect extends JFrame
         gridBagConstraints.anchor = GridBagConstraints.SOUTHEAST;
         jPanel1.add(OkButton, gridBagConstraints);
 
-        CancelButton.setText("Cancel");
+        CancelButton.setText(Bundle.getText("button.cancel"));
         CancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 IA.dispose();
@@ -138,7 +139,7 @@ public class IAffect extends JFrame
         gridBagConstraints.gridy = 0;
         jPanel1.add(LoginUser, gridBagConstraints);
 
-        EnterLabel.setText("Entrez un login");
+        EnterLabel.setText(Bundle.getText("iaffect.userLogin.text"));
 
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
