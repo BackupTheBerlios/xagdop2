@@ -61,10 +61,11 @@ public class ProjectsParser {
 	private ProjectsParser()
 	{
 		try {
+			
 			SvnUpdate svnu = new SvnUpdate();
 			if((projectXML = svnu.getProjectFile())==null)
 				System.out.println("Erreur"); 
-			//projectXML = new File("xagdop/Parser/projects.xml"); //debug
+			//projectXML = new File("xagdop/ressources/XML/projects.xml"); //debug
 			loadTreeInMemory(projectXML);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -769,10 +770,33 @@ public class ProjectsParser {
 	public ArrayList getProjects(String login){
 		ArrayList listRes = new ArrayList();
 		
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		String expression = "//project[user[@login='"+login+"']]";
+		NodeList projectsNode = null;
 		
-		//a coder
-		
-		
+		try {
+			projectsNode = (NodeList)xpath.evaluate(expression, this.doc, XPathConstants.NODESET);
+		}
+		catch (XPathExpressionException e) {
+			e.printStackTrace();
+		}
+		if(projectsNode!=null)
+		{
+			
+			NamedNodeMap mapAttributes;
+			for(int i=0; i < projectsNode.getLength(); i++)
+			{
+				if(projectsNode.item(i)!=null)
+				{
+					if(projectsNode.item(i).hasAttributes())
+					{
+						mapAttributes = projectsNode.item(i).getAttributes();
+						listRes.add(mapAttributes.getNamedItem(ATTR_NAME).getNodeValue());
+					}
+				}
+			}
+		}
+		//System.out.println(listRes.toString());
 		return listRes;
 	}
 	
