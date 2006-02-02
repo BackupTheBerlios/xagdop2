@@ -21,18 +21,16 @@ public class IJTeamManagementTableModel extends AbstractTableModel {
 	
 	private String nomColonne[] = {"Users","Architecte","Analyste","Redacteur","PManager","Desaffecter"};
 	private Object[][] rowData;
-	private ArrayList users;
 	private ProjectsParser projetParser;
 	private Project projet;
 	private String nP;
 	
 	public IJTeamManagementTableModel(ArrayList usersParser, String nomProjet) {
-	    this.nP = nomProjet;
-		
+	    
 		projetParser = ProjectsParser.getInstance(); 		
 		this.nP = nomProjet;				
 		projet = projetParser.buildProject(nomProjet);	
-		this.init();
+		this.init(projet);
 			
 		
 	}
@@ -60,8 +58,8 @@ public class IJTeamManagementTableModel extends AbstractTableModel {
 		return this.nomColonne[colonne];
 	}
 	
-	public void init() {
-		ArrayList users = this.projet.getUsersLogin();
+	public void init(Project projet) {
+		ArrayList users = projet.getUsersLogin();
 		
 		this.rowData = new Object[users.size()][this.getColumnCount()];
 		Iterator it = users.iterator();
@@ -104,3 +102,4 @@ public class IJTeamManagementTableModel extends AbstractTableModel {
         }
     }
 }
+
