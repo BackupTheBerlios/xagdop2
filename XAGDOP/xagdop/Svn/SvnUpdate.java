@@ -119,7 +119,8 @@ public class SvnUpdate{
 			up.doCheckout(SVNURL.parseURIEncoded(SvnConnect.getInstance().getUrl()),projectDirectoryLocal,SVNRevision.HEAD,SVNRevision.HEAD,true);
 		
 		//On supprime les projets dont on ne fait pas parti
-		cleanUp(projectDirectoryLocal);
+		if(node.isRoot())
+			cleanUp(projectDirectoryLocal);
 	}
 	
 	public void cleanUp(File file){
