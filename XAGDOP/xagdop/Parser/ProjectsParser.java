@@ -3,20 +3,11 @@ package xagdop.Parser;
 import java.io.File;
 import java.util.ArrayList;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -24,13 +15,10 @@ import org.w3c.dom.NodeList;
 
 import xagdop.Model.Project;
 import xagdop.Model.User;
-import xagdop.Svn.SvnCommit;
 import xagdop.Svn.SvnUpdate;
 
-public class ProjectsParser {
-	private DocumentBuilderFactory dbf;
-	private DocumentBuilder db;
-	private Document doc;
+public class ProjectsParser extends Parser{
+
 	private File projectXML;
 	private static ProjectsParser PPInstance = null;
 	
@@ -64,7 +52,8 @@ public class ProjectsParser {
 			
 			SvnUpdate svnu = new SvnUpdate();
 			if((projectXML = svnu.getProjectFile())==null)
-				System.out.println("Erreur"); 
+				System.out.println("Erreur");
+				 
 			//projectXML = new File("xagdop/ressources/XML/projects.xml"); //debug
 			loadTreeInMemory(projectXML);
 		} catch (Exception e) {
@@ -73,32 +62,7 @@ public class ProjectsParser {
 		}
 	}
 	
-	
-	/**
-	 * Charge en memoire l'arbre associe a un fichier XML 
-	 * @param fichier Fichier ? charger
-	 * @throws Exception
-	 */
-	private void loadTreeInMemory(File fichier) throws Exception {
-		this.dbf = DocumentBuilderFactory.newInstance();
-		this.dbf.setValidating(false);
-		this.db = dbf.newDocumentBuilder();
-		this.doc = db.parse(fichier);
-	}
-	
-	
-	/**
-	 * Charge a nouveau le fichier en memoire 
-	 */	
-	public void refresh()
-	{
-		try {
-			loadTreeInMemory(projectXML);
-		} catch (Exception e) {
-			//System.out.println("refresh");
-		}
-	}
-	
+
 	
 	/**
 	 * Permet de recuperer la description d'un projet
@@ -148,7 +112,7 @@ public class ProjectsParser {
 		}
 		if ( elem != null ) {
 			elem.setAttribute(ProjectsParser.ATTR_DESC, newDescr);
-			saveDocument();
+			saveDocument(projectXML);
 		}
 		else {
 			System.out.println("setProjectDescription: Modification de la description du projet "+ projectName + " impossible!"); 
@@ -247,7 +211,7 @@ public class ProjectsParser {
 				elem.appendChild(newElem);
 
 				addUser(projectName, user, true, false, false, false);
-				saveDocument();
+				saveDocument(projectXML);
 				return true;
 			}
 			else {
@@ -309,7 +273,7 @@ public class ProjectsParser {
 				}
 				
 				elem.appendChild(newElem);
-				saveDocument();
+				saveDocument(projectXML);
 				System.out.println("Ajout de l'utilisateur "+login+" effectue");//debug
 			}
 			else {
@@ -378,7 +342,7 @@ public class ProjectsParser {
 				}
 				
 				elem.appendChild(newElem);
-				saveDocument();
+				saveDocument(projectXML);
 				
 				System.out.println("Ajout de l'utilisateur "+user.getLogin()+" effectue");//debug
 				return true;
@@ -423,7 +387,7 @@ public class ProjectsParser {
 				newElem.setAttribute(ATTR_LOGIN, login);
 				elem.appendChild(newElem);
 				setRights(projectName,login, false , false, false, false);
-				saveDocument();
+				saveDocument(projectXML);
 				System.out.println("Ajout de l'utilisateur "+login+" effectue");//debug
 			}
 			else {
@@ -464,7 +428,7 @@ public class ProjectsParser {
 			}
 			if ( elem != null ) {
 				elem.removeChild(oldElem);
-				saveDocument();
+				saveDocument(projectXML);
 				System.out.println("Suppression de l'utilisateur "+login+" effectuee!"); 
 			}
 			else {
@@ -499,7 +463,7 @@ public class ProjectsParser {
 		}
 		if ( elem != null ) {
 			elem.removeChild(oldElem);
-			saveDocument();
+			saveDocument(projectXML);
 			System.out.println("Suppression du projet "+projectName+" effectuee"); 
 		}
 		else {
@@ -584,7 +548,7 @@ public class ProjectsParser {
 					}
 					Element newRight = doc.createElement(right);
 					elem.appendChild(newRight);
-					saveDocument();
+					saveDocument(projectXML);
 				}
 			}
 			//Cas FALSE: On retire la balise correspondante si elle existe
@@ -607,7 +571,7 @@ public class ProjectsParser {
 						e.printStackTrace();
 					}
 					parentElem.removeChild(elem);
-					saveDocument();
+					saveDocument(projectXML);
 				}
 			}
 		}
@@ -653,114 +617,131 @@ public class ProjectsParser {
 			}
 		}	
 		else {
-			System.out.println("Recuperation du droit "+ right + " pour l'utilisateur "+login+ " impossible!"); 
+			System.out.println("Recuperation du droit "+ right + " pour l'utilisateur "+login+ " pour le projet "+projectName+" impossible!"); 
 		}
 		return res;
 	}
 	
-	
+
 	/**
 	 * Construit un objet Project a partir des informations du projet contenues dans le fichier XML
+	 * Et permet donc de connaitre les droits de chaque utilisateur sur le projet
 	 * @param projectName Nom du projet a construire
 	 * @return
 	 */
 	public Project buildProject(String projectName)
-	{
-		ArrayList userRights= new ArrayList();
-		ArrayList usersRights = new ArrayList();
-		ArrayList usersLogin= new ArrayList();
-		
-		//Project projet;
-		
+	{	
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//project[@name='"+projectName+"']";
-		String login="";
-		boolean pmanager = false;
-		boolean architect = false;
-		boolean analyst = false;
-		boolean redactor = false;
+		
+		
+		
 		
 		String exprRight="";
-		Element elem = null;
-		Element usersNode = null;
-		NodeList usersNodeList;
 		
+		
+		Element projectNode = null;
+		
+		Project project = new Project(projectName);
 		try {
-			usersNode = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
-			if(usersNode.hasChildNodes()){
-				Node nodeAll = null;
+			projectNode = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+			
+			//Si le projet a bien des utilisateurs
+			if(projectNode.hasChildNodes()){
+
+				
+				NodeList usersNodeList;
+				//Recuperation de la liste de tous les noeuds user du projet
+				usersNodeList = projectNode.getChildNodes();
+				
+				Node nodeUser = null;
 				Node nodeLogin = null;
+				Element rights = null;
 				
 				NamedNodeMap map = null;
-				usersNodeList = usersNode.getChildNodes();
+				NodeList allRights = null;
+				//Parcours de la liste des user
 				for (int i=0; i<usersNodeList.getLength(); i++)
 				{
-					nodeAll = usersNodeList.item(i);
-					map = nodeAll.getAttributes();
+				
+					//Récupération du noeud user i
+					nodeUser = usersNodeList.item(i);
+					//Récupération de tous les attributs du noeud user i
+					map = nodeUser.getAttributes();
 					
-					if(map!=null){
-						
+					if(map!=null){		
+						//Récupération de l'attribut login sous forme de Node
 						nodeLogin = map.getNamedItem(ATTR_LOGIN);						
-						if(nodeLogin!=null){		
-							login = nodeLogin.getNodeValue();
+						if(nodeLogin!=null){
+							//Récupération de la valeur de l'attribut login en String
+							String login = nodeLogin.getNodeValue();
 							
-							//on recupere eventuellement la balise pmanager
-							exprRight = "//project[@name='"+projectName+"']/user[@login='"+login+"']/rights/" + RIGHT_PMANAGER;
+							//Récupération de la balise rights de l'utilisateur i
+							exprRight = "//project[@name='"+projectName+"']/user[@login='"+login+"']/rights";
 							try {
-								elem = (Element)xpath.evaluate(exprRight, this.doc, XPathConstants.NODE);}
+								rights = (Element)xpath.evaluate(exprRight, this.doc, XPathConstants.NODE);}
 							catch (XPathExpressionException e) {
 								e.printStackTrace(); }
-							if (elem != null) pmanager=true;
 							
-							//on recupere eventuellement la balise architect
-							exprRight = "//project[@name='"+projectName+"']/user[@login='"+login+"']/rights/" + RIGHT_ARCHITECT;
-							try {
-								elem = (Element)xpath.evaluate(exprRight, this.doc, XPathConstants.NODE);}
-							catch (XPathExpressionException e) {
-								e.printStackTrace(); }
-							if (elem != null) architect=true;
-							
-							//on recupere eventuellement la balise analyst
-							exprRight = "//project[@name='"+projectName+"']/user[@login='"+login+"']/rights/" + RIGHT_ANALYST;
-							try {
-								elem = (Element)xpath.evaluate(exprRight, this.doc, XPathConstants.NODE);}
-							catch (XPathExpressionException e) {
-								e.printStackTrace(); }
-							if (elem != null) analyst=true;
-							
-							//on recupere eventuellement la balise redactor
-							exprRight = "//project[@name='"+projectName+"']/user[@login='"+login+"']/rights/" + RIGHT_REDACTOR;
-							try {
-								elem = (Element)xpath.evaluate(exprRight, this.doc, XPathConstants.NODE);}
-							catch (XPathExpressionException e) {
-								e.printStackTrace(); }
-							if (elem != null) redactor=true;
-						
-							//on fixe les droit de l'utilisateur courant
-							userRights.add(new Boolean(pmanager));
-							userRights.add(new Boolean(architect));
-							userRights.add(new Boolean(analyst));
-							userRights.add(new Boolean(redactor));
-							
-							//on ajoute simultanement dans les deux liste resultat le login de l'utilsateur et des droits
-							usersLogin.add(login);
-							usersRights.add(userRights);
+							//Si l'utilisateur a bien des droits
+							if (rights != null)
+							{
+								//Réinitialisation de la liste et des droits
+								ArrayList lrights = new ArrayList();
+								boolean pmanager = false;
+								boolean architect = false;
+								boolean analyst = false;
+								boolean redactor = false;
+								
+								//Récupération de tous les balises filles si il y en a
+								if(rights.hasChildNodes())
+								{								
+									allRights = rights.getChildNodes();
+									//Parcours de toutes les balises filles
+									
+									for(int j=0; j<allRights.getLength(); j++)
+									{										
+										//Si on trouve une balise pmanager										
+										if((allRights.item(j).getNodeName()).equals(RIGHT_PMANAGER))
+										{pmanager = true;}
+										
+										//Si on trouve une balise analyst	
+										else if((allRights.item(j).getNodeName()).equals(RIGHT_ANALYST))
+										{analyst = true;}
+										
+										//Si on trouve une balise architect	
+										else if((allRights.item(j).getNodeName()).equals(RIGHT_ARCHITECT))
+										{architect = true;}
+										
+										//Si on trouve une balise redactor	
+										else if((allRights.item(j).getNodeName()).equals(RIGHT_REDACTOR))
+										{redactor = true;}
+										
+									}
+									
+								}
+								
+								//Construction de l'ArrayList des droits
+								lrights.add(new Boolean(pmanager));
+								lrights.add(new Boolean(architect));
+								lrights.add(new Boolean(analyst));
+								lrights.add(new Boolean(redactor));
+								//On ajoute dans la HashMap de l'objet de type Project l'utilisateur et ses droits
+								project.addUser(login, lrights);
+							}
 						}
 					}
 				}
-			}
-			else {
-				System.out.println("Pas de fils");
-			}
-			
+			}			
 		}
 		catch (XPathExpressionException e) {
 			System.out.println("buildProject: Le projet "+projectName+" n'existe pas.");
 			e.printStackTrace();
 		}
-		return new Project(projectName, usersRights, usersLogin);
+		return project;
 	}
 
+	
 	
 	/**
 	 * Permet de recuperer une ArrayList des noms des projets auquel appartient un utilisateur
@@ -800,32 +781,4 @@ public class ProjectsParser {
 		return listRes;
 	}
 	
-	
-	/**
-	 * Genere le fichier XML a partir de l'arbre en memoire
-	 *
-	 */
-	public void saveDocument()
-	{
-		TransformerFactory tFactory = TransformerFactory.newInstance();
-		Transformer transformer = null;
-		try {
-			transformer = tFactory.newTransformer();
-		} catch (TransformerConfigurationException e) {
-			e.printStackTrace();
-		} 
-		try {
-			transformer.transform(new DOMSource(doc), new StreamResult(projectXML));
-			
-			SvnCommit svnc = new SvnCommit();
-			svnc.sendFile(projectXML,""); 
-			
-			loadTreeInMemory(projectXML);
-		} catch (TransformerException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-	}
 }
