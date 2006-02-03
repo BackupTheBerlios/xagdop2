@@ -64,6 +64,11 @@ public class XAGDOP extends JFrame{
 	protected JButton admin;
 	protected JTable tableVersion;
 	
+	/***************************/
+	 protected ICheckOut Ico;
+	/***************************/
+
+
 	/*
 	 * Initialisation of Menu
 	 * 
@@ -320,6 +325,7 @@ public class XAGDOP extends JFrame{
 		//Initialisation des boutons
 		equipe.setEnabled(false);
 		menuProjetTeam.setEnabled(false);
+		Ico = new ICheckOut();
 		//Cr??ation des parsers
 		/*System.out.println("Parser");
 		DependenciesParser.getInstance();
