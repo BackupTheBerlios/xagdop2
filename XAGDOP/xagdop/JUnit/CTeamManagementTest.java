@@ -1,5 +1,7 @@
 package xagdop.JUnit;
 
+import org.tmatesoft.svn.core.SVNException;
+
 import xagdop.Controleur.CTeamManagement;
 import xagdop.Model.User;
 import xagdop.Parser.ProjectsParser;
@@ -41,7 +43,7 @@ public class CTeamManagementTest extends TestCase {
 	/*
 	 * Test method for 'xagdop.Controleur.CTeamManagement.disaffectUser(ProjectsParser, String)'
 	 */
-	public void testDisaffectUser() {
+	public void testDisaffectUser() throws SVNException {
 		//Ajouter des utilisateurs
 		User usr=new User("toto","totoPass",true,true);
 		User usr1=new User("tata","tataPass",true,false);
