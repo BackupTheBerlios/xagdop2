@@ -399,14 +399,12 @@ public class XAGDOP extends JFrame{
 		public void actionPerformed (ActionEvent e)  {
 			
 			
-			
 			String projectName = tree.getSelectedNode().getName();
-			//System.out.println(projectName);
 			
 			if (XAGDOP.getInstance().getUser().isPManager(projectName))
 			{
-				IJTeamManagement ijteam = IJTeamManagement.getIJTM(projectName);
-				//iteam.refreshCombo();
+				IJTeamManagement ijteam = IJTeamManagement.getIJTM(projectName);				
+				ijteam.refreshUsers();
 				ijteam.setVisible(true);
 			}
 			else
