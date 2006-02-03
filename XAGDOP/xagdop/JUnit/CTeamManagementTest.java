@@ -17,15 +17,15 @@ public class CTeamManagementTest extends TestCase {
 		UsersParser up= UsersParser.getInstance();
 		up.addUser(usr);
 		
-		//Créer un nouveau utilisateur et un projet
+		//Cr?er un nouveau utilisateur et un projet
 		ProjectsParser pp= ProjectsParser.getInstance();
 		pp.addProject("projTest",usr,"descrTest");
 		
-		//Déclarer CteamManagement  avec le projet
+		//D?clarer CteamManagement  avec le projet
 		CTeamManagement CT = new CTeamManagement("projTest");
 		
 		//Appliquer  les droits de l'utilisateur pour le projet
-		CT.Apply(pp,usr.getLogin(),true,false,true,false);
+		CT.Apply(usr.getLogin(),true,false,true,false);
 		
 		//Test
 		assertTrue(usr.isAnalyst("projTest")==false);
@@ -49,11 +49,11 @@ public class CTeamManagementTest extends TestCase {
 		up.addUser(usr);
 		up.addUser(usr1);
 		
-		//Créer un projet
+		//Cr?er un projet
 		ProjectsParser pp= ProjectsParser.getInstance();
 		pp.addProject("projTest",usr,"descrTest");
 		
-		//Déclarer CteamManagement  avec le projet
+		//D?clarer CteamManagement  avec le projet
 		CTeamManagement CT = new CTeamManagement("projTest");
 		
 		//Ajouter l'utilisateur urs1 au projet
@@ -81,7 +81,7 @@ public class CTeamManagementTest extends TestCase {
 	 */
 	public void testGet_projectName() {
 		
-		//Déclarer CteamManagement  avec le projet
+		//D?clarer CteamManagement  avec le projet
 		CTeamManagement CT = new CTeamManagement("projTest");
 		assertEquals(CT.get_projectName(),"projTest");
 	}
@@ -90,7 +90,7 @@ public class CTeamManagementTest extends TestCase {
 	 * Test method for 'xagdop.Controleur.CTeamManagement.set_projectName(String)'
 	 */
 	public void testSet_projectName() {
-		//Déclarer CteamManagement  avec le projet
+		//D?clarer CteamManagement  avec le projet
 		CTeamManagement CT = new CTeamManagement("projTest");
 		
 		//Changer le nom du projet
