@@ -41,8 +41,8 @@ public class CUserTest extends TestCase {
 		CUser cu= new CUser();
 		cu.creerUser("titi","totopass","totopass");
 		
-		//Test si l'utilisateur a bien été créé
-		assertTrue(up.isUser("titi")==true);
+		//Test si l'utilisateur a bien ?t? cr??
+		assertTrue(up.isUser("titi"));
 		
 		//supprimer l'utilisateur
 		up.removeUser("titi");
