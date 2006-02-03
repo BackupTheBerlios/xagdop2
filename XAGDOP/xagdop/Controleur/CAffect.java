@@ -21,7 +21,6 @@ public class CAffect {
 		{			
 				if (!PP.isUserInProject(project,login))
 				{
-				System.out.println("good");
 				try {
 					PP.addUser(project, login, pmanager, archi, analyst,redactor);
 					IJTeamManagement.getIJTM(project).refreshUsers();

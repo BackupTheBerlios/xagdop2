@@ -396,11 +396,12 @@ public class CTree implements TreeModel
 //		try {
 			ThreadWait TW = new ThreadWait(XAGDOP.getInstance());
 			TW.start();
-			
+
 			ThreadUpdate TU = new ThreadUpdate(node,TW);
 			TU.start();
 			//SvnUpdate svnu = new SvnUpdate();
 			//svnu.checkOut(node);
+
 			//Enumeration expandPath = XAGDOP.getInstance().getTree().getExpandedDescendants(XAGDOP.getInstance().getTree().getLeadSelectionPath());
 			//refreshFromLocal(node);
 			/*while(expandPath.hasMoreElements()){
