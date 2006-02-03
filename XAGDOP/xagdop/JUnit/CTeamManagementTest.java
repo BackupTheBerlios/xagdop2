@@ -13,7 +13,7 @@ public class CTeamManagementTest extends TestCase {
 	/*
 	 * Test method for 'xagdop.Controleur.CTeamManagement.Apply(ProjectsParser, String, boolean, boolean, boolean, boolean)'
 	 */
-	public void testApply() {
+	public void testApply() throws SVNException {
 		//Ajouter un nouveau utilisateur  dans UsersParser
 		User usr=new User("toto","totoPass",true,true);
 		UsersParser up= UsersParser.getInstance();
