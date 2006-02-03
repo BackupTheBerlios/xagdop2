@@ -2,6 +2,8 @@ package xagdop.JUnit;
 
 import java.util.ArrayList;
 
+import org.tmatesoft.svn.core.SVNException;
+
 import xagdop.Model.*;
 import xagdop.Parser.ProjectsParser;
 import xagdop.Parser.UsersParser;
@@ -146,7 +148,7 @@ public class ProjectsParserTest extends TestCase {
 	/*
 	 * Test OK
 	 */
-	public void testAddUserStringString2() {
+	public void testAddUserStringString2() throws SVNException {
 		User usr1=new User("loginTest","passTest",true,true);
 		User usr2=new User("loginTest2","passTest2",true,true);
 		
@@ -268,7 +270,7 @@ public class ProjectsParserTest extends TestCase {
 	/*
 	 * Test OK
 	 */
-	public void testSetRightsStringStringBooleanBooleanBooleanBoolean(){
+	public void testSetRightsStringStringBooleanBooleanBooleanBoolean() throws SVNException{
 		User usr1=new User("loginTest","passTest",true,true);
 		User usr2=new User("loginTest2","passTest2",true,true);
 		

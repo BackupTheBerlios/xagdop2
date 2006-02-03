@@ -1,11 +1,13 @@
 package xagdop.Controleur;
 
+import org.tmatesoft.svn.core.SVNException;
+
 import xagdop.Parser.ProjectsParser;
 
 public class CTeamManagement{
 	
 	String _projectName;
-	public void Apply(String login, boolean architect, boolean analyst, boolean redacter,boolean pmanager){
+	public void Apply(String login, boolean architect, boolean analyst, boolean redacter,boolean pmanager) throws SVNException{
 		//Call to XML Parser
 		//String valeur="";
 		

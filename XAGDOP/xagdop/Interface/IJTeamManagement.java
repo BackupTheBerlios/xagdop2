@@ -20,6 +20,8 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
+import org.tmatesoft.svn.core.SVNException;
+
 import xagdop.Controleur.CTeamManagement;
 import xagdop.Model.Project;
 import xagdop.Parser.ProjectsParser;
@@ -63,13 +65,18 @@ public class IJTeamManagement extends JFrame{
 		
 		ButtonOK.setText(Bundle.getText("ijteam.jtable.ok"));
 		ButtonOK.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
+			public void actionPerformed(ActionEvent evt){
 				
 				int j =JT.getRowCount();            	
 				int i=0;
 				while(i<j)
 				{
-					CTeamM.Apply((String)JT.getValueAt(i,0),((Boolean)JT.getValueAt(i,1)).booleanValue(),((Boolean)JT.getValueAt(i,2)).booleanValue(),((Boolean)JT.getValueAt(i,3)).booleanValue(),((Boolean)JT.getValueAt(i,4)).booleanValue());
+					try {
+						CTeamM.Apply((String)JT.getValueAt(i,0),((Boolean)JT.getValueAt(i,1)).booleanValue(),((Boolean)JT.getValueAt(i,2)).booleanValue(),((Boolean)JT.getValueAt(i,3)).booleanValue(),((Boolean)JT.getValueAt(i,4)).booleanValue());
+					} catch (SVNException e) {
+						System.out.println("Impossible de se connecter");
+						e.printStackTrace();
+					}
 					i++;  
 				}        					
 				(IJAdmin.getIJA()).dispose();				

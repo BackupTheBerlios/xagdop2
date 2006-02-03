@@ -15,6 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import org.tmatesoft.svn.core.SVNException;
+
 
 import xagdop.Controleur.CTeamManagement;
 import xagdop.Model.Project;
@@ -118,7 +120,13 @@ public class ITeamManagement extends JFrame{
         ButtonAffect.setText("Affecter");
         ButtonAffect.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                CTeamM.Apply(((String)UserListCombo.getSelectedItem()),ArchitectCheck.isSelected(),AnalystCheck.isSelected(),RedacterCheck.isSelected(),PManagerCheck.isSelected());
+                try {
+					CTeamM.Apply(((String)UserListCombo.getSelectedItem()),ArchitectCheck.isSelected(),AnalystCheck.isSelected(),RedacterCheck.isSelected(),PManagerCheck.isSelected());
+				} catch (SVNException e) {
+					// TODO Auto-generated catch block
+					//debug: afficher une alerte
+					e.printStackTrace();
+				}
            	    IAffect IA = IAffect.getIA();
            	    IA.setProjectName(nP);
            	    IA.setVisible(true);
@@ -179,7 +187,13 @@ public class ITeamManagement extends JFrame{
         ButtonOK.setText("Ok");
         ButtonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                CTeamM.Apply(((String)UserListCombo.getSelectedItem()),ArchitectCheck.isSelected(),AnalystCheck.isSelected(),RedacterCheck.isSelected(),PManagerCheck.isSelected());
+                try {
+					CTeamM.Apply(((String)UserListCombo.getSelectedItem()),ArchitectCheck.isSelected(),AnalystCheck.isSelected(),RedacterCheck.isSelected(),PManagerCheck.isSelected());
+				} catch (SVNException e) {
+					// TODO Auto-generated catch block
+					//debug: afficher alerte utilisateur
+					e.printStackTrace();
+				}
            	    
                 //fermer la fenetre
             	dispose();
@@ -210,7 +224,13 @@ public class ITeamManagement extends JFrame{
         ButtonApply.setText("Appliquer");
         ButtonApply.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-            	 CTeamM.Apply(((String)UserListCombo.getSelectedItem()),ArchitectCheck.isSelected(),AnalystCheck.isSelected(),RedacterCheck.isSelected(),PManagerCheck.isSelected());
+            	 try {
+					CTeamM.Apply(((String)UserListCombo.getSelectedItem()),ArchitectCheck.isSelected(),AnalystCheck.isSelected(),RedacterCheck.isSelected(),PManagerCheck.isSelected());
+				} catch (SVNException e) {
+					// TODO Auto-generated catch block
+					//debug: afficher alerte utilisateur
+					e.printStackTrace();
+				}
             	 //projects.refresh();
             	 projet = projects.buildProject("Projet1");
             }
