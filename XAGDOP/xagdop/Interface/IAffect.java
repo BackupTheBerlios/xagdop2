@@ -71,20 +71,23 @@ public class IAffect extends JFrame
 						CA.affecter(projectName,LoginUser.getText(),ChefCheck.isSelected(),ArchiCheck.isSelected(),RedacteurCheck.isSelected(),AnalystCheck.isSelected());
 						JOptionPane.showMessageDialog(null ,Bundle.getText("iaffect.userAdd.text"), Bundle.getText("iaffect.FrameReussite.text") , 1) ;
 						try
-						{
-							//ITeamManagement.getIT().refreshCombo();
+						{							
+							IJTeamManagement IJ = IJTeamManagement.getIJTM(projectName);
+		            		IJ.refreshUsers();							
 						}
 						catch (Exception e1){
 							System.out.println("plantouille");
 						}
 					}catch(InstanceNotFoundException i){
+						i.printStackTrace();
 						JOptionPane.showMessageDialog(null ,Bundle.getText("iaffect.userNotExist.text"), Bundle.getText("iaffect.FrameErreur.text") , 1) ;
 					}
             		catch (Exception e) {
 						//Error of create
+            			e.printStackTrace();
 						JOptionPane.showMessageDialog(null ,Bundle.getText("iaffect.userExist.text"), Bundle.getText("iaffect.FrameErreur.text") , 1) ;
 					}
-					
+            		IA.dispose();
             		
             }
         });
