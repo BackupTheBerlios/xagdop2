@@ -394,6 +394,7 @@ public class ProjectsParser extends Parser{
 				elem.appendChild(newElem);
 				setRights(projectName,login, false , false, false, false);
 				saveDocument(projectXML);
+				publish(projectXML);
 				System.out.println("Ajout de l'utilisateur "+login+" effectue");//debug
 			}
 			else {
@@ -435,6 +436,7 @@ public class ProjectsParser extends Parser{
 			if ( elem != null ) {
 				elem.removeChild(oldElem);
 				saveDocument(projectXML);
+				publish(projectXML);
 				System.out.println("Suppression de l'utilisateur "+login+" effectuee!"); 
 			}
 			else {
@@ -470,6 +472,7 @@ public class ProjectsParser extends Parser{
 		if ( elem != null ) {
 			elem.removeChild(oldElem);
 			saveDocument(projectXML);
+			publish(projectXML);
 			System.out.println("Suppression du projet "+projectName+" effectuee"); 
 		}
 		else {
@@ -649,9 +652,7 @@ public class ProjectsParser extends Parser{
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//project[@name='"+projectName+"']";
 		
-		
-		
-		
+
 		String exprRight="";
 		
 		

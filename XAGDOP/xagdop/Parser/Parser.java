@@ -51,7 +51,6 @@ public class Parser {
 		} 
 		try {
 			transformer.transform(new DOMSource(doc), new StreamResult(file));
-			loadTreeInMemory(file);
 		} catch (TransformerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -62,9 +61,23 @@ public class Parser {
 	
 	}
 	
-	protected void publish(File file) throws SVNException{
-		SvnCommit svnc = new SvnCommit();
-		svnc.sendFile(file,"");	
+	protected void publish(File file){
+		SvnCommit svnc;
+		try {
+			svnc = new SvnCommit();
+			svnc.sendFile(file,"");
+		} catch (SVNException e1) {
+			// TODO Auto-generated catch block
+			System.out.println("Pb de connexion");
+			e1.printStackTrace();
+		}	
+		try {
+			loadTreeInMemory(file);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("Pb de chargement en memoire");
+			e.printStackTrace();
+		}
 	}
 
 }

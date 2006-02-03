@@ -6,16 +6,8 @@ import java.util.ArrayList;
 import org.w3c.dom.*;
 
 import xagdop.Model.User;
-import xagdop.Svn.SvnCommit;
 import xagdop.Svn.SvnUpdate;
 
-import javax.xml.parsers.*;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.*;
 
 /**
@@ -283,6 +275,13 @@ public class UsersParser extends Parser{
 						Element newRole = doc.createElement(attr);
 						elem.appendChild(newRole);
 						saveDocument(usersXML);
+						try {
+							publish(usersXML);
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							System.out.println("Pb de connexion");
+							e.printStackTrace();
+						}
 					}						
 				}
 				else { // On retire la balise correspondante si elle existe
