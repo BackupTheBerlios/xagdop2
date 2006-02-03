@@ -8,23 +8,21 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+
+import org.tmatesoft.svn.core.SVNException;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import xagdop.Controleur.CDependencies;
-import xagdop.Svn.SvnUpdate;
+
 
 public class DependenciesParser extends Parser{
 
-	/**
-	 * @uml.property  name="dependenciesXML"
-	 */
-	/**Un fichier dépendances par projet
-	*Donc une Hashmap, avec en clef le nom du projet, et associé un File
+	/**Un fichier dependances par projet
+	*Donc une Hashmap, avec en clef le nom du projet, et associe un File
 	*/
-	//private File dependenciesXML;
 	private HashMap dependencies;
 	private String currentProject;
 	
@@ -46,7 +44,7 @@ public class DependenciesParser extends Parser{
 			CDependencies cdep = new CDependencies();
 			dependencies = cdep.getDependenciesFiles(); 
  
-			//loadTreeInMemory(dependenciesXML);
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -164,9 +162,9 @@ public class DependenciesParser extends Parser{
 		return preList;			
 	}
 	
-	public ArrayList getPreFromApes(String apesName)
+	public ArrayList getIeppFromApes(String apesName)
 	{
-		ArrayList preList = new ArrayList();
+		ArrayList ieppList = new ArrayList();
 		
 		/**
 		 * XPath expression to get the correct "apes" node  
@@ -175,60 +173,37 @@ public class DependenciesParser extends Parser{
 		String expression = "//apes[@fileNameApes=\""+apesName+"\"]";
 
 		Element apesNode = null;
-		NodeList preNodeList;
-		NodeList pogNodeList;
-		
-		
-		
+		NodeList allNodeList;
+	
 		try {
 			apesNode = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
-			
-
+	
 			/**
-			 * If there is "pog" nodes, which are children of the "apes" node   
+			 * If there is children node of the "apes" node   
 			 */
 			if(apesNode!=null){
 				if(apesNode.hasChildNodes()){				
-					Node nodePog = null;			
-					pogNodeList = apesNode.getChildNodes();
-					
+					Node nodeChild = null;			
+					allNodeList = apesNode.getChildNodes();				
 					/**
-					 * For all children node "pog"  
-					 */
-					
-					for (int i=0; i<pogNodeList.getLength(); i++)
+					 * For all children node
+					 */					
+					for (int i=0; i<allNodeList.getLength(); i++)
 					{
-						nodePog = pogNodeList.item(i);
-						
+						nodeChild = allNodeList.item(i);					
 						/**
-						 * If there is "pre" nodes, which are children of the "pog" node   
+						 * If it is a "iepp" nodes   
 						 */
-						if(nodePog!=null){
-							if(nodePog.hasChildNodes()){					
-								Node nodePre = null;
-								Node attributePath = null;
+						if(nodeChild!=null){
+							if(nodeChild.getNodeName().equals("iepp")){					
 								NamedNodeMap mapAttributes = null;
-								
-								preNodeList = nodePog.getChildNodes();
 								/**
-								 * For all children node "pre"  
+								 * Getting all node's attribute in a NamedNodeMap  
 								 */
-								for (int j=0; j<preNodeList.getLength(); j++)
-								{	
-									nodePre = preNodeList.item(j);
-									/**
-									 * Getting all node's attribute in a NamedNodeMap  
-									 */
-									mapAttributes = nodePre.getAttributes();
-									if(mapAttributes != null){					
-										attributePath = mapAttributes.getNamedItem("fileNamePre");							
-										if(attributePath!=null){
-											/**
-											 * Add the selected attribute in the result ArrayList  
-											 */
-											preList.add(attributePath.getNodeValue());
-										}
-									}
+								mapAttributes = nodeChild.getAttributes();
+								if(mapAttributes != null){					
+									String fileName = mapAttributes.getNamedItem("fileNamePre").getNodeValue();	
+									ieppList.add(fileName);
 								}
 							}	
 						}
@@ -236,14 +211,14 @@ public class DependenciesParser extends Parser{
 				}
 			}
 			else {
-				System.out.println("Pb getPreFromApes");
+				System.out.println("Pb getIeppFromApes");
 			}			
 		}
 		catch (XPathExpressionException e) {
 			
 			e.printStackTrace();
 		}
-		return preList;			
+		return ieppList;			
 	}
 	
 	
@@ -268,7 +243,7 @@ public class DependenciesParser extends Parser{
 		}
 	}
 
-	public void addApes(String apesName)
+	public void addApes(String apesName) throws SVNException
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		
@@ -299,7 +274,8 @@ public class DependenciesParser extends Parser{
 
 			if ( elem != null ) {
 				elem.appendChild(newElem);
-				saveDocument((File)dependencies.get(currentProject));			
+				saveDocument((File)dependencies.get(currentProject));	
+				publish((File)dependencies.get(currentProject));
 			}
 			else {
 				System.out.println("Ajout du fichier Apes impossible!"); 
@@ -311,7 +287,7 @@ public class DependenciesParser extends Parser{
 		}
 	}	
 	
-	public void addPog(String pogName)
+	public void addPog(String pogName) throws SVNException
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		
@@ -342,7 +318,8 @@ public class DependenciesParser extends Parser{
 
 			if ( elem != null ) {
 				elem.appendChild(newElem);
-				saveDocument((File)dependencies.get(currentProject));		
+				saveDocument((File)dependencies.get(currentProject));
+				publish((File)dependencies.get(currentProject));
 			}
 			else {
 				System.out.println("Ajout du fichier Pog sans modele impossible!"); 
@@ -354,7 +331,7 @@ public class DependenciesParser extends Parser{
 		}
 	}	
 	
-	public void addToUpdate(String filePath)
+	public void addToUpdate(String filePath) throws SVNException
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		
@@ -387,6 +364,7 @@ public class DependenciesParser extends Parser{
 			if ( elem != null ) {
 				elem.appendChild(newElem);
 				saveDocument((File)dependencies.get(currentProject));	
+				publish((File)dependencies.get(currentProject));
 			}
 			else {
 				System.out.println("Pb addToUpdate!"); 
@@ -398,7 +376,7 @@ public class DependenciesParser extends Parser{
 		}
 	}		
 	
-	public void addPog(String apesName, String pogName)
+	public void addPog(String apesName, String pogName) throws SVNException
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		
@@ -431,6 +409,7 @@ public class DependenciesParser extends Parser{
 			if ( elem != null ) {
 				elem.appendChild(newElem);
 				saveDocument((File)dependencies.get(currentProject));	
+				publish((File)dependencies.get(currentProject));
 			}
 			else {
 				System.out.println("Ajout du fichier Pog impossible!"); 
@@ -441,7 +420,7 @@ public class DependenciesParser extends Parser{
 			//System.out.println("Fichier existant!");
 		}
 	}		
-	
+	/*
 	public void addPre(String apesName, String pogName, String preName)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
@@ -466,8 +445,8 @@ public class DependenciesParser extends Parser{
 				System.out.println("Ajout du fichier Pre impossible!"); 
 		}
 	}
-
-	public void delToUpdate(String filePath)
+*/
+	public void delToUpdate(String filePath) throws SVNException
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//toupdate";
@@ -487,6 +466,7 @@ public class DependenciesParser extends Parser{
 		if ( elem != null && oldElem != null) {
 			elem.removeChild(oldElem);
 			saveDocument((File)dependencies.get(currentProject));	
+			publish((File)dependencies.get(currentProject));
 		}
 		else {
 			System.out.println("Pb delToUpdate!"); 
