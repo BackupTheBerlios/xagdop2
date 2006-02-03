@@ -120,6 +120,7 @@ public class ITeamManagement extends JFrame{
         ButtonAffect.setText("Affecter");
         ButtonAffect.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
+
                 try {
 					CTeamM.Apply(((String)UserListCombo.getSelectedItem()),ArchitectCheck.isSelected(),AnalystCheck.isSelected(),RedacterCheck.isSelected(),PManagerCheck.isSelected());
 				} catch (SVNException e) {
@@ -127,7 +128,8 @@ public class ITeamManagement extends JFrame{
 					//debug: afficher une alerte
 					e.printStackTrace();
 				}
-           	    IAffect IA = IAffect.getIA();
+           	    IAffect IA = IAffect.getIA(nP);
+
            	    IA.setProjectName(nP);
            	    IA.setVisible(true);
                 //fermer la fenetre

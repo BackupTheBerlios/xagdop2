@@ -90,7 +90,7 @@ public class IJTeamManagement extends JFrame{
 		ButtonAffecter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				
-				IAffect IA = IAffect.getIA();
+				IAffect IA = IAffect.getIA(nP);
 				IA.setLocation(300,300);
 				IA.setProjectName(nP);
 				IA.setVisible(true);

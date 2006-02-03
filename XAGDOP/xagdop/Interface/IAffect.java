@@ -4,11 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.ArrayList;
 
 
 import javax.management.InstanceNotFoundException;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -19,6 +21,10 @@ import javax.swing.SwingConstants;
 
 
 import xagdop.Controleur.CAffect;
+import xagdop.Model.Project;
+import xagdop.Model.User;
+import xagdop.Parser.ProjectsParser;
+import xagdop.Parser.UsersParser;
 import xagdop.ressources.Bundle;
 
 public class IAffect extends JFrame
@@ -31,12 +37,13 @@ public class IAffect extends JFrame
     private JButton CancelButton = new JButton();
     private JCheckBox ChefCheck = new JCheckBox();
     private JLabel EnterLabel = new JLabel();
-    private JTextField LoginUser = new JTextField();
+    //private JTextField LoginUser = new JTextField();
     private JButton OkButton = new JButton();
     private JCheckBox RedacteurCheck = new JCheckBox();
     private JPanel jPanel1 = new JPanel();
     private JSeparator jSeparator1 = new JSeparator();
     private JSeparator jSeparator2 = new JSeparator();
+    private JComboBox userList;
     
     
     CAffect CA ;
@@ -48,19 +55,21 @@ public class IAffect extends JFrame
 	private static final long serialVersionUID = 1L;
 	private static IAffect IA;
 	
-	private IAffect(){
-		init();
+	private IAffect(String nomProjet){
+		projectName = nomProjet;
+		init(projectName);
 	}
 	/**
 	 * 
 	 * 
 	 */
-	public void init(){
+	public void init(String myProjet){
 		
 		CA = new CAffect();
 		GridBagConstraints gridBagConstraints;
-
-
+		
+		userList = new JComboBox();
+		
         
         jPanel1.setLayout(new GridBagLayout());
 
@@ -68,7 +77,7 @@ public class IAffect extends JFrame
         OkButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
             		try {
-						CA.affecter(projectName,LoginUser.getText(),ChefCheck.isSelected(),ArchiCheck.isSelected(),RedacteurCheck.isSelected(),AnalystCheck.isSelected());
+						CA.affecter(projectName,(String)userList.getSelectedItem(),ChefCheck.isSelected(),ArchiCheck.isSelected(),RedacteurCheck.isSelected(),AnalystCheck.isSelected());
 						JOptionPane.showMessageDialog(null ,Bundle.getText("iaffect.userAdd.text"), Bundle.getText("iaffect.FrameReussite.text") , 1) ;
 						try
 						{							
@@ -136,11 +145,17 @@ public class IAffect extends JFrame
         gridBagConstraints.anchor = GridBagConstraints.WEST;
         jPanel1.add(ChefCheck, gridBagConstraints);
 
-        LoginUser.setColumns(10);
-
+        //userCheck.setColumns(10);
+             
+        // Initialisation de la comboBox des users
+        
+        initCombo();
+        
+        
+        
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
-        jPanel1.add(LoginUser, gridBagConstraints);
+        jPanel1.add(userList, gridBagConstraints);
 
         EnterLabel.setText(Bundle.getText("iaffect.userLogin.text"));
 
@@ -175,13 +190,41 @@ public class IAffect extends JFrame
 	/** 
 	* @return Returns the singleton.
 	 */
-	public static IAffect getIA() {
+	public static IAffect getIA(String projetN) {
 		if (IA==null){
-			IA = new IAffect(); 
+			IA = new IAffect(projetN); 
 		}
 		
 		return IA;
 	}
+	
+	public void initCombo() {
+	
+		// Liste deroulante des utilisateurs sans ceux du projet
+		
+		//System.out.println("IAffectProjetName"+projectName);
+		
+		ArrayList listUser = UsersParser.getInstance().getAllUsers();
+		Project monProjet = ProjectsParser.getInstance().buildProject(projectName);
+		ArrayList projetUser = monProjet.getUsersLogin();
+			
+		ArrayList listComboRes = new ArrayList();
+		System.out.println("NomDuProjet:"+projectName);
+		
+		for(int j=0; j<listUser.size(); j++)
+		{
+			for(int k=0; k<projetUser.size(); k++)
+			{
+				if (listUser.get(j)!=projetUser.get(k))
+				{
+					userList.addItem(projetUser.get(k));
+				}
+			}
+		}
+		
+		
+	}
+	
 	public String getProjectName() {
 		return projectName;
 	}
