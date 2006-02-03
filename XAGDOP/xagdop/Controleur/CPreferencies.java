@@ -1,5 +1,7 @@
 package xagdop.Controleur;
-public class CPreferences {
+
+
+public class CPreferencies {
 	/*
 	 * 
 	 * Attributs de la classe
@@ -10,7 +12,7 @@ public class CPreferences {
 	/*
 	 * Constructeur
 	 */
-	public CPreferences(){
+	public CPreferencies(){
 		
 	}
 	
