@@ -21,8 +21,8 @@ public class UserTest extends TestCase {
 		User us = new User("toto","totopass",true,false);
 		
 		//Tests
-		assertTrue(us.isAdmin()==true);
-		assertFalse(us.isAdmin()==false);
+		assertTrue(us.isAdmin());
+		
 	}
 
 	/*
@@ -36,8 +36,8 @@ public class UserTest extends TestCase {
 		us.setAdmin(false);
 		
 		//Tests
-		assertTrue(us.isAdmin()==false);
-		assertFalse(us.isAdmin()==true);
+		assertTrue(!us.isAdmin());
+		
 	}
 
 
@@ -106,7 +106,8 @@ public class UserTest extends TestCase {
 		User us = new User("toto","totopass",true,false);
 		
         //Tests
-		assertTrue(us.isPcreator()==false);
+		assertTrue(!us.isPcreator());
+		assertTrue(us.isAdmin());
 		
 		
 	}
@@ -121,8 +122,10 @@ public class UserTest extends TestCase {
 		//donner l'attribut Pmanager a toto
 		us.setPmanager(true);
 		
+		
 		//Tests
-		assertTrue(us.isPcreator()==true);
+		assertTrue(us.isPcreator());
+		
 		
 		
 	}
@@ -146,8 +149,9 @@ public class UserTest extends TestCase {
 		pp.addUser("projTest",usr.getLogin(),true,false,true,false);
 		
 		//Test
-		assertTrue(usr.isArchitect("projTest")==false);
-
+		
+		assertTrue(!usr.isArchitect("projTest"));
+	
 		//Supprimer l'utilisateur de UsersParsers
 		usrp.removeUser(usr.getLogin());
 		
@@ -174,7 +178,7 @@ public class UserTest extends TestCase {
 		pp.addUser("projTest",usr.getLogin(),true,false,true,false);
 		
 		//Test
-		assertTrue(usr.isRedactor("projTest")==false);
+		assertTrue(!usr.isRedactor("projTest"));
 
 		//Supprimer l'utilisateur de UsersParsers
 		usrp.removeUser(usr.getLogin());
@@ -203,7 +207,7 @@ public class UserTest extends TestCase {
 		pp.addUser("projTest",usr.getLogin(),true,false,true,false);
 		
 		//Test
-		assertTrue(usr.isAnalyst("projTest")==true);
+		assertTrue(usr.isAnalyst("projTest"));
 
 		//Supprimer l'utilisateur de UsersParsers
 		usrp.removeUser(usr.getLogin());
@@ -232,7 +236,7 @@ public class UserTest extends TestCase {
 		pp.addUser("projTest",usr.getLogin(),true,false,true,false);
 		
 		//Test
-		assertTrue(usr.isPManager("projTest")==true);
+		assertTrue(usr.isPManager("projTest"));
 
 		//Supprimer l'utilisateur de UsersParsers
 		usrp.removeUser(usr.getLogin());
