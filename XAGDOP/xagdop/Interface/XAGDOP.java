@@ -84,7 +84,7 @@ public class XAGDOP extends JFrame{
 	protected JMenuItem menuProjetCreate = new JMenuItem(Bundle.getText("main.menu.project.newProject"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/new-tab.png")));
 	protected JMenuItem menuProjetDelete = new JMenuItem(Bundle.getText("main.menu.project.delProject"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/supprimer.gif")));
 	protected JMenuItem menuProjetPreferences = new JMenuItem("Fichier Preferences");
-	
+	protected JMenuItem menuProjetComposantCreate = new JMenuItem("Creation Composant");
 	
 	protected JMenu menuHelp = new JMenu(Bundle.getText("main.menu.help"));
 	protected JMenuItem menuHelpAbout = new JMenuItem(Bundle.getText("main.menu.help.about"));
@@ -116,6 +116,8 @@ public class XAGDOP extends JFrame{
 	}
 
 	private void init(){
+		
+		//Image for button
 		java.net.URL imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/envoyer.jpg");
 		commit = new JButton(new ImageIcon(imageURL));
 		imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/equipe.jpeg");
@@ -134,6 +136,8 @@ public class XAGDOP extends JFrame{
 		JPanel pan2 = new JPanel(new BorderLayout());
 		pan.setLayout(new BorderLayout());
 		
+		
+		//Ajout des bouton sur le panel
 		update.setMargin(new Insets(0,0,0,0));
 		update.setToolTipText("Update");
 		commit.setMargin(new Insets(0,0,0,0));
@@ -179,7 +183,7 @@ public class XAGDOP extends JFrame{
 		menuProjetDelete.setMnemonic('E');
 		menuProjetDelete.addActionListener(new delProject());
 		menuProjetPreferences.addActionListener(new openFilePreferences());
-		
+		menuProjetComposantCreate.addActionListener(new openComposantCreate());
 		
 		menuEditeUpdate.addActionListener(new actionUpdate());
 		menuEditeUpdate.setMnemonic('T');
@@ -244,6 +248,7 @@ public class XAGDOP extends JFrame{
 		menuProjet.add(menuProjetCreate);
 		menuProjet.add(menuProjetDelete);
 		menuProjet.add(menuProjetPreferences);
+		menuProjet.add(menuProjetComposantCreate);
 		
 		menuEdite.add(menuEditeUpdate);
 		menuEdite.add(menuEditeCommit);
@@ -378,6 +383,17 @@ public class XAGDOP extends JFrame{
 		
 	}
 	
+	/*
+	 * Action listener associes aux differents boutons
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 */
+	
+	
+	
 	class openIAdmin implements ActionListener {
 		public void actionPerformed (ActionEvent e) {
 			IJAdmin ijadmin = IJAdmin.getIJA();
@@ -432,6 +448,16 @@ public class XAGDOP extends JFrame{
 				((CTree)tree.getModel()).refresh(tree.getSelectedNode());
 		}
 	}
+	
+
+	class openComposantCreate implements ActionListener { 
+		public void actionPerformed (ActionEvent e)  {
+			IComposantCreate cc = IComposantCreate.getICC();
+			cc.setVisible(true);
+		}
+	}
+	
+	
 	class openIPreferences implements ActionListener { 
 		public void actionPerformed (ActionEvent e)  {
 			IPreferences preferences = IPreferences.getIPref();
@@ -468,22 +494,39 @@ public class XAGDOP extends JFrame{
 	}
 	
 
+	
+	/*
+	 * Return Tree of XAGDOP.java
+	 * 
+	 */
 	public IProjectTree getTree() {
 		return tree;
 	}
 
+	/*
+	 * Set the current User
+	 */
 	public void setUser(User newUser) {
 		user = newUser;
 	}
-
+	/*
+	 * Get the current User
+	 */
 	public User getUser() {
 		return user;
 	}
 	
+	/*
+	 * Permet de raffraichir l'arbre
+	 */
 	public void refreshTree(){
 		((CTree)tree.getModel()).refreshFromLocal(tree.getSelectedNode());
 	}
 	
+	
+	/*
+	 * Permet de raffraichir les boutons en fonctions des droits de l'utilisateur
+	 */
 	public void refreshButton(){
 		if (getUser().isPcreator()){
 			projet.setEnabled(true);
@@ -505,9 +548,16 @@ public class XAGDOP extends JFrame{
 				
 		
 	}
+	
+	/*
+	 * Acces au projet courant
+	 */
 	public CTreeNode getCurrentNode() {
 		return currentNode;
 	}
+	/*
+	 * Modification du projet courant
+	 */
 	public void setCurrentNode(CTreeNode currentNode) {
 		this.currentNode = currentNode;
 	}
