@@ -122,13 +122,13 @@ public class XAGDOP extends JFrame{
 		commit = new JButton(new ImageIcon(imageURL));
 		imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/equipe.jpeg");
 		equipe = new JButton(new ImageIcon(imageURL));
-		imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/new-tab.png");
+		imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/folder_new.png");
 		projet = new JButton(new ImageIcon(imageURL));
-		imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/supprimer.gif");
+		imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/delete.jpg");
 		delProject = new JButton(new ImageIcon(imageURL));
 		imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/reload.png");
 		update = new JButton(new ImageIcon(imageURL));		
-		imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/tools.jpg");
+		imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/configure.png");
 		preferences = new JButton(new ImageIcon(imageURL));		
 		admin= new JButton("ADMIN");
 		
