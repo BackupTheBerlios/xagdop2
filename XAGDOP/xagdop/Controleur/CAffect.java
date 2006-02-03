@@ -18,18 +18,21 @@ public class CAffect {
 		if (!UP.isUser(login))
 			throw new InstanceNotFoundException();
 		else
-		{
-			if (!PP.isProject(project))
-				throw new Exception();
-			else
-		
-			{				
-				PP.addUser(project, login, pmanager, archi, analyst,redactor);
-				IJTeamManagement.getIJTM(project).refreshUsers();
-			}
+		{			
+				if (!PP.isUserInProject(project,login))
+				{
+				System.out.println("good");
+				try {
+					PP.addUser(project, login, pmanager, archi, analyst,redactor);
+					IJTeamManagement.getIJTM(project).refreshUsers();
+				}
+				catch (Exception e)
+				{e.printStackTrace();}
+				
+				}
+				else
+					throw new Exception();
 		}	
 	}
 		
-	
-	
 }
