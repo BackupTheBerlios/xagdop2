@@ -7,9 +7,9 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 public class Preferencies {
-	String server="";
-	String lookNFeel="";
-	String langue="";
+	private String server="";
+	private String lookNFeel="";
+	private String langue="";
 	
 	
 	public Preferencies(String server, String lookNFeelName,String langue){
@@ -39,7 +39,7 @@ public class Preferencies {
 	 * @param name Nom du LNF
 	 * @return Nom de la classe du LNF
 	 */
-	public static String getClassName (String name)
+	public static String getLNFClassName (String name)
 	{
 		UIManager.LookAndFeelInfo[] info = UIManager.getInstalledLookAndFeels();
 		int i = 0;
@@ -71,5 +71,21 @@ public class Preferencies {
 		catch (UnsupportedLookAndFeelException ex) {ex.printStackTrace();}
 		catch (IllegalAccessException ex) { ex.printStackTrace(); }
 	}
+
+
+	public String getLangue() {
+		return langue;
+	}
+
+
+	public String getLookNFeel() {
+		return lookNFeel;
+	}
+
+
+	public String getServer() {
+		return server;
+	}
+	
 	
 }
