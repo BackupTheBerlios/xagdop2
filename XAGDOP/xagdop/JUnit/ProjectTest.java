@@ -2,6 +2,7 @@ package xagdop.JUnit;
 
 import junit.framework.TestCase;
 import xagdop.Model.*;
+import xagdop.Parser.*;
 
 
 import java.util.ArrayList;
@@ -13,12 +14,10 @@ public class ProjectTest extends TestCase {
 	 * Test method for 'xagdop.Model.Projects.getProjectName()'
 	 */
 	public void testGetProjectName() {
-			//Declarations
-			ArrayList list= new ArrayList();
-			ArrayList id =new ArrayList();
+			
 			
 			//Creation d'un nouveau  projet
-			Project p = new Project("blabla",list,id);
+			Project p = new Project("blabla");
 			
 			//Test
 			assertEquals(p.getProjectName(),"blabla");
@@ -29,12 +28,9 @@ public class ProjectTest extends TestCase {
 	 * Test method for 'xagdop.Model.Projects.setProjectName(String)'
 	 */
 	public void testSetProjectName() {
-		//Declarations
-		ArrayList list= new ArrayList();
-		ArrayList id =new ArrayList();
-		
+	
 		//Creation d'un nouveau projet
-		Project p = new Project("blabla",list,id);
+		Project p = new Project("blabla");
 		
 		//Changement du nom du projet
 		p.setProjectName("blibli");
@@ -51,54 +47,61 @@ public class ProjectTest extends TestCase {
 	public void testGetUsersLogin() {
 		
 		//Declarations
-		ArrayList list= new ArrayList();
-		ArrayList id =new ArrayList();
+		ArrayList right= new ArrayList();
+	
+	
 		
 		
 		//Creation d'un nouveau projet
-		Project p = new Project("blabla",list,id);
+		Project p = new Project("blabla");
 		
 		//Ajouter un login
-		id.add("toto");
+		p.addUser("toto",right);
+		
+		//Test
 		assertTrue((p.getUsersLogin()).get(0)=="toto");
 		
 		
 	}
 
 	/*
-	 * Test method for 'xagdop.Model.Projects.setUsersLogin(ArrayList)'
+	 * Test method for 'xagdop.Model.Projects.addUser(String, ArrayList)'
 	 */
-	public void testSetUsersLogin() {
-		
+	public void testAddUser() {
 		//Declarations
-		ArrayList list= new ArrayList();
-		ArrayList id= new ArrayList();
-		ArrayList id1 =new ArrayList();
+		ArrayList right= new ArrayList();
+	
+		//Creation d'un nouveau projet
+		Project p = new Project("blabla");
 		
-		//Creation de projet
-		Project p = new Project("blabla",list,id);
 		//Ajouter un login
-		id.add("tata");
-		id1.add("toto");
+		p.addUser("toto",right);
 		
-		p.setUsersLogin(id1);
-		assertEquals((p.getUsersLogin()).get(0),"toto");
-		assertFalse((p.getUsersLogin()).get(0)=="tata");
+		//Test
+		assertTrue((p.getUsersLogin()).get(0)=="toto");
+		
 	}
 
 	/*
 	 * Test method for 'xagdop.Model.Projects.isManager(int)'
 	 */
 	public void testIsManager() {
-//		ArrayList list= new ArrayList();
-//		ArrayList id= new ArrayList();
-//		ProjectsParser pj = new ProjectsParser();
-//		UsersParser up = new UsersParser();
-//		Projects p = new Projects("blabla",list,id);
-//		Users user = new Users("toto", "tata", 0, false, false);
-//		pj.addProject("blbl",user,"blabla");
-//		up.addUser(user);
-//		pj.setAttribute("blbl",0,"pmanager","true");
+		//Declarations
+		ArrayList right= new ArrayList();
+	
+		//Creation d'un nouveau projet
+		Project p = new Project("blabla");
+		
+		//Affecter les droits
+		right.add(Boolean.valueOf(true));
+		right.add(Boolean.valueOf(false));
+		right.add(Boolean.valueOf(true));
+		right.add(Boolean.valueOf(false));
+		
+		//Ajouter un login
+		p.addUser("toto",right);
+		
+		assertTrue(p.isManager((String)(p.getUsersLogin()).get(0)));
 		
 	}
 
@@ -106,6 +109,23 @@ public class ProjectTest extends TestCase {
 	 * Test method for 'xagdop.Model.Projects.isArchitecte(int)'
 	 */
 	public void testIsArchitecte() {
+		//Declarations
+		ArrayList right= new ArrayList();
+	
+		//Creation d'un nouveau projet
+		Project p = new Project("blabla");
+		
+		//Affecter les droits
+		right.add(Boolean.valueOf(true));
+		right.add(Boolean.valueOf(false));
+		right.add(Boolean.valueOf(true));
+		right.add(Boolean.valueOf(false));
+		
+		//Ajouter un login
+		p.addUser("toto",right);
+		
+		assertTrue(!p.isArchitect((String)(p.getUsersLogin()).get(0)));
+		
 
 	}
 
@@ -113,6 +133,23 @@ public class ProjectTest extends TestCase {
 	 * Test method for 'xagdop.Model.Projects.isAnalyst(int)'
 	 */
 	public void testIsAnalyst() {
+		//Declarations
+		ArrayList right= new ArrayList();
+	
+		//Creation d'un nouveau projet
+		Project p = new Project("blabla");
+		
+		//Affecter les droits
+		right.add(Boolean.valueOf(true));
+		right.add(Boolean.valueOf(false));
+		right.add(Boolean.valueOf(true));
+		right.add(Boolean.valueOf(false));
+		
+		//Ajouter un login
+		p.addUser("toto",right);
+		
+		assertTrue(p.isAnalyst((String)(p.getUsersLogin()).get(0)));
+		
 
 	}
 
@@ -120,7 +157,23 @@ public class ProjectTest extends TestCase {
 	 * Test method for 'xagdop.Model.Projects.isRedacteur(int)'
 	 */
 	public void testIsRedacteur() {
-
+		//Declarations
+		ArrayList right= new ArrayList();
+	
+		//Creation d'un nouveau projet
+		Project p = new Project("blabla");
+		
+		//Affecter les droits
+		right.add(Boolean.valueOf(true));
+		right.add(Boolean.valueOf(false));
+		right.add(Boolean.valueOf(true));
+		right.add(Boolean.valueOf(false));
+		
+		//Ajouter un login
+		p.addUser("toto",right);
+		
+		assertTrue(!p.isRedactor((String)(p.getUsersLogin()).get(0)));
+		
 	}
 
 }
