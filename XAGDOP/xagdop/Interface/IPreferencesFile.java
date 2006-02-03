@@ -15,6 +15,8 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileFilter;
 
+import xagdop.ressources.Bundle;
+
 
 public class IPreferencesFile extends JFrame {
     
@@ -59,14 +61,14 @@ public class IPreferencesFile extends JFrame {
         gridBagConstraints.insets = new Insets(0, 0, 0, 19);
         Panel.add(preferencePath, gridBagConstraints);
 
-        BrowseButton.setText("Browse !!");
+        BrowseButton.setText(Bundle.getText("ipreferencefile.button.browse"));
         BrowseButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
             	JFileChooser openPreferences = new JFileChooser(".") ;
-            	FiltreSimple erf = new FiltreSimple("Fichiers zip (*.zip)",".zip");
+            	FiltreSimple erf = new FiltreSimple("Fichiers xml (*.xml)",".xml");
      		   openPreferences.addChoosableFileFilter(erf);
      		  openPreferences.setCurrentDirectory(new File(".")) ;
-  		    openPreferences.setDialogTitle("ouvrir un fichier :p") ;
+  		    openPreferences.setDialogTitle(Bundle.getText("ipreferencefile.filechooser.title")) ;
   		  int resultVal = openPreferences.showOpenDialog(IPreferencesFile.getInstance()) ; // get the user's choice
 		    if (resultVal == JFileChooser.APPROVE_OPTION) // user opened a file
 			{
@@ -115,18 +117,18 @@ public class IPreferencesFile extends JFrame {
     }
 
     public class FiltreSimple extends FileFilter{
-        //Description et extension accept�e par le filtre
+        //Description et extension accept???e par le filtre
         private String description;
         private String extension;
-        //Constructeur � partir de la description et de l'extension accept�e
+        //Constructeur ??? partir de la description et de l'extension accept???e
         public FiltreSimple(String description, String extension){
            if(description == null || extension ==null){
-              throw new NullPointerException("La description (ou extension) ne peut �tre null.");
+              throw new NullPointerException("La description (ou extension) ne peut ???tre null.");
            }
            this.description = description;
            this.extension = extension;
         }
-        //Impl�mentation de FileFilter
+        //Impl???mentation de FileFilter
         public boolean accept(File file){
            if(file.isDirectory()) { 
               return true; 
