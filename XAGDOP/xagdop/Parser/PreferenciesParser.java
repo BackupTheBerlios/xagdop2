@@ -83,12 +83,115 @@ public class PreferenciesParser extends Parser{
 			lang= elem.getAttribute(PreferenciesParser.LANG_NAME);
 		}
 		
-
 		Preferencies pref = new Preferencies(server,lnf,lang);
 		return pref;
 	}
 	
+	
+	public void setPreferencies(Preferencies pref){
+		String serv= pref.getServer();
+		String lnf= pref.getLookNFeel();
+		String lang= pref.getLangue();		
+		
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		String exprServ = "//server";
+		String exprLNF  = "//lookNFeel";
+		String exprLang = "//langue";	
+		Element elem = null;
+		
+		try { elem = (Element)xpath.evaluate(exprServ, this.doc, XPathConstants.NODE);}
+		catch (XPathExpressionException e) { e.printStackTrace();}
+		if ( elem != null ) {
+			elem.setAttribute(PreferenciesParser.SERV_URL, serv);
+		}
+		else {
+			System.out.println("Modification de l'URL du serveur a "+ serv + " impossible!"); 
+		}
+		
+		try { elem = (Element)xpath.evaluate(exprLNF, this.doc, XPathConstants.NODE);}
+		catch (XPathExpressionException e) { e.printStackTrace();}
+		if ( elem != null ) {
+			elem.setAttribute(PreferenciesParser.LNF_NAME, lnf);
+		}
+		else {
+			System.out.println("Modification du lnf a "+ lnf + " impossible!"); 
+		}
+		
+		try { elem = (Element)xpath.evaluate(exprLang, this.doc, XPathConstants.NODE); }
+		catch (XPathExpressionException e) { e.printStackTrace(); }
+		if ( elem != null ) {
+			elem.setAttribute(PreferenciesParser.LANG_NAME, lang);
+		}
+		else {
+			System.out.println("Modification de la langue a "+ lang + " impossible!"); 
+		}
+		saveDocument(preferenciesXML);
+		
+	}
+	
+	
+	public void setServer(String serv){
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		String expression = "//server";
+		Element elem = null;
+		
+		try {
+			elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+		}
+		catch (XPathExpressionException e) {
+			e.printStackTrace();
+		}
+		if ( elem != null ) {
+			elem.setAttribute(PreferenciesParser.SERV_URL, serv);
+			saveDocument(preferenciesXML);
+		}
+		else {
+			System.out.println("Modification de l'URL du serveur a "+ serv + " impossible!"); 
+		}
+	}
 
 	
 	
+	public void setLNF(String lnf){
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		String expression = "//lookNFeel";
+		Element elem = null;
+		
+		try {
+			elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+		}
+		catch (XPathExpressionException e) {
+			e.printStackTrace();
+		}
+		if ( elem != null ) {
+			elem.setAttribute(PreferenciesParser.LNF_NAME, lnf);
+			saveDocument(preferenciesXML);
+		}
+		else {
+			System.out.println("Modification du lnf a "+ lnf + " impossible!"); 
+		}
+	}
+
+	
+	
+	public void setLang(String lang){
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		String expression = "//server";
+		Element elem = null;
+		
+		try {
+			elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+		}
+		catch (XPathExpressionException e) {
+			e.printStackTrace();
+		}
+		if ( elem != null ) {
+			elem.setAttribute(PreferenciesParser.LANG_NAME, lang);
+			saveDocument(preferenciesXML);
+		}
+		else {
+			System.out.println("Modification de la langue a "+ lang + " impossible!"); 
+		}
+	}
+
 }

@@ -11,6 +11,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.tmatesoft.svn.core.SVNException;
 import org.w3c.dom.Document;
 
 import xagdop.Svn.SvnCommit;
@@ -50,8 +51,6 @@ public class Parser {
 		} 
 		try {
 			transformer.transform(new DOMSource(doc), new StreamResult(file));
-			SvnCommit svnc = new SvnCommit();
-			svnc.sendFile(file,"");
 			loadTreeInMemory(file);
 		} catch (TransformerException e) {
 			// TODO Auto-generated catch block
@@ -61,6 +60,11 @@ public class Parser {
 			e.printStackTrace();
 		}
 	
+	}
+	
+	protected void publish(File file) throws SVNException{
+		SvnCommit svnc = new SvnCommit();
+		svnc.sendFile(file,"");	
 	}
 
 }

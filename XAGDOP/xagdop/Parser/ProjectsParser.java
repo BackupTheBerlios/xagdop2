@@ -8,6 +8,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.tmatesoft.svn.core.SVNException;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -124,7 +125,7 @@ public class ProjectsParser extends Parser{
 	 * Permet de savoir si un utilisateur X est associe a un projet Y 
 	 * @param pName Nom du projet
 	 * @param login Login de l'utilisateur
-	 * @return TRUE si l'utilisateur est associ? au projet, FALSE sinon 
+	 * @return TRUE si l'utilisateur est associe au projet, FALSE sinon 
 	 */
 	public boolean isUserInProject(String pName, String login)
 	{
@@ -139,10 +140,14 @@ public class ProjectsParser extends Parser{
 		catch (XPathExpressionException e) {
 			e.printStackTrace();
 		}
-		if ( elem != null ) 
+		if ( elem != null ){
+			//System.out.println("L'utilisateur "+login+" est bien pas dans le projet "+pName); //debug
 			return true;			
-		else 
+		}
+		else{
+			//System.out.println("L'utilisateur "+login+" n'est pas dans le projet "+pName); //debug
 			return false;
+		}
 	}
 		
 	
@@ -163,14 +168,14 @@ public class ProjectsParser extends Parser{
 			e.printStackTrace();
 		}
 		if ( elem != null ) {
+			//System.out.println("Le projet "+projectName+" existe"); //debug
 			return true;
 		}
 		else{
+			//System.out.println("Le projet "+projectName+" n'existe pas"); //debug
 			return false;
 		}
-			
-			
-			
+					
 	}
 
 
@@ -359,8 +364,9 @@ public class ProjectsParser extends Parser{
 	 * Ajout d'un utilisateur a un projet en fixant les droits par defaut
 	 * @param projectName
 	 * @param login
+	 * @throws SVNException 
 	 */
-	public void addUser(String projectName, String login)
+	public void addUser(String projectName, String login) throws SVNException
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//project[@name='"+projectName+"']";
@@ -482,13 +488,15 @@ public class ProjectsParser extends Parser{
 	 * @param archi
 	 * @param redac
 	 * @param analyst
+	 * @throws SVNException 
 	 */
-	public void setRights(String projectName, String login, boolean pmanager, boolean architect, boolean analyst, boolean redactor)
+	public void setRights(String projectName, String login, boolean pmanager, boolean architect, boolean analyst, boolean redactor) throws SVNException
 	{	
 		setRight(projectName,login,ProjectsParser.RIGHT_PMANAGER,pmanager);
 		setRight(projectName,login,ProjectsParser.RIGHT_ARCHITECT,architect);
 		setRight(projectName,login,ProjectsParser.RIGHT_ANALYST,analyst);
 		setRight(projectName,login,ProjectsParser.RIGHT_REDACTOR,redactor);
+		publish(projectXML);
 	}
 	
 	
@@ -671,19 +679,19 @@ public class ProjectsParser extends Parser{
 				for (int i=0; i<usersNodeList.getLength(); i++)
 				{
 				
-					//Récupération du noeud user i
+					//R??cup??ration du noeud user i
 					nodeUser = usersNodeList.item(i);
-					//Récupération de tous les attributs du noeud user i
+					//R??cup??ration de tous les attributs du noeud user i
 					map = nodeUser.getAttributes();
 					
 					if(map!=null){		
-						//Récupération de l'attribut login sous forme de Node
+						//R??cup??ration de l'attribut login sous forme de Node
 						nodeLogin = map.getNamedItem(ATTR_LOGIN);						
 						if(nodeLogin!=null){
-							//Récupération de la valeur de l'attribut login en String
+							//R??cup??ration de la valeur de l'attribut login en String
 							String login = nodeLogin.getNodeValue();
 							
-							//Récupération de la balise rights de l'utilisateur i
+							//R??cup??ration de la balise rights de l'utilisateur i
 							exprRight = "//project[@name='"+projectName+"']/user[@login='"+login+"']/rights";
 							try {
 								rights = (Element)xpath.evaluate(exprRight, this.doc, XPathConstants.NODE);}
@@ -693,14 +701,14 @@ public class ProjectsParser extends Parser{
 							//Si l'utilisateur a bien des droits
 							if (rights != null)
 							{
-								//Réinitialisation de la liste et des droits
+								//R??initialisation de la liste et des droits
 								ArrayList lrights = new ArrayList();
 								boolean pmanager = false;
 								boolean architect = false;
 								boolean analyst = false;
 								boolean redactor = false;
 								
-								//Récupération de tous les balises filles si il y en a
+								//R??cup??ration de tous les balises filles si il y en a
 								if(rights.hasChildNodes())
 								{								
 									allRights = rights.getChildNodes();
