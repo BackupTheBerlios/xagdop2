@@ -118,7 +118,7 @@ public class ITeamManagement extends JFrame{
         ButtonAffect.setText("Affecter");
         ButtonAffect.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                CTeamM.Apply(projects,((String)UserListCombo.getSelectedItem()),ArchitectCheck.isSelected(),AnalystCheck.isSelected(),RedacterCheck.isSelected(),PManagerCheck.isSelected());
+                CTeamM.Apply(((String)UserListCombo.getSelectedItem()),ArchitectCheck.isSelected(),AnalystCheck.isSelected(),RedacterCheck.isSelected(),PManagerCheck.isSelected());
            	    IAffect IA = IAffect.getIA();
            	    IA.setProjectName(nP);
            	    IA.setVisible(true);
@@ -179,7 +179,7 @@ public class ITeamManagement extends JFrame{
         ButtonOK.setText("Ok");
         ButtonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                CTeamM.Apply(projects,((String)UserListCombo.getSelectedItem()),ArchitectCheck.isSelected(),AnalystCheck.isSelected(),RedacterCheck.isSelected(),PManagerCheck.isSelected());
+                CTeamM.Apply(((String)UserListCombo.getSelectedItem()),ArchitectCheck.isSelected(),AnalystCheck.isSelected(),RedacterCheck.isSelected(),PManagerCheck.isSelected());
            	    
                 //fermer la fenetre
             	dispose();
@@ -210,7 +210,7 @@ public class ITeamManagement extends JFrame{
         ButtonApply.setText("Appliquer");
         ButtonApply.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-            	 CTeamM.Apply(projects,((String)UserListCombo.getSelectedItem()),ArchitectCheck.isSelected(),AnalystCheck.isSelected(),RedacterCheck.isSelected(),PManagerCheck.isSelected());
+            	 CTeamM.Apply(((String)UserListCombo.getSelectedItem()),ArchitectCheck.isSelected(),AnalystCheck.isSelected(),RedacterCheck.isSelected(),PManagerCheck.isSelected());
             	 //projects.refresh();
             	 projet = projects.buildProject("Projet1");
             }
