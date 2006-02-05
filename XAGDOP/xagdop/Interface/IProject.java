@@ -2,7 +2,11 @@ package xagdop.Interface;
 
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.Point;
 import java.awt.TextArea;
 import java.awt.TextField;
@@ -36,39 +40,82 @@ public class IProject extends JFrame{
 	protected TextField TFNp; 
 	protected TextArea TADesc;
 	protected JLabel JlabelNameProject;
-	protected JPanel JPanelProjectTopContainer;
-
+	protected JLabel JlabelDescProject;
+	protected JPanel JPanelProject;
+	private GridBagConstraints gridBagConstraints = new GridBagConstraints();
+	
 	private IProject(){
 		init();
 	}
 	
 	
 	private void init(){
-		TFNp = new TextField(30);
-		TADesc= new TextArea(4,31);
 		
-				
-		setTitle(Bundle.getText("iproject.title"));
-		setSize(261, 235);
-		JPanelProjectTopContainer = new JPanel() ;
+		JPanelProject = new JPanel();
+		JPanelProject.setLayout(new GridBagLayout());
+		JPanelProject.setMinimumSize(new Dimension(300,200));
 		
-		JPanelProjectTopContainer.setLayout(new FlowLayout(FlowLayout.LEFT)) ;
-		    
-		JPanelProjectTopContainer.setBorder(BorderFactory.createEtchedBorder()) ;
-		//projetTopContainer.setBackground(black) ;
-		//JPanelProjectTopContainer.add(Box.createHorizontalStrut(15)) ;
-
-		JPanelProjectTopContainer.add(Box.createHorizontalStrut(72)) ;
+		/* Nom du projet*/
 		JlabelNameProject = new JLabel(Bundle.getText("iproject.label.projectname"));
-		JlabelNameProject.setToolTipText(Bundle.getText("iproject.tooltip.projectname")) ;
-		JPanelProjectTopContainer.add(JlabelNameProject);
-		JPanelProjectTopContainer.add(TFNp);
-		JPanelProjectTopContainer.add(Box.createHorizontalStrut(72)) ;
-		JPanelProjectTopContainer.add(new JLabel(Bundle.getText("iproject.label.description")));
-		JPanelProjectTopContainer.add(TADesc);
+		TFNp = new TextField(30);
 		
-		JButton valider = new JButton(Bundle.getText("iproject.button.ok"));
-		valider.addActionListener(new ActionListener()
+		/*Description du projet*/
+		JlabelDescProject = new JLabel(Bundle.getText("iproject.label.description"));
+		TADesc=new TextArea(4,31);
+		
+		/*Creation boutons*/
+		JButton ok = new JButton(Bundle.getText("iproject.button.ok"));
+		JButton cancel = new JButton(Bundle.getText("button.cancel"));
+		
+		/*Affichage des champs*/
+		gridBagConstraints = new GridBagConstraints();
+		gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.weightx = 100;
+        gridBagConstraints.weighty = 100;
+        gridBagConstraints.gridwidth = 2;
+        JPanelProject.add(JlabelNameProject, gridBagConstraints);
+        
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+       
+        JPanelProject.add(TFNp, gridBagConstraints);
+
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.weightx = 100;
+        gridBagConstraints.weighty = 100;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.insets = new Insets(7, 0, 0, 0);
+        JPanelProject.add(JlabelDescProject, gridBagConstraints);
+        
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 2;
+        
+        JPanelProject.add(TADesc, gridBagConstraints);
+		
+        
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.weightx = 100;
+        gridBagConstraints.weighty = 100;
+        gridBagConstraints.anchor = GridBagConstraints.SOUTHWEST;
+        gridBagConstraints.insets = new Insets(7, 35, 0, 0);
+        JPanelProject.add(ok, gridBagConstraints);
+
+        
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.weightx = 100;
+        gridBagConstraints.weighty = 100;
+        gridBagConstraints.anchor = GridBagConstraints.SOUTHEAST;
+        gridBagConstraints.insets = new Insets(7, 0, 0, 30);
+        JPanelProject.add(cancel, gridBagConstraints);
+        
+        /*Action relative aux boutons*/		
+        ok.addActionListener(new ActionListener()
 				{
 				    public void actionPerformed(ActionEvent e)
 				    {
@@ -88,18 +135,24 @@ public class IProject extends JFrame{
 				    	}
 				    }
 				}) ;
-		JPanelProjectTopContainer.add(Box.createHorizontalStrut(80)) ;
-		JPanelProjectTopContainer.add(valider);
+        
+        cancel.addActionListener(new ActionListener(){
+        	public void actionPerformed(ActionEvent e){
+        		IP.dispose();
+        	}
+        });
+        
+        // Creation de la fenetre
+		setTitle(Bundle.getText("iproject.title"));
+		setSize(261, 235);
+		setResizable(false) ;
+		getContentPane().add(JPanelProject);
 		
-		//Creation de la fenetre
-		setResizable(true) ;
-
-		setDefaultCloseOperation (WindowConstants.HIDE_ON_CLOSE) ;
+		//setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		setLocation(300,200);
+		setVisible(true);
+		pack();
 		
-		JPanelProjectTopContainer.setBorder(BorderFactory.createEtchedBorder()) ;
-		getContentPane().add(JPanelProjectTopContainer , BorderLayout.CENTER) ;
-		setLocation(new Point(500 , 200)) ;
-
 
 		 
          
