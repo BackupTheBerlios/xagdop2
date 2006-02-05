@@ -9,7 +9,6 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-import org.tmatesoft.svn.core.SVNException;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -44,8 +43,12 @@ public class DependenciesParser extends Parser{
 		try {
 			
 			CDependencies cdep = new CDependencies();
-			dependencies = cdep.getDependenciesFiles(); 
- 
+			dependencies = cdep.getDependenciesFiles();
+			
+			/*** Pour le debuggage 
+			dependencies = new HashMap();
+			dependencies.put("Test",new File("xagdop/ressources/XML/dependencies.xml"));
+			*/
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -204,7 +207,7 @@ public class DependenciesParser extends Parser{
 								 */
 								mapAttributes = nodeChild.getAttributes();
 								if(mapAttributes != null){					
-									String fileName = mapAttributes.getNamedItem("fileNamePre").getNodeValue();	
+									String fileName = mapAttributes.getNamedItem("fileNameIepp").getNodeValue();	
 									ieppList.add(fileName);
 								}
 							}	
@@ -220,9 +223,69 @@ public class DependenciesParser extends Parser{
 			
 			e.printStackTrace();
 		}
+		System.out.println(ieppList.toString());
 		return ieppList;			
 	}
 	
+	public ArrayList getIeppFromPog(String pogName)
+	{
+		ArrayList ieppList = new ArrayList();
+		
+		/**
+		 * XPath expression to get the correct "pog" node  
+		 */
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		String expression = "//dependencies/pog[@fileNamePog=\""+pogName+"\"]";
+
+		Element pogNode = null;
+		NodeList allNodeList;
+	
+		try {
+			pogNode = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+	
+			/**
+			 * If there is children node of the "pog" node   
+			 */
+			if(pogNode!=null){
+				if(pogNode.hasChildNodes()){				
+					Node nodeChild = null;			
+					allNodeList = pogNode.getChildNodes();				
+					/**
+					 * For all children node
+					 */					
+					for (int i=0; i<allNodeList.getLength(); i++)
+					{
+						nodeChild = allNodeList.item(i);					
+						/**
+						 * If it is a "iepp" nodes   
+						 */
+						if(nodeChild!=null){
+							if(nodeChild.getNodeName().equals("iepp")){					
+								NamedNodeMap mapAttributes = null;
+								/**
+								 * Getting all node's attribute in a NamedNodeMap  
+								 */
+								mapAttributes = nodeChild.getAttributes();
+								if(mapAttributes != null){					
+									String fileName = mapAttributes.getNamedItem("fileNameIepp").getNodeValue();	
+									ieppList.add(fileName);
+								}
+							}	
+						}
+					}
+				}
+			}
+			else {
+				System.out.println("Pb getIeppFromPog");
+			}			
+		}
+		catch (XPathExpressionException e) {
+			
+			e.printStackTrace();
+		}
+		System.out.println(ieppList.toString());
+		return ieppList;			
+	}
 	
 	public boolean isToUpdate(String filePath)
 	{

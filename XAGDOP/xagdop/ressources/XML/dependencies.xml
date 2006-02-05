@@ -2,25 +2,27 @@
 	<dependencies>
 		
 		<apes fileNameApes="pabe.apes">
-			<pog fileNamePog="pabe1.pog">
-				<pre fileNamePre="pabe.pre"/>
-			</pog>
-			<pog fileNamePog="pabe2.pog">
-				<pre fileNamePre="pabe2.pre"/>
-			</pog>
-			<pog fileNamePog="pabe3.pog">
-				<pre fileNamePre="pabe3.pre"/>
-			</pog>
-		<pog fileNamePog="bla.pog"><pre fileNamePre="bla.pre"/></pog></apes>
-		<apes fileNameApes="Phlancement.apes">
-			<pog fileNamePog="Phlancement.pog">
-				<pre fileNamePre="Phlancement.pre"/>
-			</pog>
-			<pog fileNamePog="pabe.pog">
-				<pre fileNamePre="pabe4.pre"/>
-			</pog>
+			<pog fileNamePog="pabe1.pog"/>
+			<pog fileNamePog="pabe2.pog"/>
+			<pog fileNamePog="pabe3.pog"/>
+			<pog fileNamePog="bla.pog"/>
+			<iepp fileNameIepp="iepp1.iepp"/>
+			<iepp fileNameIepp="iepp2.iepp"/>
 		</apes>
-		<apes fileNameApes="bla.apes"/></dependencies>
+		<apes fileNameApes="Phlancement.apes">
+			<pog fileNamePog="Phlancement.pog"/>
+			<pog fileNamePog="pabe.pog"/>
+			<iepp fileNameIepp="iepp1.iepp"/>
+			<iepp fileNameIepp="iepp3.iepp"/>
+		</apes>
+		<apes fileNameApes="bla.apes"/>
+		<pog fileNamePog="pog1.pog"/>
+		<pog fileNamePog="pog2.pog">
+			<iepp fileNameIepp="iepp1.iepp"/>
+			<iepp fileNameIepp="iepp2.iepp"/>
+			<iepp fileNameIepp="iepp3.iepp"/>
+		</pog>
+		</dependencies>
 	
 		<toupdate>
 			<file path="pabe.pog"/>
