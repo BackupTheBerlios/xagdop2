@@ -24,15 +24,6 @@ public class POGParser extends Parser{
 	}
 	
 	
-	public void refresh()
-	{
-		try {
-			loadTreeInMemory(pogFile);
-		} catch (Exception e) {
-			//System.out.println("CACA");
-		}
-	}
-	
 	public String getPathApesFile()
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
