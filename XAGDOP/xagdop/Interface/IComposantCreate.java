@@ -25,26 +25,25 @@ public class IComposantCreate extends JFrame{
 	 * 
 	 */
 	private static final long serialVersionUID = -6458234244148394589L;
-	private static IComposantCreate ICC = null;
+
 	private JPanel panel;
 	private JLabel userIDLabel;
-	private JLabel passwordLabel;
-	private JLabel passConfLabel;
 	private JTextField userID;
-	private JPasswordField password;
-	private JPasswordField passConf;
+	private String _nomProjet;
+	
 	private GridBagConstraints gridBagConstraints = new GridBagConstraints();
 	int i=0;
 	
 
-	private IComposantCreate(){
+	public IComposantCreate(String nomProjet){
 		init();
+		this._nomProjet = nomProjet;
 	}
 	
 	
 	private void init(){
 		
-		final CComposantCreate CC = new CComposantCreate();
+		
 		panel = new JPanel();
 		panel.setLayout(new GridBagLayout());
 	
@@ -90,7 +89,7 @@ public class IComposantCreate extends JFrame{
         /*Les actions des boutons*/
 		valide.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-			
+				CComposantCreate.composantCreate(userID.getText(),_nomProjet);
 			}
 		}) ;
 		
@@ -98,8 +97,8 @@ public class IComposantCreate extends JFrame{
 				{
 		    public void actionPerformed(ActionEvent e)
 		    {
-		    	ICC.dispose();
-		    	ICC = null;
+		    	dispose();
+		    	
 		    }
 		}) ;
 		
@@ -114,14 +113,5 @@ public class IComposantCreate extends JFrame{
 		pack();
          
 	}
-	/**
-	 * @return Returns the singleton.
-	 */
-	public static IComposantCreate getICC() {
-		if (ICC==null){
-			ICC = new IComposantCreate(); 
-		}
-		
-		return ICC;
-	}
+	
 }
