@@ -20,8 +20,10 @@ import xagdop.Controleur.CDependencies;
 
 public class DependenciesParser extends Parser{
 
-	/**Un fichier dependances par projet
-	*Donc une Hashmap, avec en clef le nom du projet, et associe un File
+
+
+	/**Un fichier dépendances par projet
+	*Donc une Hashmap, avec en clef le nom du projet, et associé un File
 	*/
 	private HashMap dependencies;
 	private String currentProject;
@@ -243,7 +245,7 @@ public class DependenciesParser extends Parser{
 		}
 	}
 
-	public void addApes(String apesName) throws SVNException
+	public void addApes(String apesName)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		
@@ -287,7 +289,7 @@ public class DependenciesParser extends Parser{
 		}
 	}	
 	
-	public void addPog(String pogName) throws SVNException
+	public void addPog(String pogName)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		
@@ -331,7 +333,7 @@ public class DependenciesParser extends Parser{
 		}
 	}	
 	
-	public void addToUpdate(String filePath) throws SVNException
+	public void addToUpdate(String filePath)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		
@@ -376,7 +378,7 @@ public class DependenciesParser extends Parser{
 		}
 	}		
 	
-	public void addPog(String apesName, String pogName) throws SVNException
+	public void addPog(String apesName, String pogName) 
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		
@@ -446,7 +448,7 @@ public class DependenciesParser extends Parser{
 		}
 	}
 */
-	public void delToUpdate(String filePath) throws SVNException
+	public void delToUpdate(String filePath)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//toupdate";
