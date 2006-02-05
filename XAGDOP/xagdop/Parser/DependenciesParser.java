@@ -120,54 +120,42 @@ public class DependenciesParser extends Parser{
 		return pogList;			
 	}
 	
-	/*
-	public ArrayList getPreFromPog(String pogName)
+	
+	public ArrayList getApesFromIepp(String ieppName)
 	{
-		ArrayList preList = new ArrayList();
+		ArrayList apesList = new ArrayList();
 		
 		XPath xpath = XPathFactory.newInstance().newXPath();
+		String expression = "//apes[iepp[@fileNameIepp=\""+ieppName+"\"]]";
 
-		String expression = "//pog[@fileNamePog=\""+pogName+"\"]";
-
-
-		Element pogNode = null;
-		NodeList preNodeList;
+		NodeList apesNodeList;
 			
 		try {
-			pogNode = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
-			if(pogNode!=null){
-				if(pogNode.hasChildNodes()){
-					
-					Node nodeAll = null;
-					Node attributePath = null;
-					NamedNodeMap mapAttributes = null;
-					
-					preNodeList = pogNode.getChildNodes();
-					for (int i=0; i<preNodeList.getLength(); i++)
-					{
-						nodeAll = preNodeList.item(i);
-						mapAttributes = nodeAll.getAttributes();
-						if(mapAttributes != null){					
-							attributePath = mapAttributes.getNamedItem("fileNamePre");
-							
-							if(attributePath!=null){
-								preList.add(attributePath.getNodeValue());
-							}
-						}					
+			apesNodeList = (NodeList)xpath.evaluate(expression, this.doc, XPathConstants.NODESET);
+			if(apesNodeList!=null){
+				Element apes = null;
+				NamedNodeMap mapAttributes;
+				for (int i=0; i<apesNodeList.getLength(); i++)
+				{
+					apes = (Element)apesNodeList.item(i);
+					mapAttributes = apes.getAttributes();
+					if(mapAttributes != null){					
+						apesList.add(mapAttributes.getNamedItem("fileNameApes").getNodeValue());
 					}
 				}
 			}
 			else {
-				System.out.println("Pb getPreFromPog");
+				System.out.println("Pb getApesFromIepp");
 			}			
 		}
 		catch (XPathExpressionException e) {
 			
 			e.printStackTrace();
 		}
-		return preList;			
+		System.out.println(apesList.toString());
+		return apesList;			
 	}
-	*/
+	
 	
 	public ArrayList getIeppFromApes(String apesName)
 	{
