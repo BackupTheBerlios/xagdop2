@@ -1,14 +1,3 @@
-/*
- * ====================================================================
- * Copyright (c) 2004 TMate Software Ltd.  All rights reserved.
- *
- * This software is licensed as described in the file COPYING, which
- * you should have received as part of this distribution.  The terms
- * are also available at http://tmate.org/svn/license.html.
- * If newer versions of this license are posted there, you may use a
- * newer version instead, at your option.
- * ====================================================================
- */
 package xagdop.Svn;
  
 import java.io.File;
@@ -19,6 +8,8 @@ import org.tmatesoft.svn.core.wc.SVNStatus;
 import org.tmatesoft.svn.core.wc.SVNStatusClient;
 import org.tmatesoft.svn.core.wc.SVNStatusType;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
+
+import xagdop.Util.ErrorManager;
  
 
 
@@ -57,9 +48,6 @@ public class SvnHistory {
 					return false;
 					
 			} catch (SVNException e) {
-				// TODO Auto-generated catch block
-				//e.printStackTrace();
-				//System.out.println("Exception");
 				return false;
 			}
 			return true;
@@ -70,8 +58,9 @@ public class SvnHistory {
     	 * @param file Fichier que l'on veut tester
     	 * @return Vrai si le fichier a été modifié, faux sinon
     	 * Teste si un fichier a été modifié
+    	 * @throws SVNException 
     	 */
-    	public static boolean isModified(File file) {
+    	public static boolean isModified(File file) throws SVNException {
     		SVNStatusClient ssClient;
 			try {
 				ssClient = new SVNStatusClient(SvnConnect.getInstance().getRepository().getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
@@ -83,9 +72,9 @@ public class SvnHistory {
 				if(ssType == SVNStatusType.STATUS_MODIFIED || ssType == SVNStatusType.STATUS_UNVERSIONED)
 					return true;
 			} catch (SVNException e) {
-				// TODO Auto-generated catch block
-				//e.printStackTrace();
-				return true;
+				ErrorManager.getInstance().setErrMsg("L'attribut du "+file.getName()+" n'a pu être récupéré.\n"+e.getCause());
+				ErrorManager.getInstance().setErrTitle("Fichier invalide");
+				throw e;
 			}
 			return false;
     	}
@@ -94,6 +83,7 @@ public class SvnHistory {
     	 * @param file Teste le fichier fait parti du repository courant
     	 * @return Vrai si il appartient au repository courant, faux sinon
     	 * Marche pas
+    	 * @throws SVNException 
     	 *//*
     	public static boolean isCurrentRepository(File file){
     		SVNStatusClient ssClient;
@@ -113,21 +103,19 @@ public class SvnHistory {
     	 * @param file Fichier dont on veut la revision
     	 * @return le numéro de revision
     	 */
-    	public static long getRevision(File file){
+    	public static long getRevision(File file) throws SVNException{
     		SVNStatusClient ssClient;
 			try {
 				ssClient = new SVNStatusClient(SvnConnect.getInstance().getRepository().getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
 				SVNStatus sStatus = ssClient.doStatus(file, false);
-				//System.out.println("Version : "+sStatus.getRevision().getNumber());
 				return sStatus.getRevision().getNumber();
 				
 			} catch (SVNException e) {
-				// TODO Auto-generated catch block
-				//e.printStackTrace();
-				
+				ErrorManager.getInstance().setErrMsg("La version du fichier "+file.getName()+" n'a pu être récupéré.\n"+e.getCause());
+				ErrorManager.getInstance().setErrTitle("Fichier invalide");
+				throw e;
 			}
-			return -1;
-			
+				
     	}
     	
 }

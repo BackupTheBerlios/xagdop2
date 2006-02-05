@@ -42,6 +42,20 @@ public class CFile {
     }
 	
 	
-	
+    public static void deleteDirectory(File dir){
+		int i = 0 ;
+		if(dir.isDirectory())
+		{
+			File[] allFile = dir.listFiles();
+			while(i<allFile.length){
+				if(allFile[i].isDirectory())
+					deleteDirectory(allFile[i]);
+				allFile[i].delete();
+				i++;
+			}
+		}
+		dir.delete();
+		
+	}
 	
 }

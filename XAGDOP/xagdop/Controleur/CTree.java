@@ -24,6 +24,8 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
+import org.tmatesoft.svn.core.SVNException;
+
 import xagdop.Interface.ICentralPanel;
 import xagdop.Interface.IPreferences;
 import xagdop.Interface.ThreadWait;
@@ -470,8 +472,13 @@ public class CTree implements TreeModel
 				else
 					tmp = new CTreeNode(allFiles[i].getName(),allFiles[i].getAbsolutePath(),true);
 				
-				if(SvnHistory.isModified(allFiles[i]))
-					tmp.setIsModified(true);
+				try {
+					if(SvnHistory.isModified(allFiles[i]))
+						tmp.setIsModified(true);
+				} catch (SVNException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 				
 				

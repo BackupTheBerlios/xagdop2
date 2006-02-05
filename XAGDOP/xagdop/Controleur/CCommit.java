@@ -21,7 +21,7 @@ import xagdop.Svn.SvnHistory;
 public class CCommit{
 	
 	
-	public CCommit(CTreeNode currentNode){
+	public CCommit(CTreeNode currentNode) throws SVNException{
 		recCommit(currentNode,".apes");
 		recCommit(currentNode,".pog");
 		recCommit(currentNode,".iepp");
@@ -30,7 +30,7 @@ public class CCommit{
 	
 	
 	//Permet d'envoyer le fichier contenu dans le Noeud
-	public void beforeCommit(CTreeNode node){
+	public void beforeCommit(CTreeNode node) throws SVNException{
 	
 		//Recuperation du nom de fichier a envoyer
 		String nameOfFile = node.getName();
@@ -95,7 +95,7 @@ public class CCommit{
 	protected void sendIeppFile(File toCommit, CTreeNode node, String pathToRoot) {
 	
 		
-		DependenciesParser DP = DependenciesParser.getInstance();
+		//DependenciesParser DP = DependenciesParser.getInstance();
 		
 			//Modifier l'interieur du fichier pog en
 			//mettant en relatif le chemin du fichier apes dependant
@@ -103,7 +103,7 @@ public class CCommit{
 			//Ouverture du parser du fichier POG Correspondant
 			IeppNitParser INP = new IeppNitParser(toCommit);	
 			//Recuperation du chemin absolue du fichier apes d?pendant
-			ArrayList pathDependantApesFile = INP.getApes();
+			/*ArrayList pathDependantApesFile =*/ INP.getApes();
 			
 			
 			
@@ -116,7 +116,7 @@ public class CCommit{
 
 
 
-	protected void sendPogFile(File toCommit, CTreeNode node, String pathToRoot) {
+	protected void sendPogFile(File toCommit, CTreeNode node, String pathToRoot) throws SVNException {
 
 		
 		DependenciesParser DP = DependenciesParser.getInstance();
@@ -213,7 +213,7 @@ public class CCommit{
 
 
 
-	public void recCommit(CTreeNode node,String extention)
+	public void recCommit(CTreeNode node,String extention) throws SVNException
 	{
 		//On regarde si le node est un fils
 		if (!node.getAllowsChildren())

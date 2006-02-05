@@ -14,6 +14,8 @@ import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 import javax.swing.JScrollPane;
 
+import org.tmatesoft.svn.core.SVNException;
+
 
 import xagdop.Controleur.CCommit;
 import xagdop.Controleur.CTreeNode;
@@ -67,7 +69,13 @@ public class ICommit extends JDialog {
 				{
 				    public void actionPerformed(ActionEvent e)
 				    {
-				    		CCommit CC = new CCommit(currentNode);
+				    		CCommit CC = null;
+							try {
+								CC = new CCommit(currentNode);
+							} catch (SVNException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
 
 				    		CC.commitFile(currentNode,JTAComment.getText());
 

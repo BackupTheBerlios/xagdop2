@@ -1,21 +1,12 @@
 package xagdop.Svn;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
-import org.tmatesoft.svn.core.SVNCommitInfo;
 import org.tmatesoft.svn.core.SVNException;
-import org.tmatesoft.svn.core.io.ISVNEditor;
-import org.tmatesoft.svn.core.io.ISVNWorkspaceMediator;
 import org.tmatesoft.svn.core.io.SVNRepository;
 import org.tmatesoft.svn.core.wc.SVNCommitClient;
 import org.tmatesoft.svn.core.wc.SVNWCClient;
@@ -24,22 +15,27 @@ import org.tmatesoft.svn.core.wc.SVNWCUtil;
 import xagdop.Controleur.CTreeNode;
 import xagdop.Interface.IPreferences;
 import xagdop.Interface.XAGDOP;
+import xagdop.Util.ErrorManager;
 
 
 
 public class SvnCommit{
+	
 	protected SVNCommitClient svnCC;
+	
 	public SvnCommit(String url, String name, String password) throws SVNException{
-		SVNRepository repository = SvnConnect.getInstance(url,name,password).getRepository();
-		svnCC = new SVNCommitClient(repository.getAuthenticationManager(),SVNWCUtil.createDefaultOptions(true) );
+			SVNRepository repository = SvnConnect.getInstance(url,name,password).getRepository();
+			svnCC = new SVNCommitClient(repository.getAuthenticationManager(),SVNWCUtil.createDefaultOptions(true) );
 	}
+	
+	
 	public SvnCommit() throws SVNException{
-		SVNRepository repository = SvnConnect.getInstance().getRepository();
-		svnCC = new SVNCommitClient(repository.getAuthenticationManager(),SVNWCUtil.createDefaultOptions(true) );
+			SVNRepository repository = SvnConnect.getInstance().getRepository();
+			svnCC = new SVNCommitClient(repository.getAuthenticationManager(),SVNWCUtil.createDefaultOptions(true) );
 	}
 	
 	
-	public void createProject(String projectName, String description) throws SVNException {
+	public void createProject(String projectName, String description) throws SVNException, IOException {
 		//SVNWCClient wcClient = new SVNWCClient(SvnConnect.getInstance().getRepository().getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
 		if(!SvnHistory.isUnderVersion(new File(IPreferences.getDefaultPath()))){
 			SvnUpdate svnu = new SvnUpdate() ;
@@ -57,8 +53,9 @@ public class SvnCommit{
 			dependencies.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?><files><dependencies></dependencies><toUpdate></toUpdate></files>");
 			dependencies.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			ErrorManager.getInstance().setErrMsg("Création du fichier des dépendances.\nVeuillez vérifier les droits du dossier.");
+			ErrorManager.getInstance().setErrTitle("Création de projet impossible");
+			throw e;
 		}
 		
 		
@@ -69,95 +66,12 @@ public class SvnCommit{
 	}
 	
 	
-	public SVNCommitInfo createProjec(String projectName, String description) throws SVNException {
-		
-		SVNRepository repository = SvnConnect.getInstance().getRepository();
-		String dirPath = projectName;
-		ISVNEditor editor = null;
-		SVNCommitInfo commitInfo = null;
-
-		try {
-			editor = repository.getCommitEditor(description,new WorkspaceMediator());
-		} catch (SVNException svne) {
-			try{
-				return editor.closeEdit();
-			} catch (SVNException e) {
-				e.printStackTrace();
-				//System.exit(0);
-			}
-		}
-		
-		
-		/*
-		 * Adding a new directory containing a file to the repository.
-		 */
-		try {
-			commitInfo = addDir(editor, dirPath);
-		} catch (SVNException svne) {
-			try {
-				System.err.println("failed to add the directory with the file due to errors: "
-						+ svne.getMessage());
-				/*
-				 * An exception was thrown during the work  of  the  editor. The
-				 * editor must be aborted to behave in a  right  way in order to
-				 * the breakdown won't cause any unstability.
-				 */
-				return editor.closeEdit();
-			} catch (SVNException inner) {
-				System.exit(0);
-			}
-		}
-
-		return commitInfo;
-		
-	}
-	
-	
-	private SVNCommitInfo addDir(ISVNEditor editor, String dirPath) throws SVNException {
-		/*
-		 * Always called first. Opens the current root directory. It  means  all
-		 * modifications will be applied to this directory until  a  next  entry
-		 * (located inside the root) is opened/added.
-		 * 
-		 * -1 - revision is HEAD, of course (actually, for a comit  editor  this 
-		 * number is irrelevant)
-		 */
-		editor.openRoot(-1);
-		/*
-		 * Adds a new directory to the currently opened directory (in this  case 
-		 * - to the  root  directory  for which the SVNRepository was  created). 
-		 * Since this moment all changes will be applied to this new  directory.
-		 * 
-		 * dirPath is relative to the root directory.
-		 * 
-		 * copyFromPath (the 2nd parameter) is set to null and  copyFromRevision
-		 * (the 3rd) parameter is set to  -1  since  the  directory is not added 
-		 * with history (is not copied, in other words).
-		 */
-		editor.addDir(dirPath, null, -1);
-		/*
-		 * Adds a new file to the just added  directory. The  file  path is also 
-		 * defined as relative to the root directory.
-		 *
-		 * copyFromPath (the 2nd parameter) is set to null and  copyFromRevision
-		 * (the 3rd parameter) is set to -1 since  the file is  not  added  with 
-		 * history.
-		 */
-		/*
-		 * Closes the root directory.
-		 */
-		editor.closeDir();
-		
-		return editor.closeEdit();
-		
-	}
-	
-	
 	
 	
 	/**
 	 * @param node Noeud à envoyer
 	 * @return Un tableau de file, contenant l'ensemble des fichiers et des dossiers à envoyer.
+	 * @throws SVNException 
 	 * @throws SVNException
 	 * Calcule tous les fichiers parents à envoyer qui ne sont pas versionnés 
 	 */
@@ -185,14 +99,26 @@ public class SvnCommit{
 			if(toCommit.isFile()){
 				
 				//Commande equivalente à svn add, qui ajoute le fichier non versionné au repository, ainsi que tout les fichiers parents qui sont non versionnés
-				wcClient.doAdd(toCommit,false, false, true, false);
+				try {
+					wcClient.doAdd(toCommit,false, false, true, false);
+				} catch (SVNException e) {
+					ErrorManager.getInstance().setErrMsg("L'ajout du fichier "+toCommit.getName()+" a échoué.\n"+e.getCause());
+					ErrorManager.getInstance().setErrTitle("Ajout de fichier impossible");
+					throw e;
+				}
 				
 			}
 		
 			//Test si c'est un dossier
 			if(toCommit.isDirectory()){
 				//Commande equivalente à svn add, qui ajoute le dossier ainsi que tous les fichiers parents non versionnés et les les sous répertoires 
-				wcClient.doAdd(toCommit,false, false, true, true);
+				try {
+					wcClient.doAdd(toCommit,false, false, true, true);
+				} catch (SVNException e) {
+					ErrorManager.getInstance().setErrMsg("L'ajout du fichier "+toCommit.getName()+" a échoué.\n"+e.getCause());
+					ErrorManager.getInstance().setErrTitle("Ajout de fichier impossible");
+					throw e;
+				}
 			}
 			//Transformation de la liste en tableau
 			File[] file = new File[fileToCommit.size()];
@@ -207,6 +133,8 @@ public class SvnCommit{
 	
 	/**
 	 * @param file : Fichier de base
+	 * @throws SVNException 
+	 * @throws SVNException 
 	 * @throws SVNException
 	 * Si un dossier est versionné, la fonction récupére tous les sous fichiers et sous dossiers non versionnés et les ajoute au repository
 	 */
@@ -232,7 +160,13 @@ public class SvnCommit{
 			for(int i = 0; i< fileInDirectory.length;i++){			
 				if(!SvnHistory.isUnderVersion(fileInDirectory[i])){
 					//Si il n'est pas versionné, ajout de ce dernier au repository
-					wcClient.doAdd(fileInDirectory[i],false, false, false, true);
+					try {
+						wcClient.doAdd(fileInDirectory[i],false, false, false, true);
+					} catch (SVNException e) {
+						ErrorManager.getInstance().setErrMsg("L'ajout du fichier "+fileInDirectory[i].getName()+" a échoué.\n"+e.getCause());
+						ErrorManager.getInstance().setErrTitle("Ajout de fichier impossible");
+						throw e;
+					}
 				}
 				else
 					//Si le fichier est un repertoire, on reéfectue le traitement
@@ -242,7 +176,13 @@ public class SvnCommit{
 		}else
 			//Si on a un fichier, et qu'il n'est pas versionné on l'ajoute au repository
 			if(!SvnHistory.isUnderVersion(file))
+				try {
 					wcClient.doAdd(file,false, false, false, false);
+				} catch (SVNException e) {
+					ErrorManager.getInstance().setErrMsg("L'ajout du fichier "+file.getName()+" a échoué.\n"+e.getCause());
+					ErrorManager.getInstance().setErrTitle("Ajout de fichier impossible");
+					throw e;
+				}
 	}
 	
 	
@@ -255,6 +195,7 @@ public class SvnCommit{
 	/**
 	 * @param node : Noeud representant les fichiers à envoyer
 	 * @param commitMessage : Message qui commente les modifications faites
+	 * @throws SVNException 
 	 * @throws SVNException
 	 * Envoi les modifications faites sur les fichiers ainsi que les nouveaux fichiers crées
 	 */
@@ -288,14 +229,24 @@ public class SvnCommit{
 				doAdd(toCommit);			
 			}
 			//Envoi des fichiers
-			svnCC.doCommit(fileInDirectory,false,commitMessage, false, true);
+			try {
+				svnCC.doCommit(fileInDirectory,false,commitMessage, false, true);
+			} catch (SVNException e) {
+				ErrorManager.getInstance().setErrMsg("L'envoi du dossier "+toCommit.getName()+" a échoué.\n"+e.getCause());
+				ErrorManager.getInstance().setErrTitle("Envoi impossible");
+				throw e;
+			}
 		}else{
 			
 			if(!SvnHistory.isUnderVersion(toCommit)){
-				/*CTreeNode tmp = (CTreeNode)node.getRoot();
-				svnCC.doImport(toCommit,SVNURL.parseURIDecoded(SvnConnect.getInstance().getUrl()+toCommit.getPath().replaceAll(tmp.getLocalPath(),"")),commitMessage,false);*/
 				//Ajout du fichier et des parents non versionnés, puis envoi de ces fichiers
-				svnCC.doCommit(fileToAdd(node),false,commitMessage, false, false);
+				try {
+					svnCC.doCommit(fileToAdd(node),false,commitMessage, false, false);
+				} catch (SVNException e) {
+					ErrorManager.getInstance().setErrMsg("L'envoi du fichier "+toCommit.getName()+" a échoué.\n"+e.getCause());
+					ErrorManager.getInstance().setErrTitle("Envoi impossible");
+					throw e;
+				}
 			}else{
 				//Si le fichiers est versionné, on l'envoi
 				sendFile(toCommit,commitMessage);
@@ -316,68 +267,14 @@ public class SvnCommit{
 	public void sendFile(File name, String commitMessage) throws SVNException{
 		ArrayList fileInDirectory = new ArrayList();
 		fileInDirectory.add(name);
-		/*if(SvnHistory.isModified(DependenciesParser.getInstance().getFile()))
-			fileInDirectory.add(DependenciesParser.getInstance().getFile());*/
 		File[] file = new File[fileInDirectory.size()];
-		svnCC.doCommit((File[])fileInDirectory.toArray(file),false,commitMessage, true, false);
-		
+		try{
+			svnCC.doCommit((File[])fileInDirectory.toArray(file),false,commitMessage, true, false);
+		}catch (SVNException e) {
+			ErrorManager.getInstance().setErrMsg("L'envoi du fichier "+name.getName()+" a échoué.\n"+e.getCause());
+			ErrorManager.getInstance().setErrTitle("Envoi impossible");
+			throw e;
+		}
 	}
 	
-	/*
-	 * This class is to be used for temporary storage allocations needed  by  an
-	 * ISVNEditor to write file delta that will be supplied  to  the  repository
-	 * server.
-	 */
-	private static class WorkspaceMediator implements
-	ISVNWorkspaceMediator {
-		private Map myTmpFiles = new HashMap();
-		
-		public String getWorkspaceProperty(String path, String name)
-		throws SVNException {
-			return null;
-		}
-		
-		public void setWorkspaceProperty(String path, String name, String value)
-		throws SVNException {
-		}
-		
-		/*
-		 * Creates a temporary file delta  storage.  id  will  be  used  as  the
-		 * temporary storage identifier. Returns  an  OutputStream to write  the
-		 * delta data into the temporary storage.
-		 */
-		public OutputStream createTemporaryLocation(String path, Object id)
-		throws IOException {
-			ByteArrayOutputStream tempStorageOS = new ByteArrayOutputStream();
-			myTmpFiles.put(id, tempStorageOS);
-			return tempStorageOS;
-		}
-		
-		/*
-		 * Returns an InputStream of the temporary file delta storage identified
-		 * by id to read the delta.
-		 */
-		public InputStream getTemporaryLocation(Object id) throws IOException {
-			return new ByteArrayInputStream(((ByteArrayOutputStream)myTmpFiles.get(id)).toByteArray());
-		}
-		
-		/*
-		 * Gets the length of the  delta  that  was  written  to  the  temporary 
-		 * storage identified by id.
-		 */
-		public long getLength(Object id) throws IOException {
-			ByteArrayOutputStream tempStorageOS = (ByteArrayOutputStream)myTmpFiles.get(id);
-			if (tempStorageOS != null) {
-				return tempStorageOS.size();
-			}
-			return 0;
-		}
-		
-		/*
-		 * Deletes the temporary file delta storage identified by id.
-		 */
-		public void deleteTemporaryLocation(Object id) {
-			myTmpFiles.remove(id);
-		}
-	}
 }
