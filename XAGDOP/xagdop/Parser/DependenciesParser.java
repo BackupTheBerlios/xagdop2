@@ -42,13 +42,13 @@ public class DependenciesParser extends Parser{
 	{
 		try {
 			
-			CDependencies cdep = new CDependencies();
-			dependencies = cdep.getDependenciesFiles();
+			//CDependencies cdep = new CDependencies();
+			//dependencies = cdep.getDependenciesFiles();
 			
-			/*** Pour le debuggage 
+			/*** Pour le debuggage*/ 
 			dependencies = new HashMap();
 			dependencies.put("Test",new File("xagdop/ressources/XML/dependencies.xml"));
-			*/
+			/**/
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -120,6 +120,7 @@ public class DependenciesParser extends Parser{
 		return pogList;			
 	}
 	
+	/*
 	public ArrayList getPreFromPog(String pogName)
 	{
 		ArrayList preList = new ArrayList();
@@ -166,6 +167,7 @@ public class DependenciesParser extends Parser{
 		}
 		return preList;			
 	}
+	*/
 	
 	public ArrayList getIeppFromApes(String apesName)
 	{
@@ -223,7 +225,7 @@ public class DependenciesParser extends Parser{
 			
 			e.printStackTrace();
 		}
-		System.out.println(ieppList.toString());
+		//System.out.println(ieppList.toString());
 		return ieppList;			
 	}
 	
@@ -283,7 +285,7 @@ public class DependenciesParser extends Parser{
 			
 			e.printStackTrace();
 		}
-		System.out.println(ieppList.toString());
+		//System.out.println(ieppList.toString());
 		return ieppList;			
 	}
 	
@@ -511,6 +513,57 @@ public class DependenciesParser extends Parser{
 		}
 	}
 */
+	
+	public void addIeppToApes(String apesName, String ieppName)
+	{
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		String expression = "//apes[@fileNameApes=\""+apesName+"\"]";
+
+		Element elem = null;
+		Element newElem = doc.createElement("iepp");
+		newElem.setAttribute("fileNameIepp", ieppName);	
+		try {
+				elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+		}
+		catch (XPathExpressionException e) {
+				
+				e.printStackTrace();
+		}
+
+		if ( elem != null ) {
+				elem.appendChild(newElem);
+				saveDocument((File)dependencies.get(currentProject));	
+			}
+		else {
+				System.out.println("Pb addIeppToApes!"); 
+		}
+	}
+	
+	public void addIeppToPog(String pogName, String ieppName)
+	{
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		String expression = "//dependencies/pog[@fileNamePog=\""+pogName+"\"]";
+
+		Element elem = null;
+		Element newElem = doc.createElement("iepp");
+		newElem.setAttribute("fileNameIepp", ieppName);	
+		try {
+				elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+		}
+		catch (XPathExpressionException e) {
+				
+				e.printStackTrace();
+		}
+
+		if ( elem != null ) {
+				elem.appendChild(newElem);
+				saveDocument((File)dependencies.get(currentProject));	
+			}
+		else {
+				System.out.println("Pb addIeppToPog!"); 
+		}
+	}
+	
 	public void delToUpdate(String filePath)
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
