@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<ieppnit>
+
+	<proprietes>
+		<nom></nom>
+		<email></email>
+		<version></version>
+		<pied_de_page></pied_de_page>
+		<zoom></zoom>
+	</proprietes>
+
+	<statique>
+
+		<composants>
+			<composant>
+				<identifiant></identifiant>
+				<nom></nom>
+				<positionx></positionx>
+				<positiony></positiony>
+				<dimensionx></dimensionx>
+				<dimensiony></dimensiony>
+				<imagecomp></imagecomp>
+				<fichier>***.apes</fichier>
+			</composant>
+		</composants>
+
+		<produits>
+
+			<produitentree>
+				<identifiant></identifiant>
+				<composant></composant>
+				<positionx></positionx>
+				<positiony></positiony>
+				<dimensionx></dimensionx>
+				<dimensiony></dimensiony>
+				<imageprod></imageprod>
+				<visible></visible>
+				<liee></liee>
+			</produitentree>
+
+			<produitsortie>
+				<identifiant></identifiant>
+				<composant></composant>
+				<positionx></positionx>
+				<positiony></positiony>
+				<dimensionx></dimensionx>
+				<dimensiony></dimensiony>
+				<imageprod></imageprod>
+				<visible></visible>
+				<liee></liee>
+			</produitsortie>
+
+			<produitfusion>
+				<identifiant></identifiant>
+				<nom></nom>
+				<composant></composant>
+				<positionx></positionx>
+				<positiony></positiony>
+				<dimensionx></dimensionx>
+				<dimensiony></dimensiony>
+				<imageprod></imageprod>
+				<produits>
+					<produit id=""/>
+					<produit id=""/>
+					<produit id=""/>
+				</produits>
+			</produitfusion>
+
+		</produits>
+
+		<liens>
+
+			<lien>
+				<idcelluleentree></idcelluleentree>
+				<idcellulesortie></idcellulesortie>
+				<pointsancrage>
+					<point></point>
+					<point></point>
+				</pointsancrage>
+			</lien>
+
+		</liens>
+		
+		<notes>
+			<note>
+				<texte></texte>
+				<positionx></positionx>
+				<positiony></positiony>
+				<dimensionx></dimensionx>
+				<dimensiony></dimensiony>
+				<idlien id=""/>
+			</note>
+		</notes>
+		
+		
+	</statique>
+	<dynamique>
+		
+	</dynamique>
+</ieppnit>
