@@ -458,8 +458,15 @@ public class XAGDOP extends JFrame{
 
 	class openComposantCreate implements ActionListener { 
 		public void actionPerformed (ActionEvent e)  {
-			IComposantCreate cc = IComposantCreate.getICC();
-			cc.setVisible(true);
+			if (tree.getSelectedNode().isProject())
+			{
+				IComposantCreate cc = new IComposantCreate(tree.getSelectedNode().getName());
+				cc.setVisible(true);	
+			}
+			else
+			{
+				System.out.println("ce n'est pas un projet ! ");
+			}
 		}
 	}
 	
