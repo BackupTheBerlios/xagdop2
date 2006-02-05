@@ -42,13 +42,13 @@ public class DependenciesParser extends Parser{
 	{
 		try {
 			
-			//CDependencies cdep = new CDependencies();
-			//dependencies = cdep.getDependenciesFiles();
+			CDependencies cdep = new CDependencies();
+			dependencies = cdep.getDependenciesFiles();
 			
-			/*** Pour le debuggage*/ 
+			/*** Pour le debuggage
 			dependencies = new HashMap();
 			dependencies.put("Test",new File("xagdop/ressources/XML/dependencies.xml"));
-			/**/
+			*/
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
