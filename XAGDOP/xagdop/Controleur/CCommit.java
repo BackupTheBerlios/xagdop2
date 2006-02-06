@@ -95,7 +95,7 @@ public class CCommit{
 	protected void sendIeppFile(File toCommit, CTreeNode node, String pathToRoot) {
 	
 		
-		//DependenciesParser DP = DependenciesParser.getInstance();
+		DependenciesParser DP = DependenciesParser.getInstance();
 		
 			//Modifier l'interieur du fichier pog en
 			//mettant en relatif le chemin du fichier apes dependant
@@ -103,11 +103,36 @@ public class CCommit{
 			//Ouverture du parser du fichier POG Correspondant
 			IeppNitParser INP = new IeppNitParser(toCommit);	
 			//Recuperation du chemin absolue du fichier apes d?pendant
-			/*ArrayList pathDependantApesFile =*/ INP.getApes();
+			ArrayList pathDependantApesFile = INP.getApes();
+			
+//			Initialisation du parcours
+			int i = 0;
+
+			
+
+			//On parcours la liste
+			for (i=0;i<pathDependantApesFile.size();i++)
+			{
+					DP.addIeppToApes(node.getProject().getName()+File.separator+pathDependantApesFile.get(i),pathToRoot);
+			}
 			
 			
+			/*
+			//On le rajoute dans les pog sans model
+			ArrayList pathDependantPogFile = INP.getPog();
 			
+//			Initialisation du parcours
+
+
 			
+
+			//On parcours la liste
+			for (i=0;i<pathDependantApesFile.size();i++)
+			{
+					DP.addIeppToApes(node.getProject().getName()+File.separator+pathDependantApesFile.get(i),pathToRoot);
+			}
+			
+			*/
 		
 			
 	
