@@ -42,41 +42,41 @@ import xagdop.Thread.ThreadUpdate;
 
 public class CTree implements TreeModel
 {
-    private EventListenerList mListenerList = new EventListenerList();
-    private CTreeNode mRoot = new CTreeNode("Projects List",IPreferences.getDefaultPath(),false); 
-    
-    public CTree()
-    {
-        super();
-        refreshFromLocal(mRoot);
-    }
-    
-    /**
+	private EventListenerList mListenerList = new EventListenerList();
+	private CTreeNode mRoot = new CTreeNode("Projects List",IPreferences.getDefaultPath(),false); 
+	
+	public CTree()
+	{
+		super();
+		refreshFromLocal(mRoot);
+	}
+	
+	/**
 	 * Set the root of this tree model
 	 *
 	 * @param root the new root
 	 */
-    public void setRoot(CTreeNode root)
+	public void setRoot(CTreeNode root)
 	{
 		if( mRoot == null || mRoot.getUserObject() != root )
 		{	
 			mRoot = root;
 		}
 	}
-    
-
-    
-    /**
+	
+	
+	
+	/**
 	 * Get the root of the tree model
 	 *
 	 * @return the root
 	 */
-    public Object getRoot()
-    {
-        return mRoot;
-    }
-
-    /**
+	public Object getRoot()
+	{
+		return mRoot;
+	}
+	
+	/**
 	 * Get a child of a tree node by giving its index
 	 *
 	 * @param parent the node
@@ -98,7 +98,7 @@ public class CTree implements TreeModel
 		
 		return ((TreeNode)parent).getChildAt(index);
 	}
-
+	
 	/**
 	 * Get the number of child of a node
 	 *
@@ -113,7 +113,7 @@ public class CTree implements TreeModel
 		}
 		return -1;
 	}
-
+	
 	/**
 	 * Check if a node is a leaf of the tree
 	 *
@@ -124,8 +124,8 @@ public class CTree implements TreeModel
 	{
 		return ((TreeNode)node).isLeaf();
 	}
-
-
+	
+	
 	/**
 	 * Find the index of a child in a node
 	 *
@@ -153,7 +153,7 @@ public class CTree implements TreeModel
 	}
 	
 	public String relativePath(String apesFile, String pogFile){
-
+		
 		if(!apesFile.startsWith(mRoot.getLocalPath()))
 			return apesFile;
 		
@@ -182,7 +182,7 @@ public class CTree implements TreeModel
 		//System.out.println(res);
 		return res;
 	}
-
+	
 	public TreeNode[] getPathToRoot(CTreeNode node)
 	{
 		return node.getPath();
@@ -197,7 +197,7 @@ public class CTree implements TreeModel
 		mListenerList.remove(TreeModelListener.class, l);
 		mListenerList.add(TreeModelListener.class, l);
 	}
-
+	
 	/**
 	 * Remove a listener from this tree model
 	 *
@@ -219,39 +219,39 @@ public class CTree implements TreeModel
 	 * @param parents the parents of each nodes
 	 * @param extras 
 	 *//*
-	protected void handleInsert(Object[] elements,	Object[] parents,Map extras)
-	{
-	    if (elements.length < 1)
-	        return ;
-		//System.out.println("tree insert ");
-	    CTreeNode node = null;
-	    CTreeNode parent = null;
-	    if(elements == null || parents == null || elements.length != parents.length) return;
-	    
-	    for (int i = 0; i < elements.length; i++)
-        {
-	        // retrieve the node identify by his ID
-	        node = (CTreeNode)findWithID(((Identity)elements[i]).getID());	
-	        // retrieve his parents
-			parent = (CTreeNode)findWithID(((Identity)parents[i]).getID());
-			//System.out.println("handleInsert : node : "+(node==null?"null":node.getName())+" parent :"+(parent==null?"null":(parent.getName()+parent.getID())));
-			// it is a new node 
-			if( node == null )
-			{
-				node = new CTreeNode( elements[i], true );
-			}
-			// test if the parent exists
-			if( parent != null )
-			{	
-				if( node.getParent() == null )
-				{
-					parent.add(node);
-				}
-				// insert the element 
-				fireTreeNodesInserted( this, parent.getPath(), new int[]{ parent.getIndex(node) }, new Object[]{ node });
-			}	    
-		}
-	}*/
+	 protected void handleInsert(Object[] elements,	Object[] parents,Map extras)
+	 {
+	 if (elements.length < 1)
+	 return ;
+	 //System.out.println("tree insert ");
+	  CTreeNode node = null;
+	  CTreeNode parent = null;
+	  if(elements == null || parents == null || elements.length != parents.length) return;
+	  
+	  for (int i = 0; i < elements.length; i++)
+	  {
+	  // retrieve the node identify by his ID
+	   node = (CTreeNode)findWithID(((Identity)elements[i]).getID());	
+	   // retrieve his parents
+	    parent = (CTreeNode)findWithID(((Identity)parents[i]).getID());
+	    //System.out.println("handleInsert : node : "+(node==null?"null":node.getName())+" parent :"+(parent==null?"null":(parent.getName()+parent.getID())));
+	     // it is a new node 
+	      if( node == null )
+	      {
+	      node = new CTreeNode( elements[i], true );
+	      }
+	      // test if the parent exists
+	       if( parent != null )
+	       {	
+	       if( node.getParent() == null )
+	       {
+	       parent.add(node);
+	       }
+	       // insert the element 
+	        fireTreeNodesInserted( this, parent.getPath(), new int[]{ parent.getIndex(node) }, new Object[]{ node });
+	        }	    
+	        }
+	        }*/
 	
 	/**
 	 * remove nodes from the tree
@@ -260,166 +260,166 @@ public class CTree implements TreeModel
 	 * @param parents the parents of each nodes
 	 * @param extras 
 	 *//*
-	protected void handleRemove(Object[] elements,	Object[] parents,Map extras)
-	{
-		CTreeNode node = null;
-		CTreeNode parent = null;
-		
-		if (elements.length < 1)
-			return ;
-		
-		if(elements == null || parents == null || elements.length != parents.length) 
-			return;
-		
-		for (int i = 0; i < elements.length; i++)
-		{
-			//	      retrieve the node identify by his ID
-			node = (CTreeNode)findWithID(((Identity)elements[i]).getID());
-			//	      retrieve his parents
-			parent = (CTreeNode)findWithID(((Identity)parents[i]).getID());
-			
-			if( node == null )
-			{
-				node = new CTreeNode( elements[i], true );
-			}
-			if( parent != null )
-			{	
-				parent.remove(node) ; 
-				// insert the element 
-				fireTreeNodesRemoved( this, parent.getPath(), new int[]{ parent.getIndex(node) }, new Object[]{ node });
-			}	    
-		}
-	}*/
+	 protected void handleRemove(Object[] elements,	Object[] parents,Map extras)
+	 {
+	 CTreeNode node = null;
+	 CTreeNode parent = null;
+	 
+	 if (elements.length < 1)
+	 return ;
+	 
+	 if(elements == null || parents == null || elements.length != parents.length) 
+	 return;
+	 
+	 for (int i = 0; i < elements.length; i++)
+	 {
+	 //	      retrieve the node identify by his ID
+	  node = (CTreeNode)findWithID(((Identity)elements[i]).getID());
+	  //	      retrieve his parents
+	   parent = (CTreeNode)findWithID(((Identity)parents[i]).getID());
+	   
+	   if( node == null )
+	   {
+	   node = new CTreeNode( elements[i], true );
+	   }
+	   if( parent != null )
+	   {	
+	   parent.remove(node) ; 
+	   // insert the element 
+	    fireTreeNodesRemoved( this, parent.getPath(), new int[]{ parent.getIndex(node) }, new Object[]{ node });
+	    }	    
+	    }
+	    }*/
 	
 	/*public void refresh(CTreeNode node){
-		
-		SvnDisplayRepositoryTree listeroot;
-		
-		try {
-			listeroot = new SvnDisplayRepositoryTree();
-		} catch (SVNException e) {
-			JOptionPane.showMessageDialog(null ,"Impossible de se connecter au server subversion", "Validation" , 1) ;
-			e.printStackTrace();
-			return;
-		}
-		
-		SVNRepository repository;
-		try {
-			repository = SvnConnect.getInstance().getRepository();
-		} catch (SVNException e) {
-			JOptionPane.showMessageDialog(null ,"Impossible de se connecter au server subversion", "Validation" , 1) ;
-			e.printStackTrace();
-			return;
-		}
-		
-		//System.out.println("Nom du noeud : "+node.getName());
-		try
-		{	
-			Collection liste_p = listeroot.listEntries(repository, node.getName());
-			Iterator iterator;
-			Enumeration child = node.children();
-			SVNDirEntry entry;
-			boolean toRemove=true;
-			
-			//Suppression de ceux qui ont disparus
-			while (child.hasMoreElements()) {
-				iterator = liste_p.iterator();
-				CTreeNode tmp = (CTreeNode)child.nextElement();
-				
-				while(iterator.hasNext()){
-					entry = (SVNDirEntry) iterator.next();
-					//System.out.println(tmp.getName()+" : "+entry.getName());
-					if(entry.getName().equals(tmp.getName())){
-						toRemove=false;
-						break;
-					}		
-					else
-						toRemove=true;
-				}
-				
-				
-				
-				if(toRemove)
-					node.remove(tmp);		
-			}
-
-			
-			iterator = liste_p.iterator();
-			boolean exist=false;
-			
-			//Ajout des nouveaux
-			while (iterator.hasNext()) {
-				child = node.children();
-				entry = (SVNDirEntry) iterator.next();
-				
-				
-				while(child.hasMoreElements()){
-					CTreeNode tmp = (CTreeNode)child.nextElement();
-					
-					if(tmp.getName().equals(entry.getName())){
-						exist=true;
-						if(entry.getKind() == SVNNodeKind.DIR){
-							refresh(tmp);
-						}
-						break;
-						}
-					else
-						exist=false;
-				}
-				
-				
-				if(!exist){
-					CTreeNode tmp = new CTreeNode(entry.getName(), false);
-					if(node!=mRoot||entry.getKind() == SVNNodeKind.DIR)
-						node.add(tmp);
-					
-					if(entry.getKind() == SVNNodeKind.DIR){
-						refresh(tmp);
-					}
-					exist = false;
-				}
-				
-			
-			}
-			
-			
-			
-			Object[] path = {node};
-			fireTreeNodesInserted(this, path, null, null);
-		}
-		catch (SVNException svne)
-		{
-			System.out.println("Exception SVNException!!");
-			System.out.println(svne.toString());
-			System.out.println(svne.getMessage());
-		}
-	}*/
+	 
+	 SvnDisplayRepositoryTree listeroot;
+	 
+	 try {
+	 listeroot = new SvnDisplayRepositoryTree();
+	 } catch (SVNException e) {
+	 JOptionPane.showMessageDialog(null ,"Impossible de se connecter au server subversion", "Validation" , 1) ;
+	 e.printStackTrace();
+	 return;
+	 }
+	 
+	 SVNRepository repository;
+	 try {
+	 repository = SvnConnect.getInstance().getRepository();
+	 } catch (SVNException e) {
+	 JOptionPane.showMessageDialog(null ,"Impossible de se connecter au server subversion", "Validation" , 1) ;
+	 e.printStackTrace();
+	 return;
+	 }
+	 
+	 //System.out.println("Nom du noeud : "+node.getName());
+	  try
+	  {	
+	  Collection liste_p = listeroot.listEntries(repository, node.getName());
+	  Iterator iterator;
+	  Enumeration child = node.children();
+	  SVNDirEntry entry;
+	  boolean toRemove=true;
+	  
+	  //Suppression de ceux qui ont disparus
+	   while (child.hasMoreElements()) {
+	   iterator = liste_p.iterator();
+	   CTreeNode tmp = (CTreeNode)child.nextElement();
+	   
+	   while(iterator.hasNext()){
+	   entry = (SVNDirEntry) iterator.next();
+	   //System.out.println(tmp.getName()+" : "+entry.getName());
+	    if(entry.getName().equals(tmp.getName())){
+	    toRemove=false;
+	    break;
+	    }		
+	    else
+	    toRemove=true;
+	    }
+	    
+	    
+	    
+	    if(toRemove)
+	    node.remove(tmp);		
+	    }
+	    
+	    
+	    iterator = liste_p.iterator();
+	    boolean exist=false;
+	    
+	    //Ajout des nouveaux
+	     while (iterator.hasNext()) {
+	     child = node.children();
+	     entry = (SVNDirEntry) iterator.next();
+	     
+	     
+	     while(child.hasMoreElements()){
+	     CTreeNode tmp = (CTreeNode)child.nextElement();
+	     
+	     if(tmp.getName().equals(entry.getName())){
+	     exist=true;
+	     if(entry.getKind() == SVNNodeKind.DIR){
+	     refresh(tmp);
+	     }
+	     break;
+	     }
+	     else
+	     exist=false;
+	     }
+	     
+	     
+	     if(!exist){
+	     CTreeNode tmp = new CTreeNode(entry.getName(), false);
+	     if(node!=mRoot||entry.getKind() == SVNNodeKind.DIR)
+	     node.add(tmp);
+	     
+	     if(entry.getKind() == SVNNodeKind.DIR){
+	     refresh(tmp);
+	     }
+	     exist = false;
+	     }
+	     
+	     
+	     }
+	     
+	     
+	     
+	     Object[] path = {node};
+	     fireTreeNodesInserted(this, path, null, null);
+	     }
+	     catch (SVNException svne)
+	     {
+	     System.out.println("Exception SVNException!!");
+	     System.out.println(svne.toString());
+	     System.out.println(svne.getMessage());
+	     }
+	     }*/
 	public void refresh(CTreeNode node) {
 //		try {
-			ThreadWait TW = new ThreadWait(XAGDOP.getInstance());
-			TW.start();
-
-			ThreadUpdate TU = new ThreadUpdate(node,TW);
-			TU.start();
-			//SvnUpdate svnu = new SvnUpdate();
-			//svnu.checkOut(node);
-
-			//Enumeration expandPath = XAGDOP.getInstance().getTree().getExpandedDescendants(XAGDOP.getInstance().getTree().getLeadSelectionPath());
-			//refreshFromLocal(node);
-			/*while(expandPath.hasMoreElements()){
-				XAGDOP.getInstance().getTree().expandPath((TreePath)expandPath.nextElement());	
-			}*/
-			
+		ThreadWait TW = new ThreadWait(XAGDOP.getInstance());
+		TW.start();
 		
-			
-			//TW.arreter() ;	// rendre la JDialog invisible
-			
-			
-/*		} catch (SVNException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	*/	
+		ThreadUpdate TU = new ThreadUpdate(node,TW);
+		TU.start();
+		//SvnUpdate svnu = new SvnUpdate();
+		//svnu.checkOut(node);
+		
+		//Enumeration expandPath = XAGDOP.getInstance().getTree().getExpandedDescendants(XAGDOP.getInstance().getTree().getLeadSelectionPath());
+		//refreshFromLocal(node);
+		/*while(expandPath.hasMoreElements()){
+		 XAGDOP.getInstance().getTree().expandPath((TreePath)expandPath.nextElement());	
+		 }*/
+		
+		
+		
+		//TW.arreter() ;	// rendre la JDialog invisible
+		
+		
+		/*		} catch (SVNException e) {
+		 // TODO Auto-generated catch block
+		  e.printStackTrace();
+		  }
+		  */	
 		
 	}
 	
@@ -432,35 +432,50 @@ public class CTree implements TreeModel
 			
 			public boolean accept(File dir, String name) {
 				//System.out.println("Accept File");
+
 				File directory = new File(dir.getAbsolutePath()+File.separator+name);
-					if(directory.isDirectory()&&!directory.isHidden())
-						return true;
-					
+				
+				
+				if(directory.isDirectory()&&!directory.isHidden()){
 					if(!node.isRoot()){
-						CRole role = new CRole(node.getProject().getName());
-						//System.out.println("bla");
-						ArrayList view = role.getViewFileRight();
-						//System.out.println("bla : "+view.size());
-						int i = 0;
-						while(i < view.size()){
-							if(name.endsWith((String)view.get(i)))
-								return true;
-							i++;
-						}
-					}
-					//if(name.endsWith(".apes")||name.endsWith(".iepp")||name.endsWith(".pog")){
-					//	return true;
 						
-					//int i = 0;
-					//while(i < right.size()){
-					//	if(name.endsWith((String)right.get(i)))
-					//		return true;
-					//}
+						CRole role = new CRole(node.getProject().getName());
+						if(!role.isArchitect()&&directory.getName().startsWith("lib"))
+							return false;
+							
+					}
+					return true;
+				}
+				
+				
+				
+				if(!node.isRoot()){		
+					//System.out.println("bla");
+					CRole role = new CRole(node.getProject().getName());
+					ArrayList view = role.getViewFileRight();
+					//System.out.println("bla : "+view.size());
+					if(dir.getName().startsWith("lib"))
+						return true;
+					int i = 0;
+					while(i < view.size()){
+						if(name.endsWith((String)view.get(i)))
+							return true;
+						i++;
+					}
+				}
+				//if(name.endsWith(".apes")||name.endsWith(".iepp")||name.endsWith(".pog")){
+				//	return true;
+				
+				//int i = 0;
+				//while(i < right.size()){
+				//	if(name.endsWith((String)right.get(i)))
+				//		return true;
+				//}
 				//}
 				return false;
 				
 			}
-		
+			
 		});
 		//System.out.println("Fin Accept File");
 		int i = 0;
@@ -473,7 +488,7 @@ public class CTree implements TreeModel
 					tmp = new CTreeNode(allFiles[i].getName(),allFiles[i].getAbsolutePath(),true);
 				
 				try {
-					if(SvnHistory.isModified(allFiles[i]))
+					if(!SvnHistory.isUnderVersion(allFiles[i])||SvnHistory.isModified(allFiles[i]))
 						tmp.setIsModified(true);
 				} catch (SVNException e) {
 					// TODO Auto-generated catch block
@@ -484,7 +499,7 @@ public class CTree implements TreeModel
 				
 				if(tmp.isModified()&&!allFiles[i].isHidden())
 					parent.setIsModified(true);
-		
+				
 				if(!allFiles[i].isHidden()/*&&SvnHistory.isCurrentRepository(allFiles[i])*/)
 					parent.add(tmp);
 				
@@ -500,9 +515,9 @@ public class CTree implements TreeModel
 				((CTreeNode)parent.getParent()).setIsModified(true);
 			Object[] path = {parent};
 			fireTreeNodesInserted(this, path, null, null);
-		
+			
 		}
-	
+		
 	}
 	
 	/**
@@ -518,25 +533,25 @@ public class CTree implements TreeModel
 		TreeModelEvent e = null;
 		
 		for(int i=0; i<listeners.length; i+=2)
-		//for(int i=listeners.length-2; i>=0; i-=2)
+			//for(int i=listeners.length-2; i>=0; i-=2)
 		{
 			if (listeners[i]==TreeModelListener.class)
 			{
 				if(e==null)
 				{
 					try{
-					e=new TreeModelEvent(source, path, childIndices, children);
+						e=new TreeModelEvent(source, path, childIndices, children);
 					}catch(Throwable t){}
 				}
 				if ((TreeModelListener)listeners[i+1] != null)
 				{
-				    ((TreeModelListener)listeners[i+1]).treeNodesInserted(e);
+					((TreeModelListener)listeners[i+1]).treeNodesInserted(e);
 				}
 			}
 		}
 	}
 	
-
+	
 	/**
 	 * Notify all listeners that have registered interest for
 	 * notification on this event type.  The event instance
@@ -581,14 +596,14 @@ public class CTree implements TreeModel
 				if(e==null)
 				{
 					try{
-					e=new TreeModelEvent(source, path, childIndices, children);
+						e=new TreeModelEvent(source, path, childIndices, children);
 					}catch(Throwable t){}
 				}
 				((TreeModelListener)listeners[i+1]).treeNodesChanged(e);
 			}
 		}
 	}
-
+	
 	/**
 	 * Notify all listeners that have registered interest for
 	 * notification on this event type.  The event instance
@@ -623,7 +638,7 @@ public class CTree implements TreeModel
 	public ICentralPanel associatePanel(Object node)
 	{
 		return new ICentralPanel();
-	
+		
 	}
 	
 	/**
@@ -651,7 +666,7 @@ public class CTree implements TreeModel
 		}
 		return icon;
 	}
-
+	
 	/**
 	 * Associate a menu to a node
 	 *
@@ -680,16 +695,16 @@ public class CTree implements TreeModel
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
-
+		
 		public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded,
-                                                              boolean leaf, int row, boolean hasFocus)
+				boolean leaf, int row, boolean hasFocus)
 		{
 			Component c = super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);			
 			return c;
 		}
 		
 	}
-
+	
 	public class ITreeCellEditor extends DefaultTreeCellEditor implements CellEditorListener
 	{
 		//private CTreeNode mCurrentNode = null;
@@ -701,7 +716,7 @@ public class CTree implements TreeModel
 		}
 		
 		public Component getTreeCellEditorComponent(JTree tree, Object value, boolean sel, boolean expanded,
-                                                              boolean leaf, int row)
+				boolean leaf, int row)
 		{
 			Component c = super.getTreeCellEditorComponent(tree, value, sel, expanded, leaf, row);
 			editingIcon = associateIcon(value);
@@ -714,28 +729,28 @@ public class CTree implements TreeModel
 			
 			return c;
 		}
-
-        /* (non-Javadoc)
-         * @see javax.swing.event.CellEditorListener#editingCanceled(javax.swing.event.ChangeEvent)
-         */
-        public void editingCanceled(ChangeEvent arg0)
-        {
-            // TODO Auto-generated method stub
-            
-        }
-
-        /* (non-Javadoc)
-         * @see javax.swing.event.CellEditorListener#editingStopped(javax.swing.event.ChangeEvent)
-         */
-        public void editingStopped(ChangeEvent arg0)
-        {
-            // TODO Auto-generated method stub
-            
-        }
+		
+		/* (non-Javadoc)
+		 * @see javax.swing.event.CellEditorListener#editingCanceled(javax.swing.event.ChangeEvent)
+		 */
+		public void editingCanceled(ChangeEvent arg0)
+		{
+			// TODO Auto-generated method stub
+			
+		}
+		
+		/* (non-Javadoc)
+		 * @see javax.swing.event.CellEditorListener#editingStopped(javax.swing.event.ChangeEvent)
+		 */
+		public void editingStopped(ChangeEvent arg0)
+		{
+			// TODO Auto-generated method stub
+			
+		}
 	}
-
-    public void valueForPathChanged(TreePath arg0, Object arg1)
-    {
-        
-    }
+	
+	public void valueForPathChanged(TreePath arg0, Object arg1)
+	{
+		
+	}
 }

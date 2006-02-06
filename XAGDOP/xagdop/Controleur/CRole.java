@@ -9,15 +9,19 @@ import xagdop.Parser.ProjectsParser;
 public class CRole {
 	
 	protected ArrayList viewFile;
-	protected ArrayList viewDirectory;
+	protected ArrayList forbidenViewDirectory;
 	protected ArrayList writeFile;
-	protected ArrayList writeDirectory;
+	protected ArrayList forbidenWriteDirectory;
+	protected boolean projectManager = false;
+	protected boolean analyst = false;
+	protected boolean architect = false;
+	protected boolean redactor = false;
 	
 	public CRole(String _project){
 		viewFile = new ArrayList();
 		writeFile = new ArrayList();
-		viewDirectory = new ArrayList();
-		writeDirectory = new ArrayList();
+		forbidenViewDirectory = new ArrayList();
+		forbidenWriteDirectory = new ArrayList();
 		if(_project!=""){
 			User current = XAGDOP.getInstance().getUser();
 			//System.out.println(current.getLogin()+" : "+_project);
@@ -25,13 +29,17 @@ public class CRole {
 			//Project project = pp.buildProject(_project);
 			//madeRole(project.isManager(current.getLogin()),project.isAnalyst(current.getLogin()),project.isArchitect(current.getLogin()),project.isRedactor(current.getLogin()));
 			ArrayList right = pp.getRights(_project,current.getLogin());
-			madeRole(((Boolean)right.get(0)).booleanValue(),((Boolean)right.get(2)).booleanValue(),((Boolean)right.get(1)).booleanValue(),((Boolean)right.get(3)).booleanValue());
+			projectManager = ((Boolean)right.get(0)).booleanValue();
+			architect = ((Boolean)right.get(1)).booleanValue();
+			analyst = ((Boolean)right.get(2)).booleanValue();
+			redactor = ((Boolean)right.get(3)).booleanValue();
+			madeRole();
 		}
 		
 	}
 	
 	
-	private void madeRole(boolean projectManager, boolean analyst, boolean architect, boolean redactor){
+	private void madeRole(){
 		
 		
 		writeFile.add(".xml");
@@ -60,23 +68,23 @@ public class CRole {
 	protected void addAnalystRight(){
 		writeFile.add(".pog");
 		writeFile.add(".apes");
+		//viewFile.add("lib");
 		
 		viewFile.add(".pog");
 		viewFile.add(".apes");
+		//forbidenViewDirectory.add("lib");
 	}
 	
 	protected void addArchitectRight(){
 		writeFile.add(".iepp");
 		viewFile.add(".apes");
 		viewFile.add(".pog");
-		viewDirectory.add("lib*");
+	
 	}	
 	
 	protected void addRedactorRight(){
 		writeFile.add(".pog");
-		writeDirectory.add("lib*");
 		viewFile.add(".pog");
-		viewDirectory.add("lib*");
 		
 	}
 	
@@ -84,16 +92,36 @@ public class CRole {
 		return viewFile;
 	}
 	
-	public ArrayList getViewDirectoryRight(){
-		return viewDirectory;
+	public ArrayList getForbidenViewDirectoryRight(){
+		return forbidenViewDirectory;
 	}
 	
 	public ArrayList getWriteFileRight(){
 		return writeFile;
 	}
 	
-	public ArrayList getWriteDirectoryRight(){
-		return writeDirectory;
+	public ArrayList getForbidenWriteDirectoryRight(){
+		return forbidenWriteDirectory;
+	}
+
+
+	public boolean isAnalyst() {
+		return analyst;
+	}
+
+
+	public boolean isArchitect() {
+		return architect;
+	}
+
+
+	public boolean isProjectManager() {
+		return projectManager;
+	}
+
+
+	public boolean isRedactor() {
+		return redactor;
 	}
 	
 }

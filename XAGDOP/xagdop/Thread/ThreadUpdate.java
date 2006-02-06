@@ -1,5 +1,7 @@
 package xagdop.Thread;
 
+import java.io.File;
+
 import org.tmatesoft.svn.core.SVNException;
 
 import xagdop.Controleur.CTreeNode;
@@ -22,7 +24,7 @@ public class ThreadUpdate extends Thread {
 		SvnUpdate svnu;
 		try {
 			svnu = new SvnUpdate();
-			svnu.checkOut(node);
+			svnu.checkOut(new File(node.getLocalPath()));
 			//((CTree)((IProjectTree)XAGDOP.getInstance().getTree()).getModel()).refreshFromLocal(node);
 			TW.arreter();
 		} catch (SVNException e) {

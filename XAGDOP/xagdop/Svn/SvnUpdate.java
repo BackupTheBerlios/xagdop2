@@ -11,7 +11,6 @@ import org.tmatesoft.svn.core.wc.SVNUpdateClient;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
 import xagdop.Controleur.CFile;
-import xagdop.Controleur.CTreeNode;
 import xagdop.Interface.IPreferences;
 import xagdop.Interface.XAGDOP;
 import xagdop.Model.User;
@@ -115,7 +114,7 @@ public class SvnUpdate{
 	 * @param node Neoud que l'on veut recuperer
 	 * @throws SVNException
 	 */
-	public void checkOut(CTreeNode node) throws SVNException{
+	public void checkOut(File parent) throws SVNException{
 		
 		SVNUpdateClient up = new SVNUpdateClient(repository.getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
 	
@@ -123,8 +122,7 @@ public class SvnUpdate{
 		File projectDirectoryLocal = new File(IPreferences.getDefaultPath());
 		if(!projectDirectoryLocal.exists())
 			projectDirectoryLocal.mkdir();
-		
-		projectDirectoryLocal = new File(node.getLocalPath());
+		projectDirectoryLocal = new File(parent.getAbsolutePath());
 		
 		//System.out.println(IPreferences.getDefaultPath()+" : "+projectDirectoryLocal.exists());
 		//Si il n'est pas versionn?? alors on fait un checkout sinon un update
@@ -145,7 +143,7 @@ public class SvnUpdate{
 				throw svne;
 			}
 		//On supprime les projets dont on ne fait pas parti
-		if(node.isRoot())
+		if(parent.compareTo(new File(IPreferences.getDefaultPath()))==0)
 			cleanUp(projectDirectoryLocal);
 	}
 	
@@ -160,30 +158,40 @@ public class SvnUpdate{
 	
 		//Cr??ation du dossier local
 		File projectDirectoryLocal = new File(IPreferences.getDefaultPath());
-		if(!projectDirectoryLocal.exists())
-			projectDirectoryLocal.mkdir();
-		
-		for(int i=0; i < listProject.size();i++){
-			projectDirectoryLocal = new File(IPreferences.getDefaultPath()+File.separator+(String)listProject.get(i));
-			
-			//System.out.println(IPreferences.getDefaultPath()+" : "+projectDirectoryLocal.exists());
-			//Si il n'est pas versionn?? alors on fait un checkout sinon un update
-			if(SvnHistory.isUnderVersion(projectDirectoryLocal))
-				try{
-					up.doUpdate(projectDirectoryLocal,SVNRevision.HEAD,false);
-				} catch (SVNException svne) {
-					ErrorManager.getInstance().setErrMsg("Impossible de se synchroniser avec le serveur.\nVeuillez vérifier l'adresse de ce dernier.");
-					ErrorManager.getInstance().setErrTitle("Update Impossible");
-					throw svne;
+		if(!projectDirectoryLocal.exists()||!SvnHistory.isUnderVersion(projectDirectoryLocal)){
+			System.out.println(listProject.toString()+" : "+projectDirectoryLocal.getName());
+			checkOut(projectDirectoryLocal);
+			File[] fileInDirectory = projectDirectoryLocal.listFiles(new FilenameFilter() {
+				public boolean accept(File dir, String name) {
+					File directory = new File(dir.getAbsolutePath()+"/"+name); 
+					if(directory.isHidden())
+						return false;
+					return true;
 				}
-			else
-				try{
-					up.doCheckout(repository.getLocation(),projectDirectoryLocal,SVNRevision.HEAD,SVNRevision.HEAD,false);
-				} catch (SVNException svne) {
-					ErrorManager.getInstance().setErrMsg("Impossible de se synchroniser avec le serveur.\nVeuillez vérifier l'adresse de ce dernier.");
-					ErrorManager.getInstance().setErrTitle("Checkout Impossible");
-					throw svne;
+			});
+			for(int i=0; i < fileInDirectory.length;i++){
+				if(!listProject.contains(fileInDirectory[i].getName()))
+					CFile.deleteDirectory(fileInDirectory[i]);
+			}
+		}
+		else{	
+			ArrayList project = ProjectsParser.getInstance().getProjects(XAGDOP.getInstance().getUser().getLogin());
+			if(project.size()==listProject.size())
+				checkOut(projectDirectoryLocal);
+			else{
+				for(int i=0; i < listProject.size();i++){
+					projectDirectoryLocal = new File(IPreferences.getDefaultPath()+File.separator+(String)listProject.get(i));
+					//Si il n'est pas versionn?? alors on fait un checkout sinon un update
+					if(SvnHistory.isUnderVersion(projectDirectoryLocal))
+						try{
+							up.doUpdate(projectDirectoryLocal,SVNRevision.HEAD,false);
+						} catch (SVNException svne) {
+							ErrorManager.getInstance().setErrMsg("Impossible de se synchroniser avec le serveur.\nVeuillez vérifier l'adresse de ce dernier.");
+							ErrorManager.getInstance().setErrTitle("Update Impossible");
+							throw svne;
+						}
 				}
+			}
 		}
 	}
 	

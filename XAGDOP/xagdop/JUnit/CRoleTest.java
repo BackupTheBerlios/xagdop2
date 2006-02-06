@@ -1,14 +1,11 @@
 package xagdop.JUnit;
 
-import java.util.ArrayList;
-
+import junit.framework.TestCase;
 import xagdop.Controleur.CRole;
 import xagdop.Interface.XAGDOP;
 import xagdop.Model.User;
 import xagdop.Parser.ProjectsParser;
 import xagdop.Parser.UsersParser;
-
-import junit.framework.TestCase;
 
 public class CRoleTest extends TestCase {
 
@@ -74,8 +71,8 @@ public class CRoleTest extends TestCase {
 		CRole cr= new CRole("projTest");
 		
 		//Tests
-		assertEquals((cr.getViewDirectoryRight()).get(0),"lib*");
-		assertEquals((cr.getViewDirectoryRight()).get(1),"lib*");
+		assertEquals((cr.getForbidenViewDirectoryRight()).get(0),"lib");
+		assertEquals((cr.getForbidenViewDirectoryRight()).get(1),"lib");
 		
 		
 		
@@ -148,7 +145,7 @@ public class CRoleTest extends TestCase {
 		CRole cr= new CRole("projTest");
 		
 		//Tests
-		assertEquals((cr.getWriteDirectoryRight()).get(0),"lib*");
+		assertEquals((cr.getForbidenWriteDirectoryRight()).get(0),"lib");
 		
 		
 		

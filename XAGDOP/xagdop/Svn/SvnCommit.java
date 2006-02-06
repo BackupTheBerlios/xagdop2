@@ -14,7 +14,6 @@ import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
 import xagdop.Controleur.CTreeNode;
 import xagdop.Interface.IPreferences;
-import xagdop.Interface.XAGDOP;
 import xagdop.Util.ErrorManager;
 
 
@@ -39,7 +38,7 @@ public class SvnCommit{
 		//SVNWCClient wcClient = new SVNWCClient(SvnConnect.getInstance().getRepository().getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
 		if(!SvnHistory.isUnderVersion(new File(IPreferences.getDefaultPath()))){
 			SvnUpdate svnu = new SvnUpdate() ;
-			svnu.checkOut((CTreeNode)XAGDOP.getInstance().getTree().getSelectedNode().getRoot());
+			svnu.checkOut(new File(IPreferences.getDefaultPath()));
 		}
 		File project = new File(IPreferences.getDefaultPath()+projectName);
 		if(!project.exists())
