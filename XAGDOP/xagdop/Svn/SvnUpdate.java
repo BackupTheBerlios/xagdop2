@@ -128,7 +128,7 @@ public class SvnUpdate{
 		//Si il n'est pas versionn?? alors on fait un checkout sinon un update
 		if(SvnHistory.isUnderVersion(projectDirectoryLocal))
 			try{
-				up.doUpdate(projectDirectoryLocal,SVNRevision.HEAD,false);
+				up.doUpdate(projectDirectoryLocal,SVNRevision.HEAD,true);
 			} catch (SVNException svne) {
 				ErrorManager.getInstance().setErrMsg("Impossible de se synchroniser avec le serveur.\nVeuillez vérifier l'adresse de ce dernier.");
 				ErrorManager.getInstance().setErrTitle("Update Impossible");
@@ -136,7 +136,7 @@ public class SvnUpdate{
 			}
 		else
 			try{
-				up.doCheckout(repository.getLocation(),projectDirectoryLocal,SVNRevision.HEAD,SVNRevision.HEAD,false);
+				up.doCheckout(repository.getLocation(),projectDirectoryLocal,SVNRevision.HEAD,SVNRevision.HEAD,true);
 			} catch (SVNException svne) {
 				ErrorManager.getInstance().setErrMsg("Impossible de se synchroniser avec le serveur.\nVeuillez vérifier l'adresse de ce dernier.");
 				ErrorManager.getInstance().setErrTitle("Checkout Impossible");
@@ -184,7 +184,7 @@ public class SvnUpdate{
 					//Si il n'est pas versionn?? alors on fait un checkout sinon un update
 					if(SvnHistory.isUnderVersion(projectDirectoryLocal))
 						try{
-							up.doUpdate(projectDirectoryLocal,SVNRevision.HEAD,false);
+							up.doUpdate(projectDirectoryLocal,SVNRevision.HEAD,true);
 						} catch (SVNException svne) {
 							ErrorManager.getInstance().setErrMsg("Impossible de se synchroniser avec le serveur.\nVeuillez vérifier l'adresse de ce dernier.");
 							ErrorManager.getInstance().setErrTitle("Update Impossible");
