@@ -7,7 +7,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Enumeration;
 
-
 import javax.swing.Icon;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -17,10 +16,13 @@ import javax.swing.JTree;
 import javax.swing.SwingUtilities;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
+import javax.swing.event.TreeWillExpandListener;
 import javax.swing.tree.DefaultTreeCellEditor;
 import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.ExpandVetoException;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
@@ -30,7 +32,6 @@ import org.tmatesoft.svn.core.SVNException;
 import xagdop.Controleur.CTree;
 import xagdop.Controleur.CTreeNode;
 import xagdop.Parser.DependenciesParser;
-import xagdop.Parser.ProjectsParser;
 import xagdop.Svn.SvnRemove;
 import xagdop.ressources.Bundle;
 
@@ -54,7 +55,9 @@ public class IProjectTree extends JTree implements  TreeModelListener
 		setCellRenderer(renderer);
 		setCellEditor(new ITreeCellEditor(this, renderer));
 		setToggleClickCount(0);
-		setExpandsSelectedPaths(true);
+		addTreeWillExpandListener(new ITreeWillExpandListener());
+		//setExpandsSelectedPaths(true);
+		setExpandsSelectedPaths(false);
 		setInvokesStopCellEditing(true);
 		
 		
@@ -68,6 +71,89 @@ public class IProjectTree extends JTree implements  TreeModelListener
 		}
 		
 	}
+	
+	public CTreeNode getSelectedNode(){
+		if ( selectedNode == null )
+		{
+			return (CTreeNode) ((CTree)getModel()).getRoot();
+			
+		}
+		else
+		{
+			return selectedNode;
+		}
+	}
+	
+	
+	public void setModel(TreeModel newModel)
+	{
+		if(getModel()!=null)
+		{
+			getModel().removeTreeModelListener(this);
+		}
+		
+		super.setModel(newModel);
+		
+		if(getModel()!=null)
+		{
+			getModel().addTreeModelListener(this);
+		}
+	}
+	
+	public boolean isPathEditable(TreePath path)
+	{
+		return false;
+	}
+	
+	private Icon associateIcon(Object value)
+	{
+		return ((CTree)getModel()).associateIcon(value);
+	}
+	protected void processMouseEvent(MouseEvent e) 
+	{
+		//catch an exception throws by BasicTreeUI$MouseHandler.handleSelection(BasicTreeUI.java:2815)
+		//the exception is throwed when you editing a TreeNode and stop editing by clicking in the tree
+		try{ super.processMouseEvent(e); }catch(Throwable t){}
+	}
+	
+	public void treeNodesInserted(TreeModelEvent event)
+	{
+		// display the new project inserted  
+		Object tabTreeNode [] = event.getTreePath().getPath(); 
+		if(tabTreeNode.length == 1)
+		{
+			if(event.getChildIndices() != null)
+			{
+			}
+		}
+		updateUI();
+	}
+	
+	
+	public void treeNodesRemoved(TreeModelEvent event)
+	{
+		//ICentralPanel centralTabbedPane ;
+		
+		// retrieve the parent node of the node removed
+		TreePath parentPath = event.getTreePath() ;
+		if (getRowForPath(parentPath) == 0)
+		{
+	
+		}
+		updateUI(); 
+	}
+	
+	public void treeNodesChanged(TreeModelEvent e) 
+	{
+		updateUI(); 
+	}
+	
+	public void treeStructureChanged(TreeModelEvent arg0)
+	{
+		
+	}
+	
+	
 	
 	public class PopupListener extends MouseAdapter {
 		private JPopupMenu popup = null;
@@ -145,13 +231,11 @@ public class IProjectTree extends JTree implements  TreeModelListener
 			//DefaultMutableTreeNode node = (DefaultMutableTreeNode)getLastSelectedPathComponent();
 			
 			int selRow = getRowForLocation(me.getX(), me.getY());
-			if(selRow != -1){
 				
 				if(selRow != -1 && me.getClickCount()==1){
 					me.consume();
 					selectedNode = (CTreeNode)pathClicked.getLastPathComponent();
 				}
-			}
 		
 			//getSelectionModel().addSelectionPath(new TreePath(node.getPath()));
 			
@@ -177,19 +261,15 @@ public class IProjectTree extends JTree implements  TreeModelListener
 			}
 				
 				
-			if (selectedNode.getProject()==(XAGDOP.getInstance().getCurrentNode()))
-			{
-				//C'est le meme projet qu'avant, on fait rien
-			}
-			else
+			if (selectedNode.getProject()!=(XAGDOP.getInstance().getCurrentNode()))
 			{
 				//changement du noeud courrant
 				XAGDOP.getInstance().setCurrentNode(selectedNode.getProject());
 				//rechargement de larbre en memoire				
 				DependenciesParser.getInstance().setFile(selectedNode.getProject().getName());
+			}	
 				
-				
-			}
+	
 			
 			
 			
@@ -201,59 +281,29 @@ public class IProjectTree extends JTree implements  TreeModelListener
 	} 
 	
 	
-	public CTreeNode getSelectedNode(){
-		if ( selectedNode == null )
-		{
-			return (CTreeNode) ((CTree)getModel()).getRoot();
-			
-		}
-		else
-		{
-			return selectedNode;
-		}
-	}
+	private class ITreeWillExpandListener implements TreeWillExpandListener {
+        public void treeWillExpand(TreeExpansionEvent evt) {
+         
+        	
+        	 TreePath path = evt.getPath();
+        	 CTreeNode current = (CTreeNode) path.getLastPathComponent();
+        	 if (current.getProject()!=(XAGDOP.getInstance().getCurrentNode()))
+ 			{
+ 				//changement du noeud courrant
+ 				XAGDOP.getInstance().setCurrentNode(current.getProject());
+ 				//rechargement de larbre en memoire				
+ 				DependenciesParser.getInstance().setFile(current.getProject().getName());
+ 			}	
+        	
+        }
+    
+        public void treeWillCollapse(TreeExpansionEvent evt){
+        	
+        }
+    }
 	
 	
-	public void setModel(TreeModel newModel)
-	{
-		if(getModel()!=null)
-		{
-			getModel().removeTreeModelListener(this);
-		}
-		
-		super.setModel(newModel);
-		
-		if(getModel()!=null)
-		{
-			getModel().addTreeModelListener(this);
-		}
-	}
 	
-	public boolean isPathEditable(TreePath path)
-	{
-		if(path.getLastPathComponent() == getModel().getRoot())
-		{
-			return false;
-		}
-		
-		return super.isPathEditable(path);
-	}
-	
-	private Icon associateIcon(Object value)
-	{
-		return ((CTree)getModel()).associateIcon(value);
-	}
-	/*
-	private JPopupMenu associateMenu(Object value)
-	{
-		return ((CTree)getModel()).associateMenu(value);
-	}
-	
-	 private ICentralPanel associatePanel(Object value)
-	 {
-	 return ((ICentralPanel)getModel()).associatePanel(value);
-	 }
-	 */
 	private class ITreeCellRenderer extends DefaultTreeCellRenderer
 	{
 		private static final long serialVersionUID = 1L;
@@ -310,69 +360,6 @@ public class IProjectTree extends JTree implements  TreeModelListener
 		public void editingCanceled(ChangeEvent arg0)
 		{            
 		}
-	}
-	
-	
-	protected void processMouseEvent(MouseEvent e) 
-	{
-		//catch an exception throws by BasicTreeUI$MouseHandler.handleSelection(BasicTreeUI.java:2815)
-		//the exception is throwed when you editing a TreeNode and stop editing by clicking in the tree
-		try{ super.processMouseEvent(e); }catch(Throwable t){}
-	}
-	
-	public void treeNodesInserted(TreeModelEvent event)
-	{
-		// display the new project inserted  
-		Object tabTreeNode [] = event.getTreePath().getPath(); 
-		if(tabTreeNode.length == 1)
-		{
-			if(event.getChildIndices() != null)
-			{/*
-			ITreeNode inserted = (ITreeNode)getModel().getChild(tabTreeNode[0],event.getChildIndices()[event.getChildIndices().length-1]);
-			Context.getInstance().getListProjects().setCurrentProject((Project)inserted.getUserObject());
-			SoapCentralPanel centralTabbedPane = associatePanel(inserted);
-			((SoapFrame)Context.getInstance().getTopLevelFrame()).openCentralPanel(centralTabbedPane);
-			setSelectionPath(new TreePath(inserted.getPath()));*/
-			}
-		}
-		updateUI();
-	}
-	
-	
-	public void treeNodesRemoved(TreeModelEvent event)
-	{
-		//ICentralPanel centralTabbedPane ;
-		
-		// retrieve the parent node of the node removed
-		TreePath parentPath = event.getTreePath() ;
-		if (getRowForPath(parentPath) == 0)
-		{
-			/*  try 
-			 {
-			 // get the last project in the treenode and display the centralTabbePane
-			  SoapTreeNode lastChild = (SoapTreeNode)((SoapTreeNode)parentPath.getLastPathComponent()).getLastChild();
-			  centralTabbedPane = associatePanel(lastChild);
-			  ((SoapFrame)Context.getInstance().getTopLevelFrame()).openCentralPanel(centralTabbedPane);
-			  }
-			  catch (Exception e)
-			  {
-			  //case when it is the root
-			   Context.getInstance().getListProjects().setCurrentProject(null);
-			   centralTabbedPane = associatePanel((SoapTreeNode)parentPath.getLastPathComponent());
-			   ((SoapFrame)Context.getInstance().getTopLevelFrame()).openCentralPanel(centralTabbedPane);
-			   }*/
-		}
-		updateUI(); 
-	}
-	
-	public void treeNodesChanged(TreeModelEvent e) 
-	{
-		updateUI(); 
-	}
-	
-	public void treeStructureChanged(TreeModelEvent arg0)
-	{
-		
 	}
 	
 }
