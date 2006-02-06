@@ -18,8 +18,9 @@ public class CComposantCreate {
 		//Recuperation du path global du root
 		String pathGlobal = ((CTreeNode)((IProjectTree)XAGDOP.getInstance().getTree()).getModel().getRoot()).getLocalPath();
 		
+		String path = pathGlobal+File.separator+nomProjet+File.separator+nomComposant;
 		//Creation du Repertoire dans le bon repertoire
-		File f = new File(pathGlobal+nomProjet+File.separator+nomComposant);
+		File f = new File(path);
 		if (f.mkdir())
 		{
 			System.out.println("oki ! ");
@@ -28,8 +29,16 @@ public class CComposantCreate {
 		{
 			System.out.println("Non !");
 		}
-		
-		
+		path = path+File.separator+"lib"+nomComposant;
+		File fLib= new File(path);
+		if (fLib.mkdir())
+		{
+			System.out.println("oki ! ");
+		}
+		else
+		{
+			System.out.println("Non !");
+		}
 		
 	}
 	
