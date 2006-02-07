@@ -61,7 +61,7 @@ public class Parser {
 	
 	}
 	
-	protected void publish(File file){
+	public void publish(File file){
 		SvnCommit svnc;
 		try {
 			svnc = new SvnCommit();
