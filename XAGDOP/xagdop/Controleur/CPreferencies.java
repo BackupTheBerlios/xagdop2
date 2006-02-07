@@ -32,16 +32,85 @@ public class CPreferencies {
 	 * Methodes de la classe
 	 */
 	
+	public static String getLocalPath(){
+		
+		return "toto";
+	}
+	
+	public static void setLocalPath(String path){
+		
+	}
+	
+	
+	public void getServerPath(String serv){
+	
+	}
+	
+	public void setServerPath(String serv){
+		PreferenciesParser PrefP = PreferenciesParser.getInstance();
+		PrefP.setServer(serv);		
+	}
+	
+	
+	public static String getDefaultLNF(){
+		
+		
+		return "Metal";
+	}
+	
+	
+	public static void setDefaultLNF(String lnf){
+		
+
+	}
+	
+	
+	/**
+	 * Permet d'obtenir la liste des noms des LookNFeel disponibles sur la machine.
+	 * @return ArrayList de String contenant le nom du LNF
+	 */
+	public static ArrayList getAllLNF(){
+		ArrayList availlLNF = new ArrayList();
+		UIManager.LookAndFeelInfo[] info = UIManager.getInstalledLookAndFeels();
+		for(int i=0; i < info.length; i++){
+			System.out.println(info[i].getName());
+			availlLNF.add(info[i].getName());
+		}
+		return availlLNF;
+	}
+	
+	
+	public static String getDefaultLocale(){
+		
+		return "French";
+	}
+	
+	
+	public static void setDefaultLocale(String locale){
+		
+	}
+	
+	
+	public static ArrayList getAllLocale(){
+		ArrayList res = new ArrayList();
+		return res;
+	}
+	
+	
+	public static boolean submitPasswd(String login, String oldPasswd, String newPasswd){
+		return true;
+	}
+	
+	
+	
+	
 	public void setLang(Locale loc){
 		PreferenciesParser PrefP = PreferenciesParser.getInstance();
 		PrefP.setLang(loc.getLanguage());
 	}
 	
 	
-	public void setServ(String serv){
-		PreferenciesParser PrefP = PreferenciesParser.getInstance();
-		PrefP.setServer(serv);		
-	}
+
 	
 	
 	public void setLNF(String lnf){
@@ -58,19 +127,7 @@ public class CPreferencies {
 		
 	}
 	
-	/**
-	 * Permet d'obtenir la liste des noms des classes de LookNFeel disponibles sur la machine.(pour fixer)
-	 * @return ArrayList de String contenant le nom du LNF
-	 */
-	public static ArrayList getAvaillableLNFName(){
-		ArrayList availlLNF = new ArrayList();
-		UIManager.LookAndFeelInfo[] info = UIManager.getInstalledLookAndFeels();
-		for(int i=0; i < info.length; i++){
-			System.out.println(info[i].getName());
-			availlLNF.add(info[i].getName());
-		}
-		return availlLNF;
-	}	
+	
 	
 	
 	/**
@@ -78,7 +135,7 @@ public class CPreferencies {
 	 * @param name Nom du LNF
 	 * @return Nom de la classe du LNF
 	 */
-	public static String getLNFClassName (String name)
+	private static String getLNFClassName (String name)
 	{
 		UIManager.LookAndFeelInfo[] info = UIManager.getInstalledLookAndFeels();
 		int i = 0;
@@ -99,10 +156,10 @@ public class CPreferencies {
 	 * @param className nom de la classe du LNF
 	 * @param comp Composant a mettre a jour
 	 */
-	public static void changeLookandFeel (String className, Component comp)
+	public static void changeLookandFeel (String name, Component comp)
 	{
 		try {
-		    UIManager.setLookAndFeel(className);
+		    UIManager.setLookAndFeel(CPreferencies.getLNFClassName(name));
 	  		SwingUtilities.updateComponentTreeUI(comp);
 		}	
 		catch (InstantiationException ex) {ex.printStackTrace();}
