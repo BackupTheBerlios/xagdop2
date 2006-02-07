@@ -19,6 +19,7 @@ import org.tmatesoft.svn.core.SVNException;
 
 import xagdop.Controleur.CCommit;
 import xagdop.Controleur.CTreeNode;
+import xagdop.Parser.DependenciesParser;
 import xagdop.ressources.Bundle;
 
 
@@ -78,7 +79,8 @@ public class ICommit extends JDialog {
 							}
 
 				    		CC.commitFile(currentNode,JTAComment.getText());
-
+				    		DependenciesParser dp = DependenciesParser.getInstance();
+				    		dp.publish(dp.getFile(currentNode.getProject().getName()));
 						dispose();
 				    }
 				}) ;
