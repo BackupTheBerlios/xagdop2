@@ -4,6 +4,7 @@ import java.io.File;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -15,6 +16,7 @@ import org.tmatesoft.svn.core.SVNException;
 import org.w3c.dom.Document;
 
 import xagdop.Svn.SvnCommit;
+import xagdop.Util.ErrorManager;
 
 public class Parser {
 
@@ -24,11 +26,20 @@ public class Parser {
 
 	protected Document doc;
 
-	protected void loadTreeInMemory(File file) throws Exception {
+	protected void loadTreeInMemory(File file) throws Exception{
 		this.dbf = DocumentBuilderFactory.newInstance();
 		this.dbf.setValidating(false);
-		this.db = dbf.newDocumentBuilder();
-		this.doc = db.parse(file);
+		try {
+			this.db = dbf.newDocumentBuilder();
+			this.doc = db.parse(file);
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			ErrorManager.getInstance().setErrTitle("Erreur chargement arbre xml");
+			ErrorManager.getInstance().setErrMsg("Erreur lors du chargement du fichier xml "+ file.getName()+".\n");
+			throw new Exception();
+		}
+		
 	}
 	
 	protected void refresh(File file)
