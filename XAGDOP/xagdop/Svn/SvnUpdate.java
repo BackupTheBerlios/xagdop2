@@ -2,7 +2,10 @@ package xagdop.Svn;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.xml.xpath.XPathExpressionException;
 
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.io.SVNRepository;
@@ -95,7 +98,7 @@ public class SvnUpdate{
 			try{
 				up.doUpdate(projectLocal,SVNRevision.HEAD,false);
 			} catch (SVNException svne) {
-				ErrorManager.getInstance().setErrMsg("Impossible de se synchroniser avec le serveur.\nVeuillez vérifier l'adresse de ce dernier.");
+				ErrorManager.getInstance().setErrMsg("Impossible de se synchroniser avec le serveur.\nVeuillez v??rifier l'adresse de ce dernier.");
 				ErrorManager.getInstance().setErrTitle("Update Impossible");
 				throw svne;
 			}
@@ -103,7 +106,7 @@ public class SvnUpdate{
 			try{
 				up.doCheckout(repository.getLocation(),projectLocal,SVNRevision.HEAD,SVNRevision.HEAD,false);
 			} catch (SVNException svne) {
-				ErrorManager.getInstance().setErrMsg("Impossible de se synchroniser avec le serveur.\nVeuillez vérifier l'adresse de ce dernier.");
+				ErrorManager.getInstance().setErrMsg("Impossible de se synchroniser avec le serveur.\nVeuillez v??rifier l'adresse de ce dernier.");
 				ErrorManager.getInstance().setErrTitle("Checkout Impossible");
 				throw svne;
 			}
@@ -112,9 +115,10 @@ public class SvnUpdate{
 	
 	/**
 	 * @param node Neoud que l'on veut recuperer
-	 * @throws SVNException
+	 * @throws Exception 
+	 * @throws IOException 
 	 */
-	public void checkOut(File parent) throws SVNException{
+	public void checkOut(File parent) throws IOException, Exception{
 		
 		SVNUpdateClient up = new SVNUpdateClient(repository.getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
 	
@@ -130,7 +134,7 @@ public class SvnUpdate{
 			try{
 				up.doUpdate(projectDirectoryLocal,SVNRevision.HEAD,true);
 			} catch (SVNException svne) {
-				ErrorManager.getInstance().setErrMsg("Impossible de se synchroniser avec le serveur.\nVeuillez vérifier l'adresse de ce dernier.");
+				ErrorManager.getInstance().setErrMsg("Impossible de se synchroniser avec le serveur.\nVeuillez v??rifier l'adresse de ce dernier.");
 				ErrorManager.getInstance().setErrTitle("Update Impossible");
 				throw svne;
 			}
@@ -138,7 +142,7 @@ public class SvnUpdate{
 			try{
 				up.doCheckout(repository.getLocation(),projectDirectoryLocal,SVNRevision.HEAD,SVNRevision.HEAD,true);
 			} catch (SVNException svne) {
-				ErrorManager.getInstance().setErrMsg("Impossible de se synchroniser avec le serveur.\nVeuillez vérifier l'adresse de ce dernier.");
+				ErrorManager.getInstance().setErrMsg("Impossible de se synchroniser avec le serveur.\nVeuillez v??rifier l'adresse de ce dernier.");
 				ErrorManager.getInstance().setErrTitle("Checkout Impossible");
 				throw svne;
 			}
@@ -150,9 +154,11 @@ public class SvnUpdate{
 	
 	/**
 	 * @param node Neoud que l'on veut recuperer
-	 * @throws SVNException
+	 * @throws Exception 
+	 * @throws IOException 
+	 * @throws XPathExpressionException 
 	 */
-	public void checkOut(ArrayList listProject) throws SVNException{
+	public void checkOut(ArrayList listProject) throws XPathExpressionException, IOException, Exception{
 		
 		SVNUpdateClient up = new SVNUpdateClient(repository.getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
 	
@@ -186,7 +192,7 @@ public class SvnUpdate{
 						try{
 							up.doUpdate(projectDirectoryLocal,SVNRevision.HEAD,true);
 						} catch (SVNException svne) {
-							ErrorManager.getInstance().setErrMsg("Impossible de se synchroniser avec le serveur.\nVeuillez vérifier l'adresse de ce dernier.");
+							ErrorManager.getInstance().setErrMsg("Impossible de se synchroniser avec le serveur.\nVeuillez v??rifier l'adresse de ce dernier.");
 							ErrorManager.getInstance().setErrTitle("Update Impossible");
 							throw svne;
 						}
@@ -195,7 +201,7 @@ public class SvnUpdate{
 		}
 	}
 	
-	public void cleanUp(File file){
+	public void cleanUp(File file) throws SVNException, IOException, Exception{
 		User user = XAGDOP.getInstance().getUser();
 		ProjectsParser pp = ProjectsParser.getInstance();
 		File[] fileInDirectory = file.listFiles(new FilenameFilter() {
