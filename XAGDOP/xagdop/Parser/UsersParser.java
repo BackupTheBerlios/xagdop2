@@ -538,5 +538,9 @@ public class UsersParser extends Parser{
 		
 		return usersList;
 	}
+
+	public File getUsersXML() {
+		return usersXML;
+	}
 	
 }
