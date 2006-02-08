@@ -8,8 +8,6 @@ import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
-import org.tmatesoft.svn.core.SVNException;
-
 import xagdop.Interface.IPreferences;
 import xagdop.Interface.XAGDOP;
 import xagdop.Model.User;

@@ -15,9 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import org.tmatesoft.svn.core.SVNException;
-
-
 import xagdop.Controleur.CTeamManagement;
 import xagdop.Model.Project;
 import xagdop.Parser.ProjectsParser;

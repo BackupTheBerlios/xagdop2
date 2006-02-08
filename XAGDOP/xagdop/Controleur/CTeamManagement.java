@@ -2,8 +2,6 @@ package xagdop.Controleur;
 
 import java.io.IOException;
 
-import org.tmatesoft.svn.core.SVNException;
-
 import xagdop.Parser.ProjectsParser;
 
 public class CTeamManagement{

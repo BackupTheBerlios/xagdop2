@@ -6,7 +6,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.AbstractCellEditor;
@@ -20,16 +19,12 @@ import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
-import javax.xml.xpath.XPathExpressionException;
-
-import org.tmatesoft.svn.core.SVNException;
 
 import xagdop.Controleur.CTeamManagement;
 import xagdop.Model.Project;
 import xagdop.Parser.ProjectsParser;
 import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
-import xagdop.Interface.IAffect;
 
 public class IJTeamManagement extends JFrame{
 	
