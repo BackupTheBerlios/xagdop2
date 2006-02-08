@@ -208,7 +208,7 @@ public class IAffect extends JFrame
 		Project monProjet = ProjectsParser.getInstance().buildProject(projectName);
 		ArrayList projetUser = monProjet.getUsersLogin();
 			
-		ArrayList listComboRes = new ArrayList();
+	
 		System.out.println("NomDuProjet:"+projectName);
 		
 		for(int j=0; j<listUser.size(); j++)
@@ -217,7 +217,9 @@ public class IAffect extends JFrame
 			{
 				if (listUser.get(j)!=projetUser.get(k))
 				{
-					userList.addItem(listUser.get(k));
+					
+					userList.addItem(((User)listUser.get(j)).getLogin());
+					
 				}
 			}
 		}
