@@ -1,6 +1,7 @@
 package xagdop.Parser;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -30,7 +31,7 @@ public class DependenciesParser extends Parser{
 	
 	private static DependenciesParser dependenciesInstance = null; 
 	
-	public static DependenciesParser getInstance()
+	public static DependenciesParser getInstance() throws IOException
 	{
 		if(dependenciesInstance==null)
 		{
@@ -39,10 +40,8 @@ public class DependenciesParser extends Parser{
 		return dependenciesInstance;
 	}
 	
-	private DependenciesParser()
+	private DependenciesParser() throws IOException
 	{
-		try {
-			
 			CDependencies cdep = new CDependencies();
 			dependencies = cdep.getDependenciesFiles();
 			
@@ -50,11 +49,6 @@ public class DependenciesParser extends Parser{
 			dependencies = new HashMap();
 			dependencies.put("Test",new File("xagdop/ressources/XML/dependencies.xml"));
 			*/
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	public File getFile(String project) throws NullPointerException
@@ -345,7 +339,7 @@ public class DependenciesParser extends Parser{
 		}
 	}
 	
-	public void addApes(String apesName) throws XPathExpressionException
+	public void addApes(String apesName) throws Exception
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		
@@ -385,7 +379,7 @@ public class DependenciesParser extends Parser{
 		}
 	}	
 	
-	public void addPog(String pogName) throws XPathExpressionException
+	public void addPog(String pogName) throws Exception
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		
@@ -425,7 +419,7 @@ public class DependenciesParser extends Parser{
 		}
 	}	
 	
-	public void addToUpdate(String filePath) throws XPathExpressionException
+	public void addToUpdate(String filePath) throws Exception
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		
@@ -464,7 +458,7 @@ public class DependenciesParser extends Parser{
 		}
 	}		
 	
-	public void addPog(String apesName, String pogName) throws XPathExpressionException
+	public void addPog(String apesName, String pogName) throws Exception
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		
@@ -532,7 +526,7 @@ public class DependenciesParser extends Parser{
 	}
 */
 	
-	public void addIeppToApes(String apesName, String ieppName) throws XPathExpressionException
+	public void addIeppToApes(String apesName, String ieppName) throws Exception
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//apes[@fileNameApes=\""+apesName+"\"]";
@@ -556,7 +550,7 @@ public class DependenciesParser extends Parser{
 		
 	}
 	
-	public void addIeppToPog(String pogName, String ieppName) throws XPathExpressionException
+	public void addIeppToPog(String pogName, String ieppName) throws Exception
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//dependencies/pog[@fileNamePog=\""+pogName+"\"]";
@@ -579,7 +573,7 @@ public class DependenciesParser extends Parser{
 		}
 	}
 	
-	public void delToUpdate(String filePath) throws XPathExpressionException
+	public void delToUpdate(String filePath) throws Exception
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//toupdate";

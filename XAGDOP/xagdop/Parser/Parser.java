@@ -4,10 +4,7 @@ import java.io.File;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
@@ -47,45 +44,28 @@ public class Parser {
 			loadTreeInMemory(file);
 	}
 	
-	protected void saveDocument(File file)
+	protected void saveDocument(File file) throws Exception
 	{	
 		TransformerFactory tFactory = TransformerFactory.newInstance();
 		Transformer transformer = null;
 		try {
 			transformer = tFactory.newTransformer();
-			} catch (TransformerConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		try {
 			transformer.transform(new DOMSource(doc), new StreamResult(file));
-		} catch (TransformerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		}
+		catch (Exception e) {
+			ErrorManager.getInstance().setErrTitle("Enregistrement du XML impossible");
+			ErrorManager.getInstance().setErrMsg("Enregistrement du XML impossible.\n");
+			throw new Exception();
 		}
 	
 	}
 	
-	public void publish(File file){
-		SvnCommit svnc;
-		try {
+	public void publish(File file) throws SVNException, Exception {
+		SvnCommit svnc;	
 			svnc = new SvnCommit();
-			svnc.sendFile(file,"");
-		} catch (SVNException e1) {
-			// TODO Auto-generated catch block
-			System.out.println("Pb de connexion");
-			e1.printStackTrace();
-		}	
-		try {
+			svnc.sendFile(file,"");	
 			loadTreeInMemory(file);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			System.out.println("Pb de chargement en memoire");
-			e.printStackTrace();
-		}
+		
 	}
 
 }
