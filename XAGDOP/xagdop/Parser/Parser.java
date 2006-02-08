@@ -42,12 +42,9 @@ public class Parser {
 		
 	}
 	
-	protected void refresh(File file)
+	protected void refresh(File file) throws Exception
 	{
-		try {
 			loadTreeInMemory(file);
-		} catch (Exception e) {
-		}
 	}
 	
 	protected void saveDocument(File file)
