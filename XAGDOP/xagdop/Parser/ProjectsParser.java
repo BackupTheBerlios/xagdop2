@@ -796,5 +796,10 @@ public class ProjectsParser extends Parser{
 		//System.out.println(listRes.toString());
 		return listRes;
 	}
+
+
+	public File getProjectXML() {
+		return projectXML;
+	}
 	
 }
