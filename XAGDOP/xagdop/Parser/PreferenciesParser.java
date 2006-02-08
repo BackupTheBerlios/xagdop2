@@ -88,7 +88,7 @@ public class PreferenciesParser extends Parser{
 	}
 	
 	
-	public void setPreferencies(Preferencies pref){
+	public void setPreferencies(Preferencies pref) throws Exception{
 		String serv= pref.getServer();
 		String lnf= pref.getLookNFeel();
 		String lang= pref.getLangue();		
@@ -130,7 +130,7 @@ public class PreferenciesParser extends Parser{
 	}
 	
 	
-	public void setServer(String serv){
+	public void setServer(String serv) throws Exception{
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//server";
 		Element elem = null;
@@ -152,7 +152,7 @@ public class PreferenciesParser extends Parser{
 
 	
 	
-	public void setLNF(String lnf){
+	public void setLNF(String lnf) throws Exception{
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//lookNFeel";
 		Element elem = null;
@@ -174,7 +174,7 @@ public class PreferenciesParser extends Parser{
 
 	
 	
-	public void setLang(String lang){
+	public void setLang(String lang) throws Exception{
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//server";
 		Element elem = null;

@@ -45,7 +45,7 @@ public class CPreferencies {
 	
 	}
 	
-	public void setServerPath(String serv){
+	public void setServerPath(String serv) throws Exception{
 		PreferenciesParser PrefP = PreferenciesParser.getInstance();
 		PrefP.setServer(serv);		
 	}
@@ -103,7 +103,7 @@ public class CPreferencies {
 	
 	
 	
-	public void setLang(Locale loc){
+	public void setLang(Locale loc) throws Exception{
 		PreferenciesParser PrefP = PreferenciesParser.getInstance();
 		PrefP.setLang(loc.getLanguage());
 	}
@@ -112,7 +112,7 @@ public class CPreferencies {
 
 	
 	
-	public void setLNF(String lnf){
+	public void setLNF(String lnf) throws Exception{
 		PreferenciesParser PrefP = PreferenciesParser.getInstance();
 		PrefP.setLNF(lnf);
 		

@@ -110,12 +110,17 @@ public class IIdentification extends JFrame{
 		valide.addActionListener(new ActionListener(){
 				    public void actionPerformed(ActionEvent e){
 				    	CUser CU = new CUser();
-				    	if (CU.verifUser(userID.getText(),new String(password.getPassword())))
-				    	{
-				    		ident.setVisible(false);	
-				    		XAGDOP.getInstance().showFrame();
-				    		
-				    	}
+				    	try {
+							if (CU.verifUser(userID.getText(),new String(password.getPassword())))
+							{
+								ident.setVisible(false);	
+								XAGDOP.getInstance().showFrame();
+								
+							}
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 				    }
 				}) ;
 		

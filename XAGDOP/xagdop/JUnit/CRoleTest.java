@@ -1,11 +1,16 @@
 package xagdop.JUnit;
 
+import javax.xml.xpath.XPathExpressionException;
+
+import org.w3c.dom.DOMException;
+
 import junit.framework.TestCase;
 import xagdop.Controleur.CRole;
 import xagdop.Interface.XAGDOP;
 import xagdop.Model.User;
 import xagdop.Parser.ProjectsParser;
 import xagdop.Parser.UsersParser;
+import xagdop.Util.ErrorManager;
 
 public class CRoleTest extends TestCase {
 
@@ -17,11 +22,18 @@ public class CRoleTest extends TestCase {
 	public void testGetViewFileRight() {
 		//Declarations
 		ProjectsParser pp = ProjectsParser.getInstance();
-		UsersParser usrp = UsersParser.getInstance();
+		UsersParser usrp = null;
+		User us  = null;
+		try {
+			usrp = UsersParser.getInstance();
+//			Creer d'un utilisateur
+			us = new User("toto","totopass",false,true);
+			usrp.addUser(us);
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 		
-		//Creer d'un utilisateur
-		User us = new User("toto","totopass",false,true);
-		usrp.addUser(us);
+		
 		
 		//Creer un projet
 		pp.addProject("projTest",us,"projDesc");
@@ -41,7 +53,15 @@ public class CRoleTest extends TestCase {
 		
 	
 		//Supprimer l'utilisateur
-		usrp.removeUser(us.getLogin());
+		try {
+			usrp.removeUser(us.getLogin());
+		} catch (XPathExpressionException e) {
+			ErrorManager.getInstance().display();
+		} catch (DOMException e) {
+			ErrorManager.getInstance().display();
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 		
 		//Supprimer le projet
 		pp.removeProject("projTest");
@@ -55,11 +75,18 @@ public class CRoleTest extends TestCase {
 	public void testGetViewDirectoryRight() {
 		//Declarations
 		ProjectsParser pp = ProjectsParser.getInstance();
-		UsersParser usrp = UsersParser.getInstance();
+		UsersParser usrp = null;
+		User us = null;
+		try {
+			usrp = UsersParser.getInstance();
+			us = new User("toto","totopass",false,true);
+			usrp.addUser(us);
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 		
 		//Creer d'un utilisateur
-		User us = new User("toto","totopass",false,true);
-		usrp.addUser(us);
+		
 		
 		//Creer un projet
 		pp.addProject("projTest",us,"projDesc");
@@ -78,7 +105,15 @@ public class CRoleTest extends TestCase {
 		
 	
 		//Supprimer l'utilisateur
-		usrp.removeUser(us.getLogin());
+		try {
+			usrp.removeUser(us.getLogin());
+		} catch (XPathExpressionException e) {
+			ErrorManager.getInstance().display();
+		} catch (DOMException e) {
+			ErrorManager.getInstance().display();
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 		
 		//Supprimer le projet
 		pp.removeProject("projTest");
@@ -92,11 +127,18 @@ public class CRoleTest extends TestCase {
 	public void testGetWriteFileRight() {
 		//Declarations
 		ProjectsParser pp = ProjectsParser.getInstance();
-		UsersParser usrp = UsersParser.getInstance();
+		UsersParser usrp= null;
+		User us = null;
+		try {
+			usrp = UsersParser.getInstance();
+			us = new User("toto","totopass",false,true);
+			usrp.addUser(us);
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 		
 		//Creer d'un utilisateur
-		User us = new User("toto","totopass",false,true);
-		usrp.addUser(us);
+		
 		
 		//Creer un projet
 		pp.addProject("projTest",us,"projDesc");
@@ -115,7 +157,15 @@ public class CRoleTest extends TestCase {
 		
 	
 		//Supprimer l'utilisateur
-		usrp.removeUser(us.getLogin());
+		try {
+			usrp.removeUser(us.getLogin());
+		} catch (XPathExpressionException e) {
+			ErrorManager.getInstance().display();
+		} catch (DOMException e) {
+			ErrorManager.getInstance().display();
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 		
 		//Supprimer le projet
 		pp.removeProject("projTest");
@@ -123,41 +173,6 @@ public class CRoleTest extends TestCase {
 
 	}
 
-	/*
-	 * Test method for 'xagdop.Controleur.CRole.getWriteDirectoryRight()'
-	 */
-	public void testGetWriteDirectoryRight() {
-		//Declarations
-		ProjectsParser pp = ProjectsParser.getInstance();
-		UsersParser usrp = UsersParser.getInstance();
-		
-		//Creer d'un utilisateur
-		User us = new User("toto","totopass",false,true);
-		usrp.addUser(us);
-		
-		//Creer un projet
-		pp.addProject("projTest",us,"projDesc");
-		
-		//Ajouter l'utilisateur au projet
-		pp.addUser("projTest",us,false,true,false,true);
-		
-		XAGDOP.getInstance().setUser(us);
-		CRole cr= new CRole("projTest");
-		
-		//Tests
-		assertEquals((cr.getForbidenWriteDirectoryRight()).get(0),"lib");
-		
-		
-		
 	
-		//Supprimer l'utilisateur
-		usrp.removeUser(us.getLogin());
-		
-		//Supprimer le projet
-		pp.removeProject("projTest");
-		
-
-
-	}
 
 }

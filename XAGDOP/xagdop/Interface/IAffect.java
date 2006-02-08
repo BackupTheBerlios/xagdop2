@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
+import javax.xml.xpath.XPathExpressionException;
 
 import xagdop.Controleur.CAffect;
 import xagdop.Model.Project;
@@ -201,9 +202,21 @@ public class IAffect extends JFrame
 		
 		//System.out.println("IAffectProjetName"+projectName);
 		
-		ArrayList listUser = UsersParser.getInstance().getAllUsers();
-		Project monProjet = ProjectsParser.getInstance().buildProject(projectName);
-		ArrayList projetUser = monProjet.getUsersLogin();
+		ArrayList listUser= null;
+		Project monProjet;
+		ArrayList projetUser = null;
+		try {
+			listUser = UsersParser.getInstance().getAllUsers();
+			monProjet = ProjectsParser.getInstance().buildProject(projectName);
+			projetUser = monProjet.getUsersLogin();
+		} catch (XPathExpressionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 			
 	
 		System.out.println("NomDuProjet:"+projectName);

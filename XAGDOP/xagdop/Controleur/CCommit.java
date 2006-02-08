@@ -1,12 +1,7 @@
 package xagdop.Controleur;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-
-import javax.xml.xpath.XPathExpressionException;
-
-import org.tmatesoft.svn.core.SVNException;
 
 import xagdop.Interface.IProjectTree;
 import xagdop.Interface.XAGDOP;
@@ -329,7 +324,7 @@ public class CCommit{
 		
 	}
 	
-	public void commitFile(CTreeNode currentNode,String comment) throws SVNException{
+	public void commitFile(CTreeNode currentNode,String comment) throws Exception{
 		
 	
 			SvnCommit svnC = new SvnCommit();

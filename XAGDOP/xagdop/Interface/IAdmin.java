@@ -13,6 +13,9 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.xml.xpath.XPathExpressionException;
+
+import org.tmatesoft.svn.core.SVNException;
 
 import xagdop.Controleur.CAdmin;
 import xagdop.Model.User;
@@ -41,17 +44,27 @@ public class IAdmin extends JFrame{
     private UsersParser users;
     private CAdmin cadmin;
     
-	private IAdmin(){
+	private IAdmin() {
 		init();
 	}
 	
 	
-	private void init(){
+	private void init() {
         getContentPane().setLayout(new GridBagLayout());
         cadmin = new CAdmin();
 
-        users = UsersParser.getInstance();
-        ArrayList list = users.getAllUsers();
+       
+        ArrayList list = null;
+		try {
+			 users = UsersParser.getInstance();
+			list = users.getAllUsers();
+		} catch (XPathExpressionException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
         
         newPanel.setLayout(new GridBagLayout());
@@ -115,7 +128,18 @@ public class IAdmin extends JFrame{
         ButtonOK.setText("Ok");
         ButtonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-               cadmin.Apply(users,(String)UserListCombo.getSelectedItem(),AdminCheck.isSelected(),PManagerCheck.isSelected());
+               try {
+				cadmin.Apply(users,(String)UserListCombo.getSelectedItem(),AdminCheck.isSelected(),PManagerCheck.isSelected());
+			} catch (NullPointerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SVNException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
             }
         });
 
@@ -142,7 +166,18 @@ public class IAdmin extends JFrame{
         gridBagConstraints.gridy = 5;
         ButtonApply.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-               cadmin.Apply(users,((String)UserListCombo.getSelectedItem()),AdminCheck.isSelected(),PManagerCheck.isSelected());
+               try {
+				cadmin.Apply(users,((String)UserListCombo.getSelectedItem()),AdminCheck.isSelected(),PManagerCheck.isSelected());
+			} catch (NullPointerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SVNException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
             }
         });
         newPanel.add(ButtonApply, gridBagConstraints);
@@ -166,8 +201,17 @@ public class IAdmin extends JFrame{
 	}
 	
 	public void refresh(){
-		AdminCheck.setSelected(users.getUserByLogin((String)UserListCombo.getSelectedItem()).isAdmin());
-		PManagerCheck.setSelected(users.getUserByLogin((String)UserListCombo.getSelectedItem()).isPcreator());
+		try {
+			AdminCheck.setSelected(users.getUserByLogin((String)UserListCombo.getSelectedItem()).isAdmin());
+			PManagerCheck.setSelected(users.getUserByLogin((String)UserListCombo.getSelectedItem()).isPcreator());
+		} catch (XPathExpressionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NullPointerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 		
 		}

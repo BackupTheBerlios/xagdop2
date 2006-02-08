@@ -1,11 +1,15 @@
 package xagdop.JUnit;
 
+import javax.xml.xpath.XPathExpressionException;
+
 import org.tmatesoft.svn.core.SVNException;
+import org.w3c.dom.DOMException;
 
 import xagdop.Controleur.CTeamManagement;
 import xagdop.Model.User;
 import xagdop.Parser.ProjectsParser;
 import xagdop.Parser.UsersParser;
+import xagdop.Util.ErrorManager;
 import junit.framework.TestCase;
 
 public class CTeamManagementTest extends TestCase {
@@ -15,25 +19,38 @@ public class CTeamManagementTest extends TestCase {
 	 */
 	public void testApply() throws SVNException {
 		//Ajouter un nouveau utilisateur  dans UsersParser
-		User usr=new User("toto","totoPass",true,true);
-		UsersParser up= UsersParser.getInstance();
-		up.addUser(usr);
-		
+		UsersParser usrp= null;
+		User us = null;
+		try {
+			usrp = UsersParser.getInstance();
+			us = new User("toto","totopass",false,true);
+			usrp.addUser(us);
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 		//Cr?er un nouveau utilisateur et un projet
 		ProjectsParser pp= ProjectsParser.getInstance();
-		pp.addProject("projTest",usr,"descrTest");
+		pp.addProject("projTest",us,"descrTest");
 		
 		//D?clarer CteamManagement  avec le projet
 		CTeamManagement CT = new CTeamManagement("projTest");
 		
 		//Appliquer  les droits de l'utilisateur pour le projet
-		CT.Apply(usr.getLogin(),true,false,true,false);
+		CT.Apply(us.getLogin(),true,false,true,false);
 		
 		//Test
-		assertTrue(usr.isAnalyst("projTest")==false);
+		assertTrue(us.isAnalyst("projTest")==false);
 
 		//Supprimer l'utilisateur de UsersParsers
-		up.removeUser(usr.getLogin());
+		try {
+			usrp.removeUser(us.getLogin());
+		} catch (XPathExpressionException e) {
+			ErrorManager.getInstance().display();
+		} catch (DOMException e) {
+			ErrorManager.getInstance().display();
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 		
 		//Supprimer le projet de ProjectsParsers
 		pp.removeProject("projTest");
@@ -47,9 +64,16 @@ public class CTeamManagementTest extends TestCase {
 		//Ajouter des utilisateurs
 		User usr=new User("toto","totoPass",true,true);
 		User usr1=new User("tata","tataPass",true,false);
-		UsersParser up= UsersParser.getInstance();
-		up.addUser(usr);
-		up.addUser(usr1);
+		UsersParser up=null;
+		try {
+			up = UsersParser.getInstance();
+			up.addUser(usr);
+			up.addUser(usr1);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			ErrorManager.getInstance().display();
+		}
+		
 		
 		//Cr?er un projet
 		ProjectsParser pp= ProjectsParser.getInstance();
@@ -70,8 +94,17 @@ public class CTeamManagementTest extends TestCase {
 		
 
 		//Supprimer les utilisateurs de UsersParsers
-		up.removeUser(usr.getLogin());
-		up.removeUser(usr1.getLogin());
+		try {
+			up.removeUser(usr.getLogin());
+			up.removeUser(usr1.getLogin());
+		} catch (XPathExpressionException e) {
+			ErrorManager.getInstance().display();
+		} catch (DOMException e) {
+			ErrorManager.getInstance().display();
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
+		
 		
 		//Supprimer le projet de ProjectsParsers
 		pp.removeProject("projTest");

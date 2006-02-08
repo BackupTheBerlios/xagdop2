@@ -160,11 +160,11 @@ public class SvnCommit{
 	/**
 	 * @param node : Noeud representant les fichiers ?? envoyer
 	 * @param commitMessage : Message qui commente les modifications faites
-	 * @throws SVNException 
 	 * @throws SVNException
 	 * Envoi les modifications faites sur les fichiers ainsi que les nouveaux fichiers cr??es
+	 * @throws Exception 
 	 */
-	public void commit(CTreeNode node, String commitMessage) throws SVNException{
+	public void commit(CTreeNode node, String commitMessage) throws Exception{
 		File toCommit = new File(node.getLocalPath());
 		//Si on doit envoyer un dossier
 		if(toCommit.isDirectory()){
@@ -222,7 +222,7 @@ public class SvnCommit{
 			sendXMLFile();
 		
 	}
-	public void sendXMLFile() throws SVNException{
+	public void sendXMLFile() throws Exception{
 		ArrayList fileInDirectory = new ArrayList();
 		fileInDirectory.add(UsersParser.getInstance().getUsersXML());
 		fileInDirectory.add(ProjectsParser.getInstance().getProjectXML());

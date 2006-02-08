@@ -82,6 +82,9 @@ public class ICommit extends JDialog {
 								ErrorManager.getInstance().display();
 							} catch (XPathExpressionException e2) {
 								ErrorManager.getInstance().display();
+							} catch (Exception e1) {
+								// TODO Auto-generated catch block
+								ErrorManager.getInstance().display();
 							}finally{
 								dispose();
 							}

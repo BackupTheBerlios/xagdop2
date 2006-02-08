@@ -23,12 +23,17 @@ import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
+import javax.xml.xpath.XPathExpressionException;
+
+import org.tmatesoft.svn.core.SVNException;
+import org.w3c.dom.DOMException;
 
 
 import xagdop.Controleur.CAdmin;
 
 import xagdop.Model.User;
 import xagdop.Parser.UsersParser;
+import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
 
 public class IJAdmin extends JFrame{
@@ -65,7 +70,11 @@ public class IJAdmin extends JFrame{
 	private void init(){
         getContentPane().setLayout(new GridBagLayout());
         cadmin = new CAdmin();
-        users = UsersParser.getInstance();        
+        try {
+			users = UsersParser.getInstance();
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}        
         
         //Layout manager GridBagLayout
         //Configuration de la taille minimale
@@ -82,7 +91,15 @@ public class IJAdmin extends JFrame{
         		while(i<j)
         		{
         			//Mise a jour des attributs de chaque utilisateur
-        			cadmin.Apply(users,((String)JT.getValueAt(i,0)),((Boolean)JT.getValueAt(i,2)).booleanValue(),((Boolean)JT.getValueAt(i,1)).booleanValue());
+        			try {
+						cadmin.Apply(users,((String)JT.getValueAt(i,0)),((Boolean)JT.getValueAt(i,2)).booleanValue(),((Boolean)JT.getValueAt(i,1)).booleanValue());
+					} catch (NullPointerException e) {
+						ErrorManager.getInstance().display();
+					} catch (SVNException e) {
+						ErrorManager.getInstance().display();
+					} catch (Exception e) {
+						ErrorManager.getInstance().display();
+					}
         			i++;  
         		}      	
             	
@@ -115,7 +132,11 @@ public class IJAdmin extends JFrame{
         });
         
         //Creation de la JTable avec la liste des utilisateurs en parametres
-        JT = new JTable(new IJAdminTableModel(users.getAllUsers()));
+        try {
+			JT = new JTable(new IJAdminTableModel(users.getAllUsers()));
+		} catch (XPathExpressionException e) {
+			ErrorManager.getInstance().display();
+		}
         
         //Changement du modele de rendu par defaut et du modele d'edition par defaut
         JT.setDefaultRenderer(JButton.class, new IJAdminTableCellRenderer());
@@ -181,8 +202,13 @@ public class IJAdmin extends JFrame{
 		GridBagConstraints gbc = new GridBagConstraints();
         this.donnerContrainte(gbc,0,0,3,1,100,100,GridBagConstraints.BOTH);
         
-		this.users = UsersParser.getInstance();
-		((IJAdminTableModel)this.JT.getModel()).init(this.users.getAllUsers());
+		try {
+			this.users = UsersParser.getInstance();
+			((IJAdminTableModel)this.JT.getModel()).init(this.users.getAllUsers());
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
+		
 		JT.setDefaultEditor(JButton.class, new IJAdminTableCellEditor(this));
 		this.remove(newPanel);
 		this.newPanel.remove(JSP);
@@ -488,7 +514,15 @@ public class IJAdmin extends JFrame{
 			if(out == JOptionPane.YES_OPTION)
 			{
 				rowToDelete =this.IJA.getTable().getSelectedRow();
-				this.IJA.getUsers().removeUser(((String)this.IJA.getTable().getModel().getValueAt(rowToDelete,0)));
+				try {
+					this.IJA.getUsers().removeUser(((String)this.IJA.getTable().getModel().getValueAt(rowToDelete,0)));
+				} catch (XPathExpressionException e) {
+					ErrorManager.getInstance().display();
+				} catch (DOMException e) {
+					ErrorManager.getInstance().display();
+				} catch (Exception e) {
+					ErrorManager.getInstance().display();
+				}
 				IJAdmin.getIJA().refreshUsers();
 			}
 	    }

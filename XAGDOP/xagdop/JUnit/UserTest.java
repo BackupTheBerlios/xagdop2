@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 import xagdop.Model.User;
 import xagdop.Parser.ProjectsParser;
 import xagdop.Parser.UsersParser;
+import xagdop.Util.ErrorManager;
 
 
 public class UserTest extends TestCase {
@@ -132,6 +133,7 @@ public class UserTest extends TestCase {
 	 * Test method for 'xagdop.Model.Users.isArchitect(String)'
 	 */
 	public void testIsArchitect() {
+		try{
 		//Creation d'un utilisateur
 		User usr = new User("toto","totopass",true,false);
 
@@ -155,12 +157,16 @@ public class UserTest extends TestCase {
 		
 		//Supprimer le projet de ProjectsParsers
 		pp.removeProject("projTest");
+	} catch (Exception e) {
+		ErrorManager.getInstance().display();
+	}
 	}
 
 	/*
 	 * Test method for 'xagdop.Model.Users.isRedactor(String)'
 	 */
 	public void testIsRedactor() {
+		try{
 		//Creation d'un utilisateur
 		User usr = new User("toto","totopass",true,false);
 
@@ -183,6 +189,9 @@ public class UserTest extends TestCase {
 		
 		//Supprimer le projet de ProjectsParsers
 		pp.removeProject("projTest");
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 
 	}
 
@@ -190,6 +199,7 @@ public class UserTest extends TestCase {
 	 * Test method for 'xagdop.Model.Users.isAnalyst(String)'
 	 */
 	public void testIsAnalyst() {
+		try{
 		//Creation d'un utilisateur
 		User usr = new User("toto","totopass",true,false);
 
@@ -212,6 +222,9 @@ public class UserTest extends TestCase {
 		
 		//Supprimer le projet de ProjectsParsers
 		pp.removeProject("projTest");
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 
 	}
 
@@ -219,6 +232,7 @@ public class UserTest extends TestCase {
 	 * Test method for 'xagdop.Model.Users.isPManager(String)'
 	 */
 	public void testIsPManager() {
+		try{
 		//Creation d'un utilisateur
 		User usr = new User("toto","totopass",true,false);
 
@@ -241,6 +255,9 @@ public class UserTest extends TestCase {
 		
 		//Supprimer le projet de ProjectsParsers
 		pp.removeProject("projTest");
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 		
 		
 	}

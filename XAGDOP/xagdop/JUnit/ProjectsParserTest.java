@@ -2,11 +2,15 @@ package xagdop.JUnit;
 
 import java.util.ArrayList;
 
+import javax.xml.xpath.XPathExpressionException;
+
 import org.tmatesoft.svn.core.SVNException;
+import org.w3c.dom.DOMException;
 
 import xagdop.Model.*;
 import xagdop.Parser.ProjectsParser;
 import xagdop.Parser.UsersParser;
+import xagdop.Util.ErrorManager;
 import junit.framework.TestCase;
 
 public class ProjectsParserTest extends TestCase {
@@ -16,15 +20,29 @@ public class ProjectsParserTest extends TestCase {
 	 */
 	public void testGetProjectDescriptionString() {
 		User usr=new User("loginTest","passTest",true,true);
-		UsersParser up= UsersParser.getInstance();
-		up.addUser(usr);
+		UsersParser up =null;
+		try {
+			up = UsersParser.getInstance();
+			up.addUser(usr);
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
+		
 		ProjectsParser pp= ProjectsParser.getInstance();
 		pp.addProject("projTest",usr,"descrTest");
 		
 		System.out.println("testGetProjectDescriptionOK: "+(String)(pp.getProjectDescription("projTest")));
 		assertTrue(((String)(pp.getProjectDescription("projTest"))).equals((String)"descrTest"));
 		
-		up.removeUser(usr.getLogin());
+		try {
+			up.removeUser(usr.getLogin());
+		} catch (XPathExpressionException e) {
+			ErrorManager.getInstance().display();
+		} catch (DOMException e) {
+			ErrorManager.getInstance().display();
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 		pp.removeProject("projTest");
 	}
 
@@ -34,8 +52,13 @@ public class ProjectsParserTest extends TestCase {
 	 */
 	public void testSetProjectDescriptionStringString() {
 		User usr=new User("loginTest","passTest",true,true);
-		UsersParser up= UsersParser.getInstance();
-		up.addUser(usr);
+		UsersParser up =null;
+		try {
+			up = UsersParser.getInstance();
+			up.addUser(usr);
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 		ProjectsParser pp= ProjectsParser.getInstance();
 		pp.addProject("projTest",usr,"descrTest");
 		
@@ -44,7 +67,15 @@ public class ProjectsParserTest extends TestCase {
 		assertFalse(((String)(pp.getProjectDescription("projTest"))).equals((String)"descrTest"));
 		assertTrue(((String)(pp.getProjectDescription("projTest"))).equals((String)"newDescr"));
 		
-		up.removeUser(usr.getLogin());
+		try {
+			up.removeUser(usr.getLogin());
+		} catch (XPathExpressionException e) {
+			ErrorManager.getInstance().display();
+		} catch (DOMException e) {
+			ErrorManager.getInstance().display();
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 		pp.removeProject("projTest");
 	}
 
@@ -54,8 +85,13 @@ public class ProjectsParserTest extends TestCase {
 	 */
 	public void testIsUserInProject() {
 		User usr=new User("loginTest","passTest",true,true);
-		UsersParser up= UsersParser.getInstance();
-		up.addUser(usr);
+		UsersParser up =null;
+		try {
+			up = UsersParser.getInstance();
+			up.addUser(usr);
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 		
 		ProjectsParser pp= ProjectsParser.getInstance();
 		pp.addProject("projTest",usr,"descrTest");
@@ -66,7 +102,15 @@ public class ProjectsParserTest extends TestCase {
 		//System.out.println("isUserInProjectKO: "+pp.isUserInProject("projTest","loginTestKO"));
 		assertFalse(pp.isUserInProject("projTest","loginTestKO"));
 
-		up.removeUser(usr.getLogin());
+		try {
+			up.removeUser(usr.getLogin());
+		} catch (XPathExpressionException e) {
+			ErrorManager.getInstance().display();
+		} catch (DOMException e) {
+			ErrorManager.getInstance().display();
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 		pp.removeProject("projTest");
 	}
 
@@ -77,8 +121,13 @@ public class ProjectsParserTest extends TestCase {
 	public void testIsProjectString() {
 		User usr=new User("loginTest","passTest",true,true);
 		
-		UsersParser up= UsersParser.getInstance();
-		up.addUser(usr);
+		UsersParser up =null;
+		try {
+			up = UsersParser.getInstance();
+			up.addUser(usr);
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 		
 		ProjectsParser pp= ProjectsParser.getInstance();
 		pp.addProject("projTest",usr,"descrTest");
@@ -87,7 +136,15 @@ public class ProjectsParserTest extends TestCase {
 		pp.removeProject("projTest");
 		assertFalse(pp.isProject("projTest"));
 		
-		up.removeUser(usr.getLogin());
+		try {
+			up.removeUser(usr.getLogin());
+		} catch (XPathExpressionException e) {
+			ErrorManager.getInstance().display();
+		} catch (DOMException e) {
+			ErrorManager.getInstance().display();
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 	}
 
 
@@ -98,9 +155,14 @@ public class ProjectsParserTest extends TestCase {
 		User usr1=new User("loginTest","passTest",true,true);
 		User usr2=new User("loginTest2","passTest2",true,true);
 		
-		UsersParser up=UsersParser.getInstance();
-		up.addUser(usr1);
-		up.addUser(usr2);
+		UsersParser up =null;
+		try {
+			up = UsersParser.getInstance();
+			up.addUser(usr1);
+			up.addUser(usr2);
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 		
 		ProjectsParser pp= ProjectsParser.getInstance();
 		pp.addProject("projTest",usr1,"descrTest");
@@ -112,8 +174,16 @@ public class ProjectsParserTest extends TestCase {
 		assertTrue( (Boolean)usr2Rights.get(2)==Boolean.TRUE );
 		assertTrue( (Boolean)usr2Rights.get(3)==Boolean.FALSE );
 		
-		up.removeUser(usr1.getLogin());
-		up.removeUser(usr2.getLogin());
+		try {
+			up.removeUser(usr1.getLogin());
+			up.removeUser(usr2.getLogin());
+		} catch (XPathExpressionException e) {
+			ErrorManager.getInstance().display();
+		} catch (DOMException e) {
+			ErrorManager.getInstance().display();
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 		pp.removeProject("projTest");
 	}
 
@@ -125,9 +195,14 @@ public class ProjectsParserTest extends TestCase {
 		User usr1=new User("loginTest","passTest",true,true);
 		User usr2=new User("loginTest2","passTest2",true,true);
 		
-		UsersParser up=UsersParser.getInstance();
-		up.addUser(usr1);
-		up.addUser(usr2);
+		UsersParser up =null;
+		try {
+			up = UsersParser.getInstance();
+			up.addUser(usr1);
+			up.addUser(usr2);
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 		
 		ProjectsParser pp= ProjectsParser.getInstance();
 		pp.addProject("projTest",usr1,"descrTest");
@@ -139,8 +214,16 @@ public class ProjectsParserTest extends TestCase {
 		assertTrue( (Boolean)usr2Rights.get(2)==Boolean.TRUE );
 		assertTrue( (Boolean)usr2Rights.get(3)==Boolean.FALSE );
 		
-		up.removeUser(usr1.getLogin());
-		up.removeUser(usr2.getLogin());
+		try {
+			up.removeUser(usr1.getLogin());
+			up.removeUser(usr2.getLogin());
+		} catch (XPathExpressionException e) {
+			ErrorManager.getInstance().display();
+		} catch (DOMException e) {
+			ErrorManager.getInstance().display();
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 		pp.removeProject("projTest");
 	}
 	
@@ -152,9 +235,14 @@ public class ProjectsParserTest extends TestCase {
 		User usr1=new User("loginTest","passTest",true,true);
 		User usr2=new User("loginTest2","passTest2",true,true);
 		
-		UsersParser up= UsersParser.getInstance();
-		up.addUser(usr1);
-		up.addUser(usr2);
+		UsersParser up =null;
+		try {
+			up = UsersParser.getInstance();
+			up.addUser(usr1);
+			up.addUser(usr2);
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 		
 		ProjectsParser pp= ProjectsParser.getInstance();
 		pp.addProject("projTest",usr1,"descrTest");
@@ -166,8 +254,16 @@ public class ProjectsParserTest extends TestCase {
 		assertTrue(logins.contains("loginTest2"));
 		assertFalse(logins.contains("loginTestKO"));
 		
-		up.removeUser(usr1.getLogin());
-		up.removeUser(usr2.getLogin());
+		try {
+			up.removeUser(usr1.getLogin());
+			up.removeUser(usr2.getLogin());
+		} catch (XPathExpressionException e) {
+			ErrorManager.getInstance().display();
+		} catch (DOMException e) {
+			ErrorManager.getInstance().display();
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 		pp.removeProject("projTest");
 	}
 
@@ -179,9 +275,14 @@ public class ProjectsParserTest extends TestCase {
 		User usr1=new User("loginTest","passTest",true,true);
 		User usr2=new User("loginTest2","passTest2",true,true);
 		
-		UsersParser up=UsersParser.getInstance();
-		up.addUser(usr1);
-		up.addUser(usr2);
+		UsersParser up =null;
+		try {
+			up = UsersParser.getInstance();
+			up.addUser(usr1);
+			up.addUser(usr2);
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 		
 		ProjectsParser pp= ProjectsParser.getInstance();
 		pp.addProject("projTest",usr1,"descrTest");
@@ -193,8 +294,16 @@ public class ProjectsParserTest extends TestCase {
 		assertTrue( (Boolean)usr2Rights.get(2)==Boolean.TRUE );
 		assertTrue( (Boolean)usr2Rights.get(3)==Boolean.FALSE );
 		
-		up.removeUser(usr1.getLogin());
-		up.removeUser(usr2.getLogin());
+		try {
+			up.removeUser(usr1.getLogin());
+			up.removeUser(usr2.getLogin());
+		} catch (XPathExpressionException e) {
+			ErrorManager.getInstance().display();
+		} catch (DOMException e) {
+			ErrorManager.getInstance().display();
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 		pp.removeProject("projTest");
 	}
 	
@@ -205,15 +314,28 @@ public class ProjectsParserTest extends TestCase {
 	public void testAddProject() {
 		User usr=new User("loginTest","passTest",true,true);
 		
-		UsersParser up= UsersParser.getInstance();
-		up.addUser(usr);
+		UsersParser up =null;
+		try {
+			up = UsersParser.getInstance();
+			up.addUser(usr);
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 		
 		ProjectsParser pp= ProjectsParser.getInstance();
 		pp.addProject("projTest",usr,"descrTest");
 		
 		assertTrue(pp.isProject("projTest"));
 		
-		up.removeUser(usr.getLogin());
+		try {
+			up.removeUser(usr.getLogin());
+		} catch (XPathExpressionException e) {
+			ErrorManager.getInstance().display();
+		} catch (DOMException e) {
+			ErrorManager.getInstance().display();
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 		pp.removeProject("projTest");
 	}
 
@@ -225,9 +347,14 @@ public class ProjectsParserTest extends TestCase {
 		User usr1=new User("loginTest","passTest",true,true);
 		User usr2=new User("loginTest2","passTest2",true,true);
 		
-		UsersParser up=UsersParser.getInstance();
-		up.addUser(usr1);
-		up.addUser(usr2);
+		UsersParser up =null;
+		try {
+			up = UsersParser.getInstance();
+			up.addUser(usr1);
+			up.addUser(usr2);
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 		
 		ProjectsParser pp= ProjectsParser.getInstance();
 		pp.addProject("projTest",usr1,"descrTest");
@@ -243,8 +370,16 @@ public class ProjectsParserTest extends TestCase {
 		pp.removeUser("projTest",usr1.getLogin());
 		assertFalse(pp.isUserInProject("projTest",usr1.getLogin()));
 		
-		up.removeUser(usr1.getLogin());
-		up.removeUser(usr2.getLogin());
+		try {
+			up.removeUser(usr1.getLogin());
+			up.removeUser(usr2.getLogin());
+		} catch (XPathExpressionException e) {
+			ErrorManager.getInstance().display();
+		} catch (DOMException e) {
+			ErrorManager.getInstance().display();
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 		pp.removeProject("projTest");
 	}
 
@@ -254,8 +389,13 @@ public class ProjectsParserTest extends TestCase {
 	 */
 	public void testRemoveProject() {
 		User usr=new User("loginTest","passTest",true,true);
-		UsersParser up=UsersParser.getInstance();
-		up.addUser(usr);
+		UsersParser up =null;
+		try {
+			up = UsersParser.getInstance();
+			up.addUser(usr);
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 		ProjectsParser pp= ProjectsParser.getInstance();
 		
 		pp.addProject("projTest",usr,"descrTest");
@@ -263,7 +403,15 @@ public class ProjectsParserTest extends TestCase {
 		pp.removeProject("projTest");
 		assertFalse(pp.isProject("projTest"));
 		
-		up.removeUser(usr.getLogin());		
+		try {
+			up.removeUser(usr.getLogin());
+		} catch (XPathExpressionException e) {
+			ErrorManager.getInstance().display();
+		} catch (DOMException e) {
+			ErrorManager.getInstance().display();
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}	
 	}
 
 	
@@ -274,9 +422,14 @@ public class ProjectsParserTest extends TestCase {
 		User usr1=new User("loginTest","passTest",true,true);
 		User usr2=new User("loginTest2","passTest2",true,true);
 		
-		UsersParser up=UsersParser.getInstance();
-		up.addUser(usr1);
-		up.addUser(usr2);
+		UsersParser up =null;
+		try {
+			up = UsersParser.getInstance();
+			up.addUser(usr1);
+			up.addUser(usr2);
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 		
 		ProjectsParser pp= ProjectsParser.getInstance();
 		pp.addProject("projTest",usr1,"descrTest");
@@ -299,8 +452,16 @@ public class ProjectsParserTest extends TestCase {
 		assertTrue(newRights.get(2)==Boolean.FALSE);
 		assertTrue(newRights.get(3)==Boolean.FALSE);
 		
-		up.removeUser(usr1.getLogin());
-		up.removeUser(usr2.getLogin());
+		try {
+			up.removeUser(usr1.getLogin());
+			up.removeUser(usr2.getLogin());
+		} catch (XPathExpressionException e) {
+			ErrorManager.getInstance().display();
+		} catch (DOMException e) {
+			ErrorManager.getInstance().display();
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 		pp.removeProject("projTest");		
 	}
 	
@@ -312,9 +473,14 @@ public class ProjectsParserTest extends TestCase {
 		User usr1=new User("loginTest","passTest",true,true);
 		User usr2=new User("loginTest2","passTest2",true,true);
 		
-		UsersParser up=UsersParser.getInstance();
-		up.addUser(usr1);
-		up.addUser(usr2);
+		UsersParser up =null;
+		try {
+			up = UsersParser.getInstance();
+			up.addUser(usr1);
+			up.addUser(usr2);
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 		
 		ProjectsParser pp= ProjectsParser.getInstance();
 		pp.addProject("projTest",usr1,"descrTest");
@@ -327,8 +493,16 @@ public class ProjectsParserTest extends TestCase {
 		assertTrue(oldRights.get(2)==Boolean.TRUE);
 		assertTrue(oldRights.get(3)==Boolean.FALSE);
 			
-		up.removeUser(usr1.getLogin());
-		up.removeUser(usr2.getLogin());
+		try {
+			up.removeUser(usr1.getLogin());
+			up.removeUser(usr2.getLogin());
+		} catch (XPathExpressionException e) {
+			ErrorManager.getInstance().display();
+		} catch (DOMException e) {
+			ErrorManager.getInstance().display();
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 		pp.removeProject("projTest");		
 	}
 
@@ -340,9 +514,14 @@ public class ProjectsParserTest extends TestCase {
 		User usr1=new User("loginTest","passTest",true,true);
 		User usr2=new User("loginTest2","passTest2",true,true);
 		
-		UsersParser up= UsersParser.getInstance();
-		up.addUser(usr1);
-		up.addUser(usr2);
+		UsersParser up =null;
+		try {
+			up = UsersParser.getInstance();
+			up.addUser(usr1);
+			up.addUser(usr2);
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 		
 		ProjectsParser pp= ProjectsParser.getInstance();
 		pp.addProject("projTest",usr1,"descrTest");
@@ -357,8 +536,16 @@ public class ProjectsParserTest extends TestCase {
 		assertFalse(logins.contains("loginTestKO"));
 		System.out.println(logins);
 		
-		up.removeUser(usr1.getLogin());
-		up.removeUser(usr2.getLogin());
+		try {
+			up.removeUser(usr1.getLogin());
+			up.removeUser(usr2.getLogin());
+		} catch (XPathExpressionException e) {
+			ErrorManager.getInstance().display();
+		} catch (DOMException e) {
+			ErrorManager.getInstance().display();
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 		pp.removeProject("projTest");
 	}
 

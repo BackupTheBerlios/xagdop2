@@ -2,6 +2,8 @@ package xagdop.Parser;
 
 import java.io.File;
 
+import xagdop.Util.ErrorManager;
+
 
 
 public class testsParsers {
@@ -9,7 +11,11 @@ public class testsParsers {
 	public testsParsers()
 	{
 		POGParser p = new POGParser(new File("/home/claire/tests/Phlancement.pog"));
-		p.setApesPathToRelative("tests/Phlancement.apes");
+		try {
+			p.setApesPathToRelative("tests/Phlancement.apes");
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 		/*
 		DependenciesParser dep = DependenciesParser.getInstance();
 		

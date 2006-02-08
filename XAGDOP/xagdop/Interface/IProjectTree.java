@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 import javax.swing.Icon;
 import javax.swing.JMenuItem;
@@ -115,6 +116,8 @@ public class IProjectTree extends JTree implements  TreeModelListener
 		try {
 			return ((CTree)getModel()).associateIcon(value);
 		} catch (XPathExpressionException e) {
+			ErrorManager.getInstance().display();
+		} catch (IOException e) {
 			ErrorManager.getInstance().display();
 		}
 		return null;
@@ -313,7 +316,7 @@ public class IProjectTree extends JTree implements  TreeModelListener
         	 CTreeNode current = (CTreeNode) path.getLastPathComponent();
         	 if (current.getProject()!=(XAGDOP.getInstance().getCurrentNode()))
  			{
- 				//changement du noeud courrant
+ 				//changement du noeud courant
  				XAGDOP.getInstance().setCurrentNode(current.getProject());
  				//rechargement de larbre en memoire				
  				try {

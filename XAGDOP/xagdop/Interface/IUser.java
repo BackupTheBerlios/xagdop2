@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 import xagdop.Controleur.CUser;
+import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
 
 public class IUser extends JFrame{
@@ -107,10 +108,14 @@ public class IUser extends JFrame{
 		valide.addActionListener(new ActionListener(){
 				    public void actionPerformed(ActionEvent e){
 				    	CUser CU = new CUser();
-				    	if (CU.verifUser(userID.getText(),new String(password.getPassword())))
-				    	{
-				    		IU.setVisible(false);		    		
-				    	}
+				    	try {
+							if (CU.verifUser(userID.getText(),new String(password.getPassword())))
+							{
+								IU.setVisible(false);		    		
+							}
+						} catch (Exception e1) {
+							ErrorManager.getInstance().display();
+						}
 				    }
 				}) ;
 		

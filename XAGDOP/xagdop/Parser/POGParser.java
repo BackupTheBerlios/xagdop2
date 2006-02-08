@@ -49,7 +49,7 @@ public class POGParser extends Parser{
 		}		
 	}
 	
-	public void setApesPathToRelative(String pathRelative)
+	public void setApesPathToRelative(String pathRelative) throws Exception
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//proprietes/chemin_icones";
