@@ -5,6 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -18,8 +19,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.table.AbstractTableModel;
+import javax.xml.xpath.XPathExpressionException;
+
+import org.tmatesoft.svn.core.SVNException;
 
 import xagdop.Parser.ProjectsParser;
+import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
 
 public class ICheckOut extends JFrame 
@@ -145,7 +150,18 @@ public class ICheckOut extends JFrame
     public void initTable()
     {
 //    	Recuperation des projets et creation de la table
-		ArrayList data = ProjectsParser.getInstance().getProjects(XAGDOP.getInstance().getUser().getLogin());
+		ArrayList data = null;
+		try {
+			data = ProjectsParser.getInstance().getProjects(XAGDOP.getInstance().getUser().getLogin());
+		} catch (XPathExpressionException e) {
+			ErrorManager.getInstance().display();
+		} catch (SVNException e) {
+			ErrorManager.getInstance().display();
+		} catch (IOException e) {
+			ErrorManager.getInstance().display();
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 		this.JTProjets = new JTable(new ProjectTableModel(data));
 		
 		//Suppression de l'affichage de la grille et de l'entete
