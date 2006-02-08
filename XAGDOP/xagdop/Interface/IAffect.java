@@ -217,7 +217,7 @@ public class IAffect extends JFrame
 			{
 				if (listUser.get(j)!=projetUser.get(k))
 				{
-					userList.addItem(projetUser.get(k));
+					userList.addItem(listUser.get(k));
 				}
 			}
 		}
