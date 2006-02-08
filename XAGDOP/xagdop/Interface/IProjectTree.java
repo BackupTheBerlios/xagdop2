@@ -276,6 +276,7 @@ public class IProjectTree extends JTree implements  TreeModelListener
 						
 					}
 				} catch (Exception e) {
+					System.out.println("Management");
 					ErrorManager.getInstance().display();
 				}
 			}
@@ -286,19 +287,20 @@ public class IProjectTree extends JTree implements  TreeModelListener
 			}
 				
 				
-			if (selectedNode.getProject()!=(XAGDOP.getInstance().getCurrentNode()))
-			{
 				//changement du noeud courrant
-				XAGDOP.getInstance().setCurrentNode(selectedNode.getProject());
+			if(!selectedNode.isRoot())
+				
 				//rechargement de larbre en memoire				
 				try {
+					
 					DependenciesParser.getInstance().setFile(selectedNode.getProject().getName());
 				} catch (NullPointerException e) {
+					e.printStackTrace();
 					ErrorManager.getInstance().display();
 				} catch (Exception e) {
 					ErrorManager.getInstance().display();
 				}
-			}	
+			
 				
 	
 			
