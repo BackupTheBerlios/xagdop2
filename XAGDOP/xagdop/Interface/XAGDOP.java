@@ -29,10 +29,13 @@ import javax.swing.border.Border;
 import javax.swing.plaf.BorderUIResource;
 import javax.swing.table.AbstractTableModel;
 
+import org.tmatesoft.svn.core.SVNException;
+
 import xagdop.Controleur.CProject;
 import xagdop.Controleur.CTree;
 import xagdop.Controleur.CTreeNode;
 import xagdop.Model.User;
+import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
 
 //import ressources.Bundle;
@@ -445,7 +448,7 @@ public class XAGDOP extends JFrame{
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-				ICommit IC = new ICommit(tree.getSelectedNode());
+				new ICommit(tree.getSelectedNode());
 		}
 	}
 //	****************************
@@ -490,7 +493,12 @@ public class XAGDOP extends JFrame{
 				if (confirmSupp == JOptionPane.OK_OPTION )
 				{
 					CProject cp = new CProject();
-					cp.deleteProject(tree.getSelectedNode());
+					
+					try {
+						cp.deleteProject(tree.getSelectedNode());
+					} catch (SVNException e1) {
+						ErrorManager.getInstance().display();
+					}
 				}
 			}
 	}
@@ -533,7 +541,11 @@ public class XAGDOP extends JFrame{
 	 * Permet de raffraichir l'arbre
 	 */
 	public void refreshTree(){
-		((CTree)tree.getModel()).refreshFromLocal(tree.getSelectedNode());
+		try {
+			((CTree)tree.getModel()).refreshFromLocal(tree.getSelectedNode());
+		} catch (SVNException e) {
+			ErrorManager.getInstance().display();
+		}
 	}
 	
 	

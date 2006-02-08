@@ -3,7 +3,7 @@ package xagdop.Controleur;
 import java.io.File;
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
+import javax.xml.xpath.XPathExpressionException;
 
 import org.tmatesoft.svn.core.SVNException;
 
@@ -21,7 +21,7 @@ import xagdop.Svn.SvnHistory;
 public class CCommit{
 	
 	
-	public CCommit(CTreeNode currentNode) throws SVNException{
+	public CCommit(CTreeNode currentNode) throws SVNException, XPathExpressionException{
 		recCommit(currentNode,".apes");
 		recCommit(currentNode,".pog");
 		recCommit(currentNode,".iepp");
@@ -30,7 +30,7 @@ public class CCommit{
 	
 	
 	//Permet d'envoyer le fichier contenu dans le Noeud
-	public void beforeCommit(CTreeNode node) throws SVNException{
+	public void beforeCommit(CTreeNode node) throws SVNException, XPathExpressionException{
 	
 		//Recuperation du nom de fichier a envoyer
 		String nameOfFile = node.getName();
@@ -50,24 +50,17 @@ public class CCommit{
 			//Si le fichier est un apes -->
 			//-----------------------------------------
 			if (nameOfFile.endsWith(".apes"))
-			{
-				
-				
-				sendApesFile(toCommit,node,pathToRoot);
-				
+			{		
+				sendApesFile(toCommit,node,pathToRoot);	
 			}
 			
 			//-----------------------------------------
 			//Si le fichier est un pog -->
 			//-----------------------------------------
 			else if (nameOfFile.endsWith(".pog"))
-			{
-				
+			{		
 				sendPogFile(toCommit,node,pathToRoot);
-				
-				
-				
-						
+		
 			}
 			
 //			-----------------------------------------
@@ -77,13 +70,7 @@ public class CCommit{
 			{
 				sendIeppFile(toCommit,node,pathToRoot);
 			}
-			//Cas d'erreur
-			else
-			{
-				
-			}
-			
-		
+	
 		
 	}
 	
@@ -92,18 +79,18 @@ public class CCommit{
 	 * 
 	 * 
 	 */
-	protected void sendIeppFile(File toCommit, CTreeNode node, String pathToRoot) {
+	protected void sendIeppFile(File toCommit, CTreeNode node, String pathToRoot) throws XPathExpressionException {
 	
 		
-		DependenciesParser DP = DependenciesParser.getInstance();
+		DependenciesParser dp = DependenciesParser.getInstance();
 		
 			//Modifier l'interieur du fichier pog en
 			//mettant en relatif le chemin du fichier apes dependant
 			
 			//Ouverture du parser du fichier POG Correspondant
-			IeppNitParser INP = new IeppNitParser(toCommit);	
+			IeppNitParser inp = new IeppNitParser(toCommit);	
 			//Recuperation du chemin absolue du fichier apes d?pendant
-			ArrayList pathDependantApesFile = INP.getApes();
+			ArrayList pathDependantApesFile = inp.getApes();
 			
 //			Initialisation du parcours
 			int i = 0;
@@ -113,7 +100,7 @@ public class CCommit{
 			//On parcours la liste
 			for (i=0;i<pathDependantApesFile.size();i++)
 			{
-					DP.addIeppToApes(node.getProject().getName()+File.separator+pathDependantApesFile.get(i),pathToRoot);
+					dp.addIeppToApes(node.getProject().getName()+File.separator+pathDependantApesFile.get(i),pathToRoot);
 			}
 			
 			
@@ -141,10 +128,10 @@ public class CCommit{
 
 
 
-	protected void sendPogFile(File toCommit, CTreeNode node, String pathToRoot) throws SVNException {
+	protected void sendPogFile(File toCommit, CTreeNode node, String pathToRoot) throws SVNException, XPathExpressionException {
 
 		
-		DependenciesParser DP = DependenciesParser.getInstance();
+		DependenciesParser dp = DependenciesParser.getInstance();
 		
 		
 		//	Si le fichier est tout neuf
@@ -169,11 +156,11 @@ public class CCommit{
 			
 				//Ajout dans le DependenciesParser du Pog correspondant
 				//addPog(Apes,Pog)
-				DP.addPog(pathSemiGlobal,pathToRoot);
+				dp.addPog(pathSemiGlobal,pathToRoot);
 			}
 			else
 			{
-				DP.addPog(pathToRoot);
+				dp.addPog(pathToRoot);
 			}
 			//TODO
 			//Appelle a la methode qui permet de calculer le chemin relatif
@@ -197,7 +184,7 @@ public class CCommit{
 
 			//On recupere la liste de tous les iepp dependant de l'apes
 			
-			ArrayList allIepp = DP.getIeppFromPog(pathToRoot);
+			ArrayList allIepp = dp.getIeppFromPog(pathToRoot);
 			
 			
 			
@@ -212,33 +199,27 @@ public class CCommit{
 				//On indique qu'il faut mettre a jour tous les fichiers
 				//Qui sont d?pendants du fichier apes que l'on veux envoyer
 				//A condition qu'il ne soit pas deja a modifier
-				if (!DP.isToUpdate((String)allIepp.get(j)))
+				if (!dp.isToUpdate((String)allIepp.get(j)))
 				{
 					//Ajouter dans la liste
-					DP.addToUpdate((String)allIepp.get(j));
+					dp.addToUpdate((String)allIepp.get(j));
 				}
 			}
 			
 			
 			
 			//On essaie de supprimer le fichier de la liste des fichiers ? modifier
-			DP.delToUpdate(pathToRoot);
+			dp.delToUpdate(pathToRoot);
 			
 								
 		}
-		//Cas d'erreur
-		//Le fichier n'est pas nouveau, et il n'a pas ?t? modifi?
-		else
-		{
-			
-		}
-		
+				
 		
 	}
 
 
 
-	public void recCommit(CTreeNode node,String extention) throws SVNException
+	public void recCommit(CTreeNode node,String extention) throws SVNException, XPathExpressionException
 	{
 		//On regarde si le node est un fils
 		if (!node.getAllowsChildren())
@@ -266,7 +247,7 @@ public class CCommit{
 		
 	}
 	
-	protected void sendApesFile(File toCommit,CTreeNode node, String pathToRoot)
+	protected void sendApesFile(File toCommit,CTreeNode node, String pathToRoot) throws XPathExpressionException
 	{
 		
 		DependenciesParser DP = DependenciesParser.getInstance();
@@ -341,37 +322,17 @@ public class CCommit{
 					//Ajouter dans la liste
 					DP.addToUpdate((String)allIepp.get(j));
 				}
-			}
-			
-			
-			
-			
-			
-			
-			
+			}			
 
-		}
-		
-			//Cas d'erreur
-		else
-		{
-		
 		}
 		
 	}
 	
-	public void commitFile(CTreeNode currentNode,String comment){
+	public void commitFile(CTreeNode currentNode,String comment) throws SVNException{
 		
-
-		SvnCommit svnC = null;
-		try {
-			
-			svnC = new SvnCommit();
+	
+			SvnCommit svnC = new SvnCommit();
 			svnC.commit(currentNode,comment);
-		} catch (SVNException e1) {
-			JOptionPane.showMessageDialog(null ,"Impossible de se connecter au server subversion", "Validation" , 1) ;
-			e1.printStackTrace();
-		}
 		
 	}
 	

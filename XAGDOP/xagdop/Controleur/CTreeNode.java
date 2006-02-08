@@ -34,27 +34,13 @@ public class CTreeNode extends DefaultMutableTreeNode implements Serializable
 	}
 
 
-/*	public CTreeNode(Object userObject, CTreeNode parent, boolean isLeaf)
-	{
-		super(userObject,!isLeaf);
-		setParent(parent);
-		File localFilePath = new File(IPreferences.getDefaultPath());
-		this.localPath = localFilePath.getAbsolutePath();
-	}*/
-
-
 	public CTreeNode(Object userObject, String _localPath,boolean isLeaf) {
 		super(userObject,!isLeaf);
 		File localFilePath = new File(_localPath);
 		this.localPath = localFilePath.getAbsolutePath();
 	}
 	
-/*	public CTreeNode(Object userObject, CTreeNode parent, String _localPath,boolean isLeaf)	{
-		super(userObject,!isLeaf);
-		setParent(parent);
-		File localFilePath = new File(_localPath);
-		this.localPath = localFilePath.getAbsolutePath();
-	}*/
+
 	public boolean isProject(){
 		if(isRoot())
 			return false;

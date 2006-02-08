@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Enumeration;
 
 import javax.swing.Icon;
 import javax.swing.JMenuItem;
@@ -22,10 +21,10 @@ import javax.swing.event.TreeModelListener;
 import javax.swing.event.TreeWillExpandListener;
 import javax.swing.tree.DefaultTreeCellEditor;
 import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.ExpandVetoException;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
+import javax.xml.xpath.XPathExpressionException;
 
 import org.tmatesoft.svn.core.SVNException;
 
@@ -33,6 +32,7 @@ import xagdop.Controleur.CTree;
 import xagdop.Controleur.CTreeNode;
 import xagdop.Parser.DependenciesParser;
 import xagdop.Svn.SvnRemove;
+import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
 
 
@@ -47,7 +47,12 @@ public class IProjectTree extends JTree implements  TreeModelListener
 	
 	public IProjectTree()
 	{
-		super(new CTree());
+		try {
+			CTree treeModel= new CTree();
+			setModel(treeModel);
+		} catch (SVNException e) {
+			ErrorManager.getInstance().display();
+		}
 		selectedNode = (CTreeNode) getModel().getRoot();
 		setEditable(true);
 		getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
@@ -107,7 +112,12 @@ public class IProjectTree extends JTree implements  TreeModelListener
 	
 	private Icon associateIcon(Object value)
 	{
-		return ((CTree)getModel()).associateIcon(value);
+		try {
+			return ((CTree)getModel()).associateIcon(value);
+		} catch (XPathExpressionException e) {
+			ErrorManager.getInstance().display();
+		}
+		return null;
 	}
 	protected void processMouseEvent(MouseEvent e) 
 	{
@@ -189,7 +199,11 @@ public class IProjectTree extends JTree implements  TreeModelListener
 			menuCommit.addActionListener(new openICommit());
 			menuRefrechFL.addActionListener( new ActionListener() {
 			public void actionPerformed (ActionEvent e){
-				((CTree)getModel()).refreshFromLocal(selectedNode);
+				try {
+					((CTree)getModel()).refreshFromLocal(selectedNode);
+				} catch (SVNException e1) {
+					ErrorManager.getInstance().display();
+				}
 			}
 		}
 		);
@@ -217,11 +231,15 @@ public class IProjectTree extends JTree implements  TreeModelListener
 		class openICommit implements ActionListener {
 			public void actionPerformed (ActionEvent e){
 				new ICommit(getSelectedNode());
-				Enumeration expandPath = getExpandedDescendants(new TreePath(getModel().getRoot()));
-				((CTree)getModel()).refreshFromLocal((CTreeNode) getModel().getRoot());
-				while(expandPath.hasMoreElements()){
-					expandPath((TreePath)expandPath.nextElement());	
+				//Enumeration expandPath = getExpandedDescendants(new TreePath(getModel().getRoot()));
+				try {
+					((CTree)getModel()).refreshFromLocal((CTreeNode) getModel().getRoot());
+				} catch (SVNException e1) {
+					ErrorManager.getInstance().display();
 				}
+				/*while(expandPath.hasMoreElements()){
+					expandPath((TreePath)expandPath.nextElement());	
+				}*/
 			}
 		}
 		
@@ -266,7 +284,13 @@ public class IProjectTree extends JTree implements  TreeModelListener
 				//changement du noeud courrant
 				XAGDOP.getInstance().setCurrentNode(selectedNode.getProject());
 				//rechargement de larbre en memoire				
-				DependenciesParser.getInstance().setFile(selectedNode.getProject().getName());
+				try {
+					DependenciesParser.getInstance().setFile(selectedNode.getProject().getName());
+				} catch (NullPointerException e) {
+					ErrorManager.getInstance().display();
+				} catch (Exception e) {
+					ErrorManager.getInstance().display();
+				}
 			}	
 				
 	
@@ -292,7 +316,13 @@ public class IProjectTree extends JTree implements  TreeModelListener
  				//changement du noeud courrant
  				XAGDOP.getInstance().setCurrentNode(current.getProject());
  				//rechargement de larbre en memoire				
- 				DependenciesParser.getInstance().setFile(current.getProject().getName());
+ 				try {
+					DependenciesParser.getInstance().setFile(current.getProject().getName());
+				} catch (NullPointerException e) {
+					ErrorManager.getInstance().display();
+				} catch (Exception e) {
+					ErrorManager.getInstance().display();
+				}
  			}	
         	
         }

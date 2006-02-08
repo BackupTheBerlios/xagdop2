@@ -2,14 +2,13 @@ package xagdop.Model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
 
 public class Project {
 
 	private String projectName;
 	
 	//Contient pour chaque personne travaillant sur le projet la liste de ses droits sur le projet
-	//Donc en clef login, et la valeur associée une ArrayList contenant des booleans pour les droits
+	//Donc en clef login, et la valeur associ??e une ArrayList contenant des booleans pour les droits
 	//pmanager, architect, analyst, redactor 
 	private HashMap usersAndRightsOnProject;
 	

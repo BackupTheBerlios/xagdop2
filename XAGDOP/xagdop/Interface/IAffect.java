@@ -6,7 +6,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
 
-
 import javax.management.InstanceNotFoundException;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -16,9 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-
 
 import xagdop.Controleur.CAffect;
 import xagdop.Model.Project;

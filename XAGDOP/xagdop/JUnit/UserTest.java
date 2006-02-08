@@ -1,9 +1,7 @@
 package xagdop.JUnit;
 
-import java.util.ArrayList;
-
 import junit.framework.TestCase;
-import xagdop.Model.*;
+import xagdop.Model.User;
 import xagdop.Parser.ProjectsParser;
 import xagdop.Parser.UsersParser;
 

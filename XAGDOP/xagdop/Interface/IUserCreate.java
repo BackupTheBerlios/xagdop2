@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import xagdop.Controleur.CUser;
+import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
 
 
@@ -122,17 +123,16 @@ public class IUserCreate extends JFrame{
 		valide.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				try {
-					if(CU.creerUser(userID.getText(),new String(password.getPassword()),new String(passConf.getPassword()))){
+					CU.createUser(userID.getText(),new String(password.getPassword()),new String(passConf.getPassword()));
 						IUC.setVisible(false);
 						IJAdmin.getIJA().refreshUsers();
 						IUC = null;
-					}
-				}catch (InstanceNotFoundException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+				}
+				catch (InstanceNotFoundException e1) {
+						ErrorManager.getInstance().display();
 				} catch (Exception e1) {
 						// TODO Auto-generated catch block
-						e1.printStackTrace();
+					ErrorManager.getInstance().display();
 				}
 			}
 		}) ;

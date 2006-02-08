@@ -1,30 +1,26 @@
 package xagdop.Interface;
 
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.JLabel;
-import javax.swing.JButton;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.JScrollPane;
-import javax.swing.BoxLayout;
 import javax.swing.Box;
-import javax.swing.ImageIcon;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.plaf.ColorUIResource;
+import javax.swing.table.AbstractTableModel;
 
 import xagdop.Parser.ProjectsParser;
-import xagdop.Interface.XAGDOP;
 import xagdop.ressources.Bundle;
-import xagdop.Svn.SvnUpdate;
 
 public class ICheckOut extends JFrame 
 {
@@ -185,7 +181,7 @@ public class ICheckOut extends JFrame
 						((ProjectTableModel)ICO.getJTProjets().getModel()).selectAll();
 						ICO.getJTProjets().updateUI();
 						ICO.getJTProjets().setBackground(new ColorUIResource(238,238,238));
-						//a modifier parce ke c pas bien codé qd mm
+						//a modifier parce ke c pas bien cod? qd mm
 					}
     		
     			});

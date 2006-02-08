@@ -1,7 +1,10 @@
 package xagdop.JUnit;
 
+import org.tmatesoft.svn.core.SVNException;
+
 import junit.framework.TestCase;
 import xagdop.Controleur.*;
+import xagdop.Util.ErrorManager;
 public class CTreeTest extends TestCase {
 
 	/*
@@ -16,9 +19,15 @@ public class CTreeTest extends TestCase {
 	 */
 	public void testSetRoot() {
 			CTreeNode CTN = new CTreeNode("blabla",false) ;
-			CTree CT = new CTree();
-			CT.setRoot(CTN);
-			assertTrue(CTN==(CTreeNode)CT.getRoot());
+			CTree CT = null;
+			try {
+				CT = new CTree();
+				CT.setRoot(CTN);
+				assertTrue(CTN==(CTreeNode)CT.getRoot());
+			} catch (SVNException e) {
+				ErrorManager.getInstance().display();
+			}
+			
 			
 			
 			
@@ -29,9 +38,15 @@ public class CTreeTest extends TestCase {
 	 */
 	public void testGetRoot() {
 			CTreeNode CTN = new CTreeNode("blabla",false) ;
-			CTree CT = new CTree();
-			CT.setRoot(CTN);
-			assertTrue(CTN==(CTreeNode)CT.getRoot());
+			CTree CT;
+			try {
+				CT = new CTree();
+				CT.setRoot(CTN);
+				assertTrue(CTN==(CTreeNode)CT.getRoot());
+			} catch (SVNException e) {
+				ErrorManager.getInstance().display();
+			}
+			
 			
 			
 	}

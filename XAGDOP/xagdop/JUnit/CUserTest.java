@@ -2,10 +2,9 @@ package xagdop.JUnit;
 
 import javax.management.InstanceNotFoundException;
 
-import xagdop.Controleur.CUser;
-import xagdop.Model.User;
-import xagdop.Parser.UsersParser;
 import junit.framework.TestCase;
+import xagdop.Controleur.CUser;
+import xagdop.Parser.UsersParser;
 
 public class CUserTest extends TestCase {
 
@@ -17,7 +16,7 @@ public class CUserTest extends TestCase {
 		//Creer un nouveau utilisateur
 		UsersParser up = UsersParser.getInstance();
 		CUser cu= new CUser();
-		cu.creerUser("titi","totopass","totopass");
+		cu.createUser("titi","totopass","totopass");
 		
 	
 		
@@ -39,7 +38,7 @@ public class CUserTest extends TestCase {
 		//Creer un nouveau utilisateur
 		UsersParser up = UsersParser.getInstance();
 		CUser cu= new CUser();
-		cu.creerUser("titi","totopass","totopass");
+		cu.createUser("titi","totopass","totopass");
 		
 		//Test si l'utilisateur a bien ?t? cr??
 		assertTrue(up.isUser("titi"));

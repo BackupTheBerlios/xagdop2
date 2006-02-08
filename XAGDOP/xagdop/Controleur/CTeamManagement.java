@@ -62,13 +62,7 @@ public class CTeamManagement{
 		//Remove the user from the project
 		
 		PP.removeUser(this._projectName,user);
-	
-	
-	
-	
-	
-	
-	
+
 	}
 			
 			

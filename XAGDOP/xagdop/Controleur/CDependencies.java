@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 
 import xagdop.Interface.IPreferences;
+import xagdop.Util.ErrorManager;
 
 
 
@@ -32,8 +33,9 @@ public class CDependencies {
 	
 	/**
 	 * @return
+	 * @throws IOException 
 	 */
-	public HashMap getDependenciesFiles(){
+	public HashMap getDependenciesFiles() throws IOException{
 		HashMap dependencies = new HashMap();
 		
 		File projectsDirectory = new File(IPreferences.getDefaultPath());
@@ -57,9 +59,14 @@ public class CDependencies {
 						try {
 							CFile.copy(dependencyFile,tmp);
 						} catch (IOException e) {
+							ErrorManager.getInstance().setErrMsg("Le fichier est en lecture seule et ne peut ?tre ?crit.");
+							ErrorManager.getInstance().setErrTitle("Fichier inaccessible");
+							throw new IOException();
 						}
 						if(!dependencyFile.delete()) {
-							throw new IllegalStateException("");
+							ErrorManager.getInstance().setErrMsg("Le fichier est en lecture seule et ne peut ?tre ?crit.");
+							ErrorManager.getInstance().setErrTitle("Fichier inaccessible");
+							throw new IOException();
 						}	
 					tmp.renameTo(dependencyFile);
 					}

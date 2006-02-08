@@ -11,18 +11,15 @@ import java.util.ArrayList;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JPopupMenu;
-import javax.swing.JTextField;
 import javax.swing.JTree;
-import javax.swing.event.CellEditorListener;
-import javax.swing.event.ChangeEvent;
 import javax.swing.event.EventListenerList;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
-import javax.swing.tree.DefaultTreeCellEditor;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
+import javax.xml.xpath.XPathExpressionException;
 
 import org.tmatesoft.svn.core.SVNException;
 
@@ -45,7 +42,7 @@ public class CTree implements TreeModel
 	private EventListenerList mListenerList = new EventListenerList();
 	private CTreeNode mRoot = new CTreeNode("Projects List",IPreferences.getDefaultPath(),false); 
 	
-	public CTree()
+	public CTree() throws SVNException
 	{
 		super();
 		refreshFromLocal(mRoot);
@@ -209,191 +206,6 @@ public class CTree implements TreeModel
 	}
 	
 	
-	
-	
-	
-	/**
-	 * Adds nodes in the tree
-	 * 
-	 * @param elements the nodes to insert
-	 * @param parents the parents of each nodes
-	 * @param extras 
-	 *//*
-	 protected void handleInsert(Object[] elements,	Object[] parents,Map extras)
-	 {
-	 if (elements.length < 1)
-	 return ;
-	 //System.out.println("tree insert ");
-	  CTreeNode node = null;
-	  CTreeNode parent = null;
-	  if(elements == null || parents == null || elements.length != parents.length) return;
-	  
-	  for (int i = 0; i < elements.length; i++)
-	  {
-	  // retrieve the node identify by his ID
-	   node = (CTreeNode)findWithID(((Identity)elements[i]).getID());	
-	   // retrieve his parents
-	    parent = (CTreeNode)findWithID(((Identity)parents[i]).getID());
-	    //System.out.println("handleInsert : node : "+(node==null?"null":node.getName())+" parent :"+(parent==null?"null":(parent.getName()+parent.getID())));
-	     // it is a new node 
-	      if( node == null )
-	      {
-	      node = new CTreeNode( elements[i], true );
-	      }
-	      // test if the parent exists
-	       if( parent != null )
-	       {	
-	       if( node.getParent() == null )
-	       {
-	       parent.add(node);
-	       }
-	       // insert the element 
-	        fireTreeNodesInserted( this, parent.getPath(), new int[]{ parent.getIndex(node) }, new Object[]{ node });
-	        }	    
-	        }
-	        }*/
-	
-	/**
-	 * remove nodes from the tree
-	 * 
-	 * @param elements the nodes to remove
-	 * @param parents the parents of each nodes
-	 * @param extras 
-	 *//*
-	 protected void handleRemove(Object[] elements,	Object[] parents,Map extras)
-	 {
-	 CTreeNode node = null;
-	 CTreeNode parent = null;
-	 
-	 if (elements.length < 1)
-	 return ;
-	 
-	 if(elements == null || parents == null || elements.length != parents.length) 
-	 return;
-	 
-	 for (int i = 0; i < elements.length; i++)
-	 {
-	 //	      retrieve the node identify by his ID
-	  node = (CTreeNode)findWithID(((Identity)elements[i]).getID());
-	  //	      retrieve his parents
-	   parent = (CTreeNode)findWithID(((Identity)parents[i]).getID());
-	   
-	   if( node == null )
-	   {
-	   node = new CTreeNode( elements[i], true );
-	   }
-	   if( parent != null )
-	   {	
-	   parent.remove(node) ; 
-	   // insert the element 
-	    fireTreeNodesRemoved( this, parent.getPath(), new int[]{ parent.getIndex(node) }, new Object[]{ node });
-	    }	    
-	    }
-	    }*/
-	
-	/*public void refresh(CTreeNode node){
-	 
-	 SvnDisplayRepositoryTree listeroot;
-	 
-	 try {
-	 listeroot = new SvnDisplayRepositoryTree();
-	 } catch (SVNException e) {
-	 JOptionPane.showMessageDialog(null ,"Impossible de se connecter au server subversion", "Validation" , 1) ;
-	 e.printStackTrace();
-	 return;
-	 }
-	 
-	 SVNRepository repository;
-	 try {
-	 repository = SvnConnect.getInstance().getRepository();
-	 } catch (SVNException e) {
-	 JOptionPane.showMessageDialog(null ,"Impossible de se connecter au server subversion", "Validation" , 1) ;
-	 e.printStackTrace();
-	 return;
-	 }
-	 
-	 //System.out.println("Nom du noeud : "+node.getName());
-	  try
-	  {	
-	  Collection liste_p = listeroot.listEntries(repository, node.getName());
-	  Iterator iterator;
-	  Enumeration child = node.children();
-	  SVNDirEntry entry;
-	  boolean toRemove=true;
-	  
-	  //Suppression de ceux qui ont disparus
-	   while (child.hasMoreElements()) {
-	   iterator = liste_p.iterator();
-	   CTreeNode tmp = (CTreeNode)child.nextElement();
-	   
-	   while(iterator.hasNext()){
-	   entry = (SVNDirEntry) iterator.next();
-	   //System.out.println(tmp.getName()+" : "+entry.getName());
-	    if(entry.getName().equals(tmp.getName())){
-	    toRemove=false;
-	    break;
-	    }		
-	    else
-	    toRemove=true;
-	    }
-	    
-	    
-	    
-	    if(toRemove)
-	    node.remove(tmp);		
-	    }
-	    
-	    
-	    iterator = liste_p.iterator();
-	    boolean exist=false;
-	    
-	    //Ajout des nouveaux
-	     while (iterator.hasNext()) {
-	     child = node.children();
-	     entry = (SVNDirEntry) iterator.next();
-	     
-	     
-	     while(child.hasMoreElements()){
-	     CTreeNode tmp = (CTreeNode)child.nextElement();
-	     
-	     if(tmp.getName().equals(entry.getName())){
-	     exist=true;
-	     if(entry.getKind() == SVNNodeKind.DIR){
-	     refresh(tmp);
-	     }
-	     break;
-	     }
-	     else
-	     exist=false;
-	     }
-	     
-	     
-	     if(!exist){
-	     CTreeNode tmp = new CTreeNode(entry.getName(), false);
-	     if(node!=mRoot||entry.getKind() == SVNNodeKind.DIR)
-	     node.add(tmp);
-	     
-	     if(entry.getKind() == SVNNodeKind.DIR){
-	     refresh(tmp);
-	     }
-	     exist = false;
-	     }
-	     
-	     
-	     }
-	     
-	     
-	     
-	     Object[] path = {node};
-	     fireTreeNodesInserted(this, path, null, null);
-	     }
-	     catch (SVNException svne)
-	     {
-	     System.out.println("Exception SVNException!!");
-	     System.out.println(svne.toString());
-	     System.out.println(svne.getMessage());
-	     }
-	     }*/
 	public void refresh(CTreeNode node) {
 //		try {
 		ThreadWait TW = new ThreadWait(XAGDOP.getInstance());
@@ -423,7 +235,7 @@ public class CTree implements TreeModel
 		
 	}
 	
-	public void refreshFromLocal(CTreeNode parent){
+	public void refreshFromLocal(CTreeNode parent) throws SVNException{
 		final CTreeNode node = parent;
 		File localFiles = new File(parent.getLocalPath());
 		parent.removeAllChildren();
@@ -454,7 +266,7 @@ public class CTree implements TreeModel
 					CRole role = new CRole(node.getProject().getName());
 					ArrayList view = role.getViewFileRight();
 					//System.out.println("bla : "+view.size());
-					if(dir.getName().startsWith("lib"))
+					if(dir.getName().startsWith("lib")||dir.getName().equals("icones"))
 						return true;
 					int i = 0;
 					while(i < view.size()){
@@ -463,15 +275,7 @@ public class CTree implements TreeModel
 						i++;
 					}
 				}
-				//if(name.endsWith(".apes")||name.endsWith(".iepp")||name.endsWith(".pog")){
-				//	return true;
 				
-				//int i = 0;
-				//while(i < right.size()){
-				//	if(name.endsWith((String)right.get(i)))
-				//		return true;
-				//}
-				//}
 				return false;
 				
 			}
@@ -487,13 +291,9 @@ public class CTree implements TreeModel
 				else
 					tmp = new CTreeNode(allFiles[i].getName(),allFiles[i].getAbsolutePath(),true);
 				
-				try {
 					if(!SvnHistory.isUnderVersion(allFiles[i])||SvnHistory.isModified(allFiles[i]))
 						tmp.setIsModified(true);
-				} catch (SVNException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				
 				
 				
 				
@@ -533,7 +333,6 @@ public class CTree implements TreeModel
 		TreeModelEvent e = null;
 		
 		for(int i=0; i<listeners.length; i+=2)
-			//for(int i=listeners.length-2; i>=0; i-=2)
 		{
 			if (listeners[i]==TreeModelListener.class)
 			{
@@ -577,57 +376,6 @@ public class CTree implements TreeModel
 		}
 	}
 	
-	/**
-	 * Notify all listeners that have registered interest for
-	 * notification on this event type.  The event instance
-	 * is lazily created using the parameters passed into
-	 * the fire method.
-	 * @see EventListenerList
-	 */
-	protected void fireTreeNodesChanged(Object source, Object[] path, int[] childIndices, Object[] children)
-	{
-		Object[] listeners = mListenerList.getListenerList();
-		TreeModelEvent e = null;
-		
-		for(int i=listeners.length-2; i>=0; i-=2)
-		{
-			if (listeners[i]==TreeModelListener.class)
-			{
-				if(e==null)
-				{
-					try{
-						e=new TreeModelEvent(source, path, childIndices, children);
-					}catch(Throwable t){}
-				}
-				((TreeModelListener)listeners[i+1]).treeNodesChanged(e);
-			}
-		}
-	}
-	
-	/**
-	 * Notify all listeners that have registered interest for
-	 * notification on this event type.  The event instance
-	 * is lazily created using the parameters passed into
-	 * the fire method.
-	 * @see EventListenerList
-	 */
-	protected void fireTreeStructureChanged(Object source, Object[] path, int[] childIndices, Object[] children)
-	{
-		Object[] listeners = mListenerList.getListenerList();
-		TreeModelEvent e = null;
-		
-		for(int i=listeners.length-2; i>=0; i-=2)
-		{
-			if (listeners[i]==TreeModelListener.class)
-			{
-				if(e==null)
-				{
-					e=new TreeModelEvent(source, path, childIndices, children);
-				}
-				((TreeModelListener)listeners[i+1]).treeStructureChanged(e);
-			}
-		}
-	}
 	
 	/**
 	 * Associate a central panel to a node
@@ -646,8 +394,10 @@ public class CTree implements TreeModel
 	 *
 	 * @param node the node to consider
 	 * @return an icon representing the node
+	 * @throws XPathExpressionException 
+	 * @throws XPathExpressionException 
 	 */
-	public Icon associateIcon(Object node)
+	public Icon associateIcon(Object node) throws XPathExpressionException 
 	{
 		ImageIcon icon;
 		URL imageURL;
@@ -703,50 +453,6 @@ public class CTree implements TreeModel
 			return c;
 		}
 		
-	}
-	
-	public class ITreeCellEditor extends DefaultTreeCellEditor implements CellEditorListener
-	{
-		//private CTreeNode mCurrentNode = null;
-		
-		public ITreeCellEditor(JTree tree, DefaultTreeCellRenderer renderer)
-		{
-			super(tree, renderer);
-			addCellEditorListener(this);
-		}
-		
-		public Component getTreeCellEditorComponent(JTree tree, Object value, boolean sel, boolean expanded,
-				boolean leaf, int row)
-		{
-			Component c = super.getTreeCellEditorComponent(tree, value, sel, expanded, leaf, row);
-			editingIcon = associateIcon(value);
-			
-			if( editingComponent instanceof JTextField && value instanceof CTreeNode )
-			{
-				//mCurrentNode = (CTreeNode)value;
-				((JTextField)editingComponent).selectAll();
-			}
-			
-			return c;
-		}
-		
-		/* (non-Javadoc)
-		 * @see javax.swing.event.CellEditorListener#editingCanceled(javax.swing.event.ChangeEvent)
-		 */
-		public void editingCanceled(ChangeEvent arg0)
-		{
-			// TODO Auto-generated method stub
-			
-		}
-		
-		/* (non-Javadoc)
-		 * @see javax.swing.event.CellEditorListener#editingStopped(javax.swing.event.ChangeEvent)
-		 */
-		public void editingStopped(ChangeEvent arg0)
-		{
-			// TODO Auto-generated method stub
-			
-		}
 	}
 	
 	public void valueForPathChanged(TreePath arg0, Object arg1)

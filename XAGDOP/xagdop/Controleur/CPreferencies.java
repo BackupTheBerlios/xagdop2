@@ -4,7 +4,6 @@ import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;

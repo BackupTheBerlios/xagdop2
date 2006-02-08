@@ -5,16 +5,16 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.management.InstanceNotFoundException;
+import java.io.IOException;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import xagdop.Controleur.CComposantCreate;
-import xagdop.Controleur.CUser;
+import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
 
 
@@ -89,7 +89,12 @@ public class IComposantCreate extends JFrame{
         /*Les actions des boutons*/
 		valide.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				CComposantCreate.composantCreate(userID.getText(),_nomProjet);
+				try {
+					CComposantCreate.composantCreate(userID.getText(),_nomProjet);
+					
+				} catch (IOException e1) {
+					ErrorManager.getInstance().display();
+				}
 			}
 		}) ;
 		

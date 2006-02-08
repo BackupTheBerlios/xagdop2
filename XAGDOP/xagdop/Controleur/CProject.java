@@ -1,15 +1,22 @@
 package xagdop.Controleur;
 
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import javax.swing.JOptionPane;
 
 import org.tmatesoft.svn.core.SVNException;
 
+import xagdop.Interface.IPreferences;
 import xagdop.Interface.XAGDOP;
 import xagdop.Model.User;
 import xagdop.Parser.ProjectsParser;
-import xagdop.Svn.SvnCommit;
+import xagdop.Svn.SvnHistory;
 import xagdop.Svn.SvnRemove;
+import xagdop.Svn.SvnUpdate;
+import xagdop.Util.ErrorManager;
 
 
 public class CProject {
@@ -28,48 +35,53 @@ public class CProject {
 		
 	}
 	
-	public void createProject(String projectName,String description) throws Exception, SVNException{
-		if((projectName.equals("")==false))
-		{
-			ProjectsParser pp = ProjectsParser.getInstance();
-			if(pp.isProject(projectName)==false){
-				SvnCommit 	svnC = new SvnCommit();
-				//SVNCommitInfo report = 
-				svnC.createProject(projectName, description);
-				// Enregistrement dans le XML du projet
-				
-				User user = XAGDOP.getInstance().getUser();	
-				pp.addProject(projectName,user,description);
-				
-				/*if(report.getError()!=null){
-					throw new Exception(report.toString());
-				}*/
-				
-			}else throw new Exception("Projet existant");		
+	public void createProject(String projectName, String description) throws Exception {
+		
+		ProjectsParser pp = ProjectsParser.getInstance();
+		if(pp.isProject(projectName)==false){
+			//SVNWCClient wcClient = new SVNWCClient(SvnConnect.getInstance().getRepository().getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
+			if(!SvnHistory.isUnderVersion(new File(IPreferences.getDefaultPath()))){
+				SvnUpdate svnu = new SvnUpdate() ;
+				svnu.checkOut(new File(IPreferences.getDefaultPath()));
+			}
+			File project = new File(IPreferences.getDefaultPath()+projectName);
+			if(!project.exists())
+				project.mkdir();
+			File icon = new File(IPreferences.getDefaultPath()+projectName+File.separator+"icones");
+			if(!icon.exists())
+				icon.mkdir();
+			FileWriter dependencies;
+			try {
+				dependencies = new FileWriter(project.getAbsolutePath()+File.separator+"dependencies.xml");
+				dependencies.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?><files><dependencies></dependencies><toUpdate></toUpdate></files>");
+				dependencies.close();
+			} catch (IOException e) {
+				ErrorManager.getInstance().setErrMsg("Cr??ation du fichier des d??pendances.\nVeuillez v??rifier les droits du dossier.");
+				ErrorManager.getInstance().setErrTitle("Cr??ation de projet impossible");
+				throw e;
+			}
+			User user = XAGDOP.getInstance().getUser();	
+			pp.addProject(projectName,user,description);
+			//DependenciesParser.getInstance().add(projectName,d);
+		}else{
+			ErrorManager.getInstance().setErrMsg("Le projet existe d?j?.");
+			ErrorManager.getInstance().setErrTitle("Projet existant");
+			throw new Exception();
 		}
 		
+		//wcClient.doAdd(project,false,false,false,true);
+		
+		//sendFile(project,description);
 		
 	}
 	
 	
 	/* Fonction supprimant un projet  */
-	public int deleteProject(CTreeNode node){
+	public int deleteProject(CTreeNode node) throws SVNException{
 		int error = 0;
-		SvnRemove svnR;
-		try {
-			svnR = new SvnRemove();
-			svnR.delete(node);
-		} catch (SVNException e) {
-			JOptionPane.showMessageDialog(null ,"Impossible de se connecter au server subversion", "Validation" , 1) ;
-			e.printStackTrace();
-			return 1;
-		}
+		SvnRemove svnR = new SvnRemove();
+		svnR.delete(node);
 		
-		
-		/*if(report.getError()!=null){
-			JOptionPane.showMessageDialog(null ,"Le projet "+node.getName()+" n'a pu etre supprimer ", "Validation" , 1) ;
-			return error;
-		}*/
 		JOptionPane.showMessageDialog(null ,"Le projet "+node.getName()+" sera supprim? lors du prochain commit", "Validation" , 1) ;
 		//Enregistrement dans le XML du projet
 		ProjectsParser PP = ProjectsParser.getInstance();

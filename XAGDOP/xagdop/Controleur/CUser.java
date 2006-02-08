@@ -10,6 +10,7 @@ import xagdop.Interface.IPreferences;
 import xagdop.Interface.XAGDOP;
 import xagdop.Model.User;
 import xagdop.Parser.UsersParser;
+import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
 
 public class CUser {
@@ -18,44 +19,45 @@ public class CUser {
 	}
 	
 	public boolean verifUser(String login, String passwd){
-		UsersParser UParser = UsersParser.getInstance();
+		UsersParser uParser = UsersParser.getInstance();
 		
-		User user = UParser.getUser(login,CEncrypt.getEncodedPassword(passwd));
+		User user = uParser.getUser(login,CEncrypt.getEncodedPassword(passwd));
     	if (user != null){
     		IPreferences.setDefaultPath(IPreferences.getDefaultPath()+user.getLogin()+File.separator);
     		XAGDOP.getInstance().setUser(user);
     		return true;
     	}
     	else{
-    		JOptionPane.showMessageDialog(null ,Bundle.getText("cuser.notexist.text"), Bundle.getText("iuser.title"), 1) ;
     		return false;
     	}
 		
 	}
 	
-	public boolean creerUser(String login, String passwd, String passwdconf) throws Exception,InstanceNotFoundException
+	public void createUser(String login, String passwd, String passwdconf) throws Exception,InstanceNotFoundException
 	{
-		UsersParser UP = UsersParser.getInstance();
+		UsersParser up = UsersParser.getInstance();
 		if (passwd.equals(passwdconf)){
     		if (passwd.length()>3){
-    			if (!UP.isUser(login)){
-    				UP.addUser(login,CEncrypt.getEncodedPassword(passwd));
+    			if (!up.isUser(login)){
+    				up.addUser(login,CEncrypt.getEncodedPassword(passwd));
     				JOptionPane.showMessageDialog(null ,Bundle.getText("cuser.create.text"), Bundle.getText("iusercreate.title"), 1) ;
-    				return true;
     			}
     			else{
-    				JOptionPane.showMessageDialog(null ,Bundle.getText("cuser.exist.text"), Bundle.getText("iusercreate.title") , 1) ;
-    				return false;
+    				ErrorManager.getInstance().setErrMsg(Bundle.getText("cuser.exist.text"));
+    				ErrorManager.getInstance().setErrTitle(Bundle.getText("iusercreate.title"));
+    				throw new Exception();
     			}
     		}
     		else{
-    			JOptionPane.showMessageDialog(null ,Bundle.getText("cuser.length.text"), Bundle.getText("iusercreate.title") , 1) ;
-				return false;
+    			ErrorManager.getInstance().setErrMsg(Bundle.getText("cuser.length.text"));
+    			ErrorManager.getInstance().setErrTitle(Bundle.getText("iusercreate.title"));
+    			throw new Exception();    		
     		}
 		}
 		else{
-    		JOptionPane.showMessageDialog(null ,Bundle.getText("cuser.notequals.text"), Bundle.getText("iusercreate.title") , 1) ;
-    		return false;
+			ErrorManager.getInstance().setErrMsg(Bundle.getText("cuser.notequals.text"));
+			ErrorManager.getInstance().setErrTitle(Bundle.getText("iusercreate.title"));
+			throw new Exception();   
 		}
 	}
 }

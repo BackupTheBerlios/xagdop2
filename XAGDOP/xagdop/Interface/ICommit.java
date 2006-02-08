@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 import javax.swing.JScrollPane;
+import javax.xml.xpath.XPathExpressionException;
 
 import org.tmatesoft.svn.core.SVNException;
 
@@ -20,6 +21,7 @@ import org.tmatesoft.svn.core.SVNException;
 import xagdop.Controleur.CCommit;
 import xagdop.Controleur.CTreeNode;
 import xagdop.Parser.DependenciesParser;
+import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
 
 
@@ -73,15 +75,16 @@ public class ICommit extends JDialog {
 				    		CCommit CC = null;
 							try {
 								CC = new CCommit(currentNode);
+								CC.commitFile(currentNode,JTAComment.getText());
+								DependenciesParser dp = DependenciesParser.getInstance();
+					    		dp.publish(dp.getFile(currentNode.getProject().getName()));
 							} catch (SVNException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
+								ErrorManager.getInstance().display();
+							} catch (XPathExpressionException e2) {
+								ErrorManager.getInstance().display();
+							}finally{
+								dispose();
 							}
-
-				    		CC.commitFile(currentNode,JTAComment.getText());
-				    		DependenciesParser dp = DependenciesParser.getInstance();
-				    		dp.publish(dp.getFile(currentNode.getProject().getName()));
-						dispose();
 				    }
 				}) ;
 		

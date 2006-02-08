@@ -10,7 +10,6 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 
@@ -32,7 +31,7 @@ public class IeppNitParser extends Parser {
 	
 	
 	/**
-	 * Fonction recherchant tous les fichiers Apes référencés dans le fichier iepp courant
+	 * Fonction recherchant tous les fichiers Apes r??f??renc??s dans le fichier iepp courant
 	 * @return une liste de String, qui correspondent aux noms des fichiers Apes
 	 */
 	public ArrayList getApes()

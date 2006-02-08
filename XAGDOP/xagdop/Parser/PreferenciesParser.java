@@ -1,14 +1,14 @@
 package xagdop.Parser;
 
 import java.io.File;
-import java.util.ArrayList;
 
-import javax.swing.UIManager;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+
 import org.w3c.dom.Element;
+
 import xagdop.Model.Preferencies;
 
 public class PreferenciesParser extends Parser{
