@@ -189,8 +189,7 @@ public class IProjectTree extends JTree implements  TreeModelListener
 						SvnRemove svnR = new SvnRemove();
 						svnR.delete(selectedNode);
 					} catch (SVNException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+						ErrorManager.getInstance().display();
 					}
 					JOptionPane.showMessageDialog(null ,"Le fichier "+selectedNode.getName()+" sera supprim? lors du prochain commit", "Validation" , 1) ;
 					
@@ -235,11 +234,12 @@ public class IProjectTree extends JTree implements  TreeModelListener
 			public void actionPerformed (ActionEvent e){
 				new ICommit(getSelectedNode());
 				//Enumeration expandPath = getExpandedDescendants(new TreePath(getModel().getRoot()));
+				/*
 				try {
 					((CTree)getModel()).refreshFromLocal((CTreeNode) getModel().getRoot());
 				} catch (SVNException e1) {
 					ErrorManager.getInstance().display();
-				}
+				}*/
 				/*while(expandPath.hasMoreElements()){
 					expandPath((TreePath)expandPath.nextElement());	
 				}*/
@@ -292,21 +292,15 @@ public class IProjectTree extends JTree implements  TreeModelListener
 				
 				//rechargement de larbre en memoire				
 				try {
-					
 					DependenciesParser.getInstance().setFile(selectedNode.getProject().getName());
 				} catch (NullPointerException e) {
-					e.printStackTrace();
+					//e.printStackTrace();
 					ErrorManager.getInstance().display();
 				} catch (Exception e) {
 					ErrorManager.getInstance().display();
 				}
 			
 				
-	
-			
-			
-			
-			
 			if ((SwingUtilities.isRightMouseButton(me))&&(isPathSelected(pathClicked))) {		
 					popup.show(me.getComponent(), me.getX(), me.getY());				
 			} 
