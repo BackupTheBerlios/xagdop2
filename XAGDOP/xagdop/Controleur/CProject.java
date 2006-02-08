@@ -1,6 +1,7 @@
 package xagdop.Controleur;
 
 
+import java.awt.HeadlessException;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -77,7 +78,7 @@ public class CProject {
 	
 	
 	/* Fonction supprimant un projet  */
-	public int deleteProject(CTreeNode node) throws SVNException{
+	public int deleteProject(CTreeNode node) throws HeadlessException, Exception{
 		int error = 0;
 		SvnRemove svnR = new SvnRemove();
 		svnR.delete(node);

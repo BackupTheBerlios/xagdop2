@@ -12,6 +12,7 @@ import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -426,16 +427,21 @@ public class XAGDOP extends JFrame{
 			
 			String projectName = tree.getSelectedNode().getName();
 			
-			if (XAGDOP.getInstance().getUser().isPManager(projectName))
-			{
-				IJTeamManagement ijteam = IJTeamManagement.getIJTM(projectName);				
-				ijteam.refreshUsers();
-				ijteam.setVisible(true);
-			}
-			else
-			{
-				JOptionPane.showMessageDialog(null ,"pas le droit :P", "Plop plop plop" , 1) ;
-				
+			try {
+				if (XAGDOP.getInstance().getUser().isPManager(projectName))
+				{
+					IJTeamManagement ijteam = IJTeamManagement.getIJTM(projectName);				
+					ijteam.refreshUsers();
+					ijteam.setVisible(true);
+				}
+				else
+				{
+					ErrorManager.getInstance().setErrMsg("Vous n'avez pas les droits pour faire ceci.");
+					ErrorManager.getInstance().setErrTitle("Gestion des equipes");
+					ErrorManager.getInstance().display();
+				}
+			} catch (Exception e1) {
+				ErrorManager.getInstance().display();
 			}
 
 
@@ -496,7 +502,7 @@ public class XAGDOP extends JFrame{
 					
 					try {
 						cp.deleteProject(tree.getSelectedNode());
-					} catch (SVNException e1) {
+					} catch (Exception e1) {
 						ErrorManager.getInstance().display();
 					}
 				}

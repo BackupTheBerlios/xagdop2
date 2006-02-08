@@ -6,6 +6,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.AbstractCellEditor;
@@ -19,12 +20,14 @@ import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
+import javax.xml.xpath.XPathExpressionException;
 
 import org.tmatesoft.svn.core.SVNException;
 
 import xagdop.Controleur.CTeamManagement;
 import xagdop.Model.Project;
 import xagdop.Parser.ProjectsParser;
+import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
 import xagdop.Interface.IAffect;
 
@@ -55,8 +58,11 @@ public class IJTeamManagement extends JFrame{
 	private void init(){
 		getContentPane().setLayout(new GridBagLayout());
 		nP = this.getNomProjet();
-		this.projet = ProjectsParser.getInstance().buildProject(nP);
-		System.out.println(nP);
+		try {
+			this.projet = ProjectsParser.getInstance().buildProject(nP);
+		} catch (Exception e1) {
+			ErrorManager.getInstance().display();
+		}
 		CTeamM = new CTeamManagement(nP);		
 		
 		newPanel.setLayout(new GridBagLayout());
@@ -73,9 +79,8 @@ public class IJTeamManagement extends JFrame{
 				{
 					try {
 						CTeamM.Apply((String)JT.getValueAt(i,0),((Boolean)JT.getValueAt(i,1)).booleanValue(),((Boolean)JT.getValueAt(i,2)).booleanValue(),((Boolean)JT.getValueAt(i,3)).booleanValue(),((Boolean)JT.getValueAt(i,4)).booleanValue());
-					} catch (SVNException e) {
-						System.out.println("Impossible de se connecter");
-						e.printStackTrace();
+					} catch (Exception e) {
+						ErrorManager.getInstance().display();
 					}
 					i++;  
 				}        					
@@ -153,7 +158,12 @@ public class IJTeamManagement extends JFrame{
 		GridBagConstraints gbc = new GridBagConstraints();
 		this.donnerContrainte(gbc,0,0,3,1,100,100,GridBagConstraints.BOTH);
 		
-		this.projet = ProjectsParser.getInstance().buildProject(nP);
+		try {
+			this.projet = ProjectsParser.getInstance().buildProject(nP);
+		
+		} catch (Exception e) {
+			ErrorManager.getInstance().display();
+		}
 		((IJTeamManagementTableModel)this.JT.getModel()).init(projet);
 		JT.setDefaultEditor(JButton.class, new IJTeamManagementTableCellEditor(this,this.nP));
 		this.remove(newPanel);
@@ -288,7 +298,11 @@ implements TableCellEditor, ActionListener{
 		if(out == JOptionPane.YES_OPTION) 
 		{
 			rowToDelete =IJTeamManagement.getIJTM(this.nomProjet).getTable().getSelectedRow();		
-			ProjectsParser.getInstance().removeUser(this.nomProjet,((String)IJTeamManagement.getIJTM(this.nomProjet).getTable().getModel().getValueAt(rowToDelete,0)));
+			try {
+				ProjectsParser.getInstance().removeUser(this.nomProjet,((String)IJTeamManagement.getIJTM(this.nomProjet).getTable().getModel().getValueAt(rowToDelete,0)));
+			} catch (Exception e) {
+				ErrorManager.getInstance().display();
+			}
 			IJTeamManagement.getIJTM(this.nomProjet).refreshUsers();			
 		}
 	}	

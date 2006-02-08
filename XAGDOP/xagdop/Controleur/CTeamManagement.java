@@ -1,5 +1,7 @@
 package xagdop.Controleur;
 
+import java.io.IOException;
+
 import org.tmatesoft.svn.core.SVNException;
 
 import xagdop.Parser.ProjectsParser;
@@ -7,7 +9,7 @@ import xagdop.Parser.ProjectsParser;
 public class CTeamManagement{
 	
 	String _projectName;
-	public void Apply(String login, boolean architect, boolean analyst, boolean redacter,boolean pmanager) throws SVNException{
+	public void Apply(String login, boolean architect, boolean analyst, boolean redacter,boolean pmanager) throws IOException, Exception{
 		//Call to XML Parser
 		//String valeur="";
 		
@@ -58,7 +60,7 @@ public class CTeamManagement{
 	}
 
 	
-	public void disaffectUser(ProjectsParser PP,String user){
+	public void disaffectUser(ProjectsParser PP,String user) throws Exception{
 		//Remove the user from the project
 		
 		PP.removeUser(this._projectName,user);

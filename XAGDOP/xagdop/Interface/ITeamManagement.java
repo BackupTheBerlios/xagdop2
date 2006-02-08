@@ -21,6 +21,7 @@ import org.tmatesoft.svn.core.SVNException;
 import xagdop.Controleur.CTeamManagement;
 import xagdop.Model.Project;
 import xagdop.Parser.ProjectsParser;
+import xagdop.Util.ErrorManager;
 
 public class ITeamManagement extends JFrame{
 	
@@ -65,7 +66,7 @@ public class ITeamManagement extends JFrame{
 		
 
         
-		
+		try{
 		        projects = ProjectsParser.getInstance();
 		        projet = projects.buildProject(nP);
 		        
@@ -77,7 +78,9 @@ public class ITeamManagement extends JFrame{
 		    	{
 		      		UserListCombo.addItem(list.get(i));
 				}
-		   	 
+		}catch(Exception e){
+			ErrorManager.getInstance().display();
+		}
 			 
 		
 		
@@ -123,10 +126,8 @@ public class ITeamManagement extends JFrame{
 
                 try {
 					CTeamM.Apply(((String)UserListCombo.getSelectedItem()),ArchitectCheck.isSelected(),AnalystCheck.isSelected(),RedacterCheck.isSelected(),PManagerCheck.isSelected());
-				} catch (SVNException e) {
-					// TODO Auto-generated catch block
-					//debug: afficher une alerte
-					e.printStackTrace();
+				} catch (Exception e) {
+					ErrorManager.getInstance().display();
 				}
            	    IAffect IA = IAffect.getIA(nP);
 
@@ -191,10 +192,8 @@ public class ITeamManagement extends JFrame{
             public void actionPerformed(ActionEvent evt) {
                 try {
 					CTeamM.Apply(((String)UserListCombo.getSelectedItem()),ArchitectCheck.isSelected(),AnalystCheck.isSelected(),RedacterCheck.isSelected(),PManagerCheck.isSelected());
-				} catch (SVNException e) {
-					// TODO Auto-generated catch block
-					//debug: afficher alerte utilisateur
-					e.printStackTrace();
+				} catch (Exception e) {
+					ErrorManager.getInstance().display();
 				}
            	    
                 //fermer la fenetre
@@ -228,13 +227,11 @@ public class ITeamManagement extends JFrame{
             public void actionPerformed(ActionEvent evt) {
             	 try {
 					CTeamM.Apply(((String)UserListCombo.getSelectedItem()),ArchitectCheck.isSelected(),AnalystCheck.isSelected(),RedacterCheck.isSelected(),PManagerCheck.isSelected());
-				} catch (SVNException e) {
-					// TODO Auto-generated catch block
-					//debug: afficher alerte utilisateur
-					e.printStackTrace();
+				} catch (Exception e) {
+					ErrorManager.getInstance().display();
 				}
             	 //projects.refresh();
-            	 projet = projects.buildProject("Projet1");
+            	 //projet = projects.buildProject("Projet1");
             }
         });
 

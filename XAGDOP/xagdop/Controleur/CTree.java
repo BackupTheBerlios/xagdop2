@@ -31,6 +31,7 @@ import xagdop.Interface.XAGDOP;
 import xagdop.Parser.DependenciesParser;
 import xagdop.Svn.SvnHistory;
 import xagdop.Thread.ThreadUpdate;
+import xagdop.Util.ErrorManager;
 
 
 /**
@@ -252,9 +253,16 @@ public class CTree implements TreeModel
 				if(directory.isDirectory()&&!directory.isHidden()){
 					if(!node.isRoot()){
 						
-						CRole role = new CRole(node.getProject().getName());
-						if(!role.isArchitect()&&directory.getName().startsWith("lib"))
-							return false;
+						CRole role;
+						try {
+							role = new CRole(node.getProject().getName());
+							if(!role.isArchitect()&&directory.getName().startsWith("lib"))
+								return false;
+						
+						} catch (Exception e) {
+							ErrorManager.getInstance().display();
+						}
+						
 							
 					}
 					return true;
@@ -264,6 +272,7 @@ public class CTree implements TreeModel
 				
 				if(!node.isRoot()){		
 					//System.out.println("bla");
+					try {
 					CRole role = new CRole(node.getProject().getName());
 					ArrayList view = role.getViewFileRight();
 					//System.out.println("bla : "+view.size());
@@ -275,6 +284,10 @@ public class CTree implements TreeModel
 							return true;
 						i++;
 					}
+					} catch (Exception e) {
+						ErrorManager.getInstance().display();
+					}
+					
 				}
 				
 				return false;

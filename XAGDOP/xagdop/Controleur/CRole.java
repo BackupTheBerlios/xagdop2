@@ -1,6 +1,9 @@
 package xagdop.Controleur;
 
+import java.io.IOException;
 import java.util.ArrayList;
+
+import org.tmatesoft.svn.core.SVNException;
 
 import xagdop.Interface.XAGDOP;
 import xagdop.Model.User;
@@ -17,7 +20,7 @@ public class CRole {
 	protected boolean architect = false;
 	protected boolean redactor = false;
 	
-	public CRole(String _project){
+	public CRole(String _project) throws SVNException, IOException, Exception{
 		viewFile = new ArrayList();
 		writeFile = new ArrayList();
 		forbidenViewDirectory = new ArrayList();

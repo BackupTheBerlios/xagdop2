@@ -267,12 +267,16 @@ public class IProjectTree extends JTree implements  TreeModelListener
 			
 			if (selectedNode.isProject())
 			{
-				if ((XAGDOP.getInstance()).getUser().isPManager(selectedNode.getName()))
-				{
-					
-					XAGDOP.getInstance().equipe.setEnabled(true);
-					XAGDOP.getInstance().menuProjetTeam.setEnabled(true);
-					
+				try {
+					if ((XAGDOP.getInstance()).getUser().isPManager(selectedNode.getName()))
+					{
+						
+						XAGDOP.getInstance().equipe.setEnabled(true);
+						XAGDOP.getInstance().menuProjetTeam.setEnabled(true);
+						
+					}
+				} catch (Exception e) {
+					ErrorManager.getInstance().display();
 				}
 			}
 			else
