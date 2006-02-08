@@ -44,7 +44,6 @@ public class DependenciesParser extends Parser{
 	{
 			CDependencies cdep = new CDependencies();
 			dependencies = cdep.getDependenciesFiles();
-			
 			/*** Pour le debuggage
 			dependencies = new HashMap();
 			dependencies.put("Test",new File("xagdop/ressources/XML/dependencies.xml"));
@@ -59,7 +58,7 @@ public class DependenciesParser extends Parser{
 		}
 		else
 		{
-			ErrorManager.getInstance().setErrMsg("Projet "+ project + "inexistant \n");
+			ErrorManager.getInstance().setErrMsg("Projet "+ project + " inexistant \n");
 			ErrorManager.getInstance().setErrTitle("Projet inexistant");
 			throw new NullPointerException();
 		}	
@@ -75,7 +74,7 @@ public class DependenciesParser extends Parser{
 			}
 			else
 			{
-				ErrorManager.getInstance().setErrMsg("Projet "+ project + "inexistant \n");
+				ErrorManager.getInstance().setErrMsg("Projet "+ project + " inexistant \n");
 				ErrorManager.getInstance().setErrTitle("Projet inexistant");
 				throw new NullPointerException();
 			}		
@@ -299,7 +298,7 @@ public class DependenciesParser extends Parser{
 	public boolean isToUpdate(String filePath) throws XPathExpressionException
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//toupdate/file[@path=\""+filePath+"\"]";
+		String expression = "//toUpdate/file[@path=\""+filePath+"\"]";
 		Element elem = null;
 		 
 		try {
@@ -421,6 +420,7 @@ public class DependenciesParser extends Parser{
 	
 	public void addToUpdate(String filePath) throws Exception
 	{
+		System.out.println("Dans le addToUpdate");
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		
 		String expr_test = "//file[@path=\""+filePath+"\"]";
@@ -433,10 +433,11 @@ public class DependenciesParser extends Parser{
 			ErrorManager.getInstance().setErrMsg("Expression XPath "+ expr_test +" Incorrecte");
 			throw new XPathExpressionException(expr_test);
 		}
-		
 		if(test_elem == null)
 		{
-			String expression = "//toupdate";
+			String expression = "//toUpdate";
+			
+			System.out.println(expression);
 			
 			Element elem = null;
 			Element newElem = doc.createElement("file");
@@ -455,6 +456,10 @@ public class DependenciesParser extends Parser{
 				saveDocument((File)dependencies.get(currentProject));	
 				publish((File)dependencies.get(currentProject));
 			}
+		}
+		else
+		{
+			System.out.println("Deja dans toUpdate");
 		}
 	}		
 	
@@ -601,7 +606,5 @@ public class DependenciesParser extends Parser{
 	public void addFile (String projectName, File file){
 		dependencies.put(projectName, file);
 	}
-	
-	
 	
 }
