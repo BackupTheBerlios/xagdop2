@@ -120,7 +120,7 @@ public class CPreferencies {
 	}
 	
 	
-	public void setPasswd(String login, String pass){
+	public void setPasswd(String login, String pass) throws Exception{
 		UsersParser UP= UsersParser.getInstance();
 		UP.setAttribute(login, UsersParser.ATTR_PASSWD , pass);
 		

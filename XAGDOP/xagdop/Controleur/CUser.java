@@ -18,7 +18,7 @@ public class CUser {
 	public CUser(){
 	}
 	
-	public boolean verifUser(String login, String passwd){
+	public boolean verifUser(String login, String passwd) throws Exception{
 		UsersParser uParser = UsersParser.getInstance();
 		
 		User user = uParser.getUser(login,CEncrypt.getEncodedPassword(passwd));

@@ -1,6 +1,7 @@
 package xagdop.Controleur;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.xml.xpath.XPathExpressionException;
@@ -21,7 +22,7 @@ import xagdop.Svn.SvnHistory;
 public class CCommit{
 	
 	
-	public CCommit(CTreeNode currentNode) throws SVNException, XPathExpressionException{
+	public CCommit(CTreeNode currentNode) throws Exception{
 		recCommit(currentNode,".apes");
 		recCommit(currentNode,".pog");
 		recCommit(currentNode,".iepp");
@@ -30,7 +31,7 @@ public class CCommit{
 	
 	
 	//Permet d'envoyer le fichier contenu dans le Noeud
-	public void beforeCommit(CTreeNode node) throws SVNException, XPathExpressionException{
+	public void beforeCommit(CTreeNode node) throws Exception{
 	
 		//Recuperation du nom de fichier a envoyer
 		String nameOfFile = node.getName();
@@ -79,7 +80,7 @@ public class CCommit{
 	 * 
 	 * 
 	 */
-	protected void sendIeppFile(File toCommit, CTreeNode node, String pathToRoot) throws XPathExpressionException {
+	protected void sendIeppFile(File toCommit, CTreeNode node, String pathToRoot) throws Exception {
 	
 		
 		DependenciesParser dp = DependenciesParser.getInstance();
@@ -128,7 +129,7 @@ public class CCommit{
 
 
 
-	protected void sendPogFile(File toCommit, CTreeNode node, String pathToRoot) throws SVNException, XPathExpressionException {
+	protected void sendPogFile(File toCommit, CTreeNode node, String pathToRoot) throws Exception {
 
 		
 		DependenciesParser dp = DependenciesParser.getInstance();
@@ -219,7 +220,7 @@ public class CCommit{
 
 
 
-	public void recCommit(CTreeNode node,String extention) throws SVNException, XPathExpressionException
+	public void recCommit(CTreeNode node,String extention) throws Exception
 	{
 		//On regarde si le node est un fils
 		if (!node.getAllowsChildren())
@@ -247,7 +248,7 @@ public class CCommit{
 		
 	}
 	
-	protected void sendApesFile(File toCommit,CTreeNode node, String pathToRoot) throws XPathExpressionException
+	protected void sendApesFile(File toCommit,CTreeNode node, String pathToRoot) throws Exception
 	{
 		
 		DependenciesParser DP = DependenciesParser.getInstance();

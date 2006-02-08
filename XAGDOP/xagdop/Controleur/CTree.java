@@ -5,6 +5,7 @@ package xagdop.Controleur;
 import java.awt.Component;
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -396,8 +397,9 @@ public class CTree implements TreeModel
 	 * @return an icon representing the node
 	 * @throws XPathExpressionException 
 	 * @throws XPathExpressionException 
+	 * @throws IOException 
 	 */
-	public Icon associateIcon(Object node) throws XPathExpressionException 
+	public Icon associateIcon(Object node) throws XPathExpressionException, IOException 
 	{
 		ImageIcon icon;
 		URL imageURL;
