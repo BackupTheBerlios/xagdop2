@@ -1,5 +1,9 @@
 package xagdop.Model;
 
+import java.io.IOException;
+
+import org.tmatesoft.svn.core.SVNException;
+
 import xagdop.Parser.ProjectsParser;
 
 public class User {
@@ -51,28 +55,28 @@ public class User {
 		this.pcreator = pcreat;
 	}
 	
-	public boolean isArchitect(String pName)
+	public boolean isArchitect(String pName) throws SVNException, IOException, Exception
 	{
 		ProjectsParser projet = ProjectsParser.getInstance();
 		//return ((Boolean)projet.getAttribute(pName, ProjectsParser.RIGHT_ARCHITECT, this.login)).booleanValue();
 		return ((Boolean)(projet.getRights(pName,this.login).get(1))).booleanValue();
 	}
 
-	public boolean isRedactor(String pName)
+	public boolean isRedactor(String pName) throws SVNException, IOException, Exception
 	{
 		ProjectsParser projet = ProjectsParser.getInstance();
 		//return ((Boolean)projet.getAttribute(pName, ProjectsParser.RIGHT_REDACTOR, this.login)).booleanValue();
 		return ((Boolean)(projet.getRights(pName,this.login).get(3))).booleanValue();
 	}
 
-	public boolean isAnalyst(String pName)
+	public boolean isAnalyst(String pName) throws SVNException, IOException, Exception
 	{
 		ProjectsParser projet = ProjectsParser.getInstance();
 		//return ((Boolean)projet.getAttribute(pName, ProjectsParser.RIGHT_ANALYST, this.login)).booleanValue();
 		return ((Boolean)(projet.getRights(pName,this.login).get(2))).booleanValue();
 	}
 
-	public boolean isPManager(String pName)
+	public boolean isPManager(String pName) throws SVNException, IOException, Exception
 	{
 		ProjectsParser projet = ProjectsParser.getInstance();
 		//return ((Boolean)projet.getAttribute(pName, ProjectsParser.RIGHT_PMANAGER, this.login)).booleanValue();
