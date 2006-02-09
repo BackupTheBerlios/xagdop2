@@ -3,6 +3,7 @@ package xagdop.Interface;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Locale;
@@ -67,26 +68,26 @@ public class IIdentification extends JFrame{
 		/*Affichage des champs*/
 		gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.weightx = 100;
-        gridBagConstraints.weighty = 100;
+        gridBagConstraints.insets= new Insets(5,5,5,10);
+        gridBagConstraints.anchor = GridBagConstraints.WEST;
         panel.add(userIDLabel, gridBagConstraints);
         
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.weightx = 100;
-        gridBagConstraints.weighty = 100;
-        panel.add(userID, gridBagConstraints);
+        gridBagConstraints.insets= new Insets(5,0,5,5);
+        gridBagConstraints.anchor = GridBagConstraints.CENTER;
+         panel.add(userID, gridBagConstraints);
 
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.weightx = 100;
-        gridBagConstraints.weighty = 100;
+        gridBagConstraints.insets= new Insets(0,5,5,10);
+        gridBagConstraints.anchor = GridBagConstraints.WEST;
         panel.add(passwordLabel, gridBagConstraints);
         
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.weightx = 100;
-        gridBagConstraints.weighty = 100;
+        gridBagConstraints.insets= new Insets(0,0,5,5);
+        gridBagConstraints.anchor = GridBagConstraints.CENTER;
         panel.add(password, gridBagConstraints);
       
 	
@@ -96,14 +97,14 @@ public class IIdentification extends JFrame{
 		
 		gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.weightx = 100;
-        gridBagConstraints.weighty = 100;
+        gridBagConstraints.insets= new Insets(0,0,5,10);
+        gridBagConstraints.anchor = GridBagConstraints.CENTER;
         panel.add(valide, gridBagConstraints);
 
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.weightx = 100;
-        gridBagConstraints.weighty = 100;
+        gridBagConstraints.insets= new Insets(0,0,5,5);
+        gridBagConstraints.anchor = GridBagConstraints.CENTER;
         panel.add(cancel, gridBagConstraints);
 		
         /*Action relative aux boutons*/		
