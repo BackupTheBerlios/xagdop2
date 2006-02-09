@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><preferencies>
-	<local url="/test/local5"/>
+<preferencies>
+	<local url="c:/local"/>
 	<server url="svn://127.0.0.1/svn/XAGDOP/"/>
 	<lookNFeel name="Metal"/>
 	<langue name="Francais"/>
