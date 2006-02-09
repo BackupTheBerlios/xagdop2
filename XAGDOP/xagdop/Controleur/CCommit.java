@@ -20,7 +20,11 @@ public class CCommit{
 	
 	public CCommit(CTreeNode currentNode) throws Exception{
 		recCommit(currentNode,".apes");
+		//A ce moment verifier que tous les fichiers pog present dans le noeud a 
+		//envoyer sont bien relie a des fichiers apes present sur le serveur
 		recCommit(currentNode,".pog");
+		//A ce moment verifier que tous les fichiers iepp present dans le noeud
+		//a envoyer soient bien relie a des pog et apes present dans le serveur
 		recCommit(currentNode,".iepp");
 	}
 
@@ -103,7 +107,7 @@ public class CCommit{
 			
 			/*
 			//On le rajoute dans les pog sans model
-			ArrayList pathDependantPogFile = INP.getPog();
+			ArrayList pathDependantPogFile = inp.getPog();
 			
 //			Initialisation du parcours
 
@@ -113,7 +117,7 @@ public class CCommit{
 			//On parcours la liste
 			for (i=0;i<pathDependantApesFile.size();i++)
 			{
-					DP.addIeppToApes(node.getProject().getName()+File.separator+pathDependantApesFile.get(i),pathToRoot);
+					dp.addIeppToApes(node.getProject().getName()+File.separator+pathDependantApesFile.get(i),pathToRoot);
 			}
 			
 			*/
