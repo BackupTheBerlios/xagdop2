@@ -15,8 +15,9 @@ public class PreferenciesParser extends Parser{
 	private File preferenciesXML;
 	private static PreferenciesParser PrfPInstance = null;
 	private static String SERV_URL = "url";
-	private static String LNF_NAME = "lnf";
-	private static String LANG_NAME = "langue";
+	private static String LOCAL_URL = "url";
+	private static String LNF_NAME = "name";
+	private static String LANG_NAME = "name";
 	
 	
 	private PreferenciesParser()
@@ -42,8 +43,10 @@ public class PreferenciesParser extends Parser{
 	 */
 	public Preferencies buildPreferencies(){
 		String server="";
+		String local="";
 		String lnf="";
 		String lang="";
+
 		Element elem=null;
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		
@@ -57,6 +60,18 @@ public class PreferenciesParser extends Parser{
 		}
 		if ( elem != null ) {
 			server= elem.getAttribute(PreferenciesParser.SERV_URL);
+		}
+		
+		//recuperation de l'URL locale
+		expression = "//local";
+		try {
+			elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+		}
+		catch (XPathExpressionException e) {
+			e.printStackTrace();
+		}
+		if ( elem != null ) {
+			local= elem.getAttribute(PreferenciesParser.LOCAL_URL);
 		}
 		
 		//recuperation du LookNFeel
@@ -83,18 +98,20 @@ public class PreferenciesParser extends Parser{
 			lang= elem.getAttribute(PreferenciesParser.LANG_NAME);
 		}
 		
-		Preferencies pref = new Preferencies(server,lnf,lang);
+		Preferencies pref = new Preferencies(server,local,lnf,lang);
 		return pref;
 	}
 	
 	
 	public void setPreferencies(Preferencies pref) throws Exception{
 		String serv= pref.getServer();
+		String local= pref.getLocal();
 		String lnf= pref.getLookNFeel();
 		String lang= pref.getLangue();		
 		
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String exprServ = "//server";
+		String exprLoc = "//local";
 		String exprLNF  = "//lookNFeel";
 		String exprLang = "//langue";	
 		Element elem = null;
@@ -106,6 +123,15 @@ public class PreferenciesParser extends Parser{
 		}
 		else {
 			System.out.println("Modification de l'URL du serveur a "+ serv + " impossible!"); 
+		}
+		
+		try { elem = (Element)xpath.evaluate(exprLoc, this.doc, XPathConstants.NODE);}
+		catch (XPathExpressionException e) { e.printStackTrace();}
+		if ( elem != null ) {
+			elem.setAttribute(PreferenciesParser.LOCAL_URL, local);
+		}
+		else {
+			System.out.println("Modification de l'URL locale a "+ local + " impossible!"); 
 		}
 		
 		try { elem = (Element)xpath.evaluate(exprLNF, this.doc, XPathConstants.NODE);}
@@ -150,6 +176,28 @@ public class PreferenciesParser extends Parser{
 		}
 	}
 
+	
+	
+	
+	public void setLocal(String local) throws Exception{
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		String expression = "//local";
+		Element elem = null;
+		
+		try {
+			elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+		}
+		catch (XPathExpressionException e) {
+			e.printStackTrace();
+		}
+		if ( elem != null ) {
+			elem.setAttribute(PreferenciesParser.LOCAL_URL, local);
+			saveDocument(preferenciesXML);
+		}
+		else {
+			System.out.println("Modification de l'URL locale a "+ local + " impossible!"); 
+		}
+	}
 	
 	
 	public void setLNF(String lnf) throws Exception{

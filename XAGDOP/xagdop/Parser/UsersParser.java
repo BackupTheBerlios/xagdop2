@@ -33,9 +33,14 @@ public class UsersParser extends Parser{
 	 * @return objet UsersParser
 	 * @throws Exception 
 	 */
-	public static UsersParser getInstance()  throws Exception{
+	public static UsersParser getInstance(){
 		if (UPInstance == null){
-			UPInstance = new UsersParser();
+			try {
+				UPInstance = new UsersParser();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return UPInstance;
 	}

@@ -31,36 +31,71 @@ public class CPreferencies {
 	 * Methodes de la classe
 	 */
 	
+	/**
+	 * Retourne le chemin local
+	 */
 	public static String getLocalPath(){
-		
-		return "toto";
+		return PreferenciesParser.getInstance().buildPreferencies().getLocal();	
 	}
 	
+	
+	/**
+	 * Fixe le chemin local
+	 * @param path 
+	 */
 	public static void setLocalPath(String path){
-		
+		try {
+			PreferenciesParser.getInstance().setLocal(path);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-	
-	
-	public void getServerPath(String serv){
-	
-	}
-	
-	public void setServerPath(String serv) throws Exception{
-		PreferenciesParser PrefP = PreferenciesParser.getInstance();
-		PrefP.setServer(serv);		
-	}
-	
-	
-	public static String getDefaultLNF(){
-		
-		
-		return "Metal";
-	}
-	
-	
-	public static void setDefaultLNF(String lnf){
-		
 
+	
+	/**
+	 * Retourne l'URL du serveur
+	 * @return
+	 */
+	public static String getServerPath(){
+		return PreferenciesParser.getInstance().buildPreferencies().getServer();			
+	}
+	
+	
+	/**
+	 * Fixe l'URL du serveur
+	 * @param serv
+	 */
+	public static void setServerPath(String serv){
+		try {
+			PreferenciesParser.getInstance().setServer(serv);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+	}
+	
+	
+	/**
+	 * Retourne le LookNFeel par defaut defini dans les preferences
+	 * @return
+	 */
+	public static String getDefaultLNF(){
+		return PreferenciesParser.getInstance().buildPreferencies().getLookNFeel();	
+	}
+	
+	
+	/**
+	 * Fixe le LookNFeel par defaut dans les preferences
+	 * @param lnf
+	 */
+	public static void setDefaultLNF(String lnf){
+		try {
+			PreferenciesParser.getInstance().setLNF(lnf);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	
@@ -79,52 +114,74 @@ public class CPreferencies {
 	}
 	
 	
+	/**
+	 * Retourne le langage de la locale par defaut
+	 * @return
+	 */
 	public static String getDefaultLocale(){
-		
-		return "French";
+		return PreferenciesParser.getInstance().buildPreferencies().getLangue();
 	}
 	
 	
+	/**
+	 * Fixe la locale par defaut. Ne fait rien si la locale n'existe pas.
+	 * @param locale Nom de la locale a appliquer.
+	 */
 	public static void setDefaultLocale(String locale){
-		
+		Locale newLoc = new Locale(locale);
+		ArrayList AvailLoc = getAllLocale();
+		if(AvailLoc.contains(newLoc)){
+			try {
+				PreferenciesParser.getInstance().setLang(newLoc.getLanguage());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	
+	/**
+	 * Retourne les langages des locales disponibles
+	 * @return ArrayList de String
+	 */
 	public static ArrayList getAllLocale(){
+		//??? en dur car pas trouve comment faire pour lister uniquement les locales dont un fichier de ressource est disponible
 		ArrayList res = new ArrayList();
+		res.add(Locale.FRENCH.getLanguage());
+		res.add(Locale.ENGLISH.getLanguage());
+		System.out.println(res);//debug
 		return res;
 	}
 	
-	
+	/**
+	 * Si les mots de passe concordent, met a jour le mot de passe de l'utilisateur.
+	 * @param login Login de l'utilisateur
+	 * @param oldPasswd Ancien mot de passe
+	 * @param newPasswd Nouveau mot de passe
+	 * @return
+	 */
 	public static boolean submitPasswd(String login, String oldPasswd, String newPasswd){
-		return true;
-	}
-	
-	
-	
-	
-	public void setLang(Locale loc) throws Exception{
-		PreferenciesParser PrefP = PreferenciesParser.getInstance();
-		PrefP.setLang(loc.getLanguage());
-	}
-	
-	
-
-	
-	
-	public void setLNF(String lnf) throws Exception{
-		PreferenciesParser PrefP = PreferenciesParser.getInstance();
-		PrefP.setLNF(lnf);
-		
-		
-	}
-	
-	
-	public void setPasswd(String login, String pass) throws Exception{
+		boolean result=false;
 		UsersParser UP= UsersParser.getInstance();
-		UP.setAttribute(login, UsersParser.ATTR_PASSWD , pass);
-		
+		try {
+			if(UP.getUserByLogin(login).getPasswd().equals(oldPasswd)){
+				UP.setAttribute(login, UsersParser.ATTR_PASSWD , newPasswd);
+				result=true;
+			}
+		} catch (NullPointerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
 	}
+	
+	
+	
+	
 	
 	
 	
