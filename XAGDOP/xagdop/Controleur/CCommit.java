@@ -10,6 +10,7 @@ import xagdop.Parser.IeppNitParser;
 import xagdop.Parser.POGParser;
 import xagdop.Svn.SvnCommit;
 import xagdop.Svn.SvnHistory;
+import xagdop.Util.ErrorManager;
 
 
 
@@ -144,16 +145,29 @@ public class CCommit{
 			
 			if (!pathDependantApesFile.equals(""))
 			{
-				//Recuperation du path absolue de la racine des projets
-				String pathGlobal = ((CTreeNode)((IProjectTree)XAGDOP.getInstance().getTree()).getModel().getRoot()).getLocalPath();
-				//Recuperation du pathToRoot du fichier Apes en 
-				//Enlevant les premiers caracteres correspondant au debut du chemin absolue
-				String pathSemiGlobal = pathDependantApesFile.substring(pathGlobal.length()+1);
-			
-				//Ajout dans le DependenciesParser du Pog correspondant
-				//addPog(Apes,Pog)
-				dp.addPog(pathSemiGlobal,pathToRoot);
+
+				if (DependenciesParser.getInstance().isApes(pathDependantApesFile))
+				{
+					//Recuperation du path absolue de la racine des projets
+					 String pathGlobal = ((CTreeNode)((IProjectTree)XAGDOP.getInstance().getTree()).getModel().getRoot()).getLocalPath();
+				//	Recuperation du pathToRoot du fichier Apes en 
+				//	Enlevant les premiers caracteres correspondant au debut du chemin absolue
+					String pathSemiGlobal = pathDependantApesFile.substring(pathGlobal.length()+1);
+					
+				//	Ajout dans le DependenciesParser du Pog correspondant
+				//	addPog(Apes,Pog)
+					dp.addPog(pathSemiGlobal,pathToRoot);
+				}
+				else
+				{
+					ErrorManager.getInstance().setErrMsg("le fichier Apes n'existe pas !");
+					ErrorManager.getInstance().display();
+					
+					
+				}
 			}
+
+
 			else
 			{
 				dp.addPog(pathToRoot);
@@ -285,11 +299,12 @@ public class CCommit{
 				//On indique qu'il faut mettre a jour tous les fichiers
 				//Qui sont d?pendants du fichier apes que l'on veux envoyer
 				//A condition qu'il ne soit pas deja a modifier
-				if (!DP.isToUpdate((String)allPog.get(i)))
-				{
+			//	if (!DP.isToUpdate((String)allPog.get(i)))
+			//	{
 					//Ajouter dans la liste
 					DP.addToUpdate((String)allPog.get(i));
-				}
+					System.out.println((String)allPog.get(i));
+			//	}
 			}
 			
 			//On vient de modifier le fichier apes
