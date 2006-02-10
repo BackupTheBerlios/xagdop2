@@ -143,12 +143,12 @@ public class CCommit{
 				System.out.println("pathSemiGlobal: "+pathSemiGlobal+"  --  pathDepen : "+pathDependantApesFile+" --- ");
 				//Ajout dans le DependenciesParser du Pog correspondant
 				//addPog(Apes,Pog)
-				if (!DependenciesParser.getInstance().isApes(pathDependantApesFile))
+				if (!DependenciesParser.getInstance().isApes(pathSemiGlobal))
 				{
 					//Si le fichier apes n'est pas present, on le rajoute en virtuel
-					dp.addApes(pathDependantApesFile,false);
+					dp.addApes(pathSemiGlobal,false);
 					//Et on indique qu'on l'a rajoute en virtuel
-					dp.addToCreate(pathDependantApesFile);
+					dp.addToCreate(pathSemiGlobal);
 				}
 				//On rajoute le pog dans le dependencies parser !
 				dp.addPog(pathSemiGlobal,pathToRoot);
