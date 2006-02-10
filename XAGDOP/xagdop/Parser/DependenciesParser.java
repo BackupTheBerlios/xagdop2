@@ -21,8 +21,6 @@ import xagdop.Util.ErrorManager;
 
 public class DependenciesParser extends Parser{
 
-
-
 	/**Un fichier dependances par projet
 	*Donc une Hashmap, avec en clef le nom du projet, et associe un File
 	*/
@@ -42,12 +40,14 @@ public class DependenciesParser extends Parser{
 	
 	private DependenciesParser() throws IOException
 	{
+		
 			CDependencies cdep = new CDependencies();
 			dependencies = cdep.getDependenciesFiles();
+		
 			/*** Pour le debuggage
 			dependencies = new HashMap();
 			dependencies.put("Test",new File("xagdop/ressources/XML/dependencies.xml"));
-			*/
+			*/	
 	}
 
 	public File getFile(String project) throws NullPointerException
@@ -377,6 +377,127 @@ public class DependenciesParser extends Parser{
 			
 		}
 	}	
+
+	public void addApes(String apesName, boolean onServer) throws Exception, NullPointerException
+	{		
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		
+		String expr_test = "//dependencies/apes[@fileNameApes=\""+apesName+"\"]";
+		Element test_elem = null;		
+		try {
+			test_elem = (Element)xpath.evaluate(expr_test, this.doc, XPathConstants.NODE);
+		}
+		catch (XPathExpressionException e) {
+			ErrorManager.getInstance().setErrTitle("Expression XPath Incorrecte");
+			ErrorManager.getInstance().setErrMsg("Expression XPath "+ expr_test +" Incorrecte");
+			throw new XPathExpressionException(expr_test);
+		}
+		
+		if(test_elem == null)
+		{
+			String expression = "//dependencies";
+			Node racine = null;
+			try {
+					racine = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+			}
+			catch (XPathExpressionException e) {
+				ErrorManager.getInstance().setErrTitle("Expression XPath Incorrecte");
+				ErrorManager.getInstance().setErrMsg("Expression XPath "+ expr_test +" Incorrecte");
+				throw new XPathExpressionException(expr_test);
+			}
+
+			if ( racine != null ) {
+
+				Element newApes = doc.createElement("apes");
+				newApes.setAttribute("fileNameApes", apesName);	
+				racine.appendChild(newApes);
+				
+				if(onServer){
+					expression = "//apes[@fileNameApes='"+ apesName +"']";
+					racine = null;
+					try {
+						racine = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+					}
+					catch (XPathExpressionException e) {
+						ErrorManager.getInstance().setErrTitle("Expression XPath Incorrecte");
+						ErrorManager.getInstance().setErrMsg("Expression XPath "+ expr_test +" Incorrecte");
+						throw new XPathExpressionException(expr_test);
+					}
+					if(racine!=null)
+					{
+						Element elemOnServer = doc.createElement("onServer");	
+						racine.appendChild(elemOnServer);
+					}
+				}
+				saveDocument((File)dependencies.get(currentProject));	
+				publish((File)dependencies.get(currentProject));
+			}
+			else
+			{
+				ErrorManager.getInstance().setErrTitle("Pb Racine du fichier");
+				ErrorManager.getInstance().setErrMsg("Fichier XML invalide, contacter rapidement l'administrateur.\n");
+				throw new NullPointerException();
+			}
+			
+		}
+	}	
+
+	public void setApesOnServer(boolean server, String apesName) throws Exception,NullPointerException
+	{
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		
+		String expression = "//apes[@fileNameApes=\""+apesName+"\"]";
+		Element apes = null;		
+		try {
+			apes = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+		}
+		catch (XPathExpressionException e) {
+			ErrorManager.getInstance().setErrTitle("Expression XPath Incorrecte");
+			ErrorManager.getInstance().setErrMsg("Expression XPath "+ expression +" Incorrecte");
+			throw new XPathExpressionException(expression);
+		}
+		
+		if(apes!=null)
+		{
+			xpath = XPathFactory.newInstance().newXPath();
+			
+			expression = "//apes[@fileNameApes=\""+apesName+"\"]/onServer";
+			Element onServer = null;		
+			try {
+				onServer = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+			}
+			catch (XPathExpressionException e) {
+				ErrorManager.getInstance().setErrTitle("Expression XPath Incorrecte");
+				ErrorManager.getInstance().setErrMsg("Expression XPath "+ expression +" Incorrecte");
+				throw new XPathExpressionException(expression);
+			}
+			
+			if(server)
+			{
+				if(onServer == null)
+				{
+				Element elemOnServer = doc.createElement("onServer");	
+				apes.appendChild(elemOnServer);
+				}
+			}
+			else
+			{				
+				if(onServer != null)
+				{
+					apes.removeChild(onServer);
+				}
+			}
+			saveDocument((File)dependencies.get(currentProject));	
+			publish((File)dependencies.get(currentProject));
+		}
+		else
+		{
+			ErrorManager.getInstance().setErrTitle("Pb Apes inconnu");
+			ErrorManager.getInstance().setErrMsg("Fichier Apes : "+ apesName +" inconnu.\n");
+			throw new NullPointerException();
+		}		
+	}
+	
 	
 	public void addPog(String pogName) throws Exception
 	{
@@ -437,7 +558,7 @@ public class DependenciesParser extends Parser{
 		{
 			String expression = "//toUpdate";
 			
-			System.out.println(expression);
+			//System.out.println(expression);
 			
 			Element elem = null;
 			Element newElem = doc.createElement("file");
@@ -457,10 +578,7 @@ public class DependenciesParser extends Parser{
 				publish((File)dependencies.get(currentProject));
 			}
 		}
-		else
-		{
-			System.out.println("Deja dans toUpdate");
-		}
+		
 	}		
 	
 	public void addPog(String apesName, String pogName) throws Exception
