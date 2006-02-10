@@ -2,6 +2,7 @@ package xagdop.Controleur;
 
 import java.awt.Component;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Locale;
 
 import javax.swing.SwingUtilities;
@@ -45,7 +46,7 @@ public class CPreferencies {
 	 */
 	public static void setLocalPath(String path){
 		try {
-			PreferenciesParser.getInstance().setLocal(path);
+			PreferenciesParser.getInstance().setLocalPath(path);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -118,7 +119,8 @@ public class CPreferencies {
 	 * Retourne le langage de la locale par defaut
 	 * @return
 	 */
-	public static String getDefaultLocale(){
+	public static Locale getDefaultLocale(){
+		System.out.println("getDefaultLocale->"+PreferenciesParser.getInstance().buildPreferencies().getLangue());//debug
 		return PreferenciesParser.getInstance().buildPreferencies().getLangue();
 	}
 	
@@ -127,16 +129,15 @@ public class CPreferencies {
 	 * Fixe la locale par defaut. Ne fait rien si la locale n'existe pas.
 	 * @param locale Nom de la locale a appliquer.
 	 */
-	public static void setDefaultLocale(String locale){
-		Locale newLoc = new Locale(locale);
-		ArrayList AvailLoc = getAllLocale();
-		if(AvailLoc.contains(newLoc)){
-			try {
-				PreferenciesParser.getInstance().setLang(newLoc.getLanguage());
-			} catch (Exception e) {
+	public static void setDefaultLocale(Locale locale){
+		System.out.println("CPref.setDefaultLocale( " + locale+ " )");//debug
+		try {
+			PreferenciesParser.getInstance().setLang(locale);
+			Locale.setDefault(locale);
+		}
+		catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
 		}
 	}
 	
@@ -148,8 +149,8 @@ public class CPreferencies {
 	public static ArrayList getAllLocale(){
 		//??? en dur car pas trouve comment faire pour lister uniquement les locales dont un fichier de ressource est disponible
 		ArrayList res = new ArrayList();
-		res.add(Locale.FRENCH.getLanguage());
-		res.add(Locale.ENGLISH.getLanguage());
+		res.add(Locale.FRENCH);
+		res.add(Locale.ENGLISH);
 		System.out.println(res);//debug
 		return res;
 	}
