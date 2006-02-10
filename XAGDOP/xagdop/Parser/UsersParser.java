@@ -210,6 +210,33 @@ public class UsersParser extends Parser{
 		}
 	}
 	
+	public int nbAdmin() throws XPathExpressionException,NullPointerException
+	{
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		String expression = "//user[roles/admin]";
+		NodeList nb = null;
+		
+		try {
+			nb = (NodeList)xpath.evaluate(expression, this.doc, XPathConstants.NODESET);
+		}
+		catch (XPathExpressionException e) {
+			ErrorManager.getInstance().setErrTitle("Expression XPath Incorrecte");
+			ErrorManager.getInstance().setErrMsg("Expression XPath "+ expression +" Incorrecte");
+			throw new XPathExpressionException(expression);
+		}
+		if(nb != null)
+		{
+			return nb.getLength();
+		}
+		else
+		{
+			ErrorManager.getInstance().setErrTitle("Aucun Admin");
+			ErrorManager.getInstance().setErrMsg("Aucun admin, contacter l'administrateur.");
+			throw new NullPointerException();
+		}
+	}
+	
+	
 	
 	/**
 	 * renvoie la valeur d'un attribut donne d'un utilisateur donne
