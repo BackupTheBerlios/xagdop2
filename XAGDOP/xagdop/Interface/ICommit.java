@@ -75,6 +75,7 @@ public class ICommit extends JDialog {
 				    		CCommit CC = null;
 							try {
 								CC = new CCommit(currentNode);
+								CC.DependancesSendInitialize(currentNode);
 								CC.commitFile(currentNode,JTAComment.getText());
 								DependenciesParser dp = DependenciesParser.getInstance();
 					    		dp.publish(dp.getFile(currentNode.getProject().getName()));
