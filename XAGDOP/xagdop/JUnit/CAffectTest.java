@@ -14,7 +14,7 @@ public class CAffectTest extends TestCase {
 	/*
 	 * Test method for 'xagdop.Controleur.CAffect.affecter(String, String, boolean, boolean, boolean, boolean)'
 	 */
-	public void testAffecter()  throws NullPointerException, Exception{
+	public void testAffecter()  {
 		CAffect CA = new CAffect();
 		
 		//Creer un nouveau utilisateur
@@ -22,7 +22,8 @@ public class CAffectTest extends TestCase {
 		UsersParser usrp=null;
 		
 			usrp = UsersParser.getInstance();
-			usrp.addUser(us);
+			try {
+				usrp.addUser(us);
 			
 			
 			
@@ -42,6 +43,13 @@ public class CAffectTest extends TestCase {
 			
 			//Supprimer le projet
 			pp.removeProject("projTest");
+			} catch (NullPointerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 		   
 	}
