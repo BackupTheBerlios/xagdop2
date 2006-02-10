@@ -284,7 +284,7 @@ public class CCommit{
 			{
 				//Le fichier est present sur le fichier de dependance
 				//Mais il n'est pas present sur le serveur
-				dp.setApesOnServer(pathToRoot,true);
+				dp.setApesOnServer(true,pathToRoot);
 				//L'enlever du ToCreate
 				dp.delToCreate(pathToRoot);
 			}
