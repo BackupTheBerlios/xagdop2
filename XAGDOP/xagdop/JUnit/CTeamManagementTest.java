@@ -15,7 +15,7 @@ public class CTeamManagementTest extends TestCase {
 	/*
 	 * Test method for 'xagdop.Controleur.CTeamManagement.Apply(ProjectsParser, String, boolean, boolean, boolean, boolean)'
 	 */
-	public void testApply() throws SVNException {
+	public void testApply() {
 		//Ajouter un nouveau utilisateur  dans UsersParser
 		UsersParser usrp= null;
 		User us = null;
@@ -51,7 +51,7 @@ public class CTeamManagementTest extends TestCase {
 	/*
 	 * Test method for 'xagdop.Controleur.CTeamManagement.disaffectUser(ProjectsParser, String)'
 	 */
-	public void testDisaffectUser() throws SVNException {
+	public void testDisaffectUser(){
 		//Ajouter des utilisateurs
 		User usr=new User("toto","totoPass",true,true);
 		User usr1=new User("tata","tataPass",true,false);
@@ -68,20 +68,27 @@ public class CTeamManagementTest extends TestCase {
 			//D?clarer CteamManagement  avec le projet
 			CTeamManagement CT = new CTeamManagement("projTest");
 			
+			
 			//Ajouter l'utilisateur urs1 au projet
+			pp.addUser(CT.get_projectName(),usr.getLogin());
 			pp.addUser(CT.get_projectName(),usr1.getLogin());
+					
 			
 			//Supprimer l'utilisateur usr du projet
 			CT.disaffectUser(pp,usr.getLogin());
 			
+			
+			
 			//Tests
-			assertTrue(pp.isUserInProject(CT.get_projectName(),usr1.getLogin())==true);
-			assertFalse(pp.isUserInProject(CT.get_projectName(),usr.getLogin())==true);
+			assertTrue(pp.isUserInProject(CT.get_projectName(),usr1.getLogin()));
+			assertFalse(!pp.isUserInProject(CT.get_projectName(),usr.getLogin()));
 	
 			//Supprimer les utilisateurs de UsersParsers
 			
 			up.removeUser(usr.getLogin());
 			up.removeUser(usr1.getLogin());
+			
+			
 
 			//Supprimer le projet de ProjectsParsers
 			pp.removeProject("projTest");
