@@ -142,14 +142,17 @@ public class CTree implements TreeModel
 	}
 	
 	public String treePathName(CTreeNode node){
-		//System.out.println(node.getLocalPath().substring(0,mRoot.getLocalPath().length()+1));
-		return node.getLocalPath().substring(mRoot.getLocalPath().length()+1,node.getLocalPath().length()); 
+		if(mRoot.getLocalPath().length()+2+node.getProject().getName().length()>node.getLocalPath().length())
+			return "";
+		
+		return node.getLocalPath().substring(mRoot.getLocalPath().length()+node.getProject().getName().length()+2,node.getLocalPath().length()); 
 	}
 	
-	public String treePathName(String file){
+	/*public String treePathName(String file){
+		
 		//System.out.println(node.getLocalPath().substring(0,mRoot.getLocalPath().length()+1));
 		return file.substring(mRoot.getLocalPath().length()+1,file.length()); 
-	}
+	}*/
 	
 	public String relativePath(String apesFile, String pogFile){
 		
@@ -417,7 +420,7 @@ public class CTree implements TreeModel
 		ImageIcon icon;
 		URL imageURL;
 		if(!((CTreeNode)node).getAllowsChildren()){
-			if(DependenciesParser.getInstance().isToUpdate(treePathName(((CTreeNode)node).getLocalPath()))){
+			if(DependenciesParser.getInstance().isToUpdate(treePathName((CTreeNode)node))){
 				imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/lab_err1.gif");
 				icon = new ImageIcon(imageURL);
 			}else{
