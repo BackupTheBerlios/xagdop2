@@ -2,9 +2,14 @@ package xagdop.JUnit;
 
 import java.util.Locale;
 
+import javax.xml.xpath.XPathExpressionException;
+
+import org.w3c.dom.DOMException;
+
 import xagdop.Controleur.CPreferencies;
 import xagdop.Model.Preferencies;
 import xagdop.Parser.PreferenciesParser;
+import xagdop.Parser.UsersParser;
 import junit.framework.TestCase;
 
 public class CPreferenciesTest extends TestCase {
@@ -131,7 +136,7 @@ public class CPreferenciesTest extends TestCase {
 	 */
 	public void testSetDefaultLNF() {
 		//sauvegarde du contexte
-		Preferencies savePref = PreferenciesParser.getInstance().buildPreferencies();		
+		Preferencies savePref = PreferenciesParser.getInstance().buildPreferencies();
 		
 		//corps du test
 		final String lnfTest = "LNF1";
@@ -151,12 +156,6 @@ public class CPreferenciesTest extends TestCase {
 		}
 	}
 
-	/*
-	 * Test method for 'xagdop.Controleur.CPreferencies.getAllLNF()'
-	 */
-	public void testGetAllLNF() {
-		assertTrue(false);
-	}
 
 	/*
 	 * Test method for 'xagdop.Controleur.CPreferencies.getDefaultLocale()'
@@ -166,10 +165,12 @@ public class CPreferenciesTest extends TestCase {
 		Preferencies savePref = PreferenciesParser.getInstance().buildPreferencies();
 
 		//corps du test
-		final String localeTest = Locale.FRANCE.getLanguage();
+		System.out.println("-----testGetDefaultLocale-----");//debug
+		final Locale localeTest = Locale.FRENCH;
 		CPreferencies.setDefaultLocale(localeTest);
+		System.out.println("LocalTest: "+localeTest+"     defaultLocale: "+CPreferencies.getDefaultLocale());//debug
 		assertEquals(CPreferencies.getDefaultLocale(),localeTest);
-		assertNotSame(CPreferencies.getDefaultLocale(),Locale.ENGLISH.getLanguage());
+		assertNotSame(CPreferencies.getDefaultLocale(),Locale.ENGLISH);
 		
 		//restauration du contexte
 		try {
@@ -184,21 +185,81 @@ public class CPreferenciesTest extends TestCase {
 	 * Test method for 'xagdop.Controleur.CPreferencies.setDefaultLocale(String)'
 	 */
 	public void testSetDefaultLocale() {
-		assertTrue(false);
+		//sauvegarde du contexte
+		Preferencies savePref = PreferenciesParser.getInstance().buildPreferencies();		
+		
+		//corps du test
+		System.out.println("-----testSetDefaultLocale-----");//debug
+		final Locale localeTest = Locale.FRENCH;
+		final Locale localeTest2 = Locale.ENGLISH;
+		CPreferencies.setDefaultLocale(localeTest);
+		assertEquals(CPreferencies.getDefaultLocale(),localeTest);
+		CPreferencies.setDefaultLocale(localeTest2);
+		assertEquals(CPreferencies.getDefaultLocale(),localeTest2);
+		assertNotSame(CPreferencies.getDefaultLocale(),localeTest);
+		
+		//restauration du contexte
+		try {
+			PreferenciesParser.getInstance().setPreferencies(savePref);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
-	/*
-	 * Test method for 'xagdop.Controleur.CPreferencies.getAllLocale()'
-	 */
-	public void testGetAllLocale() {
-		assertTrue(false);
-	}
 
 	/*
 	 * Test method for 'xagdop.Controleur.CPreferencies.submitPasswd(String, String, String)'
 	 */
 	public void testSubmitPasswd() {
-		assertTrue(false);
+		String login="essaiPassWd";
+		String oldPass="PassWd";
+		String newPass="NewPassWd";
+		String checkPass="";
+		
+		//creation d'un nouvel utilisateur
+		try {
+			UsersParser.getInstance().addUser(login,oldPass);
+		} catch (NullPointerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//tentative changement de mot de passe incorect
+		assertFalse(CPreferencies.submitPasswd(login,"wrongPass",newPass));
+		
+		//changement de son mot de passe
+		assertTrue(CPreferencies.submitPasswd(login,oldPass,newPass));
+		
+		//verifications
+		try {
+			checkPass = (String)UsersParser.getInstance().getAttribute(login,UsersParser.ATTR_PASSWD);
+		} catch (XPathExpressionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NullPointerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assertEquals(checkPass,newPass);
+		
+		
+		try {
+			UsersParser.getInstance().removeUser("login");
+		} catch (XPathExpressionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DOMException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 
