@@ -2,7 +2,6 @@ package xagdop.Controleur;
 
 import java.io.File;
 import java.util.ArrayList;
-
 import xagdop.Interface.IProjectTree;
 import xagdop.Interface.XAGDOP;
 import xagdop.Parser.DependenciesParser;
@@ -19,11 +18,14 @@ public class CCommit{
 	
 	
 	public CCommit(CTreeNode currentNode) throws Exception{
-		recCommit(currentNode,".apes");
-		recCommit(currentNode,".pog");
-		recCommit(currentNode,".iepp");
+
 	}
 
+	public void DependancesSendInitialize(CTreeNode currentNode)throws Exception{
+		recCommit(currentNode,".apes");
+		recCommit(currentNode,".pog");
+		recCommit(currentNode,".iepp");		
+	}
 	
 	
 	//Permet d'envoyer le fichier contenu dans le Noeud
@@ -38,11 +40,6 @@ public class CCommit{
 		//R?cup?ration du fichier a envoyer
 		File toCommit = new File(node.getLocalPath());
 		
-		
-		
-
-			
-			
 			//-----------------------------------------
 			//Si le fichier est un apes -->
 			//-----------------------------------------
@@ -319,22 +316,14 @@ public class CCommit{
 
 				//Ajouter dans la liste
 					dp.addToUpdate((String)allPog.get(i));
-				
 			}
-			
 			//On vient de modifier le fichier apes
 			//Il faut donc dire de changer les iepp dependants
 			//On recupere la liste de tous les iepp dependant de l'apes
 			ArrayList allIepp = dp.getIeppFromApes(pathToRoot);
-			
-			
-			
 			//Initialisation du parcours
 			int j = 0;
-
-			
-
-			//On parcours la liste
+		//On parcours la liste
 			for (j=0;j<allIepp.size();j++)
 			{
 				//On indique qu'il faut mettre a jour tous les fichiers
@@ -348,14 +337,44 @@ public class CCommit{
 			}			
 
 		}
-		
 	}
 	
 	public void commitFile(CTreeNode currentNode,String comment) throws Exception{
-		
-	
 			SvnCommit svnC = new SvnCommit();
 			svnC.commit(currentNode,comment);
+	}
+	
+	
+	public void DependencesRemoveInitialize(CTreeNode currentNode) throws Exception{
+		recRemove(currentNode,".iepp");
+		recRemove(currentNode,".pog");
+		recRemove(currentNode,".apes");
+	}
+		
+	public void recRemove(CTreeNode node,String extention) throws Exception
+	{
+		//On regarde si le node est un fils
+		if (!node.getAllowsChildren())
+		{
+			if (node.getName().endsWith(extention))
+			{
+				//BeforeRemove(node);
+			}
+		}
+		//C'est un dossier
+		else
+		{
+			//On parcours tous les fils
+			for(int i=0;i<node.getChildCount();i++)
+			{
+				//On applique recCommit a tous les fils du dossier
+				recRemove((CTreeNode)node.getChildAt(i),extention);
+			}
+			
+		}
+		
+		
+		
 		
 	}
 	
