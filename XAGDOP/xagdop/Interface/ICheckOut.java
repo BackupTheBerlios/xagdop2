@@ -24,6 +24,7 @@ import javax.xml.xpath.XPathExpressionException;
 import org.tmatesoft.svn.core.SVNException;
 
 import xagdop.Parser.ProjectsParser;
+import xagdop.Svn.SvnUpdate;
 import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
 
@@ -216,14 +217,32 @@ public class ICheckOut extends JFrame
 		this.JBOk.addActionListener(new ActionListener()
     			{
 
-					public void actionPerformed(ActionEvent arg0) {
+					public void actionPerformed(ActionEvent a) {
 						// TODO Auto-generated method stub
+						SvnUpdate svnU;
 						ArrayList projets = ((ProjectTableModel)ICO.getJTProjets().getModel()).getProjectsToCheckOut();
-						//SvnUpdate SvnU = new SvnUpdate();
 						if(projets.size()!= 0)
-							System.out.println((String)projets.get(0));
+						{
+							try
+							{
+								svnU = new SvnUpdate();
+								svnU.checkOut(projets);
+							}catch(SVNException s){ErrorManager.getInstance().display();} 
+							catch (XPathExpressionException e) {
+								// TODO Auto-generated catch block
+								ErrorManager.getInstance().display();
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								ErrorManager.getInstance().display();
+							} catch (Exception e) {
+								// TODO Auto-generated catch block
+								ErrorManager.getInstance().display();
+							}
+						}
+						ICO.setVisible(false);
+						ICO.dispose();
 					}
-    		
+					
     			});
 		this.JBCancel.setMaximumSize(this.JBDeselectAll.getMaximumSize());
 		this.JBCancel.addActionListener(new ActionListener()
@@ -231,6 +250,7 @@ public class ICheckOut extends JFrame
 
 					public void actionPerformed(ActionEvent arg0) {
 						// TODO Auto-generated method stub
+						ICO.setVisible(false);
 						ICO.dispose();
 					}
     		

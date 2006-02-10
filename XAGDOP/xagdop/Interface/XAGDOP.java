@@ -53,7 +53,7 @@ public class XAGDOP extends JFrame{
 	 */
 	private static final long serialVersionUID = 1L;
 	private static XAGDOP xag = null;
-	protected  User user;
+	protected User user;
 	protected JPanel panel = new JPanel();
 	protected JMenuBar menuBar = new JMenuBar();
 	protected JMenuBar menuBar2 = new JMenuBar();
@@ -328,7 +328,7 @@ public class XAGDOP extends JFrame{
 		//Initialisation des boutons
 		equipe.setEnabled(false);
 		menuProjetTeam.setEnabled(false);
-		Ico = new ICheckOut();
+		//Ico = new ICheckOut();
 		//Cr??ation des parsers
 		/*System.out.println("Parser");
 		DependenciesParser.getInstance();
@@ -458,8 +458,11 @@ public class XAGDOP extends JFrame{
 	}
 //	****************************
 	class actionUpdate implements ActionListener {
-		public void actionPerformed(ActionEvent e){
-				((CTree)tree.getModel()).refresh(tree.getSelectedNode());
+		public void actionPerformed(ActionEvent e)
+		{
+//			((CTree)tree.getModel()).refresh(tree.getSelectedNode());
+			ICheckOut ICO = new ICheckOut();	
+			//((CTree)tree.getModel()).refresh(tree.getSelectedNode());
 		}
 	}
 	
