@@ -66,9 +66,6 @@ public class CCommit{
 	 * 
 	 */
 	protected void sendIeppFile(File toCommit, CTreeNode node, String pathToRoot) throws Exception {
-			String projectName = node.getProject().getName();
-			//On se place par rapport a la racine du projet, et pas a la racine de tous les projets
-			pathToRoot = pathToRoot.substring(projectName.length()+1);
 			String adressApes;
 			DependenciesParser dp = DependenciesParser.getInstance();
 			//Ouverture du parser du fichier Iepp Correspondant
@@ -122,11 +119,7 @@ public class CCommit{
 		DependenciesParser dp = DependenciesParser.getInstance();
 		
 		
-		String projectName = node.getProject().getName();
-//		On place le pog par rapport a la racine du projet
-		pathToRoot = pathToRoot.substring(projectName.length()+1);
-
-		
+	
 		//	Si le fichier est tout neuf
 		if (!SvnHistory.isUnderVersion(toCommit))
 		{
@@ -148,8 +141,6 @@ public class CCommit{
 				String pathSemiGlobal = pathDependantApesFile.substring(pathGlobal.length()+1);
 				//Ajout dans le DependenciesParser du Pog correspondant
 				//addPog(Apes,Pog)
-				//On se place par rapport a la racine du projet, et pas a la racine de tous les projets
-				pathDependantApesFile = pathDependantApesFile.substring(projectName.length()+1);
 				if (!DependenciesParser.getInstance().isApes(pathDependantApesFile))
 				{
 					//Si le fichier apes n'est pas present, on le rajoute en virtuel
@@ -253,11 +244,6 @@ public class CCommit{
 	protected void sendApesFile(File toCommit,CTreeNode node, String pathToRoot) throws Exception
 	{
 		
-		String projectName = node.getProject().getName();
-		//On se place par rapport a la racine du projet, et pas a la racine de tous les projets
-		System.out.println("Nom du projet :"+projectName+"PathToroot de base "+pathToRoot);
-		pathToRoot = pathToRoot.substring(projectName.length()+1);
-		System.out.println("PathToroot apres"+pathToRoot);
 		DependenciesParser dp = DependenciesParser.getInstance();
 		//Si le fichier est tout neuf
 		if (!SvnHistory.isUnderVersion(toCommit))
