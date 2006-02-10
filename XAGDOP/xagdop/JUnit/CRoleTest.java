@@ -23,7 +23,7 @@ public class CRoleTest extends TestCase {
 			User us  = null;
 			
 			usrp = UsersParser.getInstance();
-//			Creer d'un utilisateur
+			//Creer d'un utilisateur
 			us = new User("toto","totopass",false,true);
 			usrp.addUser(us);
 			
