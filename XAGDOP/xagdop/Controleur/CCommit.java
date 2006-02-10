@@ -138,9 +138,8 @@ public class CCommit{
 				String pathGlobal = ((CTreeNode)((IProjectTree)XAGDOP.getInstance().getTree()).getModel().getRoot()).getLocalPath();
 				//Recuperation du pathToRoot du fichier Apes en 
 				//Enlevant les premiers caracteres correspondant au debut du chemin absolue
-				System.out.println("pathGlobal: "+pathGlobal+"  --  pathDepen : "+pathDependantApesFile+" --- ");
 				String pathSemiGlobal = pathDependantApesFile.substring(pathGlobal.length()+1);
-				System.out.println("pathSemiGlobal: "+pathSemiGlobal+"  --  pathDepen : "+pathDependantApesFile+" --- ");
+				pathSemiGlobal = pathSemiGlobal.substring(node.getProject().getName().length()+1);
 				//Ajout dans le DependenciesParser du Pog correspondant
 				//addPog(Apes,Pog)
 				if (!DependenciesParser.getInstance().isApes(pathSemiGlobal))
