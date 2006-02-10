@@ -2,7 +2,6 @@ package xagdop.Controleur;
 
 import java.awt.Component;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Locale;
 
 import javax.swing.SwingUtilities;
@@ -167,7 +166,7 @@ public class CPreferencies {
 		UsersParser UP= UsersParser.getInstance();
 		try {
 			if(UP.getUserByLogin(login).getPasswd().equals(oldPasswd)){
-				UP.setAttribute(login, UsersParser.ATTR_PASSWD , newPasswd);
+				UP.setAttribute(login, UsersParser.ATTR_PASSWD, newPasswd);
 				result=true;
 			}
 		} catch (NullPointerException e) {
