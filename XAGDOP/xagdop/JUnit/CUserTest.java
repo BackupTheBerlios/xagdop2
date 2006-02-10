@@ -16,15 +16,15 @@ public class CUserTest extends TestCase {
 		//Creer un nouveau utilisateur
 		UsersParser up = UsersParser.getInstance();
 		CUser cu= new CUser();
-		cu.createUser("toto","totopass","totopass");
+		cu.createUser("tovu","totopass","totopass");
 		
 	
 		
 		//Tests du mot de passe
-		assertTrue(cu.verifUser("toto","totopass"));	
+		assertTrue(cu.verifUser("tovu","totopass"));	
 	
 		//Supprimer l'utilsateur
-		up.removeUser("toto");
+		up.removeUser("tovu");
 		
 		
 		
@@ -39,13 +39,13 @@ public class CUserTest extends TestCase {
 		//Creer un nouveau utilisateur
 		UsersParser up = UsersParser.getInstance();
 		CUser cu= new CUser();
-		cu.createUser("tata","totopass","totopass");
+		cu.createUser("tavu","totopass","totopass");
 		
 		//Test si l'utilisateur a bien ?t? cr??
-		assertTrue(up.isUser("tata"));
+		assertTrue(up.isUser("tavu"));
 		
 		//supprimer l'utilisateur
-		up.removeUser("tata");
+		up.removeUser("tavu");
 	}
 
 }
