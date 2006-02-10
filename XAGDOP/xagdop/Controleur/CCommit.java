@@ -20,11 +20,7 @@ public class CCommit{
 	
 	public CCommit(CTreeNode currentNode) throws Exception{
 		recCommit(currentNode,".apes");
-		//A ce moment verifier que tous les fichiers pog present dans le noeud a 
-		//envoyer sont bien relie a des fichiers apes present sur le serveur
 		recCommit(currentNode,".pog");
-		//A ce moment verifier que tous les fichiers iepp present dans le noeud
-		//a envoyer soient bien relie a des pog et apes present dans le serveur
 		recCommit(currentNode,".iepp");
 	}
 
@@ -82,18 +78,24 @@ public class CCommit{
 	 */
 	protected void sendIeppFile(File toCommit, CTreeNode node, String pathToRoot) throws Exception {
 	
-		
-		DependenciesParser dp = DependenciesParser.getInstance();
-		
-			//Modifier l'interieur du fichier pog en
-			//mettant en relatif le chemin du fichier apes dependant
 			
-			//Ouverture du parser du fichier POG Correspondant
+
+			String projectName = node.getProject().getName();
+			//On se place par rapport a la racine du projet, et pas a la racine de tous les projets
+			pathToRoot = pathToRoot.substring(projectName.length()+1);
+
+		
+			String adressApes;
+
+			DependenciesParser dp = DependenciesParser.getInstance();
+		
+			
+			//Ouverture du parser du fichier Iepp Correspondant
 			IeppNitParser inp = new IeppNitParser(toCommit);	
-			//Recuperation du chemin absolue du fichier apes d?pendant
+			//Recuperation du chemin absolue des fichier apes d?pendants
 			ArrayList pathDependantApesFile = inp.getApes();
 			
-//			Initialisation du parcours
+			//Initialisation du parcours
 			int i = 0;
 
 			
@@ -101,7 +103,15 @@ public class CCommit{
 			//On parcours la liste
 			for (i=0;i<pathDependantApesFile.size();i++)
 			{
-					dp.addIeppToApes(node.getProject().getName()+File.separator+pathDependantApesFile.get(i),pathToRoot);
+				adressApes = (String) pathDependantApesFile.get(i);
+				//On verifie que le APES est present sur le serveur
+				if (!dp.isApes(adressApes))
+				{
+					//Si le fichier Apes n'est pas present on le rajoute
+					dp.addApes(adressApes,false);
+				}	
+				//On rajoute le Iepp au fichier Apes
+				dp.addIeppToApes(adressApes,pathToRoot);
 			}
 			
 			
@@ -131,9 +141,13 @@ public class CCommit{
 
 	protected void sendPogFile(File toCommit, CTreeNode node, String pathToRoot) throws Exception {
 
-		
 		DependenciesParser dp = DependenciesParser.getInstance();
 		
+		
+		String projectName = node.getProject().getName();
+//		On place le pog par rapport a la racine du projet
+		pathToRoot = pathToRoot.substring(projectName.length()+1);
+
 		
 		//	Si le fichier est tout neuf
 		if (!SvnHistory.isUnderVersion(toCommit))
@@ -149,28 +163,26 @@ public class CCommit{
 			
 			if (!pathDependantApesFile.equals(""))
 			{
-
-				if (DependenciesParser.getInstance().isApes(pathDependantApesFile))
+				//Recuperation du path absolue de la racine des projets
+				String pathGlobal = ((CTreeNode)((IProjectTree)XAGDOP.getInstance().getTree()).getModel().getRoot()).getLocalPath();
+				//Recuperation du pathToRoot du fichier Apes en 
+				//Enlevant les premiers caracteres correspondant au debut du chemin absolue
+				String pathSemiGlobal = pathDependantApesFile.substring(pathGlobal.length()+1);
+				//Ajout dans le DependenciesParser du Pog correspondant
+				//addPog(Apes,Pog)
+				//On se place par rapport a la racine du projet, et pas a la racine de tous les projets
+				pathDependantApesFile = pathDependantApesFile.substring(projectName.length()+1);
+				if (!DependenciesParser.getInstance().isApes(pathDependantApesFile))
 				{
-					//Recuperation du path absolue de la racine des projets
-					 String pathGlobal = ((CTreeNode)((IProjectTree)XAGDOP.getInstance().getTree()).getModel().getRoot()).getLocalPath();
-				//	Recuperation du pathToRoot du fichier Apes en 
-				//	Enlevant les premiers caracteres correspondant au debut du chemin absolue
-					String pathSemiGlobal = pathDependantApesFile.substring(pathGlobal.length()+1);
-					
-				//	Ajout dans le DependenciesParser du Pog correspondant
-				//	addPog(Apes,Pog)
-					dp.addPog(pathSemiGlobal,pathToRoot);
+					//Si le fichier apes n'est pas present, on le rajoute en virtuel
+					dp.addApes(pathDependantApesFile,false);
+					//Et on indique qu'on l'a rajoute en virtuel
+					dp.addToCreate(pathDependantApesFile);
 				}
-				else
-				{
-					ErrorManager.getInstance().setErrMsg("le fichier Apes n'existe pas !");
-					ErrorManager.getInstance().display();
-					
-					
-				}
+				//On rajoute le pog dans le dependencies parser !
+				dp.addPog(pathSemiGlobal,pathToRoot);
+				
 			}
-
 
 			else
 			{
@@ -251,7 +263,6 @@ public class CCommit{
 			{
 				//On applique recCommit a tous les fils du dossier
 				recCommit((CTreeNode)node.getChildAt(i),extention);
-				
 			}
 			
 		}
@@ -263,20 +274,29 @@ public class CCommit{
 	
 	protected void sendApesFile(File toCommit,CTreeNode node, String pathToRoot) throws Exception
 	{
+
+		String projectName = node.getProject().getName();
+		//On se place par rapport a la racine du projet, et pas a la racine de tous les projets
+		pathToRoot = pathToRoot.substring(projectName.length()+1);
 		
-		DependenciesParser DP = DependenciesParser.getInstance();
+		DependenciesParser dp = DependenciesParser.getInstance();
 		//Si le fichier est tout neuf
 		if (!SvnHistory.isUnderVersion(toCommit))
 		{
-			//Pas d'entrainement de verification de fichier pog, car fichier tout nouveau
-
-			//Rajout dans le fichier de d?pendances le fichier apes que l'on veut envoyer
-			
-			DP.addApes(pathToRoot);
-			
-			
-			
-								
+			if (dp.isApes(pathToRoot))
+			{
+				//Le fichier est present sur le fichier de dependance
+				//Mais il n'est pas present sur le serveur
+				dp.setApesOnServer(pathToRoot,true);
+				//L'enlever du ToCreate
+				dp.delToCreate(pathToRoot);
+			}
+			else
+			{
+				//Pas d'entrainement de verification de fichier pog, car fichier tout nouveau
+				//Rajout dans le fichier de d?pendances le fichier apes que l'on veut envoyer
+				dp.addApes(pathToRoot);
+			}
 		}
 //		Si le fichier est ancien
 		else if (node.isModified())
@@ -284,18 +304,11 @@ public class CCommit{
 
 			//On vient de modifier le fichier apes
 			//Il faut donc dire de changer les pog dependants
-			
-			
 			//On recupere la liste de tous les pogs dependant de l'apes
-			
-			ArrayList allPog = DP.getPogFromApes(pathToRoot);
-			
-			
+			ArrayList allPog = dp.getPogFromApes(pathToRoot);
 			
 			//Initialisation du parcours
 			int i = 0;
-
-			
 
 			//On parcours la liste
 			for (i=0;i<allPog.size();i++)
@@ -303,21 +316,16 @@ public class CCommit{
 				//On indique qu'il faut mettre a jour tous les fichiers
 				//Qui sont d?pendants du fichier apes que l'on veux envoyer
 				//A condition qu'il ne soit pas deja a modifier
-			//	if (!DP.isToUpdate((String)allPog.get(i)))
-			//	{
-					//Ajouter dans la liste
-					DP.addToUpdate((String)allPog.get(i));
-					System.out.println((String)allPog.get(i));
-			//	}
+
+				//Ajouter dans la liste
+					dp.addToUpdate((String)allPog.get(i));
+				
 			}
 			
 			//On vient de modifier le fichier apes
 			//Il faut donc dire de changer les iepp dependants
-			
-			
 			//On recupere la liste de tous les iepp dependant de l'apes
-			
-			ArrayList allIepp = DP.getIeppFromApes(pathToRoot);
+			ArrayList allIepp = dp.getIeppFromApes(pathToRoot);
 			
 			
 			
@@ -332,10 +340,10 @@ public class CCommit{
 				//On indique qu'il faut mettre a jour tous les fichiers
 				//Qui sont d?pendants du fichier apes que l'on veux envoyer
 				//A condition qu'il ne soit pas deja a modifier
-				if (!DP.isToUpdate((String)allIepp.get(j)))
+				if (!dp.isToUpdate((String)allIepp.get(j)))
 				{
 					//Ajouter dans la liste
-					DP.addToUpdate((String)allIepp.get(j));
+					dp.addToUpdate((String)allIepp.get(j));
 				}
 			}			
 
@@ -350,10 +358,6 @@ public class CCommit{
 			svnC.commit(currentNode,comment);
 		
 	}
-	
-	
-	
-	
 	
 	
 }
