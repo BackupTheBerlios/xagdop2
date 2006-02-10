@@ -2,7 +2,6 @@ package xagdop.JUnit;
 
 import junit.framework.TestCase;
 
-import org.tmatesoft.svn.core.SVNException;
 
 import xagdop.Controleur.CTeamManagement;
 import xagdop.Model.User;
