@@ -19,7 +19,6 @@ import javax.swing.SwingConstants;
 import javax.xml.xpath.XPathExpressionException;
 
 import xagdop.Controleur.CAffect;
-import xagdop.Model.Project;
 import xagdop.Model.User;
 import xagdop.Parser.ProjectsParser;
 import xagdop.Parser.UsersParser;
@@ -80,7 +79,7 @@ public class IAffect extends JFrame
 						try
 						{							
 							IJTeamManagement IJ = IJTeamManagement.getIJTM(projectName);
-		            		IJ.refreshUsers();							
+		            		IJ.refreshUsers();		            		
 						}
 						catch (Exception e1){
 							System.out.println("plantouille");
@@ -203,12 +202,10 @@ public class IAffect extends JFrame
 		//System.out.println("IAffectProjetName"+projectName);
 		
 		ArrayList listUser= null;
-		Project monProjet;
-		ArrayList projetUser = null;
+		
 		try {
-			listUser = UsersParser.getInstance().getAllUsers();
-			monProjet = ProjectsParser.getInstance().buildProject(projectName);
-			projetUser = monProjet.getUsersLogin();
+			listUser = UsersParser.getInstance().getAllUsers();			
+			
 		} catch (XPathExpressionException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -217,24 +214,22 @@ public class IAffect extends JFrame
 			e.printStackTrace();
 		}
 		
-			
-	
-		System.out.println("NomDuProjet:"+projectName);
+		// initialisation de la comboBox
+		userList.removeAllItems();
 		
-		for(int j=0; j<listUser.size(); j++)
-		{
-			for(int k=0; k<projetUser.size(); k++)
-			{
-				if (listUser.get(j)!=projetUser.get(k))
-				{
-					
-					userList.addItem(((User)listUser.get(j)).getLogin());
-					
-				}
+		for (int i=0;i<listUser.size();i++)
+		{	
+			try {
+				if (!ProjectsParser.getInstance().isUserInProject(projectName,((String)((User)listUser.get(i)).getLogin())))		
+				{	
+					userList.addItem(((User)listUser.get(i)).getLogin());					
+				}				
+			}
+			catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
-		
-		
+				
 	}
 	
 	public String getProjectName() {
