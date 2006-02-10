@@ -541,7 +541,6 @@ public class DependenciesParser extends Parser{
 	
 	public void addToUpdate(String filePath) throws Exception
 	{
-		System.out.println("Dans le addToUpdate");
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		
 		String expr_test = "//file[@path=\""+filePath+"\"]";
@@ -557,9 +556,7 @@ public class DependenciesParser extends Parser{
 		if(test_elem == null)
 		{
 			String expression = "//toUpdate";
-			
-			//System.out.println(expression);
-			
+		
 			Element elem = null;
 			Element newElem = doc.createElement("file");
 			newElem.setAttribute("path", filePath);
@@ -580,6 +577,46 @@ public class DependenciesParser extends Parser{
 		}
 		
 	}		
+	
+	public void addToCreate(String filePath) throws Exception
+	{
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		
+		String expr_test = "//file[@path=\""+filePath+"\"]";
+		Element test_elem = null;		
+		try {
+			test_elem = (Element)xpath.evaluate(expr_test, this.doc, XPathConstants.NODE);
+		}
+		catch (XPathExpressionException e) {
+			ErrorManager.getInstance().setErrTitle("Expression XPath Incorrecte");
+			ErrorManager.getInstance().setErrMsg("Expression XPath "+ expr_test +" Incorrecte");
+			throw new XPathExpressionException(expr_test);
+		}
+		if(test_elem == null)
+		{
+			String expression = "//toCreate";
+
+			Element elem = null;
+			Element newElem = doc.createElement("file");
+			newElem.setAttribute("path", filePath);
+			
+			try {
+				elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+			}
+			catch (XPathExpressionException e) {
+				ErrorManager.getInstance().setErrTitle("Expression XPath Incorrecte");
+				ErrorManager.getInstance().setErrMsg("Expression XPath "+ expr_test +" Incorrecte");
+				throw new XPathExpressionException(expr_test);
+			}
+			if ( elem != null ) {
+				elem.appendChild(newElem);
+				saveDocument((File)dependencies.get(currentProject));	
+				publish((File)dependencies.get(currentProject));
+			}
+		}
+		
+	}		
+
 	
 	public void addPog(String apesName, String pogName) throws Exception
 	{
@@ -699,8 +736,8 @@ public class DependenciesParser extends Parser{
 	public void delToUpdate(String filePath) throws Exception
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//toupdate";
-		String expr = "//toupdate/file[@path=\""+filePath+"\"]";
+		String expression = "//toUpdate";
+		String expr = "//toUpdate/file[@path=\""+filePath+"\"]";
 				
 		Element elem = null;
 		Element oldElem = null;
@@ -720,9 +757,36 @@ public class DependenciesParser extends Parser{
 			publish((File)dependencies.get(currentProject));
 		}
 	}
+
+	public void delToCreate(String filePath) throws Exception
+	{
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		String expression = "//toCreate";
+		String expr = "//toCreate/file[@path=\""+filePath+"\"]";
+				
+		Element elem = null;
+		Element oldElem = null;
+		
+		try {
+			elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+			oldElem = (Element)xpath.evaluate(expr, this.doc, XPathConstants.NODE);
+		}
+		catch (XPathExpressionException e) {
+			ErrorManager.getInstance().setErrTitle("Expression XPath Incorrecte");
+			ErrorManager.getInstance().setErrMsg("Expression XPath "+ expression +" Incorrecte");
+			throw new XPathExpressionException(expression);
+		}
+		if ( elem != null && oldElem != null) {
+			elem.removeChild(oldElem);
+			saveDocument((File)dependencies.get(currentProject));	
+			publish((File)dependencies.get(currentProject));
+		}
+	}
+
 	
 	public void addFile (String projectName, File file){
 		dependencies.put(projectName, file);
 	}
 	
 }
+
