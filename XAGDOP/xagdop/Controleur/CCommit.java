@@ -33,10 +33,7 @@ public class CCommit{
 	
 		//Recuperation du nom de fichier a envoyer
 		String nameOfFile = node.getName();
-		
-		
 		String pathToRoot = ((CTree)(XAGDOP.getInstance().getTree().getModel())).treePathName(node);
-		
 		//R?cup?ration du fichier a envoyer
 		File toCommit = new File(node.getLocalPath());
 		
@@ -47,25 +44,20 @@ public class CCommit{
 			{		
 				sendApesFile(toCommit,node,pathToRoot);	
 			}
-			
 			//-----------------------------------------
 			//Si le fichier est un pog -->
 			//-----------------------------------------
 			else if (nameOfFile.endsWith(".pog"))
 			{		
 				sendPogFile(toCommit,node,pathToRoot);
-		
 			}
-			
-//			-----------------------------------------
+			//-----------------------------------------
 			//Si le fichier est un iepp -->
 			//-----------------------------------------
 			else if (nameOfFile.endsWith(".iepp")) 
 			{
 				sendIeppFile(toCommit,node,pathToRoot);
 			}
-	
-		
 	}
 	
 	/*
@@ -74,29 +66,18 @@ public class CCommit{
 	 * 
 	 */
 	protected void sendIeppFile(File toCommit, CTreeNode node, String pathToRoot) throws Exception {
-	
-			
-
 			String projectName = node.getProject().getName();
 			//On se place par rapport a la racine du projet, et pas a la racine de tous les projets
 			pathToRoot = pathToRoot.substring(projectName.length()+1);
-
-		
 			String adressApes;
-
 			DependenciesParser dp = DependenciesParser.getInstance();
-		
-			
 			//Ouverture du parser du fichier Iepp Correspondant
+			
 			IeppNitParser inp = new IeppNitParser(toCommit);	
 			//Recuperation du chemin absolue des fichier apes d?pendants
 			ArrayList pathDependantApesFile = inp.getApes();
-			
 			//Initialisation du parcours
 			int i = 0;
-
-			
-
 			//On parcours la liste
 			for (i=0;i<pathDependantApesFile.size();i++)
 			{
@@ -271,11 +252,12 @@ public class CCommit{
 	
 	protected void sendApesFile(File toCommit,CTreeNode node, String pathToRoot) throws Exception
 	{
-
+		
 		String projectName = node.getProject().getName();
 		//On se place par rapport a la racine du projet, et pas a la racine de tous les projets
+		System.out.println("Nom du projet :"+projectName+"PathToroot de base "+pathToRoot);
 		pathToRoot = pathToRoot.substring(projectName.length()+1);
-		
+		System.out.println("PathToroot apres"+pathToRoot);
 		DependenciesParser dp = DependenciesParser.getInstance();
 		//Si le fichier est tout neuf
 		if (!SvnHistory.isUnderVersion(toCommit))
