@@ -224,7 +224,7 @@ public class PreferenciesParser extends Parser{
 	
 	public void setLang(String lang) throws Exception{
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//server";
+		String expression = "//langue";
 		Element elem = null;
 		
 		try {

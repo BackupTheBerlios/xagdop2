@@ -134,8 +134,8 @@ public class CPreferenciesTest extends TestCase {
 		Preferencies savePref = PreferenciesParser.getInstance().buildPreferencies();		
 		
 		//corps du test
-		final String lnfTest = "/test/server";
-		final String lnfTest2 = "/test/server2";
+		final String lnfTest = "LNF1";
+		final String lnfTest2 = "LNF2";
 		CPreferencies.setDefaultLNF(lnfTest);
 		assertEquals(CPreferencies.getDefaultLNF(),lnfTest);
 		CPreferencies.setDefaultLNF(lnfTest2);
