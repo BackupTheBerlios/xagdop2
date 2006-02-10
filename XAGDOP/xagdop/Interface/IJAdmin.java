@@ -10,16 +10,14 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.AbstractCellEditor;
 import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.JScrollPane;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
@@ -28,9 +26,7 @@ import javax.xml.xpath.XPathExpressionException;
 import org.tmatesoft.svn.core.SVNException;
 import org.w3c.dom.DOMException;
 
-
 import xagdop.Controleur.CAdmin;
-
 import xagdop.Model.User;
 import xagdop.Parser.UsersParser;
 import xagdop.Util.ErrorManager;
@@ -85,9 +81,24 @@ public class IJAdmin extends JFrame{
         ButtonOK.setText(Bundle.getText("button.ok"));
         ButtonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-            	int j =JT.getRowCount();
+            	int j = JT.getRowCount();
         
-        		int i=0;
+            	int i=0;
+            	int nbAdmin=0;
+        		while(i<j)
+        		{
+        			if(((Boolean)JT.getValueAt(i,2)).booleanValue()==true)
+        				nbAdmin ++;
+        			i++;  
+        		}      	
+            	
+        		if(nbAdmin==0){
+        			ErrorManager.getInstance().setErrTitle("Administration");
+        			ErrorManager.getInstance().setErrMsg("Le nombre d'administrateur ne peut etre nul");
+        			ErrorManager.getInstance().display();
+        			return ;
+        		}
+        		i=0;
         		while(i<j)
         		{
         			//Mise a jour des attributs de chaque utilisateur
@@ -431,6 +442,7 @@ public class IJAdmin extends JFrame{
 	     */
 	    public void setValueAt(Object value, int row, int col) 
 	    {
+	    	
 	    	if(col<this.getColumnCount() && row<this.getRowCount())
 	        {
 	    		this.rowData[row][col] = value;
