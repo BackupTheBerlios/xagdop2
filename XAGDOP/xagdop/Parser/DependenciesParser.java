@@ -43,8 +43,8 @@ public class DependenciesParser extends Parser{
 		
 			CDependencies cdep = new CDependencies();
 			dependencies = cdep.getDependenciesFiles();
-		
-			/*** Pour le debuggage
+	
+		/*** Pour le debuggage
 			dependencies = new HashMap();
 			dependencies.put("Test",new File("xagdop/ressources/XML/dependencies.xml"));
 			*/	
@@ -371,6 +371,23 @@ public class DependenciesParser extends Parser{
 
 			if ( elem != null ) {
 				elem.appendChild(newElem);
+				
+				expression = "//apes[@fileNameApes='"+ apesName +"']";
+				newElem = null;
+				try {
+					newElem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+				}
+				catch (XPathExpressionException e) {
+					ErrorManager.getInstance().setErrTitle("Expression XPath Incorrecte");
+					ErrorManager.getInstance().setErrMsg("Expression XPath "+ expr_test +" Incorrecte");
+					throw new XPathExpressionException(expr_test);
+				}
+				if(newElem!=null)
+				{
+					Element elemOnServer = doc.createElement("onServer");	
+					newElem.appendChild(elemOnServer);
+				}
+				
 				saveDocument((File)dependencies.get(currentProject));	
 				publish((File)dependencies.get(currentProject));
 			}
@@ -659,32 +676,7 @@ public class DependenciesParser extends Parser{
 		}
 
 	}		
-	/*
-	public void addPre(String apesName, String pogName, String preName)
-	{
-		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//dependencies/apes[@fileNameApes=\""+apesName+"\"]/pog[@fileNamePog=\""+pogName+"\"]";
 
-		Element elem = null;
-		Element newElem = doc.createElement("pre");
-		newElem.setAttribute("fileNamePre", preName);	
-		try {
-				elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
-		}
-		catch (XPathExpressionException e) {
-				
-				e.printStackTrace();
-		}
-
-		if ( elem != null ) {
-				elem.appendChild(newElem);
-				saveDocument((File)dependencies.get(currentProject));	
-			}
-		else {
-				System.out.println("Ajout du fichier Pre impossible!"); 
-		}
-	}
-*/
 	
 	public void addIeppToApes(String apesName, String ieppName) throws Exception
 	{
@@ -786,6 +778,56 @@ public class DependenciesParser extends Parser{
 	
 	public void addFile (String projectName, File file){
 		dependencies.put(projectName, file);
+	}
+	
+	public ArrayList getAllToUpdate() throws XPathExpressionException
+	{
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		String expression = "//toUpdate/file";
+		NodeList allToUpdate = null;
+		ArrayList list = new ArrayList();
+		
+		try {
+			allToUpdate = (NodeList)xpath.evaluate(expression, this.doc, XPathConstants.NODESET);
+		}
+		catch (XPathExpressionException e) {
+			ErrorManager.getInstance().setErrTitle("Expression XPath Incorrecte");
+			ErrorManager.getInstance().setErrMsg("Expression XPath "+ expression +" Incorrecte");
+			throw new XPathExpressionException(expression);
+		}
+		if ( allToUpdate != null ) {
+			for(int i=0; i<allToUpdate.getLength(); i++)
+			{				
+				list.add(allToUpdate.item(i).getAttributes().getNamedItem("path").getNodeValue());
+			}
+		}
+		return list;
+		
+	}
+	
+	public ArrayList getAllToCreate() throws XPathExpressionException
+	{
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		String expression = "//toCreate/file";
+		NodeList allToCreate = null;
+		ArrayList list = new ArrayList();
+		
+		try {
+			allToCreate = (NodeList)xpath.evaluate(expression, this.doc, XPathConstants.NODESET);
+		}
+		catch (XPathExpressionException e) {
+			ErrorManager.getInstance().setErrTitle("Expression XPath Incorrecte");
+			ErrorManager.getInstance().setErrMsg("Expression XPath "+ expression +" Incorrecte");
+			throw new XPathExpressionException(expression);
+		}
+		if ( allToCreate != null ) {
+			for(int i=0; i<allToCreate.getLength(); i++)
+			{				
+				list.add(allToCreate.item(i).getAttributes().getNamedItem("path").getNodeValue());
+			}
+		}
+		return list;
+		
 	}
 	
 }

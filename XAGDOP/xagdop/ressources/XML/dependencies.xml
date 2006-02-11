@@ -24,8 +24,18 @@
 		</pog>
 		</dependencies>
 	
-		<toupdate>
+		<toUpdate>
 			<file path="pabe.pog"/>
-		</toupdate>
+			<file path="grrr3.pog"/>
+			<file path="grrr1.pog"/>
+			<file path="grrr2.pog"/>
+		</toUpdate>
+
+
+		<toCreate>
+			<file path="pabe.pog"/>
+
+			<file path="grrr2.pog"/>
+		</toCreate>
 	
 </files>
