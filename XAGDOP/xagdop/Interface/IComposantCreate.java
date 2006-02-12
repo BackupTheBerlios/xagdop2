@@ -91,6 +91,7 @@ public class IComposantCreate extends JFrame{
 			public void actionPerformed(ActionEvent e){
 				try {
 					CComposantCreate.composantCreate(userID.getText(),_nomProjet);
+					dispose();
 					
 				} catch (IOException e1) {
 					ErrorManager.getInstance().display();
