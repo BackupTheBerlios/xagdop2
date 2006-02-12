@@ -80,6 +80,7 @@ public class CRole {
 	
 	protected void addArchitectRight(){
 		writeFile.add(".iepp");
+		viewFile.add(".iepp");
 		viewFile.add(".apes");
 		viewFile.add(".pog");
 	
