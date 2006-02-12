@@ -89,7 +89,11 @@ public class CCommit{
 				dp.addIeppToApes(adressApes,pathToRoot);
 			}
 			
-			
+//			Si le fichier est anciens
+			if (SvnHistory.isModified(toCommit))
+			{
+				dp.delToUpdate(pathToRoot);
+			}
 			/*
 			//On le rajoute dans les pog sans model
 			ArrayList pathDependantPogFile = inp.getPog();
