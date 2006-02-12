@@ -461,8 +461,10 @@ public class XAGDOP extends JFrame{
 		public void actionPerformed(ActionEvent e)
 		{
 //			((CTree)tree.getModel()).refresh(tree.getSelectedNode());
-			ICheckOut ICO = new ICheckOut();	
-			//((CTree)tree.getModel()).refresh(tree.getSelectedNode());
+			if(tree.getSelectedNode().isRoot())
+				new ICheckOut();
+			else
+				((CTree)tree.getModel()).refresh(tree.getSelectedNode());
 		}
 	}
 	

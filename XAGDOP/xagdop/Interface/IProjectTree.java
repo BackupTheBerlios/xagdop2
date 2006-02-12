@@ -212,7 +212,10 @@ public class IProjectTree extends JTree implements  TreeModelListener
 			
 			menuRefresh.addActionListener( new ActionListener() {
 				public void actionPerformed (ActionEvent e){
-					((CTree)getModel()).refresh(selectedNode);
+					if(getSelectedNode().isRoot())
+						new ICheckOut();
+					else
+						((CTree)getModel()).refresh(selectedNode);
 				}
 			}
 			);
@@ -296,14 +299,14 @@ public class IProjectTree extends JTree implements  TreeModelListener
 				
 				//changement du noeud courrant
 			if(!selectedNode.isRoot())
-				
 				//rechargement de larbre en memoire				
 				try {
 					DependenciesParser.getInstance().setFile(selectedNode.getProject().getName());
 				} catch (NullPointerException e) {
-					//e.printStackTrace();
+					e.printStackTrace();
 					ErrorManager.getInstance().display();
 				} catch (Exception e) {
+					e.printStackTrace();
 					ErrorManager.getInstance().display();
 				}
 			
@@ -324,13 +327,15 @@ public class IProjectTree extends JTree implements  TreeModelListener
         	 if (current.getProject()!=(XAGDOP.getInstance().getCurrentNode()))
  			{
  				//changement du noeud courant
- 				XAGDOP.getInstance().setCurrentNode(current.getProject());
+ 				//XAGDOP.getInstance().setCurrentNode(current.getProject());
  				//rechargement de larbre en memoire				
  				try {
 					DependenciesParser.getInstance().setFile(current.getProject().getName());
 				} catch (NullPointerException e) {
+					System.out.println("Fais chier");
 					ErrorManager.getInstance().display();
 				} catch (Exception e) {
+					System.out.println("Fais chier2");
 					ErrorManager.getInstance().display();
 				}
  			}	
