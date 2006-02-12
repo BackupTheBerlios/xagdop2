@@ -209,6 +209,13 @@ public class IProjectTree extends JTree implements  TreeModelListener
 			}
 		}
 		);
+			
+			menuRefresh.addActionListener( new ActionListener() {
+				public void actionPerformed (ActionEvent e){
+					((CTree)getModel()).refresh(selectedNode);
+				}
+			}
+			);
 			//menuUpdate.addActionListener(this);
 			popup.add(menuRefresh);
 			popup.add(menuRefrechFL);
