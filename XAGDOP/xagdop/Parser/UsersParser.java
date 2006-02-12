@@ -205,7 +205,7 @@ public class UsersParser extends Parser{
 		}
 		else {
 			ErrorManager.getInstance().setErrTitle("Utilisateur inconnu");
-			ErrorManager.getInstance().setErrMsg("L'utilisateur "+ login +" avec le mot de passe "+passwd + " est inconnu.\n");
+			ErrorManager.getInstance().setErrMsg("L'utilisateur "+ login +" est inconnu.\n");
 			throw new NullPointerException();
 		}
 	}
