@@ -40,14 +40,14 @@ public class DependenciesParser extends Parser{
 	
 	private DependenciesParser() throws IOException
 	{
-		
+		/*** Pour le debuggage
 			CDependencies cdep = new CDependencies();
 			dependencies = cdep.getDependenciesFiles();
-	
-		/*** Pour le debuggage
+	*/
+		
 			dependencies = new HashMap();
 			dependencies.put("Test",new File("xagdop/ressources/XML/dependencies.xml"));
-			*/	
+				
 	}
 
 	public File getFile(String project) throws NullPointerException
@@ -169,33 +169,28 @@ public class DependenciesParser extends Parser{
 		return apesList;			
 	}
 
-	public ArrayList getApesFromPog(String pogName) throws XPathExpressionException, NullPointerException
+	public String getApesFromPog(String pogName) throws XPathExpressionException, NullPointerException
 	{
-		ArrayList apesList = new ArrayList();
+		
 		
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//apes[pog[@fileNamePog=\""+pogName+"\"]]";
 
-		NodeList apesNodeList = null;
+		Node apesNode = null;
 			
 		try {
-			apesNodeList = (NodeList)xpath.evaluate(expression, this.doc, XPathConstants.NODESET);
+			apesNode = (Node)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
 		}
 		catch (XPathExpressionException e) {
 			ErrorManager.getInstance().setErrTitle("Expression XPath Incorrecte");
 			ErrorManager.getInstance().setErrMsg("Expression XPath "+ expression +" Incorrecte");
 			throw new XPathExpressionException(expression);
 		}
-		if(apesNodeList!=null){
-			Element apes = null;
+		if(apesNode!=null){
 			NamedNodeMap mapAttributes;
-			for (int i=0; i<apesNodeList.getLength(); i++)
-			{
-				apes = (Element)apesNodeList.item(i);
-				mapAttributes = apes.getAttributes();
-				if(mapAttributes != null){					
-					apesList.add(mapAttributes.getNamedItem("fileNameApes").getNodeValue());
-				}
+			mapAttributes = apesNode.getAttributes();
+			if(mapAttributes != null){					
+					return (mapAttributes.getNamedItem("fileNameApes").getNodeValue());
 			}
 		}
 		else {
@@ -204,7 +199,7 @@ public class DependenciesParser extends Parser{
 			throw new NullPointerException();
 		}			
 
-		return apesList;			
+		return null;
 	}
 
 	
