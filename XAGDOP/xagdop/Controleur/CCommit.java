@@ -2,6 +2,7 @@ package xagdop.Controleur;
 
 import java.io.File;
 import java.util.ArrayList;
+
 import xagdop.Interface.IProjectTree;
 import xagdop.Interface.XAGDOP;
 import xagdop.Parser.DependenciesParser;
@@ -65,10 +66,13 @@ public class CCommit{
 	 * 
 	 * 
 	 */
+
 	protected void sendIeppFile(File toCommit, CTreeNode node, String pathToRoot) throws Exception {
+
 			String adressApes;
 			DependenciesParser dp = DependenciesParser.getInstance();
 			//Ouverture du parser du fichier Iepp Correspondant
+
 			
 			IeppNitParser inp = new IeppNitParser(toCommit);	
 			//Recuperation du chemin absolue des fichier apes d?pendants
@@ -280,6 +284,7 @@ public class CCommit{
 			//Initialisation du parcours
 			int i = 0;
 
+
 			//On parcours la liste
 			for (i=0;i<allPog.size();i++)
 			{
@@ -287,8 +292,19 @@ public class CCommit{
 				//Qui sont d?pendants du fichier apes que l'on veux envoyer
 				//A condition qu'il ne soit pas deja a modifier
 
+				//if (!DP.isToUpdate((String)allPog.get(i)))
+				//{
+
+					//Ajouter dans la liste
+					//dp.addToUpdate((String)allPog.get(i));
+
+					//System.out.println((String)allPog.get(i));
+			//	}
+
+
 				//Ajouter dans la liste
 					dp.addToUpdate((String)allPog.get(i));
+
 			}
 			//On vient de modifier le fichier apes
 			//Il faut donc dire de changer les iepp dependants

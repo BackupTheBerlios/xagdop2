@@ -286,7 +286,7 @@ public class IProjectTree extends JTree implements  TreeModelListener
 						
 					}
 				} catch (Exception e) {
-					System.out.println("Management");
+					//System.out.println("Management");
 					ErrorManager.getInstance().display();
 				}
 			}
@@ -332,10 +332,10 @@ public class IProjectTree extends JTree implements  TreeModelListener
  				try {
 					DependenciesParser.getInstance().setFile(current.getProject().getName());
 				} catch (NullPointerException e) {
-					System.out.println("Fais chier");
+					//System.out.println("Fais chier");
 					ErrorManager.getInstance().display();
 				} catch (Exception e) {
-					System.out.println("Fais chier2");
+					//System.out.println("Fais chier2");
 					ErrorManager.getInstance().display();
 				}
  			}	

@@ -22,6 +22,7 @@ import xagdop.Controleur.CAffect;
 import xagdop.Model.User;
 import xagdop.Parser.ProjectsParser;
 import xagdop.Parser.UsersParser;
+import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
 
 public class IAffect extends JFrame
@@ -82,7 +83,8 @@ public class IAffect extends JFrame
 		            		IJ.refreshUsers();		            		
 						}
 						catch (Exception e1){
-							System.out.println("plantouille");
+							//System.out.println("plantouille");
+							ErrorManager.getInstance().display();
 						}
 					}catch(InstanceNotFoundException i){
 						i.printStackTrace();

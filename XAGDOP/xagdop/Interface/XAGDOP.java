@@ -478,7 +478,7 @@ public class XAGDOP extends JFrame{
 			}
 			else
 			{
-				System.out.println("ce n'est pas un projet ! ");
+				//System.out.println("ce n'est pas un projet ! ");
 			}
 		}
 	}

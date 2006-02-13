@@ -17,8 +17,10 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 import xagdop.Controleur.CUser;
+
 import xagdop.Parser.testsParsers;
 import xagdop.Util.ErrorManager;
+
 import xagdop.ressources.Bundle;
 
 public class IIdentification extends JFrame{
@@ -41,7 +43,7 @@ public class IIdentification extends JFrame{
 	
 	private IIdentification(){
 		init();
-		//new testsParsers();
+
 	}
 	
 	

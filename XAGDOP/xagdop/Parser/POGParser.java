@@ -44,7 +44,7 @@ public class POGParser extends Parser{
 			return path;
 		}
 		else {
-			System.out.println("Recuperation du chemin acces au fichier apes associe impossible!"); 
+			//System.out.println("Recuperation du chemin acces au fichier apes associe impossible!"); 
 			return null;
 		}		
 	}
@@ -68,7 +68,7 @@ public class POGParser extends Parser{
 			saveDocument(pogFile);
 		}
 		else {
-			System.out.println("Pb setApesPathToRelative!"); 
+			//System.out.println("Pb setApesPathToRelative!"); 
 		}	
 	}
 	

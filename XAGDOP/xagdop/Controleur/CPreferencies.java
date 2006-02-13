@@ -107,7 +107,7 @@ public class CPreferencies {
 		ArrayList availlLNF = new ArrayList();
 		UIManager.LookAndFeelInfo[] info = UIManager.getInstalledLookAndFeels();
 		for(int i=0; i < info.length; i++){
-			System.out.println(info[i].getName());
+			//System.out.println(info[i].getName());
 			availlLNF.add(info[i].getName());
 		}
 		return availlLNF;
@@ -119,7 +119,7 @@ public class CPreferencies {
 	 * @return
 	 */
 	public static Locale getDefaultLocale(){
-		System.out.println("getDefaultLocale->"+PreferenciesParser.getInstance().buildPreferencies().getLangue());//debug
+		//System.out.println("getDefaultLocale->"+PreferenciesParser.getInstance().buildPreferencies().getLangue());//debug
 		return PreferenciesParser.getInstance().buildPreferencies().getLangue();
 	}
 	
@@ -129,7 +129,7 @@ public class CPreferencies {
 	 * @param locale Nom de la locale a appliquer.
 	 */
 	public static void setDefaultLocale(Locale locale){
-		System.out.println("CPref.setDefaultLocale( " + locale+ " )");//debug
+		//System.out.println("CPref.setDefaultLocale( " + locale+ " )");//debug
 		try {
 			PreferenciesParser.getInstance().setLang(locale);
 			Locale.setDefault(locale);
@@ -150,7 +150,7 @@ public class CPreferencies {
 		ArrayList res = new ArrayList();
 		res.add(Locale.FRENCH);
 		res.add(Locale.ENGLISH);
-		System.out.println(res);//debug
+		//System.out.println(res);//debug
 		return res;
 	}
 	

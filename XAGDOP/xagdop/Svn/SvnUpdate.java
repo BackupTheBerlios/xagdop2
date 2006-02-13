@@ -165,7 +165,7 @@ public class SvnUpdate{
 		//Cr??ation du dossier local
 		File projectDirectoryLocal = new File(IPreferences.getDefaultPath());
 		if(!projectDirectoryLocal.exists()||!SvnHistory.isUnderVersion(projectDirectoryLocal)){
-			System.out.println(listProject.toString()+" : "+projectDirectoryLocal.getName());
+			//System.out.println(listProject.toString()+" : "+projectDirectoryLocal.getName());
 			checkOut(projectDirectoryLocal);
 			File[] fileInDirectory = projectDirectoryLocal.listFiles(new FilenameFilter() {
 				public boolean accept(File dir, String name) {

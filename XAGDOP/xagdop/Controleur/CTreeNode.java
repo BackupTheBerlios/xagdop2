@@ -54,7 +54,9 @@ public class CTreeNode extends DefaultMutableTreeNode implements Serializable
 			return null;
 		CTreeNode node = this;
 		while(!((CTreeNode)node.getParent()).isRoot()){
+			
 			node = (CTreeNode)node.getParent();
+			
 		}
 		return node;
 	}

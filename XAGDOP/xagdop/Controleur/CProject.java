@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import xagdop.Interface.IPreferences;
 import xagdop.Interface.XAGDOP;
 import xagdop.Model.User;
+import xagdop.Parser.DependenciesParser;
 import xagdop.Parser.ProjectsParser;
 import xagdop.Svn.SvnHistory;
 import xagdop.Svn.SvnRemove;
@@ -61,7 +62,7 @@ public class CProject {
 			}
 			User user = XAGDOP.getInstance().getUser();	
 			pp.addProject(projectName,user,description);
-			//DependenciesParser.getInstance().add(projectName,d);
+			DependenciesParser.getInstance().addFile(projectName, new File(project.getAbsolutePath()+File.separator+"dependencies.xml"));
 		}else{
 			ErrorManager.getInstance().setErrMsg("Le projet existe d?j?.");
 			ErrorManager.getInstance().setErrTitle("Projet existant");
