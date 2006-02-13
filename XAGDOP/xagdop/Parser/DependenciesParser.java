@@ -267,7 +267,7 @@ public class DependenciesParser extends Parser{
 		return ieppList;			
 	}
 	
-	public ArrayList getIeppFromPog(String pogName) throws XPathExpressionException, NullPointerException
+	public ArrayList getIeppFromPog(String pogName) throws XPathExpressionException
 	{
 		ArrayList ieppList = new ArrayList();
 		
@@ -276,7 +276,7 @@ public class DependenciesParser extends Parser{
 		 */
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//dependencies/pog[@fileNamePog=\""+pogName+"\"]";
-
+		
 		Element pogNode = null;
 		NodeList allNodeList;
 	
@@ -320,11 +320,7 @@ public class DependenciesParser extends Parser{
 				}
 			}
 		}
-		else {
-			ErrorManager.getInstance().setErrTitle("Fichier POG Inconnu");
-			ErrorManager.getInstance().setErrMsg("Le fichier POG "+ pogName +" est inconnu\n");
-			throw new NullPointerException();
-		}			
+			
 		
 		return ieppList;			
 	}
