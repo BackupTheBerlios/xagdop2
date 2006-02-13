@@ -171,7 +171,7 @@ public class IProjectTree extends JTree implements  TreeModelListener
 	public class PopupListener extends MouseAdapter {
 		private JPopupMenu popup = null;
 		private JMenuItem menuRefresh = new JMenuItem(Bundle.getText("tree.popup.menu.refresh"));
-		private JMenuItem menuUpdate = new JMenuItem(Bundle.getText("tree.popup.menu.update"));
+		//private JMenuItem menuUpdate = new JMenuItem(Bundle.getText("tree.popup.menu.update"));
 		private JMenuItem menuCommit = new JMenuItem(Bundle.getText("tree.popup.menu.commit"));
 		private JMenuItem menuRename = new JMenuItem(Bundle.getText("tree.popup.menu.rename"));
 		private JMenuItem menuDelete = new JMenuItem(Bundle.getText("tree.popup.menu.delete"));
@@ -220,10 +220,11 @@ public class IProjectTree extends JTree implements  TreeModelListener
 			}
 			);
 			//menuUpdate.addActionListener(this);
-			popup.add(menuRefresh);
+			
 			popup.add(menuRefrechFL);
 			popup.addSeparator();
-			popup.add(menuUpdate);
+			//popup.add(menuUpdate);
+			popup.add(menuRefresh);
 			popup.add(menuCommit);
 			popup.addSeparator();
 			popup.add(menuRename);
