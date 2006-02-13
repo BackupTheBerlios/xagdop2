@@ -70,7 +70,7 @@ public class DependenciesParser extends Parser{
 			currentProject = project;
 			if((File)dependencies.get(project)!=null)
 			{
-					loadTreeInMemory((File)dependencies.get(project));			
+				loadTreeInMemory((File)dependencies.get(project));			
 			}
 			else
 			{
@@ -856,7 +856,7 @@ public class DependenciesParser extends Parser{
 		}
 	}
 
-	
+	/*
 	public void delApes(String filePath) throws Exception
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
@@ -885,8 +885,8 @@ public class DependenciesParser extends Parser{
 	public void delPog(String filePath) throws Exception
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//dependencies";
-		String expr = "//pog[@fileNamePog=\""+filePath+"\"]";
+		String expression = "//dependencies/apes";
+		String expr = "//apes/pog[@fileNamePog=\""+filePath+"\"]";
 				
 		Element elem = null;
 		Element oldElem = null;
@@ -903,21 +903,21 @@ public class DependenciesParser extends Parser{
 		if ( elem != null && oldElem != null) {
 			elem.removeChild(oldElem);
 			saveDocument((File)dependencies.get(currentProject));	
-			publish((File)dependencies.get(currentProject));
+			//publish((File)dependencies.get(currentProject));
 		}
 	}
-	
-	public void delIepp(String filePath) throws Exception
+	*/
+	public void delIepp(String filePath, String apesName) throws Exception
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//dependencies";
-		String expr = "//pog[@fileNameIepp=\""+filePath+"\"]";
+		String expression = "//dependencies/apes[@fileNameApes=\""+apesName+"\"]";
+		String expr = "//apes[@fileNameApes=\""+apesName+"\"]/iepp[@fileNameIepp=\""+filePath+"\"]";
 				
-		Element elem = null;
+		Node apes = null;
 		Element oldElem = null;
 		
 		try {
-			elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+			apes = (Node)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
 			oldElem = (Element)xpath.evaluate(expr, this.doc, XPathConstants.NODE);
 		}
 		catch (XPathExpressionException e) {
@@ -925,8 +925,8 @@ public class DependenciesParser extends Parser{
 			ErrorManager.getInstance().setErrMsg("Expression XPath "+ expression +" Incorrecte");
 			throw new XPathExpressionException(expression);
 		}
-		if ( elem != null && oldElem != null) {
-			elem.removeChild(oldElem);
+		if ( apes != null && oldElem != null) {
+			apes.removeChild(oldElem);
 			saveDocument((File)dependencies.get(currentProject));	
 			publish((File)dependencies.get(currentProject));
 		}
