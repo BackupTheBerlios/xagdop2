@@ -168,7 +168,45 @@ public class DependenciesParser extends Parser{
 
 		return apesList;			
 	}
-	
+
+	public ArrayList getApesFromPog(String pogName) throws XPathExpressionException, NullPointerException
+	{
+		ArrayList apesList = new ArrayList();
+		
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		String expression = "//apes[pog[@fileNamePog=\""+pogName+"\"]]";
+
+		NodeList apesNodeList = null;
+			
+		try {
+			apesNodeList = (NodeList)xpath.evaluate(expression, this.doc, XPathConstants.NODESET);
+		}
+		catch (XPathExpressionException e) {
+			ErrorManager.getInstance().setErrTitle("Expression XPath Incorrecte");
+			ErrorManager.getInstance().setErrMsg("Expression XPath "+ expression +" Incorrecte");
+			throw new XPathExpressionException(expression);
+		}
+		if(apesNodeList!=null){
+			Element apes = null;
+			NamedNodeMap mapAttributes;
+			for (int i=0; i<apesNodeList.getLength(); i++)
+			{
+				apes = (Element)apesNodeList.item(i);
+				mapAttributes = apes.getAttributes();
+				if(mapAttributes != null){					
+					apesList.add(mapAttributes.getNamedItem("fileNameApes").getNodeValue());
+				}
+			}
+		}
+		else {
+			ErrorManager.getInstance().setErrTitle("Fichier POG Inconnu");
+			ErrorManager.getInstance().setErrMsg("Le fichier POG "+ pogName +" est inconnu\n");
+			throw new NullPointerException();
+		}			
+
+		return apesList;			
+	}
+
 	
 	public ArrayList getIeppFromApes(String apesName) throws XPathExpressionException, NullPointerException
 	{
