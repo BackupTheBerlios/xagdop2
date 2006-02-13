@@ -102,7 +102,7 @@ public class ICheckOut extends JFrame
 		this.JPMain.setSize(new Dimension(350,250));
 		this.getContentPane().add(this.JPMain,gbc);
 		//this.pack();
-		this.setSize(new Dimension(480,250));
+		this.setSize(new Dimension(480,255));
 		this.setVisible(true);
 	}
 
