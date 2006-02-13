@@ -23,56 +23,73 @@ public class CTreeNode extends DefaultMutableTreeNode implements Serializable
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	protected String localPath;
 	protected boolean modified = false;
 	
-	public CTreeNode(Object userObject, boolean isLeaf)
+	public CTreeNode(Object userObject,CTreeNode parent, boolean isLeaf)
 	{
 		super(userObject,!isLeaf);
-		File localFilePath = new File(IPreferences.getDefaultPath());
-		this.localPath = localFilePath.getAbsolutePath();
+		//setParent(parent);
+		if(parent!=null)
+			parent.add(this);
 	}
-
-
-	public CTreeNode(Object userObject, String _localPath,boolean isLeaf) {
-		super(userObject,!isLeaf);
-		File localFilePath = new File(_localPath);
-		this.localPath = localFilePath.getAbsolutePath();
+	public CTreeNode(Object userObject,CTreeNode parent){
+		super(userObject);
+		//setParent(parent);
+		if(parent!=null)
+			parent.add(this);
+	}
+	
+	public CTreeNode(Object userObject){
+		super(userObject);
 	}
 	
 
 	public boolean isProject(){
-		if(isRoot())
+		if(((File)getUserObject()).getParentFile().equals(new File(IPreferences.getDefaultPath())))
+			return true;
+		
+		return false;
+		
+	/*	if(!isRoot())
 			return false;
 		if(getParent()==getRoot())
 			return true;
-		return false;
+		return false;*/
 	}
 
 	public CTreeNode getProject(){
 		if(this.isRoot())
 			return null;
 		CTreeNode node = this;
-		while(!((CTreeNode)node.getParent()).isRoot()){
-			
+		while(!node.isProject()){
+
 			node = (CTreeNode)node.getParent();
 			
 		}
+		//System.out.println(node.getName());
 		return node;
 	}
 	
-	public String getLocalPath() {
-		return localPath;
+	public boolean isLeaf(){
+		return ((File)getUserObject()).isFile();
 	}
 	
-
-	public void setLocalPath(String localPath) {
-		File localFilePath = new File(localPath);
-		this.localPath = localFilePath.getAbsolutePath();
+	public String getLocalPath() {
+		return ((File)getUserObject()).getAbsolutePath();
+	}
+	
+	public void setAllIsModified(){
+		CTreeNode node = this;
+		while(!node.isProject()&&!node.isModified()){
+			node = (CTreeNode)node.getParent();
+			node.setIsModified(true);
+		}
+		((CTreeNode)node.getParent()).setIsModified(true);
+		modified = true;
 	}
 	
 	public void setIsModified(boolean value){
-		modified = value;
+		modified = true;
 	}
 	
 	public boolean isModified(){
@@ -83,16 +100,18 @@ public class CTreeNode extends DefaultMutableTreeNode implements Serializable
 	{
 		//if(!versioned&&!isRoot())
 			//return "> "+getUserObject().toString();
-		
-		return getUserObject().toString();
+		return ((File)getUserObject()).getName();
 	}
 	
 	public String toString()
 	{
 		if(modified&&!isRoot())
-			return "> "+getUserObject().toString();
+			return "> "+((File)getUserObject()).getName();
 		
-		return getUserObject().toString();
+		/*if(isRoot())
+			return "ProjectList";*/
+		
+		return ((File)getUserObject()).getName();
 		//return getName();
 	}
 	

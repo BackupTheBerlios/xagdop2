@@ -1,11 +1,14 @@
 package xagdop.Thread;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import org.tmatesoft.svn.core.SVNException;
 
+import xagdop.Controleur.CTree;
 import xagdop.Controleur.CTreeNode;
-import xagdop.Interface.ThreadWait;
+import xagdop.Interface.IProjectTree;
+import xagdop.Interface.XAGDOP;
 import xagdop.Svn.SvnUpdate;
 import xagdop.Util.ErrorManager;
 
@@ -15,31 +18,41 @@ import xagdop.Util.ErrorManager;
 public class ThreadUpdate extends Thread {
 
 	CTreeNode node;
-	ThreadWait TW;
+	ThreadWait tWait;
+	ArrayList list;
 	public ThreadUpdate(CTreeNode treeNode,ThreadWait TW){	
 		this.node = treeNode ;
-		this.TW = TW;
+		tWait = TW;
+	}
+	public ThreadUpdate(ArrayList listProject, ThreadWait TW){	
+		list = listProject;
+		tWait = TW;
 	}
 	
 	public void run() {
 		SvnUpdate svnu;
 		try {
 			svnu = new SvnUpdate();
-			svnu.checkOut(new File(node.getLocalPath()));
-			//((CTree)((IProjectTree)XAGDOP.getInstance().getTree()).getModel()).refreshFromLocal(node);
-			TW.arreter();
+			if(node!=null){
+				svnu.checkOut(new File(node.getLocalPath()));
+				((CTree)((IProjectTree)XAGDOP.getInstance().getTree()).getModel()).refreshFromLocal(node);
+			}
+			else{
+				svnu.checkOut(list);
+				((CTree)((IProjectTree)XAGDOP.getInstance().getTree()).getModel()).refreshFromLocal(XAGDOP.getInstance().getTree().getSelectedNode());
+			}
+			
+			
 		} catch (SVNException e) {
-			// TODO Auto-generated catch block
-	/*
-			e.printStackTrace();
-			System.out.println("Erreur dans le thread Update");*/
+
 			ErrorManager.getInstance().display();
+
 		}catch (Exception e){
-		/*	e.printStackTrace();
-			System.out.println("Erreur dans le thread Update");*/
+
 			ErrorManager.getInstance().display();
+
 		}finally{
-		
+			tWait.arreter();
 		
 		}
 		

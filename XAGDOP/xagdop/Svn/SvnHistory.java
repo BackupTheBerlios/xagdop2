@@ -79,6 +79,26 @@ public class SvnHistory {
 			return false;
     	}
     	
+    	
+    	public static boolean isToDelete(File file) throws SVNException{
+    		SVNStatusClient ssClient;
+			try {
+				ssClient = new SVNStatusClient(SvnConnect.getInstance().getRepository().getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
+				SVNStatus sStatus = ssClient.doStatus(file, false);
+				if(sStatus==null)
+					return true;
+				SVNStatusType ssType = sStatus.getContentsStatus();
+				
+				if(ssType == SVNStatusType.STATUS_DELETED )
+					return true;
+			} catch (SVNException e) {
+				ErrorManager.getInstance().setErrMsg("L'attribut du "+file.getName()+" n'a pu être récupéré.\n"+e.getCause());
+				ErrorManager.getInstance().setErrTitle("Fichier invalide");
+				throw e;
+			}
+			return false;
+    	}
+    	
     	/**
     	 * @param file Teste le fichier fait parti du repository courant
     	 * @return Vrai si il appartient au repository courant, faux sinon

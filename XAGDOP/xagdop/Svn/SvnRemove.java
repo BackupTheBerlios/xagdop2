@@ -37,14 +37,16 @@ public class SvnRemove {
 		SVNWCClient svnWCC = new SVNWCClient(repository.getAuthenticationManager(),SVNWCUtil.createDefaultOptions(true) );
 		if(SvnHistory.isUnderVersion(toDelete)){
 			try {
-				svnWCC.doDelete(toDelete,true,true,false);
+				if(!SvnHistory.isToDelete(toDelete)){
+					svnWCC.doDelete(toDelete,false,true,false);
+				}
 			} catch (SVNException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		else 
-			CFile.deleteDirectory(toDelete);			
+			CFile.deleteDirectory(toDelete);		
 	}
 	
 }

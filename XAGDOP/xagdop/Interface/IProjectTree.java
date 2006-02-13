@@ -5,22 +5,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.IOException;
 
 import javax.swing.Icon;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
-import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
-import javax.swing.event.CellEditorListener;
-import javax.swing.event.ChangeEvent;
 import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.event.TreeWillExpandListener;
-import javax.swing.tree.DefaultTreeCellEditor;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
@@ -49,7 +46,8 @@ public class IProjectTree extends JTree implements  TreeModelListener
 	public IProjectTree()
 	{
 		try {
-			CTree treeModel= new CTree();
+			CTreeNode root = new CTreeNode(new File(IPreferences.getDefaultPath()),null);
+			CTree treeModel= new CTree(root);
 			setModel(treeModel);
 		} catch (SVNException e) {
 			ErrorManager.getInstance().display();
@@ -59,12 +57,12 @@ public class IProjectTree extends JTree implements  TreeModelListener
 		getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		ITreeCellRenderer renderer = new ITreeCellRenderer();
 		setCellRenderer(renderer);
-		setCellEditor(new ITreeCellEditor(this, renderer));
+		//setCellEditor(new ITreeCellEditor(this, renderer));
 		setToggleClickCount(0);
 		addTreeWillExpandListener(new ITreeWillExpandListener());
 		//setExpandsSelectedPaths(true);
 		setExpandsSelectedPaths(false);
-		setInvokesStopCellEditing(true);
+		//setInvokesStopCellEditing(true);
 		
 		
 		
@@ -131,39 +129,29 @@ public class IProjectTree extends JTree implements  TreeModelListener
 	
 	public void treeNodesInserted(TreeModelEvent event)
 	{
-		// display the new project inserted  
-		Object tabTreeNode [] = event.getTreePath().getPath(); 
-		if(tabTreeNode.length == 1)
-		{
-			if(event.getChildIndices() != null)
-			{
-			}
-		}
-		updateUI();
+		updateUI(); 
 	}
 	
 	
 	public void treeNodesRemoved(TreeModelEvent event)
 	{
-		//ICentralPanel centralTabbedPane ;
-		
-		// retrieve the parent node of the node removed
-		TreePath parentPath = event.getTreePath() ;
-		if (getRowForPath(parentPath) == 0)
-		{
-	
-		}
+		 TreePath path = event.getTreePath();
+    	 CTreeNode current = (CTreeNode) path.getLastPathComponent();
+		((CTree)getModel()).reload(current);
 		updateUI(); 
 	}
 	
-	public void treeNodesChanged(TreeModelEvent e) 
+	public void treeNodesChanged(TreeModelEvent event) 
 	{
-		updateUI(); 
+		 TreePath path = event.getTreePath();
+    	 CTreeNode current = (CTreeNode) path.getLastPathComponent();
+		((CTree)getModel()).reload(current);
+			updateUI(); 
 	}
 	
-	public void treeStructureChanged(TreeModelEvent arg0)
+	public void treeStructureChanged(TreeModelEvent event)
 	{
-		
+		updateUI(); 
 	}
 	
 	
@@ -188,6 +176,9 @@ public class IProjectTree extends JTree implements  TreeModelListener
 					try {
 						SvnRemove svnR = new SvnRemove();
 						svnR.delete(selectedNode);
+						((CTree)getModel()).remove(selectedNode);
+						//((CTree)getModel()).fireTreeNodesRemoved(new TreeModelEvent(selectedNode,new TreePath(selectedNode)));
+						//treeNodesRemoved(new TreeModelEvent(selectedNode,new TreePath(selectedNode)));
 					} catch (SVNException e1) {
 						ErrorManager.getInstance().display();
 					}
@@ -244,16 +235,6 @@ public class IProjectTree extends JTree implements  TreeModelListener
 		class openICommit implements ActionListener {
 			public void actionPerformed (ActionEvent e){
 				new ICommit(getSelectedNode());
-				//Enumeration expandPath = getExpandedDescendants(new TreePath(getModel().getRoot()));
-				/*
-				try {
-					((CTree)getModel()).refreshFromLocal((CTreeNode) getModel().getRoot());
-				} catch (SVNException e1) {
-					ErrorManager.getInstance().display();
-				}*/
-				/*while(expandPath.hasMoreElements()){
-					expandPath((TreePath)expandPath.nextElement());	
-				}*/
 			}
 		}
 		
@@ -281,11 +262,12 @@ public class IProjectTree extends JTree implements  TreeModelListener
 				try {
 					if ((XAGDOP.getInstance()).getUser().isPManager(selectedNode.getName()))
 					{
-						
+						XAGDOP.getInstance().delProject.setEnabled(true);
 						XAGDOP.getInstance().equipe.setEnabled(true);
 						XAGDOP.getInstance().menuProjetTeam.setEnabled(true);
 						
-					}
+					}else
+						XAGDOP.getInstance().delProject.setEnabled(false);
 				} catch (Exception e) {
 					//System.out.println("Management");
 					ErrorManager.getInstance().display();
@@ -293,6 +275,7 @@ public class IProjectTree extends JTree implements  TreeModelListener
 			}
 			else
 			{
+					XAGDOP.getInstance().delProject.setEnabled(true);
 					XAGDOP.getInstance().equipe.setEnabled(false);
 					XAGDOP.getInstance().menuProjetTeam.setEnabled(false);
 			}
@@ -333,10 +316,10 @@ public class IProjectTree extends JTree implements  TreeModelListener
  				try {
 					DependenciesParser.getInstance().setFile(current.getProject().getName());
 				} catch (NullPointerException e) {
-					//System.out.println("Fais chier");
+
 					ErrorManager.getInstance().display();
 				} catch (Exception e) {
-					//System.out.println("Fais chier2");
+
 					ErrorManager.getInstance().display();
 				}
  			}	
@@ -344,6 +327,21 @@ public class IProjectTree extends JTree implements  TreeModelListener
         }
     
         public void treeWillCollapse(TreeExpansionEvent evt){
+        	 TreePath path = evt.getPath();
+        	 CTreeNode current = (CTreeNode) path.getLastPathComponent();
+        	 if (current.getProject()!=(XAGDOP.getInstance().getCurrentNode()))
+ 			{
+ 				//changement du noeud courant
+ 				//XAGDOP.getInstance().setCurrentNode(current.getProject());
+ 				//rechargement de larbre en memoire				
+ 				try {
+					DependenciesParser.getInstance().setFile(current.getProject().getName());
+				} catch (NullPointerException e) {
+					ErrorManager.getInstance().display();
+				} catch (Exception e) {
+					ErrorManager.getInstance().display();
+				}
+ 			}	
         	
         }
     }
@@ -368,44 +366,6 @@ public class IProjectTree extends JTree implements  TreeModelListener
 			return c;
 		}
 		
-	}
-	
-	private class ITreeCellEditor extends DefaultTreeCellEditor implements CellEditorListener
-	{
-		//private CTreeNode mCurrentNode = null;
-		
-		
-		
-		public ITreeCellEditor(JTree tree, DefaultTreeCellRenderer renderer)
-		{
-			super(tree, renderer);
-			addCellEditorListener(this);
-		}
-		
-		public Component getTreeCellEditorComponent(JTree tree, Object value, boolean sel, boolean expanded,
-				boolean leaf, int row)
-		{
-			Component c = super.getTreeCellEditorComponent(tree, value, sel, expanded, leaf, row);
-			editingIcon = associateIcon(value);
-			
-			if( editingComponent instanceof JTextField && value instanceof CTreeNode )
-			{
-		//		mCurrentNode = (CTreeNode)value;
-				((JTextField)editingComponent).selectAll();
-			}
-			
-			return c;
-		}
-		
-		
-		public void editingStopped(ChangeEvent e)
-		{
-		}
-		
-		
-		public void editingCanceled(ChangeEvent arg0)
-		{            
-		}
 	}
 	
 }

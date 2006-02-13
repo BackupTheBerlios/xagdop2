@@ -24,7 +24,8 @@ import javax.xml.xpath.XPathExpressionException;
 import org.tmatesoft.svn.core.SVNException;
 
 import xagdop.Parser.ProjectsParser;
-import xagdop.Svn.SvnUpdate;
+import xagdop.Thread.ThreadUpdate;
+import xagdop.Thread.ThreadWait;
 import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
 
@@ -219,25 +220,16 @@ public class ICheckOut extends JFrame
 
 					public void actionPerformed(ActionEvent a) {
 						// TODO Auto-generated method stub
-						SvnUpdate svnU;
 						ArrayList projets = ((ProjectTableModel)ICO.getJTProjets().getModel()).getProjectsToCheckOut();
 						if(projets.size()!= 0)
 						{
-							try
-							{
-								svnU = new SvnUpdate();
-								svnU.checkOut(projets);
-							}catch(SVNException s){ErrorManager.getInstance().display();} 
-							catch (XPathExpressionException e) {
-								// TODO Auto-generated catch block
-								ErrorManager.getInstance().display();
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								ErrorManager.getInstance().display();
-							} catch (Exception e) {
-								// TODO Auto-generated catch block
-								ErrorManager.getInstance().display();
-							}
+							
+								ThreadWait TW = new ThreadWait(XAGDOP.getInstance());
+								TW.start();
+								
+								ThreadUpdate TU = new ThreadUpdate(projets,TW);
+								TU.start();
+							
 						}
 						ICO.setVisible(false);
 						ICO.dispose();

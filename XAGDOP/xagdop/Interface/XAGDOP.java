@@ -507,6 +507,7 @@ public class XAGDOP extends JFrame{
 					try {
 						cp.deleteProject(tree.getSelectedNode());
 					} catch (Exception e1) {
+						e1.printStackTrace();
 						ErrorManager.getInstance().display();
 					}
 				}

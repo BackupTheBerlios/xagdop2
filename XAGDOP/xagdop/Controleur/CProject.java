@@ -77,15 +77,15 @@ public class CProject {
 	
 	
 	/* Fonction supprimant un projet  */
-	public int deleteProject(CTreeNode node) throws HeadlessException, Exception{
-		int error = 0;
+	public void deleteProject(CTreeNode node) throws HeadlessException, Exception{
+		
 		SvnRemove svnR = new SvnRemove();
 		svnR.delete(node);
 		
 		JOptionPane.showMessageDialog(null ,"Le projet "+node.getName()+" sera supprim? lors du prochain commit", "Validation" , 1) ;
 		//Enregistrement dans le XML du projet
-		ProjectsParser PP = ProjectsParser.getInstance();
-		PP.removeProject(node.getName());
-		return error;
+		/*ProjectsParser PP = ProjectsParser.getInstance();
+		PP.removeProject(node.getName());*/
+		
 	}
 }

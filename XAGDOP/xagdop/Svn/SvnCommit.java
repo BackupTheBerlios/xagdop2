@@ -171,8 +171,6 @@ public class SvnCommit{
 			File[] fileInDirectory ;
 			//Si le dossier n'est pas sous une version control??e
 			if(!SvnHistory.isUnderVersion(toCommit)){
-				/*CTreeNode tmp = (CTreeNode)node.getRoot();
-				svnCC.doImport(toCommit,SVNURL.parseURIDecoded(SvnConnect.getInstance().getUrl()+toCommit.getPath().replaceAll(tmp.getLocalPath(),"")),commitMessage,true);*/
 				//On recupere tout les fichiers parents ?? envoyer
 				fileInDirectory = fileToAdd(node);
 				

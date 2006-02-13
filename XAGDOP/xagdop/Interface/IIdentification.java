@@ -17,10 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 import xagdop.Controleur.CUser;
-
-import xagdop.Parser.testsParsers;
 import xagdop.Util.ErrorManager;
-
 import xagdop.ressources.Bundle;
 
 public class IIdentification extends JFrame{
@@ -124,9 +121,10 @@ public class IIdentification extends JFrame{
 								
 							}
 						} catch (Exception e1) {
-							// TODO Auto-generated catch block
+
 							//e1.printStackTrace();
 							ErrorManager.getInstance().display();
+
 						}
 					
 				    }
