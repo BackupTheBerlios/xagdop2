@@ -251,6 +251,10 @@ public class CTree extends DefaultTreeModel
 		
 	}
 	
+	public void refreshFirst(CTreeNode parent) throws SVNException{
+		nodeStructureChanged(parent);
+	}
+	
 	public void refreshFromLocal(CTreeNode parent) throws SVNException{
 		
 		File[] allFiles = listFile(parent);
@@ -274,7 +278,7 @@ public class CTree extends DefaultTreeModel
 		}
 		
 		
-		
+	
 		
 		
 		
