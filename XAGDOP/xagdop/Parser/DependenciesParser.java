@@ -548,6 +548,54 @@ public class DependenciesParser extends Parser{
 		}		
 	}
 	
+
+	public boolean getApesOnServer(String apesName) throws Exception,NullPointerException
+	{
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		
+		String expression = "//apes[@fileNameApes=\""+apesName+"\"]";
+		Element apes = null;		
+		try {
+			apes = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+		}
+		catch (XPathExpressionException e) {
+			ErrorManager.getInstance().setErrTitle("Expression XPath Incorrecte");
+			ErrorManager.getInstance().setErrMsg("Expression XPath "+ expression +" Incorrecte");
+			throw new XPathExpressionException(expression);
+		}
+		
+		if(apes!=null)
+		{
+			xpath = XPathFactory.newInstance().newXPath();
+			
+			expression = "//apes[@fileNameApes=\""+apesName+"\"]/onServer";
+			Element onServer = null;		
+			try {
+				onServer = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+			}
+			catch (XPathExpressionException e) {
+				ErrorManager.getInstance().setErrTitle("Expression XPath Incorrecte");
+				ErrorManager.getInstance().setErrMsg("Expression XPath "+ expression +" Incorrecte");
+				throw new XPathExpressionException(expression);
+			}
+			
+			if(onServer != null)
+			{
+				return true;
+			}
+			else
+			{				
+				return false;
+			}
+		}
+		else
+		{
+			ErrorManager.getInstance().setErrTitle("Pb Apes inconnu");
+			ErrorManager.getInstance().setErrMsg("Fichier Apes : "+ apesName +" inconnu.\n");
+			throw new NullPointerException();
+		}		
+	}
+
 	
 	public void addPog(String pogName) throws Exception
 	{
