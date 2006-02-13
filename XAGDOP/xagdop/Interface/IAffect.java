@@ -92,7 +92,7 @@ public class IAffect extends JFrame
 					}
             		catch (Exception e) {
 						//Error of create
-            			e.printStackTrace();
+            			//e.printStackTrace();
 						JOptionPane.showMessageDialog(null ,Bundle.getText("iaffect.userExist.text"), Bundle.getText("iaffect.FrameErreur.text") , 1) ;
 					}
             		IA.dispose();
