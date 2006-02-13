@@ -96,7 +96,7 @@ public class SvnUpdate{
 		//R??cup??ration des fichiers
 		if(projectLocal.exists())
 			try{
-				up.doUpdate(projectLocal,SVNRevision.HEAD,true);
+				up.doUpdate(projectLocal,SVNRevision.HEAD,false);
 			} catch (SVNException svne) {
 				ErrorManager.getInstance().setErrMsg("Impossible de se synchroniser avec le serveur.\nVeuillez v??rifier l'adresse de ce dernier.");
 				ErrorManager.getInstance().setErrTitle("Update Impossible");
@@ -104,7 +104,7 @@ public class SvnUpdate{
 			}
 		else
 			try{
-				up.doCheckout(repository.getLocation(),projectLocal,SVNRevision.HEAD,SVNRevision.HEAD,true);
+				up.doCheckout(repository.getLocation(),projectLocal,SVNRevision.HEAD,SVNRevision.HEAD,false);
 			} catch (SVNException svne) {
 				ErrorManager.getInstance().setErrMsg("Impossible de se synchroniser avec le serveur.\nVeuillez v??rifier l'adresse de ce dernier.");
 				ErrorManager.getInstance().setErrTitle("Checkout Impossible");
