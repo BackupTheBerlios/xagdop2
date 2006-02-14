@@ -1,8 +1,9 @@
 package xagdop.Controleur;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
-
+import javax.xml.xpath.XPathExpressionException;
 import xagdop.Interface.IProjectTree;
 import xagdop.Interface.XAGDOP;
 import xagdop.Parser.DependenciesParser;
@@ -347,7 +348,7 @@ public class CCommit{
 		{
 			if (node.getName().endsWith(extention))
 			{
-				//BeforeRemove(node);
+				beforeRemove(node);
 			}
 		}
 		//C'est un dossier
@@ -366,6 +367,119 @@ public class CCommit{
 		
 		
 	}
+	//	Permet d'envoyer le fichier contenu dans le Noeud
+	public void beforeRemove(CTreeNode node) throws Exception{
+	
+		//Recuperation du nom de fichier a envoyer
+		String nameOfFile = node.getName();
+		String pathToRoot = ((CTree)(XAGDOP.getInstance().getTree().getModel())).treePathName(node);
+		//R?cup?ration du fichier a envoyer
+		File toCommit = new File(node.getLocalPath());
+		
+			//-----------------------------------------
+			//Si le fichier est un apes -->
+			//-----------------------------------------
+			if (nameOfFile.endsWith(".apes"))
+			{		
+				removeApesFile(pathToRoot);	
+			}
+			//-----------------------------------------
+			//Si le fichier est un pog -->
+			//-----------------------------------------
+			else if (nameOfFile.endsWith(".pog"))
+			{		
+				removePogFile(pathToRoot);
+			}
+			//-----------------------------------------
+			//Si le fichier est un iepp -->
+			//-----------------------------------------
+			else if (nameOfFile.endsWith(".iepp")) 
+			{
+				removeIeppFile(pathToRoot);
+			}
+	}
+	
+	/*
+	 * Remove Apes file
+	 */
+	protected void removeApesFile(String pathToRoot) throws Exception
+	{
+			DependenciesParser dp = DependenciesParser.getInstance() ;
+			//On verifie que le apes ne possede pas de fils ( pog ou iepp )
+			ArrayList allPog = dp.getPogFromApes(pathToRoot);
+			ArrayList allIepp = dp.getIeppFromApes(pathToRoot);
+			int taille = allPog.size()+allIepp.size();
+			if (taille>0)
+			{
+				dp.setApesOnServer(false,pathToRoot);
+				dp.addToCreate(pathToRoot);
+			}
+			else
+			{
+				dp.delApes(pathToRoot);
+				dp.delToCreate(pathToRoot);
+				dp.delToUpdate(pathToRoot);
+				
+			}		
+	}
 	
 	
+	/*
+	 * Remove Iepp File
+ 	*/
+	protected void removeIeppFile(String pathToRoot)
+	{	
+		DependenciesParser dp = DependenciesParser.getInstance();
+		ArrayList apesDependant = dp.getApesFromIepp(pathToRoot);
+		for (int i=0;i<apesDependant.size();i++)
+		{
+			ArrayList allPog = dp.getPogFromApes((String) apesDependant.get(i));
+			ArrayList allIepp = dp.getIeppFromApes((String) apesDependant.get(i));
+			int taille = allPog.size()+allIepp.size();
+			//Si il n'y a pas d'autre fils, et que le fichier Apes n'est pas sur le serveur
+			if ((taille==1)&&(dp.getApesOnServer((String)apesDependant.get(i))))
+			{
+				dp.delApes((String) apesDependant.get(i));
+				dp.delToCreate((String) apesDependant.get(i));
+				dp.delToUpdate((String) apesDependant.get(i));
+				dp.delToCreate(pathToRoot);
+				dp.delToUpdate(pathToRoot);
+				
+			}
+		
+			//Si il y a des fils, on ne supprime que le pog
+			else  
+			{
+				dp.delIepp(pathToRoot,(String)apesDependant.get(i));
+				dp.delToUpdate(pathToRoot);
+			}
+		}
+	}
+	/*
+	 * Remove Pog File
+	 */
+	protected void removePogFile(String pathToRoot) throws IOException
+	{
+		DependenciesParser dp = DependenciesParser.getInstance();
+		String apesDependant = dp.getApesFromPog(pathToRoot);
+		ArrayList allPog = dp.getPogFromApes(apesDependant);
+		ArrayList allIepp = dp.getIeppFromApes(apesDependant);
+		int taille = allPog.size()+allIepp.size();
+		//Si il n'y a pas d'autre fils, et que le fichier Apes n'est pas sur le serveur
+		if ((taille==1)&&(dp.getApesOnServer(apesDependant)))
+		{
+			dp.delApes(apesDependant);
+			dp.delToCreate(apesDependant);
+			dp.delToUpdate(apesDependant);
+			dp.delToUpdate(pathToRoot);
+			dp.delToCreate(pathToRoot);
+		}
+		
+		//Si il y a des fils, on ne supprime que le pog
+		else  
+		{
+			dp.delPog(pathToRoot);
+			dp.delToUpdate(pathToRoot);
+		}
+	}
 }
