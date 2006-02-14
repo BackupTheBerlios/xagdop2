@@ -416,7 +416,7 @@ public class CCommit{
 			}
 			else
 			{
-				dp.delApes(pathToRoot);
+			//TODO	dp.delApes(pathToRoot);
 				dp.delToCreate(pathToRoot);
 				dp.delToUpdate(pathToRoot);
 				
@@ -427,7 +427,7 @@ public class CCommit{
 	/*
 	 * Remove Iepp File
  	*/
-	protected void removeIeppFile(String pathToRoot)
+	protected void removeIeppFile(String pathToRoot) throws IOException, XPathExpressionException, NullPointerException
 	{	
 		DependenciesParser dp = DependenciesParser.getInstance();
 		ArrayList apesDependant = dp.getApesFromIepp(pathToRoot);
@@ -437,49 +437,50 @@ public class CCommit{
 			ArrayList allIepp = dp.getIeppFromApes((String) apesDependant.get(i));
 			int taille = allPog.size()+allIepp.size();
 			//Si il n'y a pas d'autre fils, et que le fichier Apes n'est pas sur le serveur
-			if ((taille==1)&&(dp.getApesOnServer((String)apesDependant.get(i))))
-			{
-				dp.delApes((String) apesDependant.get(i));
-				dp.delToCreate((String) apesDependant.get(i));
-				dp.delToUpdate((String) apesDependant.get(i));
-				dp.delToCreate(pathToRoot);
-				dp.delToUpdate(pathToRoot);
+//TODO		if ((taille==1)&&(dp.getApesOnServer((String)apesDependant.get(i))))
+//TODO			{
+				//TODO dp.delApes((String) apesDependant.get(i));
+//TODO				dp.delToCreate((String) apesDependant.get(i));
+//TODO				dp.delToUpdate((String) apesDependant.get(i));
+//TODO				dp.delToCreate(pathToRoot);
+//TODO				dp.delToUpdate(pathToRoot);
 				
-			}
+//TODO			}
 		
 			//Si il y a des fils, on ne supprime que le pog
-			else  
-			{
-				dp.delIepp(pathToRoot,(String)apesDependant.get(i));
-				dp.delToUpdate(pathToRoot);
-			}
+//TODO			else  
+//TODO			{
+//TODO				dp.delIepp(pathToRoot,(String)apesDependant.get(i));
+//TODO				dp.delToUpdate(pathToRoot);
+//TODO			}
 		}
 	}
 	/*
 	 * Remove Pog File
 	 */
-	protected void removePogFile(String pathToRoot) throws IOException
+	protected void removePogFile(String pathToRoot) throws IOException, XPathExpressionException, NullPointerException
 	{
 		DependenciesParser dp = DependenciesParser.getInstance();
-		String apesDependant = dp.getApesFromPog(pathToRoot);
+//TODO		String apesDependant = dp.getApesFromPog(pathToRoot);
+		String apesDependant="";
 		ArrayList allPog = dp.getPogFromApes(apesDependant);
 		ArrayList allIepp = dp.getIeppFromApes(apesDependant);
 		int taille = allPog.size()+allIepp.size();
 		//Si il n'y a pas d'autre fils, et que le fichier Apes n'est pas sur le serveur
-		if ((taille==1)&&(dp.getApesOnServer(apesDependant)))
-		{
-			dp.delApes(apesDependant);
-			dp.delToCreate(apesDependant);
-			dp.delToUpdate(apesDependant);
-			dp.delToUpdate(pathToRoot);
-			dp.delToCreate(pathToRoot);
-		}
+//TODO		if ((taille==1)&&(dp.getApesOnServer(apesDependant)))
+//TODO		{
+//TODO			dp.delApes(apesDependant);
+//TODO			dp.delToCreate(apesDependant);
+//TODO			dp.delToUpdate(apesDependant);
+//TODO			dp.delToUpdate(pathToRoot);
+//TODO			dp.delToCreate(pathToRoot);
+//TODO		}
 		
 		//Si il y a des fils, on ne supprime que le pog
-		else  
-		{
-			dp.delPog(pathToRoot);
-			dp.delToUpdate(pathToRoot);
-		}
+//			TODO		else  
+//			TODO		{
+//			TODO			dp.delPog(pathToRoot);
+//			TODO			dp.delToUpdate(pathToRoot);
+//			TODO		}
 	}
 }
