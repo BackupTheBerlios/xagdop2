@@ -8,6 +8,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import xagdop.Interface.XAGDOP;
 import xagdop.Parser.PreferenciesParser;
 import xagdop.Parser.UsersParser;
 
@@ -120,7 +121,7 @@ public class CPreferencies {
 	 */
 	public static Locale getDefaultLocale(){
 		//System.out.println("getDefaultLocale->"+PreferenciesParser.getInstance().buildPreferencies().getLangue());//debug
-		return PreferenciesParser.getInstance().buildPreferencies().getLangue();
+		return PreferenciesParser.getInstance().buildPreferencies().getLang();
 	}
 	
 	
@@ -155,7 +156,7 @@ public class CPreferencies {
 	}
 	
 	/**
-	 * Si les mots de passe concordent, met a jour le mot de passe de l'utilisateur.
+	 * Si les mots de passe concordent, met a jour le mot de passe de l'utilisateur passe en parametre.
 	 * @param login Login de l'utilisateur
 	 * @param oldPasswd Ancien mot de passe
 	 * @param newPasswd Nouveau mot de passe
@@ -180,7 +181,30 @@ public class CPreferencies {
 	}
 	
 	
-	
+	/**
+	 * Si les mots de passe concordent, met a jour le mot de passe de l'utilisateur courant.
+	 * @param oldPasswd Ancien mot de passe
+	 * @param newPasswd Nouveau mot de passe
+	 * @return
+	 */
+	public static boolean submitPasswd(String oldPasswd, String newPasswd){
+		String login = XAGDOP.getInstance().getUser().getLogin();
+		boolean result=false;
+		UsersParser UP= UsersParser.getInstance();
+		try {
+			if(UP.getUserByLogin(login).getPasswd().equals(oldPasswd)){
+				UP.setAttribute(login, UsersParser.ATTR_PASSWD, newPasswd);
+				result=true;
+			}
+		} catch (NullPointerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
 	
 	
 	

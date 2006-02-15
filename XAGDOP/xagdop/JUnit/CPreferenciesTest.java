@@ -18,7 +18,7 @@ public class CPreferenciesTest extends TestCase {
 	/*
 	 * Test method for 'xagdop.Controleur.CPreferencies.getLocalPath()'
 	 */
-	public void testGetLocalPath() {
+	public void testGetLocalPath() throws Exception {
 		//sauvegarde du contexte
 		Preferencies savePref = PreferenciesParser.getInstance().buildPreferencies();
 
@@ -29,18 +29,13 @@ public class CPreferenciesTest extends TestCase {
 		assertNotSame(CPreferencies.getLocalPath(),"PIRATE");
 		
 		//restauration du contexte
-		try {
-			PreferenciesParser.getInstance().setPreferencies(savePref);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		PreferenciesParser.getInstance().setPreferencies(savePref);
 	}
 
 	/*
 	 * Test method for 'xagdop.Controleur.CPreferencies.setLocalPath(String)'
 	 */
-	public void testSetLocalPath() {
+	public void testSetLocalPath() throws Exception {
 		//sauvegarde du contexte
 		Preferencies savePref = PreferenciesParser.getInstance().buildPreferencies();		
 		
@@ -54,18 +49,13 @@ public class CPreferenciesTest extends TestCase {
 		assertNotSame(CPreferencies.getLocalPath(),"PIRATE");
 		
 		//restauration du contexte
-		try {
-			PreferenciesParser.getInstance().setPreferencies(savePref);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		PreferenciesParser.getInstance().setPreferencies(savePref);
 	}
 
 	/*
 	 * Test method for 'xagdop.Controleur.CPreferencies.getServerPath()'
 	 */
-	public void testGetServerPath() {
+	public void testGetServerPath() throws Exception {
 		//sauvegarde du contexte
 		Preferencies savePref = PreferenciesParser.getInstance().buildPreferencies();
 
@@ -76,18 +66,13 @@ public class CPreferenciesTest extends TestCase {
 		assertNotSame(CPreferencies.getServerPath(),"PIRATE");
 		
 		//restauration du contexte
-		try {
-			PreferenciesParser.getInstance().setPreferencies(savePref);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		PreferenciesParser.getInstance().setPreferencies(savePref);
 	}
 
 	/*
 	 * Test method for 'xagdop.Controleur.CPreferencies.setServerPath(String)'
 	 */
-	public void testSetServerPath() {
+	public void testSetServerPath() throws Exception {
 		//sauvegarde du contexte
 		Preferencies savePref = PreferenciesParser.getInstance().buildPreferencies();		
 		
@@ -101,18 +86,13 @@ public class CPreferenciesTest extends TestCase {
 		assertNotSame(CPreferencies.getServerPath(),"PIRATE");
 		
 		//restauration du contexte
-		try {
-			PreferenciesParser.getInstance().setPreferencies(savePref);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		PreferenciesParser.getInstance().setPreferencies(savePref);
 	}
 
 	/*
 	 * Test method for 'xagdop.Controleur.CPreferencies.getDefaultLNF()'
 	 */
-	public void testGetDefaultLNF() {
+	public void testGetDefaultLNF() throws Exception {
 		//sauvegarde du contexte
 		Preferencies savePref = PreferenciesParser.getInstance().buildPreferencies();
 
@@ -123,18 +103,13 @@ public class CPreferenciesTest extends TestCase {
 		assertNotSame(CPreferencies.getDefaultLNF(),"PIRATE");
 		
 		//restauration du contexte
-		try {
-			PreferenciesParser.getInstance().setPreferencies(savePref);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		PreferenciesParser.getInstance().setPreferencies(savePref);
 	}
 
 	/*
 	 * Test method for 'xagdop.Controleur.CPreferencies.setDefaultLNF(String)'
 	 */
-	public void testSetDefaultLNF() {
+	public void testSetDefaultLNF() throws Exception {
 		//sauvegarde du contexte
 		Preferencies savePref = PreferenciesParser.getInstance().buildPreferencies();
 		
@@ -148,48 +123,37 @@ public class CPreferenciesTest extends TestCase {
 		assertNotSame(CPreferencies.getDefaultLNF(),"PIRATE");
 		
 		//restauration du contexte
-		try {
-			PreferenciesParser.getInstance().setPreferencies(savePref);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		PreferenciesParser.getInstance().setPreferencies(savePref);
 	}
 
 
 	/*
 	 * Test method for 'xagdop.Controleur.CPreferencies.getDefaultLocale()'
 	 */
-	public void testGetDefaultLocale() {
+	public void testGetDefaultLocale() throws Exception {
 		//sauvegarde du contexte
 		Preferencies savePref = PreferenciesParser.getInstance().buildPreferencies();
 
 		//corps du test
-		System.out.println("-----testGetDefaultLocale-----");//debug
+		//System.out.println("-----testGetDefaultLocale-----");//debug
 		final Locale localeTest = Locale.FRENCH;
 		CPreferencies.setDefaultLocale(localeTest);
-		System.out.println("LocalTest: "+localeTest+"     defaultLocale: "+CPreferencies.getDefaultLocale());//debug
 		assertEquals(CPreferencies.getDefaultLocale(),localeTest);
 		assertNotSame(CPreferencies.getDefaultLocale(),Locale.ENGLISH);
 		
 		//restauration du contexte
-		try {
-			PreferenciesParser.getInstance().setPreferencies(savePref);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		PreferenciesParser.getInstance().setPreferencies(savePref);
 	}
 
 	/*
 	 * Test method for 'xagdop.Controleur.CPreferencies.setDefaultLocale(String)'
 	 */
-	public void testSetDefaultLocale() {
+	public void testSetDefaultLocale() throws Exception {
 		//sauvegarde du contexte
 		Preferencies savePref = PreferenciesParser.getInstance().buildPreferencies();		
 		
 		//corps du test
-		System.out.println("-----testSetDefaultLocale-----");//debug
+		//System.out.println("-----testSetDefaultLocale-----");//debug
 		final Locale localeTest = Locale.FRENCH;
 		final Locale localeTest2 = Locale.ENGLISH;
 		CPreferencies.setDefaultLocale(localeTest);
@@ -199,12 +163,7 @@ public class CPreferenciesTest extends TestCase {
 		assertNotSame(CPreferencies.getDefaultLocale(),localeTest);
 		
 		//restauration du contexte
-		try {
-			PreferenciesParser.getInstance().setPreferencies(savePref);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		PreferenciesParser.getInstance().setPreferencies(savePref);
 	}
 
 
@@ -246,7 +205,7 @@ public class CPreferenciesTest extends TestCase {
 		}
 		assertEquals(checkPass,newPass);
 		
-		
+		//supression de l'utilisateur cree
 		try {
 			UsersParser.getInstance().removeUser("login");
 		} catch (XPathExpressionException e) {

@@ -7,14 +7,14 @@ public class Preferencies {
 	private String server="";
 	private String local="";
 	private String lookNFeel="";
-	private Locale langue = Locale.getDefault();
+	private Locale langue;
 	
 	
 	public Preferencies(String server, String local, String lookNFeelName,Locale langue){
 		this.server=server;
 		this.local=local;
-		this.lookNFeel=lookNFeelName;	
-		this.langue= Locale.getDefault();
+		this.lookNFeel=lookNFeelName;
+		this.langue= langue;
 	}
 	
 	
@@ -26,7 +26,7 @@ public class Preferencies {
 		return local;
 	}
 	
-	public Locale getLangue() {
+	public Locale getLang() {
 		return langue;
 	}
 

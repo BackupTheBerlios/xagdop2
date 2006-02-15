@@ -108,7 +108,7 @@ public class PreferenciesParser extends Parser{
 		String serv= pref.getServer();
 		String local= pref.getLocal();
 		String lnf= pref.getLookNFeel();
-		String lang= pref.getLangue().getLanguage();
+		String lang= pref.getLang().getLanguage();
 		
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String exprServ = "//server";
@@ -243,4 +243,82 @@ public class PreferenciesParser extends Parser{
 		}
 	}
 
+	
+	public String getServer(){
+		String server = "";
+		Element elem=null;
+		XPath xpath = XPathFactory.newInstance().newXPath();
+
+		String expression = "//server";
+		try {
+			elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+		}
+		catch (XPathExpressionException e) {
+			e.printStackTrace();
+		}
+		if ( elem != null ) {
+			server= elem.getAttribute(PreferenciesParser.SERV_URL);
+		}		
+		return server;
+	
+	}
+	
+	public String getLocalPath(){
+		String local = "";
+		Element elem=null;
+		XPath xpath = XPathFactory.newInstance().newXPath();		
+		
+		String expression = "//local";
+		try {
+			elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+		}
+		catch (XPathExpressionException e) {
+			e.printStackTrace();
+		}
+		if ( elem != null ) {
+			local= elem.getAttribute(PreferenciesParser.LOCAL_URL);
+		}
+		
+		return local;
+	}
+	
+	public Locale getLang(){
+		Locale lang = Locale.getDefault();
+		Element elem=null;
+		XPath xpath = XPathFactory.newInstance().newXPath();		
+		
+		String expression = "//langue";
+		try {
+			elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+		}
+		catch (XPathExpressionException e) {
+			e.printStackTrace();
+		}
+		if ( elem != null ) {
+			lang = new Locale(elem.getAttribute(PreferenciesParser.LANG_NAME));
+		}
+		
+		return lang;
+	}
+	
+	public String getLNF(){
+		String lnf = "";
+		Element elem=null;
+		XPath xpath = XPathFactory.newInstance().newXPath();		
+		
+		String expression = "//lookNFeel";
+		try {
+			elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+		}
+		catch (XPathExpressionException e) {
+			e.printStackTrace();
+		}
+		if ( elem != null ) {
+			lnf = elem.getAttribute(PreferenciesParser.LNF_NAME);
+		}
+		
+		return lnf;
+	}
+	
+	
 }
