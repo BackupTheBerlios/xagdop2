@@ -12,11 +12,14 @@ import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -25,6 +28,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.WindowConstants;
 import javax.swing.border.Border;
 import javax.swing.plaf.BorderUIResource;
 import javax.swing.table.AbstractTableModel;
@@ -84,6 +88,9 @@ public class XAGDOP extends JFrame{
 	protected JMenuItem menuEditeUpdate = new JMenuItem(Bundle.getText("main.menu.edite.update"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/reload.png")));
 	protected JMenuItem menuEditeCheck = new JMenuItem(Bundle.getText("main.menu.edite.checkout"));
 	
+	protected JMenu menuShow = new JMenu(Bundle.getText("main.menu.show"));
+	protected JCheckBoxMenuItem menuShowProblems = new JCheckBoxMenuItem(Bundle.getText("main.menu.show.problems"));
+	
 	protected JMenu menuConf = new JMenu(Bundle.getText("main.menu.parameters"));
 	protected JMenuItem menuConfPreferences = new JMenuItem(Bundle.getText("main.menu.parameters.preferences"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/tools.jpg")));
 	
@@ -121,6 +128,10 @@ public class XAGDOP extends JFrame{
 		init();
 		setVisible(true);
 		refreshButton();
+		//Ouverture de la fenetre de problemes
+		//IProblemsList ipl = new IProblemsList();
+		//ipl.setVisible(true);
+	
 	}
 
 	private void init(){
@@ -180,7 +191,7 @@ public class XAGDOP extends JFrame{
 			}
 				}) ;
 		
-		
+		menuShowProblems.addActionListener(new openIProblemsList());
 		
 		
 		
@@ -257,7 +268,7 @@ public class XAGDOP extends JFrame{
 		menuProjet.add(menuProjetDelete);
 		menuProjet.add(menuProjetPreferences);
 		menuProjet.add(menuProjetComposantCreate);
-		
+		menuShow.add(menuShowProblems);
 		menuEdite.add(menuEditeUpdate);
 		menuEdite.add(menuEditeCommit);
 		menuEdite.add(menuEditeCheck);
@@ -275,6 +286,7 @@ public class XAGDOP extends JFrame{
 		
 		menuBar.add(menuFile);
 		menuBar.add(menuEdite);
+		menuBar.add(menuShow);
 		menuBar.add(menuProjet);
 		menuBar.add(menuConf);
 		menuBar.add(menuHelp);
@@ -482,7 +494,23 @@ public class XAGDOP extends JFrame{
 			}
 		}
 	}
-	
+	class openIProblemsList implements ActionListener { 
+		public void actionPerformed (ActionEvent e)  {
+			IProblemsList ipbl = IProblemsList.getInstance();
+			ipbl.setVisible(true);
+			menuShowProblems.setSelected(true);
+			ipbl.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE) ;
+			ipbl.addWindowListener(new WindowAdapter()
+			    {
+				public void windowClosing(WindowEvent e) // when closing unchecks the matching checkbox
+				{
+				    menuShowProblems.setSelected(false) ;
+				}
+				
+			    }) ;
+			
+		}
+	}
 	
 	class openIPreferences implements ActionListener { 
 		public void actionPerformed (ActionEvent e)  {
@@ -567,12 +595,15 @@ public class XAGDOP extends JFrame{
 		if (getUser().isPcreator()){
 			projet.setEnabled(true);
 			menuProjetCreate.setEnabled(true);
+			delProject.setEnabled(true);
+			menuProjetDelete.setEnabled(true);
 		}
 		else
 		{
 			projet.setEnabled(false);
 			menuProjetCreate.setEnabled(false);			
-			
+			delProject.setEnabled(false);
+			menuProjetDelete.setEnabled(false);
 		}
 		if (getUser().isAdmin()){
 			admin.setEnabled(true);
