@@ -40,14 +40,14 @@ public class DependenciesParser extends Parser{
 	
 	private DependenciesParser() throws IOException
 	{
-			
+		
 			CDependencies cdep = new CDependencies();
 			dependencies = cdep.getDependenciesFiles();
 			
-			/*** Pour le debuggage
+			/*** Pour le debuggage	
 			dependencies = new HashMap();
 			dependencies.put("Test",new File("xagdop/ressources/XML/dependencies.xml"));
-			*/	
+			*/
 	}
 
 	public File getFile(String project) throws NullPointerException
@@ -169,11 +169,10 @@ public class DependenciesParser extends Parser{
 		return apesList;			
 	}
 
-		/*
+		
 	public String getApesFromPog(String pogName) throws XPathExpressionException, NullPointerException
 	{
-		
-		
+	
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//apes[pog[@fileNamePog=\""+pogName+"\"]]";
 
@@ -191,7 +190,7 @@ public class DependenciesParser extends Parser{
 			NamedNodeMap mapAttributes;
 			mapAttributes = apesNode.getAttributes();
 			if(mapAttributes != null){					
-					return (mapAttributes.getNamedItem("fileNameApes").getNodeValue());
+				return (mapAttributes.getNamedItem("fileNameApes").getNodeValue());
 			}
 		}
 		else {
@@ -202,7 +201,7 @@ public class DependenciesParser extends Parser{
 
 		return null;
 	}
-	*/
+	
 	
 	public ArrayList getIeppFromApes(String apesName) throws XPathExpressionException, NullPointerException
 	{
