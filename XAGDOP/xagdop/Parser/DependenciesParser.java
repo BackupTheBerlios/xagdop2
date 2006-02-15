@@ -40,14 +40,14 @@ public class DependenciesParser extends Parser{
 	
 	private DependenciesParser() throws IOException
 	{
-		
+			
 			CDependencies cdep = new CDependencies();
 			dependencies = cdep.getDependenciesFiles();
-	/*** Pour le debuggage
-		
+			
+			/*** Pour le debuggage
 			dependencies = new HashMap();
 			dependencies.put("Test",new File("xagdop/ressources/XML/dependencies.xml"));
-	*/			
+			*/	
 	}
 
 	public File getFile(String project) throws NullPointerException
@@ -853,7 +853,7 @@ public class DependenciesParser extends Parser{
 		}
 	}
 
-	/*
+	
 	public void delApes(String filePath) throws Exception
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
@@ -900,10 +900,10 @@ public class DependenciesParser extends Parser{
 		if ( elem != null && oldElem != null) {
 			elem.removeChild(oldElem);
 			saveDocument((File)dependencies.get(currentProject));	
-			//publish((File)dependencies.get(currentProject));
+			publish((File)dependencies.get(currentProject));
 		}
 	}
-	*/
+	
 	
 	public void delIepp(String filePath, String apesName) throws Exception
 	{
