@@ -460,9 +460,14 @@ public class CCommit{
 	 */
 	protected void removePogFile(String pathToRoot) throws IOException, XPathExpressionException, NullPointerException
 	{
+		
 		DependenciesParser dp = DependenciesParser.getInstance();
+
 //TODO		String apesDependant = dp.getApesFromPog(pathToRoot);
 		String apesDependant="";
+		
+		
+
 		ArrayList allPog = dp.getPogFromApes(apesDependant);
 		ArrayList allIepp = dp.getIeppFromApes(apesDependant);
 		int taille = allPog.size()+allIepp.size();
