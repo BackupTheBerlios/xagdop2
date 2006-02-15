@@ -7,6 +7,7 @@
 package xagdop.Interface;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,10 +37,10 @@ public class IProblemsList extends JFrame {
 	private static final long serialVersionUID = 2721910732360834605L;
 	
 	  private JPanel mainPanel;
-	    private JTable problemsTable;
-	  
+	  private JTable problemsTable;
+	  private static IProblemsList ipl ;
 	
-	public IProblemsList() {
+	private IProblemsList() {
         initComponents();
     }
     
@@ -107,8 +108,14 @@ public class IProblemsList extends JFrame {
         
         problemsTable.setModel(new IProblemsListTableModel(problems));
         problemsTable.setTableHeader(null);
+        problemsTable.getColumnModel().getColumn(0).setResizable(true);
+        problemsTable.getColumnModel().getColumn(1).setResizable(true);
+        problemsTable.getColumnModel().getColumn(2).setResizable(true);
+        problemsTable.getColumnModel().getColumn(3).setResizable(true);
+        problemsTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        problemsTable.setSize(new Dimension(400,400));
         mainPanel.add(problemsTable, new GridBagConstraints());
-
+        this.setSize(new Dimension(600,600));
         getContentPane().add(mainPanel, BorderLayout.CENTER);
 
         pack();
@@ -224,10 +231,7 @@ public class IProblemsList extends JFrame {
 		 */
 	    public boolean isCellEditable(int row, int col) 
 	    {
-	    	if(col==0)
-	            return false;
-	    	else
-	    		return true;
+	    	    return false;
 	    }
 	    
 	    /*
@@ -250,9 +254,21 @@ public class IProblemsList extends JFrame {
 	    		this.fireTableCellUpdated(row, col);
 	        }
 	    }
+	    
+
+	    
 	}
 
-    
+    public static IProblemsList getInstance()
+    {
+    	if (ipl==null)
+    	{
+    		
+    		ipl = new IProblemsList();
+    		return ipl;
+    	}
+    	return ipl;
+    }
     
     
     
