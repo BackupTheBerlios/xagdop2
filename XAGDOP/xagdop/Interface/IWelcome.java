@@ -1,7 +1,7 @@
 /*
  * Acceuil.java
  *
- * Created on 16 février 2006, 16:41
+ * Created on 16 fï¿½vrier 2006, 16:41
  */
 
 package xagdop.Interface;
@@ -9,6 +9,7 @@ package xagdop.Interface;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -54,45 +55,48 @@ public class IWelcome extends JFrame {
 
         jPanel1 = new  JPanel();
         logoLabel = new  JLabel(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/LogoXAGDOP3.jpg")));
-        
-        
         buttonNext = new  JButton();
 
         setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE);
         jPanel1.setLayout(new GridBagLayout());
 
-        
         gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = GridBagConstraints.VERTICAL;
-        jPanel1.add(logoLabel, gridBagConstraints);
-
+        
+        /*Le texte de bienvenue */
         welcomeText = new JTextPane();
         welcomeText.setText("Bienvenue dans XAGDOP. Vous devez configurer l'application pour pouvoir vous en servir. \n Veuillez cliquer sur suivant pour acceder a la fenetre de configuration de l'application");
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 2;
         jPanel1.add(welcomeText, gridBagConstraints);
 
-        
-       
-
+        /*Le bouton suivant*/
         buttonNext.setText("Suivant");
-       
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor =  GridBagConstraints.WEST;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 1;
+       // gridBagConstraints.insets= new Insets(15,0,0,0);
+        gridBagConstraints.anchor =  GridBagConstraints.SOUTHEAST;
         jPanel1.add(buttonNext, gridBagConstraints);
+       
         buttonNext.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 buttonNextActionPerformed(evt);
             }
         });
-
+       
+        /*Le logo*/
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 1;
+       // gridBagConstraints.gridheight = ;
+        gridBagConstraints.fill = GridBagConstraints.VERTICAL;
+        jPanel1.add(logoLabel, gridBagConstraints);
+        
         getContentPane().add(jPanel1,  BorderLayout.CENTER);
 
         pack();
-        setSize(600,600);
+      //  setSize(600,600);
     }
     
     private void buttonNextActionPerformed(ActionEvent evt) {
