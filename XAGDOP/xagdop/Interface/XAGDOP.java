@@ -256,7 +256,7 @@ public class XAGDOP extends JFrame{
 				{
 			public void actionPerformed(ActionEvent e)
 			{
-				IAbout iabout = IAbout.getIA();
+				IWelcome iabout = new IWelcome();
 				iabout.setVisible(true);
 				
 			}
