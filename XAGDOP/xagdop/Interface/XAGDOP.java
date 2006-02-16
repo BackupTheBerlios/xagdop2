@@ -616,18 +616,7 @@ public class XAGDOP extends JFrame{
 		
 	}
 	
-	/*
-	 * Acces au projet courant
-	 */
-	public CTreeNode getCurrentNode() {
-		return currentNode;
-	}
-	/*
-	 * Modification du projet courant
-	 */
-	public void setCurrentNode(CTreeNode currentNode) {
-		this.currentNode = currentNode;
-	}
+	
 	
 	
 }

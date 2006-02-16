@@ -67,7 +67,6 @@ public class CTree extends DefaultTreeModel
 			project = "";
 		else
 			project = node.getName();
-		System.out.println(project);
 		
 		File localFiles = (File)current.getUserObject();
 		File[] allFiles = localFiles.listFiles(new FilenameFilter() {

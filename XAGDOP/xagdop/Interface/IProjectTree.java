@@ -263,7 +263,8 @@ public class IProjectTree extends JTree implements  TreeModelListener
 				if(selRow != -1 && me.getClickCount()==1){
 					me.consume();
 					selectedNode = (CTreeNode)pathClicked.getLastPathComponent();
-				}
+				}else
+					selectedNode = (CTreeNode) ((CTree)getModel()).getRoot();;
 		
 			//getSelectionModel().addSelectionPath(new TreePath(node.getPath()));
 			

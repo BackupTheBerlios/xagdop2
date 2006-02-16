@@ -177,7 +177,6 @@ public class CRole {
 	
 	
 	public boolean canShow(File file,String project){
-		//System.out.println( file.getName()+" : "+project);
 		if(file.isHidden())
 			return false;
 		
