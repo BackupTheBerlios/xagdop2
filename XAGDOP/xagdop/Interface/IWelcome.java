@@ -17,6 +17,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 import javax.swing.WindowConstants;
 
 /**
@@ -34,7 +36,8 @@ public class IWelcome extends JFrame {
    
     private  JLabel logoLabel;
     private  JPanel jPanel1;
-    private  JLabel welcomeLabel;
+    
+    private	 JTextPane welcomeText;
     // End of variables declaration
 	
 	/** Creates new form Acceuil */
@@ -51,7 +54,7 @@ public class IWelcome extends JFrame {
 
         jPanel1 = new  JPanel();
         logoLabel = new  JLabel(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/LogoXAGDOP3.jpg")));
-        welcomeLabel = new  JLabel();
+        
         
         buttonNext = new  JButton();
 
@@ -64,13 +67,14 @@ public class IWelcome extends JFrame {
         gridBagConstraints.fill = GridBagConstraints.VERTICAL;
         jPanel1.add(logoLabel, gridBagConstraints);
 
-        welcomeLabel.setText("Bienvenue dans XAGDOP. Vous devez configurer l'application pour pouvoir vous en servir. \n Veuillez cliquer sur suivant pour acceder a la fenetre de configuration de l'application");
-        
+        welcomeText = new JTextPane();
+        welcomeText.setText("Bienvenue dans XAGDOP. Vous devez configurer l'application pour pouvoir vous en servir. \n Veuillez cliquer sur suivant pour acceder a la fenetre de configuration de l'application");
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 2;
-        jPanel1.add(welcomeLabel, gridBagConstraints);
+        jPanel1.add(welcomeText, gridBagConstraints);
 
+        
        
 
         buttonNext.setText("Suivant");
