@@ -1,71 +1,103 @@
 package xagdop.Controleur;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import javax.xml.xpath.XPathExpressionException;
 
 import org.tmatesoft.svn.core.SVNException;
 
 import xagdop.Interface.XAGDOP;
-import xagdop.Model.User;
+import xagdop.Model.Project;
 import xagdop.Parser.ProjectsParser;
 
 public class CRole {
+	
+	protected HashMap projectsList;
+	protected static CRole role;
+	
+	
 	
 	protected ArrayList viewFile;
 	protected ArrayList forbidenViewDirectory;
 	protected ArrayList writeFile;
 	protected ArrayList forbidenWriteDirectory;
-	protected boolean projectManager = false;
-	protected boolean analyst = false;
-	protected boolean architect = false;
-	protected boolean redactor = false;
 	
-	public CRole(String _project) throws SVNException, IOException, Exception{
-		viewFile = new ArrayList();
-		writeFile = new ArrayList();
-		forbidenViewDirectory = new ArrayList();
-		forbidenWriteDirectory = new ArrayList();
-		if(_project!=""){
-			User current = XAGDOP.getInstance().getUser();
-			//System.out.println(current.getLogin()+" : "+_project);
-			ProjectsParser pp = ProjectsParser.getInstance();
-			//Project project = pp.buildProject(_project);
-			//madeRole(project.isManager(current.getLogin()),project.isAnalyst(current.getLogin()),project.isArchitect(current.getLogin()),project.isRedactor(current.getLogin()));
-			ArrayList right = pp.getRights(_project,current.getLogin());
-			projectManager = ((Boolean)right.get(0)).booleanValue();
-			architect = ((Boolean)right.get(1)).booleanValue();
-			analyst = ((Boolean)right.get(2)).booleanValue();
-			redactor = ((Boolean)right.get(3)).booleanValue();
-			madeRole();
+	
+	protected CRole(){
+		
+		projectsList = new HashMap();
+		
+		try {
+			refreshRole();
+		} catch (XPathExpressionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SVNException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 	}
 	
+	public static CRole getInstance(){
+		if(role == null)
+			role = new CRole();
+		return role;
+	}
 	
-	private void madeRole(){
+	
+	
+	public void refreshRole() throws XPathExpressionException, SVNException, IOException, Exception{
+		ArrayList projects = ProjectsParser.getInstance().getProjects(XAGDOP.getInstance().getUser().getLogin());
+		for(int i = 0; i < projects.size() ; i++){
+			//System.out.println((String)projects.get(i));
+			Project tmpPj = ProjectsParser.getInstance().buildProject((String)projects.get(i));
+			ArrayList right = new ArrayList();
+			right.add(tmpPj);
+			projectsList.put((String)projects.get(i),right);
+			madeRole((String)projects.get(i));
+			right.add(writeFile);
+			right.add(viewFile);
+			
+			projectsList.put((String)projects.get(i),right);
+		}
+	}
+	
+	
+	private void madeRole(String project){
+		viewFile = new ArrayList();
+		writeFile = new ArrayList();
 		
 		
 		writeFile.add(".xml");
 		viewFile.add(".pref");
-		/*System.out.println("Manager : "+projectManager);
-		System.out.println("Archi : "+architect);
-		System.out.println("Redactor : "+redactor);
-		System.out.println("analyst : "+analyst);*/
-		if(projectManager)
+		/*System.out.println("Manager : "+isProjectManager(project));
+		 System.out.println("Archi : "+isArchitect(project));
+		 System.out.println("Redactor : "+isRedactor(project));
+		 System.out.println("analyst : "+isAnalyst(project));*/
+		if(isProjectManager(project))
 			addManagerRight();
 		
-		if(analyst)
+		if(isAnalyst(project))
 			addAnalystRight();
 		
-		if(architect)
+		if(isArchitect(project))
 			addArchitectRight();
 		
-		if(redactor)
+		if(isRedactor(project))
 			addRedactorRight();
 	}
 	
 	protected void addManagerRight(){
-		writeFile.add(".pref");
 	}
 	
 	protected void addAnalystRight(){
@@ -83,7 +115,7 @@ public class CRole {
 		viewFile.add(".iepp");
 		viewFile.add(".apes");
 		viewFile.add(".pog");
-	
+		
 	}	
 	
 	protected void addRedactorRight(){
@@ -92,40 +124,95 @@ public class CRole {
 		
 	}
 	
-	public ArrayList getViewFileRight(){
-		return viewFile;
+	public ArrayList getViewFileRight(String project){
+		ArrayList tmp = (ArrayList)projectsList.get(project);
+		if(tmp != null){
+			return (ArrayList) tmp.get(2);
+		}
+			
+		return null;
 	}
 	
-	public ArrayList getForbidenViewDirectoryRight(){
+	public ArrayList getForbidenViewDirectoryRight(String project){
 		return forbidenViewDirectory;
 	}
 	
-	public ArrayList getWriteFileRight(){
-		return writeFile;
+	public ArrayList getWriteFileRight(String project){
+		ArrayList tmp = (ArrayList)projectsList.get(project);
+		if(tmp != null)
+			return (ArrayList) tmp.get(1);
+		return null;
 	}
 	
-	public ArrayList getForbidenWriteDirectoryRight(){
+	public ArrayList getForbidenWriteDirectoryRight(String project){
 		return forbidenWriteDirectory;
 	}
-
-
-	public boolean isAnalyst() {
-		return analyst;
-	}
-
-
-	public boolean isArchitect() {
-		return architect;
-	}
-
-
-	public boolean isProjectManager() {
-		return projectManager;
-	}
-
-
-	public boolean isRedactor() {
-		return redactor;
+	
+	
+	public boolean isAnalyst(String project) {
+		ArrayList tmp = (ArrayList)projectsList.get(project);
+		
+		if(tmp != null)
+			return ((Project)tmp.get(0)).isAnalyst(XAGDOP.getInstance().getUser().getLogin());
+		return false;
 	}
 	
+	
+	public boolean isArchitect(String project) {
+		ArrayList tmp = (ArrayList)projectsList.get(project);
+		if(tmp != null)
+			return ((Project)tmp.get(0)).isArchitect(XAGDOP.getInstance().getUser().getLogin());
+		return false;
+	}
+	
+	
+	public boolean isProjectManager(String project) {
+		ArrayList tmp = (ArrayList)projectsList.get(project);
+		if(tmp != null)
+			return ((Project)tmp.get(0)).isManager(XAGDOP.getInstance().getUser().getLogin());
+		return false;
+	}
+	
+	
+	public boolean isRedactor(String project) {
+		ArrayList tmp = (ArrayList)projectsList.get(project);
+		if(tmp != null)
+			return ((Project)tmp.get(0)).isRedactor(XAGDOP.getInstance().getUser().getLogin());
+		return false;
+	}
+	
+	
+	public boolean canShow(File file,String project){
+		//System.out.println( file.getName()+" : "+project);
+		if(file.isHidden())
+			return false;
+		
+		
+		if(file.isDirectory()){
+			if(!isArchitect(project)&&file.getName().startsWith("lib"))
+				return false;
+			
+			return true;
+		}
+		
+		
+		
+			ArrayList view = getViewFileRight(project);
+			//System.out.println("bla : "+view.size());
+			if(file.getParentFile().getName().startsWith("lib")||file.getParentFile().getName().equals("icones"))
+				return true;
+			int i = 0;
+			while(i < view.size()){
+				if(file.getName().endsWith((String)view.get(i)))
+					return true;
+				i++;
+			}
+		
+		
+		return false;
+		
+	}
+	
+	
 }
+

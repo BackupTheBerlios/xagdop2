@@ -49,12 +49,6 @@ public class CTreeNode extends DefaultMutableTreeNode implements Serializable
 			return true;
 		
 		return false;
-		
-	/*	if(!isRoot())
-			return false;
-		if(getParent()==getRoot())
-			return true;
-		return false;*/
 	}
 
 	public CTreeNode getProject(){

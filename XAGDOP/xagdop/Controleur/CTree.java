@@ -37,19 +37,13 @@ public class CTree extends DefaultTreeModel
 	
 	
 	public Object getChild( Object parent, int index ) {
-		//File directory = (File)((CTreeNode)parent).getUserObject();
 		File[] children = listFile((CTreeNode)parent);
 		CTreeNode node = new CTreeNode(children[index],(CTreeNode)parent);
 		try {
 			if(!SvnHistory.isUnderVersion(children[index])||SvnHistory.isModified(children[index])){
 				node.setAllIsModified();
-				/*while(!node.isRoot()){
-				 fireTreeNodesChanged(new TreeModelEvent(node,new TreePath(node)));
-				 node = (CTreeNode)node.getParent();
-				 }*/
 			}
 		} catch (SVNException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return node;
@@ -67,59 +61,21 @@ public class CTree extends DefaultTreeModel
 	}
 	
 	protected File[] listFile(CTreeNode current){
-		//final CTreeNode node = current;
+		final CTreeNode node = current.getProject();
+		final String project;
+		if(node == null)
+			project = "";
+		else
+			project = node.getName();
+		System.out.println(project);
+		
 		File localFiles = (File)current.getUserObject();
 		File[] allFiles = localFiles.listFiles(new FilenameFilter() {
 			
 			public boolean accept(File dir, String name) {
-				
-				
 				File directory = new File(dir.getAbsolutePath()+File.separator+name);
-				//System.out.println(dir.getName()+" : "+name+" : "+directory.isHidden());
-				
-				if(directory.isHidden()||name.endsWith(".xml"))
-					return false;
-				else return true;
+				return CRole.getInstance().canShow(directory,project);
 			}
-			/*if(directory.isDirectory()){
-			 if(!node.isRoot()){
-			 
-			 
-			 try {
-			 CRole role = new CRole(node.getProject().getName());
-			 if(!role.isArchitect()&&directory.getName().startsWith("lib"))
-			 return false;
-			 
-			 } catch (Exception e) {
-			 ErrorManager.getInstance().display();
-			 }
-			 
-			 
-			 }
-			 return true;
-			 }
-			 
-			 //System.out.println("bla");
-			  try {
-			  CRole role = new CRole(node.getProject().getName());
-			  ArrayList view = role.getViewFileRight();
-			  //System.out.println("bla : "+view.size());
-			   if(dir.getName().startsWith("lib")||dir.getName().equals("icones"))
-			   return true;
-			   int i = 0;
-			   while(i < view.size()){
-			   if(name.endsWith((String)view.get(i)))
-			   return true;
-			   i++;
-			   }
-			   } catch (Exception e) {
-			   ErrorManager.getInstance().display();
-			   }
-			   
-			   return false;
-			   
-			   }
-			   */
 		});
 		return allFiles;
 	}
@@ -151,7 +107,6 @@ public class CTree extends DefaultTreeModel
 	public CTree (CTreeNode test) throws SVNException
 	{
 		super(test);
-		//refreshFromLocal(mRoot);
 	}
 	
 	/**
@@ -194,46 +149,6 @@ public class CTree extends DefaultTreeModel
 		return ((CTreeNode)node).isLeaf();
 	}
 	
-	
-	public String treePathName(CTreeNode node){
-		if(mRoot.getLocalPath().length()+2+node.getProject().getName().length()>node.getLocalPath().length())
-			return "";
-		
-		return node.getLocalPath().substring(mRoot.getLocalPath().length()+node.getProject().getName().length()+2,node.getLocalPath().length()); 
-	}
-	
-	/*public String treePathName(String file){
-	 
-	 //System.out.println(node.getLocalPath().substring(0,mRoot.getLocalPath().length()+1));
-	  
-	  return file.substring(mRoot.getLocalPath().length()+1,file.length()); 
-	  }*/
-	
-	public String relativePath(String apesFile, String pogFile){
-		
-		if(!apesFile.startsWith(mRoot.getLocalPath()))
-			return apesFile;
-		
-		if(!pogFile.startsWith(mRoot.getLocalPath()))
-			return apesFile;
-		apesFile = apesFile.replaceFirst(mRoot.getLocalPath()+File.separator,"");
-		pogFile = pogFile.replaceFirst(mRoot.getLocalPath()+File.separator,"");
-		String[] apesSlit  = apesFile.split(File.separator);
-		String[] pogSlit = pogFile.split(File.separator);
-		String res="";
-		int tmp = 0;
-		for(int i = Math.min(apesSlit.length,pogSlit.length); i>0;i--){
-			if(apesSlit[i-1].compareTo(pogSlit[i-1])!=0)
-				tmp = i-1;
-		}
-		for(int i = tmp+1;i<pogSlit.length;i++)
-			res = res.concat(".."+File.separator);
-		for(int i = tmp;i<apesSlit.length;i++)
-			res = res.concat(apesSlit[i]+File.separator);
-		
-		res = res.substring(0,res.length()-1);
-		return res;
-	}
 	
 	public TreeNode[] getPathToRoot(CTreeNode node)
 	{
@@ -337,7 +252,7 @@ public class CTree extends DefaultTreeModel
 		ImageIcon icon;
 		URL imageURL;
 		if(((CTreeNode)node).isLeaf()){
-			if(DependenciesParser.getInstance().isToUpdate(treePathName((CTreeNode)node))){
+			if(DependenciesParser.getInstance().isToUpdate(CFile.treePathName((CTreeNode)node))){
 				
 				imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/lab_err1.gif");
 				icon = new ImageIcon(imageURL);

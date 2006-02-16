@@ -35,7 +35,7 @@ public class CCommit{
 	
 		//Recuperation du nom de fichier a envoyer
 		String nameOfFile = node.getName();
-		String pathToRoot = ((CTree)(XAGDOP.getInstance().getTree().getModel())).treePathName(node);
+		String pathToRoot = CFile.treePathName(node);
 		//R?cup?ration du fichier a envoyer
 		File toCommit = new File(node.getLocalPath());
 		
@@ -372,7 +372,7 @@ public class CCommit{
 	
 		//Recuperation du nom de fichier a envoyer
 		String nameOfFile = node.getName();
-		String pathToRoot = ((CTree)(XAGDOP.getInstance().getTree().getModel())).treePathName(node);
+		String pathToRoot = CFile.treePathName(node);
 		//R?cup?ration du fichier a envoyer
 		File toCommit = new File(node.getLocalPath());
 		

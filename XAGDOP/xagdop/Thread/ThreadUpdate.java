@@ -26,6 +26,7 @@ public class ThreadUpdate extends Thread {
 	}
 	public ThreadUpdate(ArrayList listProject, ThreadWait TW){	
 		list = listProject;
+		node = XAGDOP.getInstance().getTree().getSelectedNode();
 		tWait = TW;
 	}
 	
@@ -33,13 +34,13 @@ public class ThreadUpdate extends Thread {
 		SvnUpdate svnu;
 		try {
 			svnu = new SvnUpdate();
-			if(node!=null){
+			if(list==null){
 				svnu.checkOut(new File(node.getLocalPath()));
 				((CTree)((IProjectTree)XAGDOP.getInstance().getTree()).getModel()).refreshFromLocal(node);
 			}
 			else{
 				svnu.checkOut(list);
-				//((CTree)((IProjectTree)XAGDOP.getInstance().getTree()).getModel()).refreshFromLocal(XAGDOP.getInstance().getTree().getSelectedNode());
+				((CTree)((IProjectTree)XAGDOP.getInstance().getTree()).getModel()).refreshFirst(node);
 			}
 			
 			
@@ -53,7 +54,6 @@ public class ThreadUpdate extends Thread {
 
 		}finally{
 			tWait.arreter();
-		
 		}
 		
 	}
