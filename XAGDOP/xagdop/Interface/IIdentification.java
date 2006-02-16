@@ -2,10 +2,8 @@ package xagdop.Interface;
 
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -20,19 +18,14 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
-
-import sun.security.krb5.internal.util.a5;
 import xagdop.Controleur.CUser;
 import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
 
 public class IIdentification extends JFrame{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-
+	/*Definitions des variables */
 	private static IIdentification ident = null;
 	private JPanel panel;
 	private JLabel welcomlabel;
@@ -50,10 +43,8 @@ public class IIdentification extends JFrame{
 
 	private void init(){
 		
-		
+		/*Creation du panel */
 		panel = new JPanel();
-		//equipe = new JButton(new ImageIcon(imageURL));
-		
 		panel.setLayout(new GridBagLayout());
 		panel.setMinimumSize(new Dimension(300, 200));
 		
@@ -77,6 +68,8 @@ public class IIdentification extends JFrame{
 		welcomlabel = new JLabel(Bundle.getText("iuser.label.welcom"));
 		welcomlabel.setFont(new Font("Times Roman", Font.BOLD,20));
 		welcomlabel.setForeground(Color.orange);
+		
+		/*Affichage du mot de passe*/
 		gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth =2;
@@ -85,9 +78,7 @@ public class IIdentification extends JFrame{
         gridBagConstraints.anchor = GridBagConstraints.CENTER;
         panel.add(welcomlabel,gridBagConstraints);
 		
-		
-		
-		/*Affichage des champs*/
+		/*Affichage du label de l'identifiant*/
 		gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets= new Insets(35,60,5,10);
@@ -96,18 +87,21 @@ public class IIdentification extends JFrame{
         gridBagConstraints.gridheight=1;
         panel.add(userIDLabel, gridBagConstraints);
         
+        /*Affichage du champs de l'identifiant*/
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets= new Insets(35,20,5,5);
         gridBagConstraints.anchor = GridBagConstraints.CENTER;
-         panel.add(userID, gridBagConstraints);
+        panel.add(userID, gridBagConstraints);
 
+        /*Affichage du label du mot de passe*/
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.insets= new Insets(20,60,5,10);
         gridBagConstraints.anchor = GridBagConstraints.WEST;
         panel.add(passwordLabel, gridBagConstraints);
         
+        /*Affichage du champs du mot de passe*/
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.insets= new Insets(20,20,5,5);
@@ -172,21 +166,16 @@ public class IIdentification extends JFrame{
 		    }
 		}) ;
 		
-		//Creation de la fenetre
+		/*Creation de la fenetre*/
 		setTitle(Bundle.getText("iuser.title"));
-		setSize(250, 150);
 		setResizable(false) ;
 		getContentPane().add(panel);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setLocation(300,200);
 		setVisible(true);
 		pack();
-
 	}
 		    
-
-
-
 	public static IIdentification getInstance() {
 		if (ident==null){
 			ident = new IIdentification(); 
