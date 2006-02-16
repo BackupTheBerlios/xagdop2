@@ -7,6 +7,7 @@
 package xagdop.Interface;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -36,9 +37,10 @@ public class IWelcome extends JFrame {
     private  JButton buttonNext;
    
     private  JLabel logoLabel;
-    private  JPanel jPanel1;
+    private  JPanel panel;
     
-    private	 JTextPane welcomeText;
+    private	 JLabel welcomeText;
+
     // End of variables declaration
 	
 	/** Creates new form Acceuil */
@@ -52,32 +54,30 @@ public class IWelcome extends JFrame {
     
     private void initComponents() {
         GridBagConstraints gridBagConstraints;
-
-        jPanel1 = new  JPanel();
-        logoLabel = new  JLabel(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/LogoXAGDOP3.jpg")));
-        buttonNext = new  JButton();
-
-        setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE);
-        jPanel1.setLayout(new GridBagLayout());
-
         gridBagConstraints = new GridBagConstraints();
+        panel = new  JPanel();
+        panel.setLayout(new GridBagLayout());
         
         /*Le texte de bienvenue */
-        welcomeText = new JTextPane();
-        welcomeText.setText("Bienvenue dans XAGDOP. Vous devez configurer l'application pour pouvoir vous en servir. \n Veuillez cliquer sur suivant pour acceder a la fenetre de configuration de l'application");
+        welcomeText = new JLabel();
+        welcomeText.setText("<html>Bienvenue dans XAGDOP. Vous devez configurer l'application pour pouvoir vous en servir. <br> Veuillez cliquer sur suivant pour acceder a la fenetre de configuration de l'application</html>");
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 2;
-        jPanel1.add(welcomeText, gridBagConstraints);
+        gridBagConstraints.gridheight =1 ;
+        gridBagConstraints.insets= new Insets(15,10,0,10);
+        panel.add(welcomeText, gridBagConstraints);
 
         /*Le bouton suivant*/
+        buttonNext = new  JButton();
         buttonNext.setText("Suivant");
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 1;
-       // gridBagConstraints.insets= new Insets(15,0,0,0);
+        gridBagConstraints.gridwidth = 1; 
+        gridBagConstraints.gridheight =1 ;
+        gridBagConstraints.insets= new Insets(15,0,10,10);
         gridBagConstraints.anchor =  GridBagConstraints.SOUTHEAST;
-        jPanel1.add(buttonNext, gridBagConstraints);
+        panel.add(buttonNext, gridBagConstraints);
        
         buttonNext.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
@@ -86,17 +86,21 @@ public class IWelcome extends JFrame {
         });
        
         /*Le logo*/
+        logoLabel = new  JLabel(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/LogoXAGDOP5.jpg")));
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 1;
-       // gridBagConstraints.gridheight = ;
+        gridBagConstraints.gridheight =1 ;
+        gridBagConstraints.insets= new Insets(15,0,0,0);
         gridBagConstraints.fill = GridBagConstraints.VERTICAL;
-        jPanel1.add(logoLabel, gridBagConstraints);
+        panel.add(logoLabel, gridBagConstraints);
         
-        getContentPane().add(jPanel1,  BorderLayout.CENTER);
+        getContentPane().add(panel,  BorderLayout.CENTER);
 
         pack();
-      //  setSize(600,600);
+        
+        setResizable(true) ;
+        
     }
     
     private void buttonNextActionPerformed(ActionEvent evt) {
