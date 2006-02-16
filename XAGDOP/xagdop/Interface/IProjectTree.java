@@ -81,6 +81,10 @@ public class IProjectTree extends JTree implements  TreeModelListener, TreeSelec
 		
 	}
 	
+	public DirectoryModel getDirModel(){
+		return model;
+	}
+	
 	public CTreeNode getSelectedNode(){
 		if ( selectedNode == null )
 		{
@@ -384,7 +388,7 @@ public class IProjectTree extends JTree implements  TreeModelListener, TreeSelec
 	
 	 public void valueChanged( TreeSelectionEvent e ) {
        
-         
+        
      }
 	
 }

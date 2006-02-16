@@ -259,16 +259,15 @@ public class XAGDOP extends JFrame{
 		
 		//tableVersion.setBorder(BorderUIResource.getBlackLineBorderUIResource()  );
 		tree = new IProjectTree();
-		DirectoryModel directoryModel = new DirectoryModel( (File)((CTreeNode)tree.getModel().getRoot()).getUserObject() );
-        JTable table = new JTable( directoryModel );
+		
+        JTable table = new JTable( tree.getDirModel() );
         table.setShowHorizontalLines( false );
         table.setShowVerticalLines( false );
         table.setIntercellSpacing( new Dimension( 0, 2 ) );
-        table.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+        //table.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
         table.getColumn( "Type" ).setCellRenderer( new DirectoryRenderer() );
         table.getColumn( "Type" ).setMaxWidth( 32 );
         table.getColumn( "Type" ).setMinWidth( 32 );
-        //tree.addTreeSelectionListener( new TreeListener( directoryModel ) );
 
         JScrollPane treeScroller = new JScrollPane( tree );
         JScrollPane tableScroller = new JScrollPane( table );
