@@ -1,12 +1,6 @@
 package xagdop.JUnit;
 
 import junit.framework.TestCase;
-import xagdop.Controleur.CRole;
-import xagdop.Interface.XAGDOP;
-import xagdop.Model.User;
-import xagdop.Parser.ProjectsParser;
-import xagdop.Parser.UsersParser;
-import xagdop.Util.ErrorManager;
 
 public class CRoleTest extends TestCase {
 
@@ -15,7 +9,7 @@ public class CRoleTest extends TestCase {
 	/*
 	 * Test method for 'xagdop.Controleur.CRole.getViewFileRight()'
 	 */
-	public void testGetViewFileRight() {
+/*	public void testGetViewFileRight() {
 		//Declarations
 		try {
 			ProjectsParser pp = ProjectsParser.getInstance();
@@ -55,7 +49,7 @@ public class CRoleTest extends TestCase {
 	/*
 	 * Test method for 'xagdop.Controleur.CRole.getViewDirectoryRight()'
 	 */
-	public void testGetViewDirectoryRight() {
+	/*public void testGetViewDirectoryRight() {
 		//Declarations
 		try {
 			ProjectsParser pp = ProjectsParser.getInstance();
@@ -95,7 +89,7 @@ public class CRoleTest extends TestCase {
 	/*
 	 * Test method for 'xagdop.Controleur.CRole.getWriteFileRight()'
 	 */
-	public void testGetWriteFileRight() {
+/*	public void testGetWriteFileRight() {
 		//Declarations
 		try {
 			ProjectsParser pp = ProjectsParser.getInstance();
@@ -126,7 +120,7 @@ public class CRoleTest extends TestCase {
 		} catch (Exception e) {
 			ErrorManager.getInstance().display();
 		}
-	}
+	}*/
 
 	
 

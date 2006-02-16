@@ -17,6 +17,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.event.TreeWillExpandListener;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeModel;
@@ -28,13 +30,14 @@ import org.tmatesoft.svn.core.SVNException;
 
 import xagdop.Controleur.CTree;
 import xagdop.Controleur.CTreeNode;
+import xagdop.Model.DirectoryModel;
 import xagdop.Parser.DependenciesParser;
 import xagdop.Svn.SvnRemove;
 import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
 
 
-public class IProjectTree extends JTree implements  TreeModelListener
+public class IProjectTree extends JTree implements  TreeModelListener, TreeSelectionListener
 {
 	private static final long serialVersionUID = 1L;
 	
@@ -42,6 +45,7 @@ public class IProjectTree extends JTree implements  TreeModelListener
 	
 	protected CTreeNode selectedNode; 
 	protected CTreeNode currentProject;
+	protected DirectoryModel model;
 	
 	
 	public IProjectTree()
@@ -53,17 +57,17 @@ public class IProjectTree extends JTree implements  TreeModelListener
 		} catch (SVNException e) {
 			ErrorManager.getInstance().display();
 		}
+		model = new DirectoryModel((File)((CTreeNode) getModel().getRoot()).getUserObject());
+		
 		selectedNode = (CTreeNode) getModel().getRoot();
 		setEditable(true);
 		getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+		addTreeSelectionListener(this);
 		ITreeCellRenderer renderer = new ITreeCellRenderer();
 		setCellRenderer(renderer);
-		//setCellEditor(new ITreeCellEditor(this, renderer));
 		setToggleClickCount(0);
 		addTreeWillExpandListener(new ITreeWillExpandListener());
-		//setExpandsSelectedPaths(true);
 		setExpandsSelectedPaths(false);
-		//setInvokesStopCellEditing(true);
 		
 		
 		
@@ -178,7 +182,7 @@ public class IProjectTree extends JTree implements  TreeModelListener
 		private JMenuItem menuCommit = new JMenuItem(Bundle.getText("tree.popup.menu.commit"));
 		private JMenuItem menuRename = new JMenuItem(Bundle.getText("tree.popup.menu.rename"));
 		private JMenuItem menuDelete = new JMenuItem(Bundle.getText("tree.popup.menu.delete"));
-		private JMenuItem menuProperty = new JMenuItem(Bundle.getText("tree.popup.menu.property"));
+		//private JMenuItem menuProperty = new JMenuItem(Bundle.getText("tree.popup.menu.property"));
 		private JMenuItem menuRefrechFL = new JMenuItem(Bundle.getText("tree.popup.menu.refreshfromlocal"));
 		
 		public PopupListener(JPopupMenu pop) {
@@ -192,8 +196,6 @@ public class IProjectTree extends JTree implements  TreeModelListener
 						SvnRemove svnR = new SvnRemove();
 						svnR.delete(selectedNode);
 						((CTree)getModel()).remove(selectedNode);
-						//((CTree)getModel()).fireTreeNodesRemoved(new TreeModelEvent(selectedNode,new TreePath(selectedNode)));
-						//treeNodesRemoved(new TreeModelEvent(selectedNode,new TreePath(selectedNode)));
 					} catch (SVNException e1) {
 						ErrorManager.getInstance().display();
 					}
@@ -203,7 +205,6 @@ public class IProjectTree extends JTree implements  TreeModelListener
 				}
 				
 			});
-			menuProperty.addActionListener(new openIProjectPreferences());
 			menuCommit.addActionListener(new openICommit());
 			menuRefrechFL.addActionListener( new ActionListener() {
 			public void actionPerformed (ActionEvent e){
@@ -225,28 +226,21 @@ public class IProjectTree extends JTree implements  TreeModelListener
 				}
 			}
 			);
-			//menuUpdate.addActionListener(this);
 			
 			popup.add(menuRefrechFL);
 			popup.addSeparator();
-			//popup.add(menuUpdate);
 			popup.add(menuRefresh);
 			popup.add(menuCommit);
 			popup.addSeparator();
 			popup.add(menuRename);
 			popup.add(menuDelete);
-			popup.addSeparator();
-			popup.add(menuProperty);
+			//popup.addSeparator();
+			//popup.add(menuProperty);
 
 		}
 		
 		
-		class openIProjectPreferences implements ActionListener {
-			public void actionPerformed (ActionEvent e){
-				IProjectPreferences iprojectpreferences = IProjectPreferences.getIPP();
-				iprojectpreferences.setVisible(true);
-			}
-		}
+		
 		class openICommit implements ActionListener {
 			public void actionPerformed (ActionEvent e){
 				new ICommit(getSelectedNode());
@@ -256,17 +250,14 @@ public class IProjectTree extends JTree implements  TreeModelListener
 		
 		public void mouseReleased(MouseEvent me) {
 			TreePath pathClicked = getPathForLocation(me.getX(),me.getY());
-			//DefaultMutableTreeNode node = (DefaultMutableTreeNode)getLastSelectedPathComponent();
 			
 			int selRow = getRowForLocation(me.getX(), me.getY());
 				
-				if(selRow != -1 && me.getClickCount()==1){
-					me.consume();
+				if(selRow != -1 && me.getClickCount()==1)
 					selectedNode = (CTreeNode)pathClicked.getLastPathComponent();
-				}else
+				else
 					selectedNode = (CTreeNode) ((CTree)getModel()).getRoot();;
 		
-			//getSelectionModel().addSelectionPath(new TreePath(node.getPath()));
 			
 			if ((SwingUtilities.isLeftMouseButton(me))&&(!isPathSelected(pathClicked))) {		
 					
@@ -285,7 +276,6 @@ public class IProjectTree extends JTree implements  TreeModelListener
 					}else
 						XAGDOP.getInstance().delProject.setEnabled(false);
 				} catch (Exception e) {
-					//System.out.println("Management");
 					ErrorManager.getInstance().display();
 				}
 			}
@@ -303,10 +293,8 @@ public class IProjectTree extends JTree implements  TreeModelListener
 				try {
 					DependenciesParser.getInstance().setFile(selectedNode.getProject().getName());
 				} catch (NullPointerException e) {
-					e.printStackTrace();
 					ErrorManager.getInstance().display();
 				} catch (Exception e) {
-					e.printStackTrace();
 					ErrorManager.getInstance().display();
 				}
 			
@@ -314,6 +302,14 @@ public class IProjectTree extends JTree implements  TreeModelListener
 			if ((SwingUtilities.isRightMouseButton(me))&&(isPathSelected(pathClicked))) {		
 					popup.show(me.getComponent(), me.getX(), me.getY());				
 			} 
+			
+			
+	         if ( ((File)selectedNode.getUserObject()).isDirectory() ) {
+	             model.setDirectory( (File)selectedNode.getUserObject() );
+	         }
+	         else {
+	             model.setDirectory( null );
+	         }
 		}
 	} 
 	
@@ -385,5 +381,10 @@ public class IProjectTree extends JTree implements  TreeModelListener
 		}
 		
 	}
+	
+	 public void valueChanged( TreeSelectionEvent e ) {
+       
+         
+     }
 	
 }

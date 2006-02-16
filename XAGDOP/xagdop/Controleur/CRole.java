@@ -5,11 +5,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
 import javax.xml.xpath.XPathExpressionException;
 
 import org.tmatesoft.svn.core.SVNException;
-import sun.security.jca.GetInstance;
 
 import xagdop.Interface.XAGDOP;
 import xagdop.Model.Project;

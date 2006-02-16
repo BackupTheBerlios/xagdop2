@@ -8,15 +8,18 @@ package xagdop.Interface;
 
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
@@ -27,17 +30,18 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
-import javax.swing.border.Border;
-import javax.swing.plaf.BorderUIResource;
-import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import org.tmatesoft.svn.core.SVNException;
 
 import xagdop.Controleur.CProject;
 import xagdop.Controleur.CTree;
 import xagdop.Controleur.CTreeNode;
+import xagdop.Model.DirectoryModel;
 import xagdop.Model.User;
 import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
@@ -106,17 +110,6 @@ public class XAGDOP extends JFrame{
 	
 	//End of Menu Initialisation
 	
-	// TODO
-	// Effacer apres le travail des L3
-	//Menu for L3
-	//JMenu menuL3 = new JMenu("Menu L3");
-	//JMenuItem menuL3Admin = new JMenuItem("Fenetre ADMIN");
-	//JMenuItem menuL3TM = new JMenuItem("Fenetre Team Management");
-	
-	
-	
-	protected CTreeNode currentNode;
-	
 	protected IProjectTree tree;
 	
 	private XAGDOP(){
@@ -179,7 +172,7 @@ public class XAGDOP extends JFrame{
 		
 		fileMenuQuit.setMnemonic('Q') ;
 		fileMenuQuit.addActionListener(new ActionListener()
-				{
+		{
 			public void actionPerformed(ActionEvent e)
 			{
 				int confirmQuit = JOptionPane.showConfirmDialog(null , Bundle.getText("main.confirmQuit.label") , Bundle.getText("main.confirmQuit.title") , JOptionPane.YES_NO_OPTION);
@@ -189,7 +182,7 @@ public class XAGDOP extends JFrame{
 				}
 				
 			}
-				}) ;
+		}) ;
 		
 		menuShowProblems.addActionListener(new openIProblemsList());
 		
@@ -216,51 +209,18 @@ public class XAGDOP extends JFrame{
 		menuConfPreferences.addActionListener(new openIPreferences());
 		menuConfPreferences.setMnemonic('P');
 		
-		
-//		admin.addActionListener(new ActionListener()
-//				{
-//			public void actionPerformed(ActionEvent e)
-//			{
-//				IJAdmin ijadmin = IJAdmin.getIJA();
-//				ijadmin.setVisible(true);
-//				
-//			}
-//				}) ;
-//		
-//		equipe.addActionListener(new ActionListener() { 
-//			public void actionPerformed (ActionEvent e)  {
-//				
-//				
-//				
-//				String projectName = tree.getSelectedNode().getName();
-//				System.out.println(projectName);
-//				if (XAGDOP.getInstance().getUser().isPManager(projectName))
-//				{
-//					IJTeamManagement iteam = new IJTeamManagement(projectName);
-//					//iteam.refreshCombo();
-//					iteam.setVisible(true);
-//				}
-//				else
-//				{
-//					JOptionPane.showMessageDialog(null ,"pas le droit :P", "Plop plop plop" , 1) ;
-//					
-//				}
-//
-//
-//				
-//			}});
-//		
+
 		
 		
 		menuHelpAbout.addActionListener(new ActionListener()
-				{
+		{
 			public void actionPerformed(ActionEvent e)
 			{
 				IWelcome iabout = new IWelcome();
 				iabout.setVisible(true);
 				
 			}
-				}) ;
+		}) ;
 			
 		menuFile.add(fileMenuQuit);
 		menuProjet.add(menuProjetTeam);
@@ -276,24 +236,12 @@ public class XAGDOP extends JFrame{
 		menuConf.add(menuConfPreferences);
 		
 		
-		//TODO
-		//A changer apres le travail des L3
-		//menuL3.add(menuL3Admin);
-		//menuL3.add(menuL3TM);
-		
-		
-		
-		
 		menuBar.add(menuFile);
 		menuBar.add(menuEdite);
 		menuBar.add(menuShow);
 		menuBar.add(menuProjet);
 		menuBar.add(menuConf);
 		menuBar.add(menuHelp);
-		
-		//TODO 
-		// a supprimer apres le travail des L3
-		//menuBar.add(menuL3);
 		
 		
 		menuBar2.add(commit);
@@ -307,25 +255,52 @@ public class XAGDOP extends JFrame{
 		menuBar2.add(Box.createHorizontalStrut(30)) ;
 		menuBar2.add(admin);
 		
-		tableVersion = new JTable(new MyTableModel());
+		//tableVersion = new JTable(new MyTableModel());
 		
-		tableVersion.setBorder(BorderUIResource.getBlackLineBorderUIResource()  );
-		
+		//tableVersion.setBorder(BorderUIResource.getBlackLineBorderUIResource()  );
 		tree = new IProjectTree();
+		DirectoryModel directoryModel = new DirectoryModel( (File)((CTreeNode)tree.getModel().getRoot()).getUserObject() );
+        JTable table = new JTable( directoryModel );
+        table.setShowHorizontalLines( false );
+        table.setShowVerticalLines( false );
+        table.setIntercellSpacing( new Dimension( 0, 2 ) );
+        table.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+        table.getColumn( "Type" ).setCellRenderer( new DirectoryRenderer() );
+        table.getColumn( "Type" ).setMaxWidth( 32 );
+        table.getColumn( "Type" ).setMinWidth( 32 );
+        //tree.addTreeSelectionListener( new TreeListener( directoryModel ) );
+
+        JScrollPane treeScroller = new JScrollPane( tree );
+        JScrollPane tableScroller = new JScrollPane( table );
+        treeScroller.setMinimumSize( new Dimension( 0, 0 ) );
+        tableScroller.setMinimumSize( new Dimension( 0, 0 ) );
+        tableScroller.setBackground( Color.white );
+        JSplitPane splitPane = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT,
+                                               treeScroller,
+                                               tableScroller );
+        splitPane.setDividerLocation(200);
+        splitPane.setContinuousLayout( true );
+//      Create the tree
+		//Border border = BorderFactory.createLoweredBevelBorder();
+		//tree.setBorder(border);
+		//mScroll.getViewport().add(tree);
 		
-		JScrollPane mScroll = new JScrollPane();
-		mScroll.setPreferredSize(new Dimension(150,450));
-		
-		//Create the tree
-		Border border = BorderFactory.createLoweredBevelBorder();
-		tree.setBorder(border);
-		mScroll.getViewport().add(tree);
-		
-		pan2.add(new JScrollPane(tableVersion), BorderLayout.CENTER);
-		pan2.add(mScroll, BorderLayout.WEST);
+		//pan2.add(new JScrollPane(tableVersion), BorderLayout.CENTER);
+		//pan2.add(mScroll, BorderLayout.WEST);
+        pan2.add( splitPane , BorderLayout.CENTER);
+        //pan2.add( treeScroller, BorderLayout.WEST );
 		pan2.add(menuBar2, BorderLayout.NORTH);
 		pan.add(menuBar, BorderLayout.NORTH);
 		pan.add(pan2,BorderLayout.CENTER);
+        
+        
+ 
+    
+		
+		//JScrollPane mScroll = new JScrollPane();
+		//mScroll.setPreferredSize(new Dimension(150,450));
+		
+		
 		projet.addActionListener (new openIprojet());
 		equipe.addActionListener (new openIUser());
 		//****************************
@@ -340,69 +315,10 @@ public class XAGDOP extends JFrame{
 		//Initialisation des boutons
 		equipe.setEnabled(false);
 		menuProjetTeam.setEnabled(false);
-		//Ico = new ICheckOut();
-		//Cr??ation des parsers
-		/*System.out.println("Parser");
-		DependenciesParser.getInstance();
-		UsersParser.getInstance();
-		ProjectsParser.getInstance();
-		System.out.println("Fin Parser");
-		CRole role = new CRole("Blabla");
-		ArrayList test = role.getViewFileRight();
-		System.out.println(test.toString());*/
 		
 		
 	}
 	
-	class MyTableModel extends AbstractTableModel {
-		
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-		private String[] columnNames ={"Version", "Date Modification", "Commentaires", "Auteur"};
-		private String[][]data  = new String[8][4];
-		
-		public MyTableModel(){
-			data[0][0]="1.7";
-			data[1][0]="1.4";
-			data[2][0]="1.0";
-			
-			data[0][1]="24/10/2005";
-			data[1][1]="12/10/2005";
-			data[2][1]="01/10/2005";
-			
-			data[0][2]="Correction orthographique";
-			data[1][2]="Maj des rubriques";
-			data[2][2]="Creation";
-			
-			data[0][3]="Jeremy";
-			data[1][3]="Remy";
-			data[2][3]="Remy";
-			
-		}
-		
-		public int getColumnCount() {
-			return columnNames.length;
-		}
-		
-		public int getRowCount() {
-			return data.length;
-		}
-		
-		public String getColumnName(int col) {
-			return columnNames[col];
-		}
-		
-		public Object getValueAt(int row, int col) {
-			return data[row][col];
-		}
-		
-		public Class getColumnClass(int c) {
-			return String.class;
-		}
-		
-	}
 	
 	/*
 	 * Action listener associes aux differents boutons
@@ -616,7 +532,27 @@ public class XAGDOP extends JFrame{
 		
 	}
 	
-	
-	
+	  public class DirectoryRenderer extends DefaultTableCellRenderer {
+	        /**
+	    	 * 
+	    	 */
+	    	private static final long serialVersionUID = 1L;
+
+	    	public Component getTableCellRendererComponent(JTable table, Object value,
+	                                                       boolean isSelected, boolean hasFocus, int row, int column) {
+
+	            if ( value != null && value instanceof Icon ) {
+	               super.getTableCellRendererComponent( table, value, isSelected, hasFocus, row, column );
+	               setIcon( (Icon)value );
+	               setText( "" );
+	               return this;
+	            }
+	            else {
+	               setIcon( null );
+	            }
+
+	            return super.getTableCellRendererComponent( table, value, isSelected, hasFocus, row, column );
+	        }
+	    }
 	
 }
