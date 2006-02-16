@@ -41,6 +41,7 @@ public class IProjectTree extends JTree implements  TreeModelListener
 	private JPopupMenu popup = new JPopupMenu();
 	
 	protected CTreeNode selectedNode; 
+	protected CTreeNode currentProject;
 	
 	
 	public IProjectTree()
@@ -87,6 +88,20 @@ public class IProjectTree extends JTree implements  TreeModelListener
 			return selectedNode;
 		}
 	}
+	
+	/*
+	 * Acces au projet courant
+	 */
+	public CTreeNode getCurrentProject() {
+		return currentProject;
+	}
+	/*
+	 * Modification du projet courant
+	 */
+	public void setCurrentProject(CTreeNode currentProject) {
+		this.currentProject = currentProject;
+	}
+	
 	
 	
 	public void setModel(TreeModel newModel)
@@ -308,9 +323,10 @@ public class IProjectTree extends JTree implements  TreeModelListener
         	
         	 TreePath path = evt.getPath();
         	 CTreeNode current = (CTreeNode) path.getLastPathComponent();
-        	 if (current.getProject()!=(XAGDOP.getInstance().getCurrentNode()))
+        	 if (current.getProject()!=currentProject)
  			{
  				//changement du noeud courant
+        		 setCurrentProject(current.getProject());
  				//XAGDOP.getInstance().setCurrentNode(current.getProject());
  				//rechargement de larbre en memoire				
  				try {
@@ -329,9 +345,10 @@ public class IProjectTree extends JTree implements  TreeModelListener
         public void treeWillCollapse(TreeExpansionEvent evt){
         	 TreePath path = evt.getPath();
         	 CTreeNode current = (CTreeNode) path.getLastPathComponent();
-        	 if (current.getProject()!=(XAGDOP.getInstance().getCurrentNode()))
+        	 if (current.getProject()!=currentProject)
  			{
  				//changement du noeud courant
+        		 setCurrentProject(current.getProject());
  				//XAGDOP.getInstance().setCurrentNode(current.getProject());
  				//rechargement de larbre en memoire				
  				try {
