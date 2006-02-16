@@ -4,6 +4,7 @@ package xagdop.Interface;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -19,6 +20,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
+
+import sun.security.krb5.internal.util.a5;
 import xagdop.Controleur.CUser;
 import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
@@ -32,7 +35,7 @@ public class IIdentification extends JFrame{
 
 	private static IIdentification ident = null;
 	private JPanel panel;
-	private JLabel logodeux;
+	private JLabel welcomlabel;
 	private JLabel logo;
 	private JLabel userIDLabel;
 	private JLabel passwordLabel;
@@ -57,7 +60,7 @@ public class IIdentification extends JFrame{
 		
 		/*Creation du mot de passe */
 		userIDLabel = new JLabel(Bundle.getText("iuser.label.id"));
-		userIDLabel.setForeground(Color.white);
+		userIDLabel.setForeground(Color.orange);
 		//userID = new JTextField(Bundle.getText("iuser.Jtextfield.id"));
 		userID = new JTextField("claire");
 		userID.setColumns(12);
@@ -71,14 +74,16 @@ public class IIdentification extends JFrame{
 		password.setColumns(12);
 		
 		/*Creation de l'image */
-		logodeux = new JLabel(Bundle.getText("iuser.title"));
+		welcomlabel = new JLabel(Bundle.getText("iuser.label.welcom"));
+		welcomlabel.setFont(new Font("Times Roman", Font.BOLD,20));
+		welcomlabel.setForeground(Color.orange);
 		gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth =2;
         gridBagConstraints.gridheight=1;
         gridBagConstraints.insets= new Insets(15,0,0,0);
         gridBagConstraints.anchor = GridBagConstraints.CENTER;
-        panel.add(logodeux,gridBagConstraints);
+        panel.add(welcomlabel,gridBagConstraints);
 		
 		
 		
