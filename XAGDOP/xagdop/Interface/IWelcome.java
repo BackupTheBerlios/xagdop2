@@ -50,7 +50,7 @@ public class IWelcome extends JFrame {
         GridBagConstraints gridBagConstraints;
 
         jPanel1 = new  JPanel();
-        logoLabel = new  JLabel(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/LogoXAGDOP.jpg")));
+        logoLabel = new  JLabel(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/LogoXAGDOP3.jpg")));
         welcomeLabel = new  JLabel();
         
         buttonNext = new  JButton();
@@ -65,7 +65,7 @@ public class IWelcome extends JFrame {
         jPanel1.add(logoLabel, gridBagConstraints);
 
         welcomeLabel.setText("Bienvenue dans XAGDOP. Vous devez configurer l'application pour pouvoir vous en servir. \n Veuillez cliquer sur suivant pour acceder a la fenetre de configuration de l'application");
-        gridBagConstraints = new GridBagConstraints();
+        
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 2;
@@ -74,7 +74,7 @@ public class IWelcome extends JFrame {
        
 
         buttonNext.setText("Suivant");
-        gridBagConstraints = new  GridBagConstraints();
+       
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor =  GridBagConstraints.WEST;
