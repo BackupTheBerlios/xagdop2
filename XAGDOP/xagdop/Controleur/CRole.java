@@ -5,13 +5,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
 import javax.xml.xpath.XPathExpressionException;
 
 import org.tmatesoft.svn.core.SVNException;
+import sun.security.jca.GetInstance;
 
 import xagdop.Interface.XAGDOP;
 import xagdop.Model.Project;
 import xagdop.Parser.ProjectsParser;
+import xagdop.Util.ErrorManager;
 
 public class CRole {
 	
@@ -26,29 +29,20 @@ public class CRole {
 	protected ArrayList forbidenWriteDirectory;
 	
 	
-	protected CRole(){
+	protected CRole() {
 		
 		projectsList = new HashMap();
 		
 		try {
 			refreshRole();
-		} catch (XPathExpressionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SVNException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
+			ErrorManager.getInstance().display();
 		}
 		
 	}
 	
-	public static CRole getInstance(){
+	public static CRole getInstance() {
 		if(role == null)
 			role = new CRole();
 		return role;
