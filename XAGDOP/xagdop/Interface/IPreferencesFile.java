@@ -40,14 +40,14 @@ public class IPreferencesFile extends JFrame {
        final JTextField preferencePath = new JTextField();
        JButton BrowseButton = new JButton();
        JButton ValidateButton = new JButton();
-       
+       JButton cancelButton = new JButton();
         getContentPane().setLayout(new GridBagLayout());
 
        
         Panel.setLayout(new GridBagLayout());
 
-        preferencePath.setText("textextex");
-        
+        preferencePath.setText("");
+        preferencePath.setColumns(15);
         
         
 
@@ -89,10 +89,33 @@ public class IPreferencesFile extends JFrame {
         });
 
         Panel.add(BrowseButton, gridBagConstraints);
-        
+        ValidateButton.setText("Valider");
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         Panel.add(ValidateButton, gridBagConstraints);
+        ValidateButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+            	/*
+            	 * Traitement a faire pour commiter la liste des fichiers préférences
+            	 */	
+            	
+            	dispose();
+            }
+        });
+
+        
+        cancelButton.setText("Annuler");
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        Panel.add(cancelButton, gridBagConstraints);
+        cancelButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+            		dispose();
+            }
+        });
+
+        
+        
         
         getContentPane().add(Panel, gridBagConstraints);
 
