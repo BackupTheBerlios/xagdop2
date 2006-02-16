@@ -1,7 +1,7 @@
 /*
  * ProblemsList.java
  *
- * Created on 10 février 2006, 19:38
+ * Created on 10 f?vrier 2006, 19:38
  */
 
 package xagdop.Interface;
@@ -15,7 +15,9 @@ import java.util.Iterator;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.plaf.BorderUIResource;
 import javax.swing.table.AbstractTableModel;
 import javax.xml.xpath.XPathExpressionException;
 
@@ -47,7 +49,7 @@ public class IProblemsList extends JFrame {
    
     private void initComponents() {
         mainPanel = new JPanel();
-        problemsTable = new JTable();
+  
 
         //Initialisation des problemes
         ArrayList problems = new ArrayList();
@@ -106,25 +108,32 @@ public class IProblemsList extends JFrame {
 		
 		
         
-        problemsTable.setModel(new IProblemsListTableModel(problems));
-        problemsTable.setTableHeader(null);
-        problemsTable.getColumnModel().getColumn(0).setResizable(true);
+	    problemsTable = new JTable(new IProblemsListTableModel(problems));
+
+		problemsTable.setBorder(BorderUIResource.getBlackLineBorderUIResource()  );
+        problemsTable.getColumnModel().getColumn(0).setResizable(false);
+        problemsTable.getColumnModel().getColumn(0).setMaxWidth(10);
         problemsTable.getColumnModel().getColumn(1).setResizable(true);
         problemsTable.getColumnModel().getColumn(2).setResizable(true);
         problemsTable.getColumnModel().getColumn(3).setResizable(true);
         problemsTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        problemsTable.setSize(new Dimension(400,400));
-        mainPanel.add(problemsTable, new GridBagConstraints());
-        this.setSize(new Dimension(600,600));
+        problemsTable.setSize(new Dimension(200,200));
+        mainPanel.add(new JScrollPane(problemsTable), BorderLayout.CENTER);
+        this.setSize(new Dimension(800,800));
         getContentPane().add(mainPanel, BorderLayout.CENTER);
 
-        pack();
+       pack();
     }
     
     
 	class IProblemsListTableModel extends AbstractTableModel 
 	{
-		private static final long serialVersionUID = 1L;
+		
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -6660241017263485617L;
 
 		private String[] columnNames = {"icone",
 				"Description",
