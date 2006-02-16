@@ -150,7 +150,6 @@ public class IIdentification extends JFrame{
 							}
 						} catch (Exception e1) {
 
-							e1.printStackTrace();
 							ErrorManager.getInstance().display();
 
 						}

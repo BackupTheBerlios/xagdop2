@@ -2,9 +2,9 @@ package xagdop.JUnit;
 
 import java.io.File;
 
-import xagdop.Controleur.CTreeNode;
-import xagdop.Interface.IPreferences;
 import junit.framework.TestCase;
+import xagdop.Controleur.CTreeNode;
+import xagdop.Interface.Preferences.IPreferences;
 
 public class CTreeNodeTest extends TestCase {
 

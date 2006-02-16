@@ -14,8 +14,8 @@ import org.tmatesoft.svn.core.wc.SVNUpdateClient;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
 import xagdop.Controleur.CFile;
-import xagdop.Interface.IPreferences;
 import xagdop.Interface.XAGDOP;
+import xagdop.Interface.Preferences.IPreferences;
 import xagdop.Model.User;
 import xagdop.Parser.ProjectsParser;
 import xagdop.Util.ErrorManager;

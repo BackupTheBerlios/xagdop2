@@ -1,4 +1,4 @@
-package xagdop.Interface;
+package xagdop.Interface.Preferences;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -9,10 +9,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.ArrayList;
-
-import xagdop.Interface.preferencesPanels.*;
-import xagdop.ressources.Bundle;
-import xagdop.Controleur.CPreferencies;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -29,6 +25,9 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
+
+import xagdop.Controleur.CPreferencies;
+import xagdop.ressources.Bundle;
 
 
 public class IPreferences extends JFrame implements TreeSelectionListener{

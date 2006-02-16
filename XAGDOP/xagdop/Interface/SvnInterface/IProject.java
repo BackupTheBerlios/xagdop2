@@ -1,4 +1,4 @@
-package xagdop.Interface;
+package xagdop.Interface.SvnInterface;
 
 
 import java.awt.Dimension;

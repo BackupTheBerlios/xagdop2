@@ -1,33 +1,23 @@
- /*
- * SOAP Supervising, Observing, Analysing Projects
- * Copyright (C) 2003-2004 SOAPteam
- * 
- *
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- */
-package xagdop.Interface.preferencesPanels;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.border.*;
+package xagdop.Interface.Preferences;
 
-import xagdop.ressources.Bundle;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
+
 import xagdop.Controleur.CPreferencies;
-import xagdop.Interface.IPreferences;
+import xagdop.ressources.Bundle;
 
 /**
  * a class which allows to create a panel to select the default path
@@ -35,6 +25,10 @@ import xagdop.Interface.IPreferences;
  */
 public class LocalPathPanel extends PreferencePanel
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected static String mDirectory = "";
 	protected JButton mBrowse ;
 	protected JTextField mDirectoryPath ;

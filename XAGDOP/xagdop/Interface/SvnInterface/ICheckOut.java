@@ -1,4 +1,4 @@
-package xagdop.Interface;
+package xagdop.Interface.SvnInterface;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -23,6 +23,7 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.tmatesoft.svn.core.SVNException;
 
+import xagdop.Interface.XAGDOP;
 import xagdop.Parser.ProjectsParser;
 import xagdop.Thread.ThreadUpdate;
 import xagdop.Thread.ThreadWait;

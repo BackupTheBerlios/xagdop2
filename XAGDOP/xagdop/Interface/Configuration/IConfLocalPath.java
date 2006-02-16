@@ -4,7 +4,7 @@
  * Created on 16 f�vrier 2006, 17:00
  */
 
-package xagdop.Interface;
+package xagdop.Interface.Configuration;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

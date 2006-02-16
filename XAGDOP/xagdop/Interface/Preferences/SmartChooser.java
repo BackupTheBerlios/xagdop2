@@ -19,7 +19,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-package xagdop.Interface.preferencesPanels;
+package xagdop.Interface.Preferences;
 
 import java.awt.Component;
 import java.io.File;
@@ -33,6 +33,10 @@ import javax.swing.JFileChooser;
  */
 public class SmartChooser extends JFileChooser
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static SmartChooser chooser = new SmartChooser();
 	protected File lastDirectory = new File(System.getProperty("user.dir"));
 

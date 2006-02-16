@@ -8,8 +8,8 @@ import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
-import xagdop.Interface.IPreferences;
 import xagdop.Interface.XAGDOP;
+import xagdop.Interface.Preferences.IPreferences;
 import xagdop.Model.User;
 import xagdop.Parser.DependenciesParser;
 import xagdop.Parser.ProjectsParser;

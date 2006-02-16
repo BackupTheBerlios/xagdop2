@@ -8,7 +8,6 @@ package xagdop.Interface;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;

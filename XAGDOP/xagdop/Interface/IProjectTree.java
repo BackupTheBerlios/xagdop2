@@ -30,6 +30,9 @@ import org.tmatesoft.svn.core.SVNException;
 
 import xagdop.Controleur.CTree;
 import xagdop.Controleur.CTreeNode;
+import xagdop.Interface.Preferences.IPreferences;
+import xagdop.Interface.SvnInterface.ICheckOut;
+import xagdop.Interface.SvnInterface.ICommit;
 import xagdop.Model.DirectoryModel;
 import xagdop.Parser.DependenciesParser;
 import xagdop.Svn.SvnRemove;

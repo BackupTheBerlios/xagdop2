@@ -5,8 +5,7 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.HashMap;
 
-
-import xagdop.Interface.IPreferences;
+import xagdop.Interface.Preferences.IPreferences;
 import xagdop.Util.ErrorManager;
 
 

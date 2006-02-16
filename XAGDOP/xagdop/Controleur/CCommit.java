@@ -3,7 +3,9 @@ package xagdop.Controleur;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+
 import javax.xml.xpath.XPathExpressionException;
+
 import xagdop.Interface.IProjectTree;
 import xagdop.Interface.XAGDOP;
 import xagdop.Parser.DependenciesParser;
@@ -11,7 +13,6 @@ import xagdop.Parser.IeppNitParser;
 import xagdop.Parser.POGParser;
 import xagdop.Svn.SvnCommit;
 import xagdop.Svn.SvnHistory;
-import xagdop.Util.ErrorManager;
 
 
 
@@ -374,7 +375,7 @@ public class CCommit{
 		String nameOfFile = node.getName();
 		String pathToRoot = CFile.treePathName(node);
 		//R?cup?ration du fichier a envoyer
-		File toCommit = new File(node.getLocalPath());
+		//File toCommit = new File(node.getLocalPath());
 		
 			//-----------------------------------------
 			//Si le fichier est un apes -->

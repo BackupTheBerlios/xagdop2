@@ -1,4 +1,4 @@
-package xagdop.Interface.preferencesPanels;
+package xagdop.Interface.Preferences;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -14,11 +14,14 @@ import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-import xagdop.Interface.IPreferences;
-import xagdop.ressources.Bundle;
 import xagdop.Controleur.CPreferencies;
+import xagdop.ressources.Bundle;
 
 public class LookAndFeelPanel extends PreferencePanel{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JComboBox mLaFComboBox;
 	private ArrayList mLNF_available;
 	public static String mLookandFeel = "";

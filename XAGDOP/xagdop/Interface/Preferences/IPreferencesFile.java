@@ -1,4 +1,4 @@
-package xagdop.Interface;
+package xagdop.Interface.Preferences;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -12,7 +12,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileFilter;
 
 import xagdop.ressources.Bundle;
@@ -96,7 +95,7 @@ public class IPreferencesFile extends JFrame {
         ValidateButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
             	/*
-            	 * Traitement a faire pour commiter la liste des fichiers préférences
+            	 * Traitement a faire pour commiter la liste des fichiers prï¿½fï¿½rences
             	 */	
             	
             	dispose();

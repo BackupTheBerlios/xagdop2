@@ -1,4 +1,4 @@
-package xagdop.Interface;
+package xagdop.Interface.SvnInterface;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -18,6 +18,8 @@ import org.tmatesoft.svn.core.SVNException;
 import xagdop.Controleur.CComposantCreate;
 import xagdop.Controleur.CTree;
 import xagdop.Controleur.CTreeNode;
+import xagdop.Interface.IProjectTree;
+import xagdop.Interface.XAGDOP;
 import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
 

@@ -1,4 +1,4 @@
-package xagdop.Interface;
+package xagdop.Interface.Management;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -21,6 +21,7 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import xagdop.Controleur.CTeamManagement;
+import xagdop.Interface.XAGDOP;
 import xagdop.Model.Project;
 import xagdop.Parser.ProjectsParser;
 import xagdop.Util.ErrorManager;

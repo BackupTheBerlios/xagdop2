@@ -6,8 +6,8 @@ import java.io.File;
 import javax.management.InstanceNotFoundException;
 import javax.swing.JOptionPane;
 
-import xagdop.Interface.IPreferences;
 import xagdop.Interface.XAGDOP;
+import xagdop.Interface.Preferences.IPreferences;
 import xagdop.Model.User;
 import xagdop.Parser.UsersParser;
 import xagdop.Util.ErrorManager;

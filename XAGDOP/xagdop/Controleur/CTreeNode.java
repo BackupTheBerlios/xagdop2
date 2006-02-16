@@ -6,8 +6,7 @@ import java.io.Serializable;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-
-import xagdop.Interface.IPreferences;
+import xagdop.Interface.Preferences.IPreferences;
 
 
 

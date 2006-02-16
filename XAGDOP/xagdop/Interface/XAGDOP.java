@@ -16,8 +16,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -32,16 +32,23 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import org.tmatesoft.svn.core.SVNException;
 
 import xagdop.Controleur.CProject;
 import xagdop.Controleur.CTree;
-import xagdop.Controleur.CTreeNode;
-import xagdop.Model.DirectoryModel;
+import xagdop.Interface.Configuration.IWelcome;
+import xagdop.Interface.Management.IJAdmin;
+import xagdop.Interface.Management.IJTeamManagement;
+import xagdop.Interface.Preferences.IPreferences;
+import xagdop.Interface.Preferences.IPreferencesFile;
+import xagdop.Interface.SvnInterface.ICheckOut;
+import xagdop.Interface.SvnInterface.ICommit;
+import xagdop.Interface.SvnInterface.IComposantCreate;
+import xagdop.Interface.SvnInterface.IProject;
 import xagdop.Model.User;
 import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
@@ -74,10 +81,6 @@ public class XAGDOP extends JFrame{
 	protected JButton preferences;
 	protected JButton admin;
 	protected JTable tableVersion;
-	
-	/***************************/
-	 protected ICheckOut Ico;
-	/***************************/
 
 
 	/*
@@ -280,25 +283,15 @@ public class XAGDOP extends JFrame{
         splitPane.setDividerLocation(200);
         splitPane.setContinuousLayout( true );
 //      Create the tree
-		//Border border = BorderFactory.createLoweredBevelBorder();
-		//tree.setBorder(border);
-		//mScroll.getViewport().add(tree);
+		Border border = BorderFactory.createLoweredBevelBorder();
+		tree.setBorder(border);
 		
-		//pan2.add(new JScrollPane(tableVersion), BorderLayout.CENTER);
-		//pan2.add(mScroll, BorderLayout.WEST);
         pan2.add( splitPane , BorderLayout.CENTER);
-        //pan2.add( treeScroller, BorderLayout.WEST );
 		pan2.add(menuBar2, BorderLayout.NORTH);
 		pan.add(menuBar, BorderLayout.NORTH);
 		pan.add(pan2,BorderLayout.CENTER);
         
         
- 
-    
-		
-		//JScrollPane mScroll = new JScrollPane();
-		//mScroll.setPreferredSize(new Dimension(150,450));
-		
 		
 		projet.addActionListener (new openIprojet());
 		equipe.addActionListener (new openIUser());

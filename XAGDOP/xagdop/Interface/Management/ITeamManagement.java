@@ -1,4 +1,4 @@
-package xagdop.Interface;
+package xagdop.Interface.Management;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;

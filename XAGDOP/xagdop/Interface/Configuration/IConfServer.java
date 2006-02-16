@@ -1,10 +1,10 @@
 /*
  * IconfLocalPath.java
  *
- * Created on 16 février 2006, 17:00
+ * Created on 16 fï¿½vrier 2006, 17:00
  */
 
-package xagdop.Interface;
+package xagdop.Interface.Configuration;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;

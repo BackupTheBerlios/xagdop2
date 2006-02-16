@@ -1,4 +1,4 @@
-package xagdop.Interface.preferencesPanels;
+package xagdop.Interface.Preferences;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
@@ -16,10 +16,13 @@ import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-import xagdop.Interface.IPreferences;
 import xagdop.ressources.Bundle;
 
 public class PasswordPanel extends PreferencePanel{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JLabel labFormerPass;
 	private JLabel labNewPass1;
 	private JLabel labNewPass2;

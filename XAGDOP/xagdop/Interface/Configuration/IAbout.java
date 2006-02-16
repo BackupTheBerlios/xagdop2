@@ -1,4 +1,4 @@
-package xagdop.Interface;
+package xagdop.Interface.Configuration;
 
 
 
@@ -7,9 +7,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-
 import javax.swing.JPanel;
 
+import xagdop.Interface.XAGDOP;
 import xagdop.ressources.Bundle;
 
 

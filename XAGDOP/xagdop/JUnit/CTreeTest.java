@@ -2,11 +2,13 @@ package xagdop.JUnit;
 
 import java.io.File;
 
+import junit.framework.TestCase;
+
 import org.tmatesoft.svn.core.SVNException;
 
-import junit.framework.TestCase;
-import xagdop.Controleur.*;
-import xagdop.Interface.IPreferences;
+import xagdop.Controleur.CTree;
+import xagdop.Controleur.CTreeNode;
+import xagdop.Interface.Preferences.IPreferences;
 import xagdop.Util.ErrorManager;
 public class CTreeTest extends TestCase {
 

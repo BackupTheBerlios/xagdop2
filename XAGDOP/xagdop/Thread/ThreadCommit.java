@@ -1,9 +1,10 @@
 package xagdop.Thread;
 
 import java.util.ArrayList;
+
 import org.tmatesoft.svn.core.SVNException;
+
 import xagdop.Controleur.CTreeNode;
-import xagdop.Interface.XAGDOP;
 import xagdop.Svn.SvnCommit;
 import xagdop.Util.ErrorManager;
 

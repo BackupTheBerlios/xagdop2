@@ -1,4 +1,4 @@
-package xagdop.Interface;
+package xagdop.Interface.Management;
 
 
 import java.awt.Component;
@@ -27,6 +27,7 @@ import org.tmatesoft.svn.core.SVNException;
 import org.w3c.dom.DOMException;
 
 import xagdop.Controleur.CAdmin;
+import xagdop.Interface.XAGDOP;
 import xagdop.Model.User;
 import xagdop.Parser.UsersParser;
 import xagdop.Util.ErrorManager;

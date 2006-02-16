@@ -15,9 +15,8 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.tmatesoft.svn.core.SVNException;
 
-import xagdop.Interface.ICentralPanel;
-import xagdop.Interface.IPreferences;
 import xagdop.Interface.XAGDOP;
+import xagdop.Interface.Preferences.IPreferences;
 import xagdop.Parser.DependenciesParser;
 import xagdop.Svn.SvnHistory;
 import xagdop.Thread.ThreadUpdate;
@@ -231,7 +230,7 @@ public class CTree extends DefaultTreeModel
 	 * @param node the node to consider
 	 * @return a popup menu for the operations on this node
 	 */
-	public ICentralPanel associatePanel(Object node)
+	/*public Panel associatePanel(Object node)
 	{
 		return new ICentralPanel();
 		
