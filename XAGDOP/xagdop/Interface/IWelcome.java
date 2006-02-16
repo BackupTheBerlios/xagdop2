@@ -7,6 +7,7 @@
 package xagdop.Interface;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -43,6 +44,7 @@ public class IWelcome extends JFrame {
         gridBagConstraints = new GridBagConstraints();
         panel = new  JPanel();
         panel.setLayout(new GridBagLayout());
+        panel.setBackground(Color.white);
         
         /*Le texte de bienvenue */
         welcomeText = new JLabel();
@@ -73,7 +75,7 @@ public class IWelcome extends JFrame {
         });
        
         /*Le logo */
-        logoLabel = new  JLabel(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/LogoXAGDOP5.jpg")));
+        logoLabel = new  JLabel(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/LogoXAGDOP2.jpg")));
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 1;
