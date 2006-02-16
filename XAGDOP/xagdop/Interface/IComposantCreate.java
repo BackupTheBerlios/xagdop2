@@ -13,7 +13,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.tmatesoft.svn.core.SVNException;
+
 import xagdop.Controleur.CComposantCreate;
+import xagdop.Controleur.CTree;
+import xagdop.Controleur.CTreeNode;
 import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
 
@@ -91,6 +95,15 @@ public class IComposantCreate extends JFrame{
 			public void actionPerformed(ActionEvent e){
 				try {
 					CComposantCreate.composantCreate(userID.getText(),_nomProjet);
+					CTree ct = ((CTree)((IProjectTree)XAGDOP.getInstance().getTree()).getModel()); 
+					try {
+						ct.refreshFromLocal((CTreeNode) ct.getRoot());
+					} catch (SVNException e1) {
+							ErrorManager.getInstance().setErrTitle("Erreur de Raffraichissement");
+							ErrorManager.getInstance().setErrMsg("Erreur lors du raffraichissement du repertoire local");
+							ErrorManager.getInstance().display();
+					}
+					
 					dispose();
 					
 				} catch (IOException e1) {
