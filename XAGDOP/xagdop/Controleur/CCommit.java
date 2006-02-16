@@ -416,7 +416,7 @@ public class CCommit{
 			}
 			else
 			{
-			//TODO	dp.delApes(pathToRoot);
+				dp.delApes(pathToRoot);
 				dp.delToCreate(pathToRoot);
 				dp.delToUpdate(pathToRoot);
 				
@@ -427,7 +427,7 @@ public class CCommit{
 	/*
 	 * Remove Iepp File
  	*/
-	protected void removeIeppFile(String pathToRoot) throws IOException, XPathExpressionException, NullPointerException
+	protected void removeIeppFile(String pathToRoot) throws IOException, XPathExpressionException, NullPointerException, Exception
 	{	
 		DependenciesParser dp = DependenciesParser.getInstance();
 		ArrayList apesDependant = dp.getApesFromIepp(pathToRoot);
@@ -437,34 +437,34 @@ public class CCommit{
 			ArrayList allIepp = dp.getIeppFromApes((String) apesDependant.get(i));
 			int taille = allPog.size()+allIepp.size();
 			//Si il n'y a pas d'autre fils, et que le fichier Apes n'est pas sur le serveur
-//TODO		if ((taille==1)&&(dp.getApesOnServer((String)apesDependant.get(i))))
-//TODO			{
-				//TODO dp.delApes((String) apesDependant.get(i));
-//TODO				dp.delToCreate((String) apesDependant.get(i));
-//TODO				dp.delToUpdate((String) apesDependant.get(i));
-//TODO				dp.delToCreate(pathToRoot);
-//TODO				dp.delToUpdate(pathToRoot);
+			if ((taille==1)&&(dp.getApesOnServer((String)apesDependant.get(i))))
+			{
+				dp.delApes((String) apesDependant.get(i));
+				dp.delToCreate((String) apesDependant.get(i));
+				dp.delToUpdate((String) apesDependant.get(i));
+				dp.delToCreate(pathToRoot);
+				dp.delToUpdate(pathToRoot);
 				
-//TODO			}
+			}
 		
 			//Si il y a des fils, on ne supprime que le pog
-//TODO			else  
-//TODO			{
-//TODO				dp.delIepp(pathToRoot,(String)apesDependant.get(i));
-//TODO				dp.delToUpdate(pathToRoot);
-//TODO			}
+			else  
+			{
+				dp.delIepp(pathToRoot,(String)apesDependant.get(i));
+				dp.delToUpdate(pathToRoot);
+			}
 		}
 	}
 	/*
 	 * Remove Pog File
 	 */
-	protected void removePogFile(String pathToRoot) throws IOException, XPathExpressionException, NullPointerException
+	protected void removePogFile(String pathToRoot) throws IOException, XPathExpressionException, NullPointerException,Exception
 	{
 		
 		DependenciesParser dp = DependenciesParser.getInstance();
 
-//TODO		String apesDependant = dp.getApesFromPog(pathToRoot);
-		String apesDependant="";
+		String apesDependant = dp.getApesFromPog(pathToRoot);
+
 		
 		
 
@@ -472,20 +472,20 @@ public class CCommit{
 		ArrayList allIepp = dp.getIeppFromApes(apesDependant);
 		int taille = allPog.size()+allIepp.size();
 		//Si il n'y a pas d'autre fils, et que le fichier Apes n'est pas sur le serveur
-//TODO		if ((taille==1)&&(dp.getApesOnServer(apesDependant)))
-//TODO		{
-//TODO			dp.delApes(apesDependant);
-//TODO			dp.delToCreate(apesDependant);
-//TODO			dp.delToUpdate(apesDependant);
-//TODO			dp.delToUpdate(pathToRoot);
-//TODO			dp.delToCreate(pathToRoot);
-//TODO		}
+		if ((taille==1)&&(dp.getApesOnServer(apesDependant)))
+		{
+			dp.delApes(apesDependant);
+			dp.delToCreate(apesDependant);
+			dp.delToUpdate(apesDependant);
+			dp.delToUpdate(pathToRoot);
+			dp.delToCreate(pathToRoot);
+		}
 		
 		//Si il y a des fils, on ne supprime que le pog
-//			TODO		else  
-//			TODO		{
-//			TODO			dp.delPog(pathToRoot);
-//			TODO			dp.delToUpdate(pathToRoot);
-//			TODO		}
+		else  
+		{
+			dp.delPog(pathToRoot);
+			dp.delToUpdate(pathToRoot);
+		}
 	}
 }
