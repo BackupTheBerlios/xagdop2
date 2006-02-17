@@ -52,8 +52,6 @@ public class LanguagePanel extends PreferencePanel{
 		TitledBorder titleStyle = BorderFactory.createTitledBorder(loweredetched, Bundle.getText("ipreferences.language.grpBox"));
 		
 		mLanguage = new LocaleXtended(CPreferencies.getDefaultLocale()); //prefMan.getProperty(mPropertyKey);
-		// debug
-		System.out.println(CPreferencies.getDefaultLocale());
 		
 		
     	mLang_available = CPreferencies.getAllLocale();
@@ -61,15 +59,11 @@ public class LanguagePanel extends PreferencePanel{
     	mLangComboBox = new JComboBox();//mLang_available);
     	for (int i = 0; i < mLang_available.size(); i++) {
     		LocaleXtended tempLoc = new LocaleXtended((Locale)mLang_available.get(i));
-    		//mLangComboBox.addItem((Locale)mLang_available.get(i) );
     		mLangComboBox.addItem(tempLoc);
     		if (tempLoc.toString().equals(mLanguage.toString())) 
     			{ mLanguagePos = i; System.out.println("ok"); }
-    		// debug
-    		if (tempLoc.equals(mLanguage)) System.out.println("pareil");
-    		else System.out.println("pas pareil " + tempLoc.toString() + " " + mLanguage.toString());
     	}
-    	//mLangComboBox.setSelectedItem(mLanguage);
+    	//mLangComboBox.setSelectedItem(mLanguage); Enleve car ne fonctionne pas pour le moment
     	mLangComboBox.setSelectedIndex(mLanguagePos);
     	mLangComboBox.setPreferredSize(new Dimension(200,30));
     	mLangComboBox.setEditable(false);

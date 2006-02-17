@@ -279,13 +279,6 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 			mApplyButton.setEnabled(true);
 		else
 			mApplyButton.setEnabled(false);
-		
-		//debug
-		/*for (int i=0; i < changedPrefList.size(); i++) {
-			Integer myInt2;
-			myInt2 = (Integer) changedPrefList.get(i);
-			System.out.println(myInt2.intValue());
-		}*/
 	}
 	
 	private void cancelChanges() {
@@ -301,8 +294,6 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 			case LOCAL_PATH_REF: CPreferencies.setLocalPath(LocalPathPanel.getLocalPath());
 					break;
 			case REMOTE_PATH_REF: CPreferencies.setServerPath(RemotePathPanel.getRemotePath());
-					//debug
-					//System.out.println(RemotePathPanel.getRemotePath());
 					break;
 			case LNF_REF: CPreferencies.setDefaultLNF(LookAndFeelPanel.getLNF());
 					break;
