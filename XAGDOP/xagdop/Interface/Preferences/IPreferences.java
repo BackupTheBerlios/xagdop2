@@ -2,6 +2,7 @@ package xagdop.Interface.Preferences;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -298,6 +299,13 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 			case LNF_REF: CPreferencies.setDefaultLNF(LookAndFeelPanel.getLNF());
 					break;
 			case LANGUAGE_REF: CPreferencies.setDefaultLocale(LanguagePanel.getLanguage());
+					//this.repaint();
+					Frame[] fraTab = JFrame.getFrames();
+					for (int j = 0; j < fraTab.length; j++) {
+						fraTab[i].repaint();
+					}
+					//SwingUtilities.;
+					//this.parent.repaint();
 					break;
 			case PASSWORD_REF:
 				if (!PasswordPanel.isPasswordCorrect())
