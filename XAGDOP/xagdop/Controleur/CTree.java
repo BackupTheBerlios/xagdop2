@@ -36,7 +36,7 @@ public class CTree extends DefaultTreeModel
 	
 	
 	public Object getChild( Object parent, int index ) {
-		//System.out.println(parent.getClass());
+		
 		File[] children = listFile((CTreeNode)parent);
 		CTreeNode node = new CTreeNode(children[index],(CTreeNode)parent);
 		try {
@@ -189,7 +189,6 @@ public class CTree extends DefaultTreeModel
 					exist = true;
 					node = ((CTreeNode)parent.getChildAt(j));
 					if(allFiles[i].isDirectory()){
-						System.out.println("Je suis un directory");
 						refreshRemovedNode(node);
 					}
 					break;
@@ -210,43 +209,33 @@ public class CTree extends DefaultTreeModel
 		
 	}
 	
-	protected void refreshAddedNode(CTreeNode parent){
-		System.out.println("RefreshAdd");
+	
+	public void refreshFromLocal(CTreeNode parent) throws SVNException{
+		
 		File[] allFiles = listFile(parent);
 		CTreeNode node = null;
 		boolean exist = false;
+		
+		
 		for(int i = 0; i < allFiles.length;i++){
+			
 			for(int j =	0 ; j < parent.getChildCount() ; j++){
-				node = ((CTreeNode)parent.getChildAt(j));
-				//System.out.println(allFiles[i].getName()+" : "+node.getName()+" : "+i);
-				if(((CTreeNode)parent.getChildAt(j)).getName().equals(allFiles[i].getName())){
+								if(((CTreeNode)parent.getChildAt(j)).getName().equals(allFiles[i].getName())){
 					exist = true;
+					node = ((CTreeNode)parent.getChildAt(j));
 					break;
 				}
 				
 			}
-			//System.out.println(exist+" : "+node.getName()+" : "+allFiles[i].getName());	
 			if(!exist){
-				System.out.println("Ajout");
-				node = new CTreeNode(allFiles[i]);
-				insertNodeInto(node,parent,parent.getChildCount());
-			}else
-			{
-				TreePath tmp[] = new TreePath[1];
-				 tmp[0] = new TreePath(node);
-				fireTreeNodesInserted(node,tmp,null,null);
+				node = new CTreeNode(allFiles[i],parent);
+				insertNodeInto(node,parent,i);
 			}
 			exist=false;
-			
 			if(allFiles[i].isDirectory())
-				refreshAddedNode(node);
+				refreshFromLocal(node);
 		}
-	}
-	
-	public void refreshFromLocal(CTreeNode parent) throws SVNException{
-		
-		//refreshRemovedNode(parent);
-		refreshAddedNode(parent);	
+		refreshFirst(parent);
 		
 	}
 	
