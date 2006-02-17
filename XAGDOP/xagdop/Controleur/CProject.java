@@ -63,6 +63,7 @@ public class CProject {
 			User user = XAGDOP.getInstance().getUser();	
 			pp.addProject(projectName,user,description);
 			DependenciesParser.getInstance().addFile(projectName, new File(project.getAbsolutePath()+File.separator+"dependencies.xml"));
+			CRole.getInstance().refreshRole();
 		}else{
 			ErrorManager.getInstance().setErrMsg("Le projet existe d?j?.");
 			ErrorManager.getInstance().setErrTitle("Projet existant");
@@ -76,7 +77,7 @@ public class CProject {
 	}
 	
 	
-	/* Fonction supprimant un projet  */
+	//Supression du fichier correspondant au noeud
 	public void deleteProject(CTreeNode node) throws HeadlessException, Exception{
 		
 		SvnRemove svnR = new SvnRemove();
