@@ -66,7 +66,8 @@ public class RemotePathPanel extends PreferencePanel
 	}
 	
 	private class myKeyAdapter extends KeyAdapter {
-		public void keyTyped(KeyEvent e) {
+		public void keyReleased(KeyEvent e) {
+			mDirectory = mDirectoryPath.getText();
 			if (mDirectoryPath.getText().length() != 0)
 				IPreferences.prefHasChanged(IPreferences.REMOTE_PATH_REF, IPreferences.ADD);
 			else

@@ -102,7 +102,7 @@ public class PasswordPanel extends PreferencePanel{
 	}
 	
 	private class myKeyAdapter extends KeyAdapter {
-		public void keyTyped(KeyEvent e) {
+		public void keyReleased(KeyEvent e) {
 			if (pfNewPass1.getPassword().length != 0
 					&& pfNewPass2.getPassword().length != 0
 					&& pfFormerPass.getPassword().length != 0)
