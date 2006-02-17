@@ -1,43 +1,42 @@
 /*
  * IconfLocalPath.java
  *
- * Created on 16 f�vrier 2006, 17:00
+ * Created on 16 f???vrier 2006, 17:00
  */
 
 package xagdop.Interface.Configuration;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.WindowConstants;
+import xagdop.Interface.XAGDOP;
 
 /**
  *
  * @author  Drez
  */
 public class IConfServer extends  JFrame {
-    
-    /**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
-	// Variables declaration
+	/* Variables declaration*/
     private  JLabel LocalPathLabel;
     private  JButton buttonNext;
     private  JButton buttonPrevious;
     private  JLabel helpLocalPathLabel;
-    private  JPanel jPanel1;
+    private  JLabel logoLabel;
+    private  JPanel panel;
     private  JTextField jTextField1;
-    // End of variables declaration
     
     
     
@@ -48,68 +47,97 @@ public class IConfServer extends  JFrame {
     
    
     private void initComponents() {
-         GridBagConstraints gridBagConstraints;
+    	GridBagConstraints gridBagConstraints;
+    	gridBagConstraints = new  GridBagConstraints();
+        
+    	/* Creation du panel*/
+    	panel = new  JPanel();
+    	panel.setLayout(new  GridBagLayout());
+    	panel.setBackground(Color.white);
 
-        jPanel1 = new  JPanel();
-        jTextField1 = new  JTextField();
-        helpLocalPathLabel = new  JLabel();
+  
+    	/*Le logo */
+        logoLabel = new  JLabel(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/LogoXAGDOP10.jpg")));
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 1;
+        gridBagConstraints.gridheight =3 ;
+        gridBagConstraints.insets= new Insets(0,10,0,70);
+        gridBagConstraints.fill = GridBagConstraints.CENTER;
+        panel.add(logoLabel, gridBagConstraints);
+    	
+    	
+        /* Phrase d'introduction*/
+        helpLocalPathLabel = new JLabel();
+        helpLocalPathLabel.setText("<html><h3>Configuration du serveur.</h3><br>L'adresse du serveur avec lequel vous travaillez.</html>");
+        helpLocalPathLabel.setFont(new Font("",0,14));
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridheight =1 ;
+        gridBagConstraints.insets = new Insets(15,10,20,30);
+        panel.add(helpLocalPathLabel, gridBagConstraints);
+        
+        /*Affichage du label du chemin */
         LocalPathLabel = new  JLabel();
-        buttonPrevious = new  JButton();
-        buttonNext = new  JButton();
-
-        setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE);
-        jPanel1.setLayout(new  GridBagLayout());
-
-        jTextField1.setColumns(15);
-        gridBagConstraints = new  GridBagConstraints();
+    	LocalPathLabel.setText("Serveur :");
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new  Insets(4, 4, 4, 4);
-        jPanel1.add(jTextField1, gridBagConstraints);
+        gridBagConstraints.gridwidth = 1;
+        gridBagConstraints.gridheight =1 ;
+        gridBagConstraints.insets = new  Insets(15,10,40,30);
+        gridBagConstraints.anchor =  GridBagConstraints.WEST;
+        panel.add(LocalPathLabel, gridBagConstraints);
 
-        helpLocalPathLabel.setText("Il faut que vous donniez l'endroit o\u00f9 se situent les projets distants.");
-        gridBagConstraints = new  GridBagConstraints();
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.insets = new  Insets(4, 4, 4, 4);
-        jPanel1.add(helpLocalPathLabel, gridBagConstraints);
-
-        LocalPathLabel.setText("Chemin Distant :");
-        gridBagConstraints = new  GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        /*Affichage du champs du chemin */     
+        jTextField1 = new  JTextField("svn://");
+        jTextField1.setColumns(20); 
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new  Insets(4, 4, 4, 4);
-        jPanel1.add(LocalPathLabel, gridBagConstraints);
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridheight =1 ;
+        gridBagConstraints.insets = new  Insets(15,0,40,10);
+        gridBagConstraints.anchor =  GridBagConstraints.WEST;
+        panel.add(jTextField1, gridBagConstraints);
 
+        /*Bouton precedent*/   
+        buttonPrevious = new  JButton();
         buttonPrevious.setText("Previous");
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 1;
+        gridBagConstraints.gridheight =1 ;
+        gridBagConstraints.insets = new  Insets(0,0,10,0);
+        gridBagConstraints.anchor =  GridBagConstraints.SOUTHEAST;
+        panel.add(buttonPrevious, gridBagConstraints);
         buttonPrevious.addActionListener(new  ActionListener() {
             public void actionPerformed( ActionEvent evt) {
                 buttonPreviousActionPerformed(evt);
             }
         });
-
-        gridBagConstraints = new  GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        
+        /*Bouton suivant*/ 
+        buttonNext = new  JButton();
+        buttonNext.setText("Next");
+        gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.insets = new  Insets(4, 4, 4, 4);
-        jPanel1.add(buttonPrevious, gridBagConstraints);
-
-        buttonNext.setText("Finish");
+        gridBagConstraints.gridwidth = 1;
+        gridBagConstraints.gridheight =1 ;
+        gridBagConstraints.insets = new  Insets(15,0,10,10);
+        gridBagConstraints.anchor =  GridBagConstraints.SOUTHEAST;
+        panel.add(buttonNext, gridBagConstraints);
         buttonNext.addActionListener(new  ActionListener() {
             public void actionPerformed( ActionEvent evt) {
                 buttonNextActionPerformed(evt);
             }
         });
+        
+        /*Creation de la fenetre */
+        getContentPane().add(panel,  BorderLayout.CENTER);
+        setSize(600,300);
+        setResizable(false) ;
 
-        gridBagConstraints = new  GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.insets = new  Insets(4, 4, 4, 4);
-        jPanel1.add(buttonNext, gridBagConstraints);
-
-        getContentPane().add(jPanel1,  BorderLayout.WEST);
-
-        pack();
-        setSize(600,600);
+      
     }
 
 
