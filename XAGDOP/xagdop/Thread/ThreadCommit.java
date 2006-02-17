@@ -38,7 +38,7 @@ public class ThreadCommit extends Thread {
 			ErrorManager.getInstance().display();
 		}finally{
 			try {
-				((CTree)((IProjectTree)XAGDOP.getInstance().getTree()).getModel()).refreshFromLocal(node.getProject());
+				((CTree)((IProjectTree)XAGDOP.getInstance().getTree()).getModel()).refreshFirst(node.getProject());
 			} catch (SVNException e) {
 				System.out.println("popopopo");
 			}
