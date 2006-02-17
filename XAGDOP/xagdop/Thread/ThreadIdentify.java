@@ -38,7 +38,8 @@ public class ThreadIdentify extends Thread {
 		}
 		catch (Exception e1) 
 		{
-			e1.printStackTrace();
+			ErrorManager.getInstance().setErrMsg("L'utilisateur n'existe pas");
+			ErrorManager.getInstance().setErrTitle("Probleme d'identification");
 			ErrorManager.getInstance().display();
 		}
 		finally
