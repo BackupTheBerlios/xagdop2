@@ -317,6 +317,10 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 				}
 			}
 		}
+		
+		// Nettoyage du tableau
+		changedPrefList.clear();
+		mApplyButton.setEnabled(false);
 	}
 	
 	private void exit(){
