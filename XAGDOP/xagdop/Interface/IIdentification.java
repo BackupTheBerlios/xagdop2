@@ -49,16 +49,18 @@ public class IIdentification extends JFrame{
 		panel.setMinimumSize(new Dimension(300, 200));
 		
 		
-		/*Creation du mot de passe */
+		/*Creation de l'identifiant */
 		userIDLabel = new JLabel(Bundle.getText("iuser.label.id"));
-		userIDLabel.setForeground(Color.orange);
+		userIDLabel.setForeground(Color.red);
+		userIDLabel.setFont(new Font("", Font.BOLD,14));
 		//userID = new JTextField(Bundle.getText("iuser.Jtextfield.id"));
 		userID = new JTextField("claire");
 		userID.setColumns(12);
 		
 		/*Creation du mot de passe */
 		passwordLabel = new JLabel(Bundle.getText("iuser.label.password"));
-		passwordLabel.setForeground(Color.orange);
+		passwordLabel.setFont(new Font("", Font.BOLD,14));
+		passwordLabel.setForeground(Color.red);
 		password = new JPasswordField("pass");
 		//password = new JPasswordField();
 		password.setEchoChar('*');
@@ -66,8 +68,8 @@ public class IIdentification extends JFrame{
 		
 		/*Creation de l'image */
 		welcomlabel = new JLabel(Bundle.getText("iuser.label.welcom"));
-		welcomlabel.setFont(new Font("Times Roman", Font.BOLD,20));
-		welcomlabel.setForeground(Color.orange);
+		welcomlabel.setFont(new Font("", Font.BOLD,23));
+		welcomlabel.setForeground(Color.red);
 		
 		/*Affichage du mot de passe*/
 		gridBagConstraints.gridx = 0;
@@ -81,7 +83,7 @@ public class IIdentification extends JFrame{
 		/*Affichage du label de l'identifiant*/
 		gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets= new Insets(35,60,5,10);
+        gridBagConstraints.insets= new Insets(70,60,5,10);
         gridBagConstraints.anchor = GridBagConstraints.WEST;
         gridBagConstraints.gridwidth =1;
         gridBagConstraints.gridheight=1;
@@ -90,7 +92,7 @@ public class IIdentification extends JFrame{
         /*Affichage du champs de l'identifiant*/
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets= new Insets(35,20,5,5);
+        gridBagConstraints.insets= new Insets(70,20,5,5);
         gridBagConstraints.anchor = GridBagConstraints.CENTER;
         panel.add(userID, gridBagConstraints);
 
@@ -115,19 +117,19 @@ public class IIdentification extends JFrame{
 		
 		gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.insets= new Insets(70,60,5,10);
+        gridBagConstraints.insets= new Insets(120,60,5,10);
         gridBagConstraints.anchor = GridBagConstraints.CENTER;
         panel.add(valide, gridBagConstraints);
 
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.insets= new Insets(70,20,5,5);
+        gridBagConstraints.gridy = 3;//2;//3;
+        gridBagConstraints.insets= new Insets(120,20,5,5);
         gridBagConstraints.anchor = GridBagConstraints.CENTER;
         panel.add(cancel, gridBagConstraints);
 		
         
         /*Creation de l'image */
-        logo = new JLabel(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/LogoXAGDOP4.jpg"))) ;
+        logo = new JLabel(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/LogoXAGDOP9.jpg"))) ;
 		gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth =2;
