@@ -21,6 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
@@ -302,7 +303,11 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 					//this.repaint();
 					Frame[] fraTab = JFrame.getFrames();
 					for (int j = 0; j < fraTab.length; j++) {
+						//fraTab[i].updateUI;
+						//SwingUtilities.updateComponentTreeUI(fraTab[i]);
 						fraTab[i].repaint();
+				
+						System.out.println(fraTab.length);
 					}
 					//SwingUtilities.;
 					//this.parent.repaint();
@@ -311,8 +316,10 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 				if (!PasswordPanel.isPasswordCorrect())
 					JOptionPane.showMessageDialog(this, Bundle.getText("ipreferences.password.bothNotTheSame"));
 				else {
-					CPreferencies.submitPasswd(PasswordPanel.getFormerPassword(), 
+					boolean bOk;
+					bOk = CPreferencies.submitPasswd(PasswordPanel.getFormerPassword(), 
 							PasswordPanel.getNewPassword());
+					if (!bOk) JOptionPane.showMessageDialog(this, Bundle.getText("ipreferences.password.formerNotGood"));
 					PasswordPanel.eraseFields();
 				}
 			}
