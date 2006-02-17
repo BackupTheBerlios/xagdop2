@@ -290,6 +290,7 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 	
 	private void cancelChanges() {
 		PasswordPanel.eraseFields();
+		exit();
 	}
 	
 	private void applyChanges() {
@@ -321,6 +322,8 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 		// Nettoyage du tableau
 		changedPrefList.clear();
 		mApplyButton.setEnabled(false);
+		
+		exit();
 	}
 	
 	private void exit(){
