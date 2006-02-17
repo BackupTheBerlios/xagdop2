@@ -1,23 +1,28 @@
 /*
  * IconfLocalPath.java
  *
- * Created on 16 f�vrier 2006, 17:00
+ * Created on 16 f???vrier 2006, 17:00
  */
 
 package xagdop.Interface.Configuration;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import xagdop.Interface.XAGDOP;
 
 
 /**
@@ -35,6 +40,7 @@ public class IConfLocalPath extends  JFrame {
     private  JButton buttonNext;
     private  JButton buttonPrevious;
     private  JLabel helpLocalPathLabel;
+    private  JLabel logoLabel;
     private  JPanel panel;
     private  JTextField jTextField1;
   
@@ -54,41 +60,58 @@ public class IConfLocalPath extends  JFrame {
     	panel.setLayout(new  GridBagLayout());
     	panel.setBackground(Color.white);
 
-        /* Phrase d'introduction*/
-        helpLocalPathLabel = new JLabel();
-        helpLocalPathLabel.setText("<html>Il faut que vous donniez l'endroit o&ugrave; se situeront <br> vos fichiers de projets sur l'ordinateur local.</html>");
+  
+    	/*Le logo */
+        logoLabel = new  JLabel(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/LogoXAGDOP10.jpg")));
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 1;
+        gridBagConstraints.gridheight =3 ;
+        gridBagConstraints.insets= new Insets(0,10,0,70);
+        gridBagConstraints.fill = GridBagConstraints.CENTER;
+        panel.add(logoLabel, gridBagConstraints);
+    	
+    	
+        /* Phrase d'introduction*/
+        helpLocalPathLabel = new JLabel();
+        helpLocalPathLabel.setText("<html><h3>Configuration du repertoire de travail.</h3><br>Il faut que vous donniez l'endroit o&ugrave; se situeront <br> vos fichiers de projets sur l'ordinateur local.</html>");
+        helpLocalPathLabel.setFont(new Font("",0,14));
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.insets = new Insets(15,10,10,10);
+        gridBagConstraints.gridheight =1 ;
+        gridBagConstraints.insets = new Insets(15,10,20,30);
         panel.add(helpLocalPathLabel, gridBagConstraints);
         
         /*Affichage du label du chemin */
         LocalPathLabel = new  JLabel();
         LocalPathLabel.setText("Chemin Local :");
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 1;
-        gridBagConstraints.insets = new  Insets(15,10,10,30);
+        gridBagConstraints.gridheight =1 ;
+        gridBagConstraints.insets = new  Insets(15,10,40,30);
         gridBagConstraints.anchor =  GridBagConstraints.WEST;
         panel.add(LocalPathLabel, gridBagConstraints);
 
         /*Affichage du champs du chemin */     
         jTextField1 = new  JTextField();
         jTextField1.setColumns(15); 
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.insets = new  Insets(15,0,10,10);
+        gridBagConstraints.gridheight =1 ;
+        gridBagConstraints.insets = new  Insets(15,0,40,10);
         gridBagConstraints.anchor =  GridBagConstraints.WEST;
         panel.add(jTextField1, gridBagConstraints);
 
         /*Bouton precedent*/   
         buttonPrevious = new  JButton();
         buttonPrevious.setText("Previous");
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = 1;
+        gridBagConstraints.gridheight =1 ;
         gridBagConstraints.insets = new  Insets(0,0,10,0);
         gridBagConstraints.anchor =  GridBagConstraints.SOUTHEAST;
         panel.add(buttonPrevious, gridBagConstraints);
@@ -101,9 +124,10 @@ public class IConfLocalPath extends  JFrame {
         /*Bouton suivant*/ 
         buttonNext = new  JButton();
         buttonNext.setText("Next");
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = 1;
+        gridBagConstraints.gridheight =1 ;
         gridBagConstraints.insets = new  Insets(15,0,10,10);
         gridBagConstraints.anchor =  GridBagConstraints.SOUTHEAST;
         panel.add(buttonNext, gridBagConstraints);
@@ -113,9 +137,10 @@ public class IConfLocalPath extends  JFrame {
             }
         });
         
-        /*Creation de la fenetre*/ 
-        getContentPane().add(panel,BorderLayout.WEST);
-        pack();
+        /*Creation de la fenetre */
+        getContentPane().add(panel,  BorderLayout.CENTER);
+        setSize(600,300);
+        setResizable(false) ;
 
     }
 
