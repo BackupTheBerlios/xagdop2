@@ -334,6 +334,7 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 			event.printStackTrace();
 		}*/
 		dispose();
+		IPref = null;
 	}
 }
 

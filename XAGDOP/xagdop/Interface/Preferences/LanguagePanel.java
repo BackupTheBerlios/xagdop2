@@ -25,7 +25,7 @@ public class LanguagePanel extends PreferencePanel{
 	private static final long serialVersionUID = 1L;
 	private JComboBox mLangComboBox;
 	private ArrayList mLang_available;
-	public static LocaleTheBest mLanguage;
+	public static LocaleXtended mLanguage;
 		
 	public LanguagePanel(){
 		initUI();
@@ -45,24 +45,32 @@ public class LanguagePanel extends PreferencePanel{
 		JPanel mPanelCentral = new JPanel();
     	mPanelCentral.setLayout(new FlowLayout());
 		mLang_available = new ArrayList();
-		
+		int mLanguagePos = -1;
 		
 		//create the border
 		Border loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
 		TitledBorder titleStyle = BorderFactory.createTitledBorder(loweredetched, Bundle.getText("ipreferences.language.grpBox"));
 		
-		mLanguage = new LocaleTheBest(CPreferencies.getDefaultLocale()); //prefMan.getProperty(mPropertyKey);
+		mLanguage = new LocaleXtended(CPreferencies.getDefaultLocale()); //prefMan.getProperty(mPropertyKey);
+		// debug
+		System.out.println(CPreferencies.getDefaultLocale());
 		
 		
     	mLang_available = CPreferencies.getAllLocale();
     	
     	mLangComboBox = new JComboBox();//mLang_available);
     	for (int i = 0; i < mLang_available.size(); i++) {
-    		LocaleTheBest tempLoc = new LocaleTheBest((Locale)mLang_available.get(i));
+    		LocaleXtended tempLoc = new LocaleXtended((Locale)mLang_available.get(i));
     		//mLangComboBox.addItem((Locale)mLang_available.get(i) );
     		mLangComboBox.addItem(tempLoc);
+    		if (tempLoc.toString().equals(mLanguage.toString())) 
+    			{ mLanguagePos = i; System.out.println("ok"); }
+    		// debug
+    		if (tempLoc.equals(mLanguage)) System.out.println("pareil");
+    		else System.out.println("pas pareil " + tempLoc.toString() + " " + mLanguage.toString());
     	}
-    	mLangComboBox.setSelectedItem(mLanguage);
+    	//mLangComboBox.setSelectedItem(mLanguage);
+    	mLangComboBox.setSelectedIndex(mLanguagePos);
     	mLangComboBox.setPreferredSize(new Dimension(200,30));
     	mLangComboBox.setEditable(false);
 		mPanelCentral.setBorder(titleStyle);
@@ -75,9 +83,9 @@ public class LanguagePanel extends PreferencePanel{
 		return mPanelCentral;
 	}
 	
-	public class LocaleTheBest {
+	public class LocaleXtended {
 		public Locale loc;
-		public LocaleTheBest(Locale l) { loc = l ;}
+		public LocaleXtended(Locale l) { loc = l ;}
 		public String toString() {
 			return loc.getDisplayLanguage();
 		}
@@ -85,7 +93,7 @@ public class LanguagePanel extends PreferencePanel{
 	
 	public void jChoice(){
 		//IPreferences.prefHasChanged(IPreferences.LANGUAGE_REF);
-		mLanguage = (LocaleTheBest) mLangComboBox.getSelectedItem();
+		mLanguage = (LocaleXtended) mLangComboBox.getSelectedItem();
     	//prefMan.setProperty(mPropertyKey, mLookandFeel);
     	IPreferences.prefHasChanged(IPreferences.LANGUAGE_REF, IPreferences.ADD);
     }
