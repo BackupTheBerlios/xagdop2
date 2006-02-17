@@ -23,6 +23,8 @@ public class DirectoryModel extends AbstractTableModel {
 
     public DirectoryModel( File dir ) {
         init();
+        if(dir.exists()==false)
+        	dir.mkdir();
         directory = dir;
         children = dir.list();
         rowCount = children.length;
