@@ -36,6 +36,7 @@ public class CTree extends DefaultTreeModel
 	
 	
 	public Object getChild( Object parent, int index ) {
+		System.out.println(parent.getClass());
 		File[] children = listFile((CTreeNode)parent);
 		CTreeNode node = new CTreeNode(children[index],(CTreeNode)parent);
 		try {
@@ -49,14 +50,18 @@ public class CTree extends DefaultTreeModel
 	}
 	
 	public int getChildCount( Object parent ) {
-		File fileSysEntity = (File)((CTreeNode)parent).getUserObject();
-		if ( fileSysEntity.isDirectory() ) {
-			File[] children = listFile((CTreeNode)parent);
-			return children.length;
-		}
-		else {
+		if(parent instanceof CTreeNode){
+			File fileSysEntity = (File)((CTreeNode)parent).getUserObject();
+			if ( fileSysEntity.isDirectory() ) {
+				File[] children = listFile((CTreeNode)parent);
+				return children.length;
+			}
+			else {
+				return 0;
+			}
+		}else 
 			return 0;
-		}
+		
 	}
 	
 	protected File[] listFile(CTreeNode current){
@@ -102,9 +107,9 @@ public class CTree extends DefaultTreeModel
 	
 	
 	
-	public CTree (CTreeNode test) throws SVNException
+	public CTree (CTreeNode root) throws SVNException
 	{
-		super(test);
+		super(root);
 	}
 	
 	/**
@@ -168,53 +173,81 @@ public class CTree extends DefaultTreeModel
 		nodeStructureChanged(parent);
 	}
 	
-	public void refreshFromLocal(CTreeNode parent) throws SVNException{
-		
+	protected void refreshRemovedNode(CTreeNode parent){
 		File[] allFiles = listFile(parent);
 		CTreeNode node = null;
 		boolean exist = false;
 		for(int j =	0 ; j < parent.getChildCount() ; j++){
 			for(int i = 0; i < allFiles.length;i++){
+				
+				
 				if(!((CTreeNode)parent.getChildAt(j)).getName().equals(allFiles[i].getName())){
 					node = ((CTreeNode)parent.getChildAt(j));
 					exist = false;
 				}
 				else {
 					exist = true;
+					node = ((CTreeNode)parent.getChildAt(j));
+					if(allFiles[i].isDirectory()){
+						System.out.println("Je suis un directory");
+						refreshRemovedNode(node);
+					}
 					break;
 				}
+				//System.out.println(allFiles[i]+" : "+node.getName());
 			}
 			if(!exist){
-				remove(node);
+				System.out.println("Suppression : "+node.getName());
+				//remove(node);
+				fireTreeNodesRemoved(node,null,null,null);
 			}
+			
 			exist=false;
 		}
 		
 		
 	
 		
-		
-		
-		
+	}
+	
+	protected void refreshAddedNode(CTreeNode parent){
+		System.out.println("RefreshAdd");
+		File[] allFiles = listFile(parent);
+		CTreeNode node = null;
+		boolean exist = false;
 		for(int i = 0; i < allFiles.length;i++){
 			for(int j =	0 ; j < parent.getChildCount() ; j++){
+				node = ((CTreeNode)parent.getChildAt(j));
+				System.out.println(allFiles[i].getName()+" : "+node.getName()+" : "+i);
 				if(((CTreeNode)parent.getChildAt(j)).getName().equals(allFiles[i].getName())){
-					node = ((CTreeNode)parent.getChildAt(j));
 					exist = true;
 					break;
 				}
 				
 			}
+			System.out.println(exist+" : "+node.getName()+" : "+allFiles[i].getName());	
 			if(!exist){
+				System.out.println("Ajout");
 				node = new CTreeNode(allFiles[i]);
 				insertNodeInto(node,parent,parent.getChildCount());
-
+			}else
+			{
+				TreePath tmp[] = new TreePath[1];
+				 tmp[0] = new TreePath(node);
+				fireTreeNodesInserted(node,tmp,null,null);
 			}
 			exist=false;
 			
 			if(allFiles[i].isDirectory())
-				refreshFromLocal(node);
+				refreshAddedNode(node);
 		}
+	}
+	
+	public void refreshFromLocal(CTreeNode parent) throws SVNException{
+		
+		//refreshRemovedNode(parent);
+		refreshAddedNode(parent);	
+		
 	}
 	
 	
