@@ -19,6 +19,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 import xagdop.Controleur.CUser;
+import xagdop.Thread.ThreadIdentify;
+import xagdop.Thread.ThreadWait;
 import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
 
@@ -142,19 +144,13 @@ public class IIdentification extends JFrame{
         /*Action relative aux boutons*/		
 		valide.addActionListener(new ActionListener(){
 				    public void actionPerformed(ActionEvent e){
-				    	CUser CU = new CUser();
-				    	try {
-							if (CU.verifUser(userID.getText(),new String(password.getPassword())))
-							{
-								ident.setVisible(false);	
-								XAGDOP.getInstance().showFrame();
-								
-							}
-						} catch (Exception e1) {
-
-							ErrorManager.getInstance().display();
-
-						}
+				    	
+				    	ThreadWait tWait = new ThreadWait(null);
+				    	tWait.start();
+				    	ThreadIdentify ti = new ThreadIdentify(userID.getText(),new String(password.getPassword()),ident,tWait);
+				    	ti.start();
+				    	
+				    	
 					
 				    }
 				}) ;
