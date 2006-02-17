@@ -23,6 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import xagdop.Interface.XAGDOP;
+import xagdop.ressources.Bundle;
 
 
 /**
@@ -39,6 +40,7 @@ public class IConfLocalPath extends  JFrame {
     private  JLabel LocalPathLabel;
     private  JButton buttonNext;
     private  JButton buttonPrevious;
+    private  JButton buttonBrowse;
     private  JLabel helpLocalPathLabel;
     private  JLabel logoLabel;
     private  JPanel panel;
@@ -67,7 +69,7 @@ public class IConfLocalPath extends  JFrame {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 1;
         gridBagConstraints.gridheight =3 ;
-        gridBagConstraints.insets= new Insets(0,10,0,70);
+        gridBagConstraints.insets= new Insets(0,10,0,30);
         gridBagConstraints.fill = GridBagConstraints.CENTER;
         panel.add(logoLabel, gridBagConstraints);
     	
@@ -78,7 +80,7 @@ public class IConfLocalPath extends  JFrame {
         helpLocalPathLabel.setFont(new Font("",0,14));
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridwidth = 4;
         gridBagConstraints.gridheight =1 ;
         gridBagConstraints.insets = new Insets(15,10,20,30);
         panel.add(helpLocalPathLabel, gridBagConstraints);
@@ -90,7 +92,7 @@ public class IConfLocalPath extends  JFrame {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 1;
         gridBagConstraints.gridheight =1 ;
-        gridBagConstraints.insets = new  Insets(15,10,40,30);
+        gridBagConstraints.insets = new  Insets(15,10,40,5);
         gridBagConstraints.anchor =  GridBagConstraints.WEST;
         panel.add(LocalPathLabel, gridBagConstraints);
 
@@ -99,12 +101,27 @@ public class IConfLocalPath extends  JFrame {
         jTextField1.setColumns(15); 
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridwidth = 1;
         gridBagConstraints.gridheight =1 ;
         gridBagConstraints.insets = new  Insets(15,0,40,10);
         gridBagConstraints.anchor =  GridBagConstraints.WEST;
         panel.add(jTextField1, gridBagConstraints);
-
+        
+        /*Bouton parcourir*/ 
+        buttonBrowse = new  JButton(Bundle.getText("button.browse"));
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 1;
+        gridBagConstraints.gridheight =1 ;
+        gridBagConstraints.insets = new  Insets(15,0,40,10);
+        gridBagConstraints.anchor =  GridBagConstraints.SOUTHEAST;
+        panel.add(buttonBrowse, gridBagConstraints);
+        buttonBrowse.addActionListener(new  ActionListener() {
+            public void actionPerformed( ActionEvent evt) {
+                buttonNextActionPerformed(evt);
+            }
+        });
+        
         /*Bouton precedent*/   
         buttonPrevious = new  JButton();
         buttonPrevious.setText("Previous");
