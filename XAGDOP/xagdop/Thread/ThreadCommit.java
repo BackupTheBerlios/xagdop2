@@ -4,7 +4,10 @@ import java.util.ArrayList;
 
 import org.tmatesoft.svn.core.SVNException;
 
+import xagdop.Controleur.CTree;
 import xagdop.Controleur.CTreeNode;
+import xagdop.Interface.IProjectTree;
+import xagdop.Interface.XAGDOP;
 import xagdop.Svn.SvnCommit;
 import xagdop.Util.ErrorManager;
 
@@ -34,6 +37,11 @@ public class ThreadCommit extends Thread {
 		}catch (Exception e){
 			ErrorManager.getInstance().display();
 		}finally{
+			try {
+				((CTree)((IProjectTree)XAGDOP.getInstance().getTree()).getModel()).refreshFromLocal(node.getProject());
+			} catch (SVNException e) {
+				System.out.println("popopopo");
+			}
 			tWait.arreter();			
 		}
 		
