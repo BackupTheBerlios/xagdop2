@@ -1,6 +1,7 @@
 package xagdop.Interface.SvnInterface;
 
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -10,11 +11,15 @@ import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
 import org.tmatesoft.svn.core.SVNException;
 
@@ -47,7 +52,11 @@ public class IProject extends JFrame{
 		
 		JPanelProject = new JPanel();
 		JPanelProject.setLayout(new GridBagLayout());
-		JPanelProject.setMinimumSize(new Dimension(300,200));
+		//JPanelProject.setMinimumSize(new Dimension(400,300));
+		//Creation d un cadre dans la fenetre
+		Border cadre = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+		TitledBorder title = BorderFactory.createTitledBorder(cadre, Bundle.getText("iproject.cadre"));
+		JPanelProject.setBorder(title);
 		
 		/* Nom du projet*/
 		JlabelNameProject = new JLabel(Bundle.getText("iproject.label.projectname"));
@@ -68,6 +77,7 @@ public class IProject extends JFrame{
         gridBagConstraints.weightx = 100;
         gridBagConstraints.weighty = 100;
         gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.insets = new Insets(10, 10, 0, 10);
         JPanelProject.add(JlabelNameProject, gridBagConstraints);
         
         gridBagConstraints.gridx = 0;
@@ -78,10 +88,8 @@ public class IProject extends JFrame{
 
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.weightx = 100;
-        gridBagConstraints.weighty = 100;
         gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.insets = new Insets(7, 0, 0, 0);
+        gridBagConstraints.insets = new Insets(10, 10, 0, 10);
         JPanelProject.add(JlabelDescProject, gridBagConstraints);
         
         gridBagConstraints.gridx = 0;
@@ -93,19 +101,15 @@ public class IProject extends JFrame{
         
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
-        gridBagConstraints.weightx = 100;
-        gridBagConstraints.weighty = 100;
         gridBagConstraints.anchor = GridBagConstraints.SOUTHWEST;
-        gridBagConstraints.insets = new Insets(7, 35, 0, 0);
+        gridBagConstraints.insets = new Insets(20, 35, 10, 0);
         JPanelProject.add(ok, gridBagConstraints);
 
         
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
-        gridBagConstraints.weightx = 100;
-        gridBagConstraints.weighty = 100;
         gridBagConstraints.anchor = GridBagConstraints.SOUTHEAST;
-        gridBagConstraints.insets = new Insets(7, 0, 0, 30);
+        gridBagConstraints.insets = new Insets(20, 0, 10, 30);
         JPanelProject.add(cancel, gridBagConstraints);
         
         /*Action relative aux boutons*/		
@@ -138,12 +142,11 @@ public class IProject extends JFrame{
         
         // Creation de la fenetre
 		setTitle(Bundle.getText("iproject.title"));
-		setSize(261, 235);
-		setResizable(false) ;
-		getContentPane().add(JPanelProject);
-		
-		//setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setLocation(300,200);
+		setSize(400, 300);
+		setResizable(false) ;
+		getContentPane().add(JPanelProject,BorderLayout.CENTER);
+		
 		setVisible(true);
 		pack();
 		
