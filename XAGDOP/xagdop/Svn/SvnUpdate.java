@@ -14,6 +14,7 @@ import org.tmatesoft.svn.core.wc.SVNUpdateClient;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
 import xagdop.Controleur.CFile;
+import xagdop.Controleur.CRole;
 import xagdop.Interface.XAGDOP;
 import xagdop.Interface.Preferences.IPreferences;
 import xagdop.Model.User;
@@ -149,6 +150,8 @@ public class SvnUpdate{
 		//On supprime les projets dont on ne fait pas parti
 		if(parent.compareTo(new File(IPreferences.getDefaultPath()))==0)
 			cleanUp(projectDirectoryLocal);
+		
+		CRole.getInstance().refreshRole();
 	}
 	
 	
@@ -199,6 +202,7 @@ public class SvnUpdate{
 				}
 			}
 		}
+		CRole.getInstance().refreshRole();	
 	}
 	
 	public void cleanUp(File file) throws SVNException, IOException, Exception{

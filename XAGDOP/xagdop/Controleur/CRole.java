@@ -178,8 +178,10 @@ public class CRole {
 		if(file.isHidden())
 			return false;
 		
-		
+		//System.out.println(project+ " : "+(projectsList.get(project)==null));
 		if(file.isDirectory()){
+			if(projectsList.get(project)==null&&project!="")
+				return false;
 			if(!isArchitect(project)&&file.getName().startsWith("lib"))
 				return false;
 			

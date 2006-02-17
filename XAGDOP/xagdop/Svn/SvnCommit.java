@@ -10,6 +10,7 @@ import org.tmatesoft.svn.core.wc.SVNCommitClient;
 import org.tmatesoft.svn.core.wc.SVNWCClient;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
+import xagdop.Controleur.CRole;
 import xagdop.Controleur.CTreeNode;
 import xagdop.Parser.ProjectsParser;
 import xagdop.Parser.UsersParser;
@@ -218,7 +219,7 @@ public class SvnCommit{
 		//Si le fichiers des d??pendances est modifi?? on l'envoi en m??me temps
 		if(SvnHistory.isModified(UsersParser.getInstance().getUsersXML())||SvnHistory.isModified(ProjectsParser.getInstance().getProjectXML()))
 			sendXMLFile();
-		
+		CRole.getInstance().refreshRole();
 	}
 	public void sendXMLFile() throws Exception{
 		ArrayList fileInDirectory = new ArrayList();
