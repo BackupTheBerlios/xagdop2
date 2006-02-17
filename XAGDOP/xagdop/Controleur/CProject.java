@@ -50,10 +50,18 @@ public class CProject {
 			File icon = new File(IPreferences.getDefaultPath()+projectName+File.separator+"icones");
 			if(!icon.exists())
 				icon.mkdir();
+			icon = new File(IPreferences.getDefaultPath()+projectName+File.separator+"icones"+File.separator+"Produits");
+			if(!icon.exists())
+				icon.mkdir();
+			icon = new File(IPreferences.getDefaultPath()+projectName+File.separator+"icones"+File.separator+"Composants");
+			if(!icon.exists())
+				icon.mkdir();
+			
+			
 			FileWriter dependencies;
 			try {
 				dependencies = new FileWriter(project.getAbsolutePath()+File.separator+"dependencies.xml");
-				dependencies.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?><files><dependencies></dependencies><toUpdate></toUpdate><toCreate></toCreate></files>");
+				dependencies.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?><files project=\""+projectName+"\"><dependencies></dependencies><toUpdate></toUpdate><toCreate></toCreate></files>");
 				dependencies.close();
 			} catch (IOException e) {
 				ErrorManager.getInstance().setErrMsg("Cr??ation du fichier des d??pendances.\nVeuillez v??rifier les droits du dossier.");
