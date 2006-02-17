@@ -4,9 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.util.ArrayList;
 
 import javax.management.InstanceNotFoundException;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -16,6 +18,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 import javax.xml.xpath.XPathExpressionException;
 
 import xagdop.Controleur.CAffect;
@@ -65,11 +70,21 @@ public class IAffect extends JFrame
 		
 		CA = new CAffect();
 		GridBagConstraints gridBagConstraints;
+		Dimension d = new Dimension();
 		
-		userList = new JComboBox();
+		d.height = 20;
+		d.width = 80;
 		
+		// Creation d un cadre dans la fenetre
+		Border cadre = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+		TitledBorder titleStyle = BorderFactory.createTitledBorder(cadre, Bundle.getText("iaffect.cadre"));
         
+		userList = new JComboBox();
+		userList.setMinimumSize(d);
+		
+		
         jPanel1.setLayout(new GridBagLayout());
+        jPanel1.setBorder(titleStyle);
 
         OkButton.setText(Bundle.getText("button.ok"));
         OkButton.addActionListener(new java.awt.event.ActionListener() {
@@ -99,9 +114,9 @@ public class IAffect extends JFrame
             }
         });
         gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.anchor = GridBagConstraints.SOUTHEAST;
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.anchor = GridBagConstraints.SOUTH;
         jPanel1.add(OkButton, gridBagConstraints);
 
         CancelButton.setText(Bundle.getText("button.cancel"));
@@ -110,52 +125,53 @@ public class IAffect extends JFrame
                 IA.dispose();
             }
         });
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.anchor = GridBagConstraints.SOUTHWEST;
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.anchor = GridBagConstraints.SOUTH;
         jPanel1.add(CancelButton, gridBagConstraints);
 
-        AnalystCheck.setText("Analyst");
+        AnalystCheck.setText(Bundle.getText("iaffect.analyst"));
              
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = GridBagConstraints.WEST;
         jPanel1.add(AnalystCheck, gridBagConstraints);
 
-        ArchiCheck.setText("Archi");
+        ArchiCheck.setText(Bundle.getText("iaffect.architect"));
 
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = GridBagConstraints.WEST;
         jPanel1.add(ArchiCheck, gridBagConstraints);
 
-        RedacteurCheck.setText("Redacteur");
+        RedacteurCheck.setText(Bundle.getText("iaffect.redactor"));
 
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = GridBagConstraints.WEST;
         jPanel1.add(RedacteurCheck, gridBagConstraints);
 
-        ChefCheck.setText("Chef");
+        ChefCheck.setText(Bundle.getText("iaffect.manager"));
 
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = GridBagConstraints.WEST;
         jPanel1.add(ChefCheck, gridBagConstraints);
 
-        
         // Initialisation de la comboBox des users        
         initCombo();
-                
         
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = GridBagConstraints.CENTER;
         jPanel1.add(userList, gridBagConstraints);
 
         EnterLabel.setText(Bundle.getText("iaffect.userLogin.text"));
 
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new Insets(10,5,15,0);
         jPanel1.add(EnterLabel, gridBagConstraints);
 
 
@@ -175,8 +191,11 @@ public class IAffect extends JFrame
 
         getContentPane().add(jPanel1, BorderLayout.CENTER);
 
-        pack();
-        //IA.setTitle(IA.getProjectName());
+        setLocation(300,300);
+        setSize(400,300);
+		setResizable(false);
+		pack();
+        setVisible(true);
 		
 	}
 	
@@ -217,6 +236,7 @@ public class IAffect extends JFrame
 		
 		// initialisation de la comboBox
 		userList.removeAllItems();
+		userList.setSize(70,30);
 		
 		for (int i=0;i<listUser.size();i++)
 		{	
