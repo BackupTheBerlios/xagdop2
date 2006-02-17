@@ -96,7 +96,7 @@ public class IWelcome extends JFrame {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 1; 
         gridBagConstraints.gridheight =1 ;
-        gridBagConstraints.insets= new Insets(70,70,5,5);
+        gridBagConstraints.insets= new Insets(70,70,5,10);
         gridBagConstraints.anchor =  GridBagConstraints.SOUTHEAST;
         panel.add(buttonCancel, gridBagConstraints);
        /*Action associee au bouton */
