@@ -36,7 +36,7 @@ public class CTree extends DefaultTreeModel
 	
 	
 	public Object getChild( Object parent, int index ) {
-		System.out.println(parent.getClass());
+		//System.out.println(parent.getClass());
 		File[] children = listFile((CTreeNode)parent);
 		CTreeNode node = new CTreeNode(children[index],(CTreeNode)parent);
 		try {
@@ -218,14 +218,14 @@ public class CTree extends DefaultTreeModel
 		for(int i = 0; i < allFiles.length;i++){
 			for(int j =	0 ; j < parent.getChildCount() ; j++){
 				node = ((CTreeNode)parent.getChildAt(j));
-				System.out.println(allFiles[i].getName()+" : "+node.getName()+" : "+i);
+				//System.out.println(allFiles[i].getName()+" : "+node.getName()+" : "+i);
 				if(((CTreeNode)parent.getChildAt(j)).getName().equals(allFiles[i].getName())){
 					exist = true;
 					break;
 				}
 				
 			}
-			System.out.println(exist+" : "+node.getName()+" : "+allFiles[i].getName());	
+			//System.out.println(exist+" : "+node.getName()+" : "+allFiles[i].getName());	
 			if(!exist){
 				System.out.println("Ajout");
 				node = new CTreeNode(allFiles[i]);
