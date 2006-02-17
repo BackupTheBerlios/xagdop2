@@ -82,8 +82,7 @@ public class IAffect extends JFrame
 							IJTeamManagement IJ = IJTeamManagement.getIJTM(projectName);
 		            		IJ.refreshUsers();		            		
 						}
-						catch (Exception e1){
-							//System.out.println("plantouille");
+						catch (Exception e1){							
 							ErrorManager.getInstance().display();
 						}
 					}catch(InstanceNotFoundException i){
@@ -144,13 +143,10 @@ public class IAffect extends JFrame
         gridBagConstraints.anchor = GridBagConstraints.WEST;
         jPanel1.add(ChefCheck, gridBagConstraints);
 
-        //userCheck.setColumns(10);
-             
-        // Initialisation de la comboBox des users
         
+        // Initialisation de la comboBox des users        
         initCombo();
-        
-        
+                
         
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
@@ -177,7 +173,7 @@ public class IAffect extends JFrame
         gridBagConstraints.gridwidth = 2;
         jPanel1.add(jSeparator2, gridBagConstraints);
 
-       getContentPane().add(jPanel1, BorderLayout.CENTER);
+        getContentPane().add(jPanel1, BorderLayout.CENTER);
 
         pack();
         //IA.setTitle(IA.getProjectName());
@@ -197,15 +193,18 @@ public class IAffect extends JFrame
 		return IA;
 	}
 	
+	/**
+	 * Fonction d'initialisation de la comboBox des utilisateurs
+	 * Permet d'afficher les utilisateurs dans la comboBox qui
+	 * ne sont pas dans le projet
+	 */
 	public void initCombo() {
 	
-		// Liste deroulante des utilisateurs sans ceux du projet
-		
-		//System.out.println("IAffectProjetName"+projectName);
-		
+		// Liste deroulante des utilisateurs sans ceux du projet				
 		ArrayList listUser= null;
 		
 		try {
+			// Recuperation de tous les utilisateurs 
 			listUser = UsersParser.getInstance().getAllUsers();			
 			
 		} catch (XPathExpressionException e) {
@@ -222,16 +221,17 @@ public class IAffect extends JFrame
 		for (int i=0;i<listUser.size();i++)
 		{	
 			try {
+				// test sur l'appartenance d un utilisateur a un projet
 				if (!ProjectsParser.getInstance().isUserInProject(projectName,((String)((User)listUser.get(i)).getLogin())))		
 				{	
+					// Ajout a la comboBox des utilisateurs n appartenant pas au projet 
 					userList.addItem(((User)listUser.get(i)).getLogin());					
 				}				
 			}
 			catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
-				
+		}				
 	}
 	
 	public String getProjectName() {
