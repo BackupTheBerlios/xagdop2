@@ -56,7 +56,7 @@ public class IWelcome extends JFrame {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 1;
         gridBagConstraints.gridheight =2 ;
-        gridBagConstraints.insets= new Insets(0,0,0,100);
+        gridBagConstraints.insets= new Insets(0,10,0,100);
         gridBagConstraints.fill = GridBagConstraints.CENTER;
         panel.add(logoLabel, gridBagConstraints);
         
