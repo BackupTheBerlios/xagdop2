@@ -212,7 +212,7 @@ public class CTree extends DefaultTreeModel
 	
 	public void refreshFromLocal(CTreeNode parent) throws SVNException{
 		
-	/*	File[] allFiles = listFile(parent);
+		File[] allFiles = listFile(parent);
 		CTreeNode node = null;
 		boolean exist = false;
 		
@@ -234,7 +234,7 @@ public class CTree extends DefaultTreeModel
 			exist=false;
 			if(allFiles[i].isDirectory())
 				refreshFromLocal(node);
-		}*/
+		}
 		refreshFirst(parent);
 		
 	}
