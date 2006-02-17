@@ -99,6 +99,8 @@ public class CPreferencies {
 			Frame[] tabFrame = JFrame.getFrames();
 			for(int i=0; i<tabFrame.length; i++){
 				SwingUtilities.updateComponentTreeUI(tabFrame[i]);	
+				tabFrame[i].repaint();
+				tabFrame[i].pack();
 			}
 		} catch (ClassNotFoundException e1) {
 			// TODO Auto-generated catch block
