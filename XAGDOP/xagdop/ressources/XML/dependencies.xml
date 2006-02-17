@@ -1,41 +1,46 @@
-<?xml version="1.0" encoding="UTF-8"?><files>
+<?xml version="1.0" encoding="UTF-8"?>
+<files project="nomProjet">
 	<dependencies>
 		
 		<apes fileNameApes="pabe.apes">
+			<onServer/>
 			<pog fileNamePog="pabe1.pog"/>
 			<pog fileNamePog="pabe2.pog"/>
 			<pog fileNamePog="pabe3.pog"/>
 			<pog fileNamePog="bla.pog"/>
-			<iepp fileNameIepp="iepp1.iepp"/>
+			
 			<iepp fileNameIepp="iepp2.iepp"/>
 		</apes>
+
 		<apes fileNameApes="Phlancement.apes">
+
 			<pog fileNamePog="Phlancement.pog"/>
 			<pog fileNamePog="pabe.pog"/>
-			<iepp fileNameIepp="iepp1.iepp"/>
+			
 			<iepp fileNameIepp="iepp3.iepp"/>
+
 		</apes>
+
 		<apes fileNameApes="bla.apes"/>
+
 		<pog fileNamePog="pog1.pog"/>
 		<pog fileNamePog="pog2.pog">
 			<iepp fileNameIepp="iepp1.iepp"/>
 			<iepp fileNameIepp="iepp2.iepp"/>
 			<iepp fileNameIepp="iepp3.iepp"/>
 		</pog>
-		</dependencies>
+		<apes fileNameApes="TestOnServer1"/>
+		<apes fileNameApes="TestOnServer2"><onServer/></apes>
+		<apes fileNameApes="TestOnServer3"><onServer/></apes>
+	</dependencies>
+
 	
-		<toUpdate>
-			<file path="pabe.pog"/>
-			<file path="grrr3.pog"/>
-			<file path="grrr1.pog"/>
-			<file path="grrr2.pog"/>
-		</toUpdate>
-
-
-		<toCreate>
-			<file path="pabe.pog"/>
-
-			<file path="grrr2.pog"/>
-		</toCreate>
+	<toUpdate>
+		<file path="pabe.pog"/>
+	</toUpdate>
 	
+	<toCreate>
+		<file path="pabe.pog"/>
+		<file path="grrr2.pog"/>
+	</toCreate>
 </files>
