@@ -224,7 +224,7 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
    		mOkButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				applyChanges();
-				dispose();
+				exit();
 			}
 		});
    		mBox.add(Box.createHorizontalGlue());
@@ -313,8 +313,6 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 		// Nettoyage du tableau
 		changedPrefList.clear();
 		mApplyButton.setEnabled(false);
-		
-		exit();
 	}
 	
 	private void exit(){
