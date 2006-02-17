@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><preferencies>
-	<local url="/test/local5"/>
-	<server url="svn://127.0.0.1/svn/XAGDOP/"/>
-	<lookNFeel name="Metal"/>
-	<langue name="Francais"/>
+	<local url="/users/iupisi/l3isi17/workspace/XAGDOP"/>
+	<server url="/test/server5f"/>
+	<lookNFeel name="CDE/Motif"/>
+	<langue country="FR" name="fr"/>
 </preferencies>

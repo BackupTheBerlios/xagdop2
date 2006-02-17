@@ -9,7 +9,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Locale;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,10 +17,10 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
-import xagdop.Controleur.CUser;
+
+import xagdop.Controleur.CPreferencies;
 import xagdop.Thread.ThreadIdentify;
 import xagdop.Thread.ThreadWait;
-import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
 
 public class IIdentification extends JFrame{
@@ -44,6 +43,7 @@ public class IIdentification extends JFrame{
 	}
 
 	private void init(){
+		Bundle.setCurrentLocale(CPreferencies.getDefaultLocale());
 		
 		/*Creation du panel */
 		panel = new JPanel();
@@ -183,7 +183,6 @@ public class IIdentification extends JFrame{
 	
 
 	public static void main(String args[]){
-		Bundle.setCurrentLocale(Locale.FRENCH);
 		IIdentification.getInstance();
 
 	}

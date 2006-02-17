@@ -19,6 +19,7 @@ public class PreferenciesParser extends Parser{
 	private static String LOCAL_URL = "url";
 	private static String LNF_NAME = "name";
 	private static String LANG_NAME = "name";
+	private static String LANG_COUNTRY = "country";
 	
 	
 	private PreferenciesParser()
@@ -96,7 +97,7 @@ public class PreferenciesParser extends Parser{
 			e.printStackTrace();
 		}
 		if ( elem != null ) {
-			lang = new Locale(elem.getAttribute(PreferenciesParser.LANG_NAME));
+			lang = new Locale(elem.getAttribute(PreferenciesParser.LANG_NAME),elem.getAttribute(PreferenciesParser.LANG_COUNTRY));
 		}
 		
 		Preferencies pref = new Preferencies(server,local,lnf,lang);
@@ -109,6 +110,7 @@ public class PreferenciesParser extends Parser{
 		String local= pref.getLocal();
 		String lnf= pref.getLookNFeel();
 		String lang= pref.getLang().getLanguage();
+		String country = pref.getLang().getCountry();
 		
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String exprServ = "//server";
@@ -148,6 +150,7 @@ public class PreferenciesParser extends Parser{
 		catch (XPathExpressionException e) { e.printStackTrace(); }
 		if ( elem != null ) {
 			elem.setAttribute(PreferenciesParser.LANG_NAME, lang);
+			elem.setAttribute(PreferenciesParser.LANG_COUNTRY, country);
 		}
 		else {
 			System.out.println("Modification de la langue a "+ lang + " impossible!"); 
@@ -224,6 +227,7 @@ public class PreferenciesParser extends Parser{
 	
 	
 	public void setLang(Locale lang) throws Exception{
+		System.out.println("PrefPars.setLang( Lang: "+lang.getLanguage()+"   Pays: "+lang.getCountry()+ " )");//debug
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//langue";
 		Element elem = null;
@@ -236,6 +240,7 @@ public class PreferenciesParser extends Parser{
 		}
 		if ( elem != null ) {
 			elem.setAttribute(PreferenciesParser.LANG_NAME, lang.getLanguage());
+			elem.setAttribute(PreferenciesParser.LANG_COUNTRY, lang.getCountry());
 			saveDocument(preferenciesXML);
 		}
 		else {

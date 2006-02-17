@@ -23,8 +23,9 @@ public class Bundle
   {
     if (locale != null)
     {
-      Locale.setDefault(locale);
-      Bundle.bundle = ResourceBundle.getBundle(Bundle.BASENAME, locale);
+    	//System.out.println("Bundle.setCurentLocale( Lang: "+locale.getLanguage()+"   Pays: "+locale.getCountry()+ " )");
+    	Locale.setDefault(locale);
+    	Bundle.bundle = ResourceBundle.getBundle(Bundle.BASENAME, locale);
       }
   }
 

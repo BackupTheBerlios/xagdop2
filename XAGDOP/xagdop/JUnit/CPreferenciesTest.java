@@ -136,10 +136,10 @@ public class CPreferenciesTest extends TestCase {
 
 		//corps du test
 		//System.out.println("-----testGetDefaultLocale-----");//debug
-		final Locale localeTest = Locale.FRENCH;
+		final Locale localeTest = Locale.FRANCE;
 		CPreferencies.setDefaultLocale(localeTest);
 		assertEquals(CPreferencies.getDefaultLocale(),localeTest);
-		assertNotSame(CPreferencies.getDefaultLocale(),Locale.ENGLISH);
+		assertNotSame(CPreferencies.getDefaultLocale(),Locale.UK);
 		
 		//restauration du contexte
 		PreferenciesParser.getInstance().setPreferencies(savePref);
@@ -154,8 +154,8 @@ public class CPreferenciesTest extends TestCase {
 		
 		//corps du test
 		//System.out.println("-----testSetDefaultLocale-----");//debug
-		final Locale localeTest = Locale.FRENCH;
-		final Locale localeTest2 = Locale.ENGLISH;
+		final Locale localeTest = Locale.FRANCE;
+		final Locale localeTest2 = Locale.UK;
 		CPreferencies.setDefaultLocale(localeTest);
 		assertEquals(CPreferencies.getDefaultLocale(),localeTest);
 		CPreferencies.setDefaultLocale(localeTest2);

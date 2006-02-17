@@ -1,9 +1,11 @@
 package xagdop.Controleur;
 
 import java.awt.Component;
+import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -11,6 +13,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import xagdop.Interface.XAGDOP;
 import xagdop.Parser.PreferenciesParser;
 import xagdop.Parser.UsersParser;
+import xagdop.ressources.Bundle;
 
 
 public class CPreferencies {
@@ -92,6 +95,26 @@ public class CPreferencies {
 	 */
 	public static void setDefaultLNF(String lnf){
 		try {
+			UIManager.setLookAndFeel(CPreferencies.getLNFClassName(lnf));
+			Frame[] tabFrame = JFrame.getFrames();
+			for(int i=0; i<tabFrame.length; i++){
+				SwingUtilities.updateComponentTreeUI(tabFrame[i]);	
+			}
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (InstantiationException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IllegalAccessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (UnsupportedLookAndFeelException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			
 			PreferenciesParser.getInstance().setLNF(lnf);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -130,10 +153,10 @@ public class CPreferencies {
 	 * @param locale Nom de la locale a appliquer.
 	 */
 	public static void setDefaultLocale(Locale locale){
-		//System.out.println("CPref.setDefaultLocale( " + locale+ " )");//debug
+		//System.out.println("CPref.setDefaultLocale( Lang: "+locale.getLanguage()+"   Pays: "+locale.getCountry()+ " )");//debug
 		try {
 			PreferenciesParser.getInstance().setLang(locale);
-			Locale.setDefault(locale);
+			//Bundle.setCurrentLocale(locale);
 		}
 		catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -149,8 +172,8 @@ public class CPreferencies {
 	public static ArrayList getAllLocale(){
 		//??? en dur car pas trouve comment faire pour lister uniquement les locales dont un fichier de ressource est disponible
 		ArrayList res = new ArrayList();
-		res.add(Locale.FRENCH);
-		res.add(Locale.ENGLISH);
+		res.add(Locale.FRANCE);
+		res.add(Locale.UK);
 		//System.out.println(res);//debug
 		return res;
 	}
@@ -188,13 +211,21 @@ public class CPreferencies {
 	 * @return
 	 */
 	public static boolean submitPasswd(String oldPasswd, String newPasswd){
-		String login = XAGDOP.getInstance().getUser().getLogin();
+		String login = XAGDOP.getInstance().getUser().getLogin();		
 		boolean result=false;
 		UsersParser UP= UsersParser.getInstance();
+		
 		try {
-			if(UP.getUserByLogin(login).getPasswd().equals(oldPasswd)){
-				UP.setAttribute(login, UsersParser.ATTR_PASSWD, newPasswd);
+			//System.out.println("Login: "+login);
+			//System.out.println("User.login: "+UP.getUserByLogin(login).getLogin());
+			if(CEncrypt.testPassword(oldPasswd,UP.getUserByLogin(login).getPasswd())){
+				UP.setAttribute(login, UsersParser.ATTR_PASSWD, CEncrypt.getEncodedPassword(newPasswd));
+				System.out.println("New Pass: "+UP.getAttribute(login, UsersParser.ATTR_PASSWD));
 				result=true;
+				System.out.println("Ancien mod de passe ok");
+			}
+			else{
+				System.out.println("Ancien mod de passe erone");
 			}
 		} catch (NullPointerException e) {
 			// TODO Auto-generated catch block
