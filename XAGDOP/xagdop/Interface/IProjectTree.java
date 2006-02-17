@@ -1,6 +1,7 @@
 package xagdop.Interface;
 
 import java.awt.Component;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -28,6 +29,7 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.tmatesoft.svn.core.SVNException;
 
+import xagdop.Controleur.CProject;
 import xagdop.Controleur.CTree;
 import xagdop.Controleur.CTreeNode;
 import xagdop.Interface.Preferences.IPreferences;
@@ -200,11 +202,14 @@ public class IProjectTree extends JTree implements  TreeModelListener, TreeSelec
 				public void actionPerformed(ActionEvent e) {
 					
 					try {
-						SvnRemove svnR = new SvnRemove();
-						svnR.delete(selectedNode);
+						CProject cp = new CProject();
+						cp.deleteProject(selectedNode);
 						((CTree)getModel()).remove(selectedNode);
 					} catch (SVNException e1) {
 						ErrorManager.getInstance().display();
+					} catch (HeadlessException e3) {
+
+					} catch (Exception e2) {
 					}
 					JOptionPane.showMessageDialog(null ,"Le fichier "+selectedNode.getName()+" sera supprim? lors du prochain commit", "Validation" , 1) ;
 					
