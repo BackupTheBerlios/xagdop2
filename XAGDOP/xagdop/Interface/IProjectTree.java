@@ -157,6 +157,9 @@ public class IProjectTree extends JTree implements  TreeModelListener, TreeSelec
 	
 	public void treeNodesInserted(TreeModelEvent event)
 	{
+		 TreePath path = event.getTreePath();
+    	 CTreeNode current = (CTreeNode) path.getLastPathComponent();
+		((CTree)getModel()).reload(current);
 		updateUI(); 
 	}
 	
@@ -174,7 +177,7 @@ public class IProjectTree extends JTree implements  TreeModelListener, TreeSelec
 		 TreePath path = event.getTreePath();
     	 CTreeNode current = (CTreeNode) path.getLastPathComponent();
 		((CTree)getModel()).reload(current);
-			updateUI(); 
+		updateUI(); 
 	}
 	
 	public void treeStructureChanged(TreeModelEvent event)
