@@ -271,6 +271,7 @@ public class CCommit{
 			{
 				//Pas d'entrainement de verification de fichier pog, car fichier tout nouveau
 				//Rajout dans le fichier de d?pendances le fichier apes que l'on veut envoyer
+				System.out.println("sdfkjsdklfjl");
 				dp.addApes(pathToRoot);
 			}
 		}
