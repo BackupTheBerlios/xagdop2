@@ -39,7 +39,7 @@ public class CCommit{
 		String pathToRoot = CFile.treePathName(node);
 		//R?cup?ration du fichier a envoyer
 		File toCommit = new File(node.getLocalPath());
-		
+		System.out.println(nameOfFile);
 			//-----------------------------------------
 			//Si le fichier est un apes -->
 			//-----------------------------------------
