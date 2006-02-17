@@ -27,11 +27,15 @@ import xagdop.Parser.ProjectsParser;
 import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
 
+/**
+ * 
+ * @author Antoine JULLIEN
+ * Classe permettant la gestion des equipes d un projet avec une JTable
+ *
+ */
+
 public class IJTeamManagement extends JFrame{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -1080162447493236178L;
 	private static IJTeamManagement IJTM= null;	
 	
@@ -46,11 +50,20 @@ public class IJTeamManagement extends JFrame{
 	private CTeamManagement CTeamM;	
 	private String nP;
 	
+	/**
+	 * Constructeur de la classe IJTeamManagement
+	 * @param	String: le nom du projet
+	 * Appel  la fonction init()
+	 */
+	
 	private IJTeamManagement(String ProjectName){
 		nP = ProjectName;		
 		init();
 	}	
 	
+	/**
+	 * fonction init() permettant l affichage de la fenetre
+	 */
 	private void init(){
 		getContentPane().setLayout(new GridBagLayout());
 		nP = this.getNomProjet();
@@ -59,12 +72,11 @@ public class IJTeamManagement extends JFrame{
 		} catch (Exception e1) {
 			ErrorManager.getInstance().display();
 		}
-		CTeamM = new CTeamManagement(nP);		
-		
-		newPanel.setLayout(new GridBagLayout());
-		
+		CTeamM = new CTeamManagement(nP);
+		newPanel.setLayout(new GridBagLayout());		
 		newPanel.setMinimumSize(new Dimension(296, 130));
 		
+//		 Creation du bouton OK et son action associee
 		ButtonOK.setText(Bundle.getText("ijteam.jtable.ok"));
 		ButtonOK.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt){
@@ -87,6 +99,7 @@ public class IJTeamManagement extends JFrame{
 			}
 		});	// Fin bouton OK
 		
+//		 Creation du bouton Affecter et son action associee
 		ButtonAffecter.setText(Bundle.getText("ijteam.jtable.affecter"));
 		ButtonAffecter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
@@ -100,7 +113,7 @@ public class IJTeamManagement extends JFrame{
 			}
 		}); // Fin bouton Affecter
 		
-		
+		// Creation du bouton Cancel et son action associee
 		ButtonCancel.setText(Bundle.getText("button.cancel"));
 		ButtonCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
@@ -109,10 +122,12 @@ public class IJTeamManagement extends JFrame{
 			}
 		}); // Fin bouton Cancel
 		
-		
+		// Creation de la JTable
 		JT = new JTable(new IJTeamManagementTableModel(projet));
+		// Changement du modele de rendu et d edition par dedaut
 		JT.setDefaultRenderer(JButton.class, new IJTeamManagementTableCellrenderer());
 		JT.setDefaultEditor(JButton.class, new IJTeamManagementTableCellEditor(this,this.nP));
+		
 		JT.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		JT.setSize(new Dimension(650,200));
 		JT.setPreferredScrollableViewportSize(JT.getSize());
@@ -130,17 +145,21 @@ public class IJTeamManagement extends JFrame{
 		JT.getColumnModel().getColumn(4).setMaxWidth(105);        
 		JT.getColumnModel().getColumn(5).setMaxWidth(100);	// colonne desaffecter
 		
+		// Ajout de la JTable dans le panel
 		this.donnerContrainte(gbc,0,0,3,1,100,100,GridBagConstraints.BOTH);
 		JSP = new JScrollPane(JT);
 		newPanel.add(JSP,gbc);
+		// Ajout du bouton OK dans le panel		
 		this.donnerContrainte(gbc,0,1,1,1,100,100,GridBagConstraints.NONE);
 		newPanel.add(ButtonOK, gbc);
+		// Ajout du bouton Affecter dans le panel
 		this.donnerContrainte(gbc,1,1,1,1,100,100,GridBagConstraints.NONE);
 		newPanel.add(ButtonAffecter,gbc);
+		// Ajout du bouton Cancel dans la panel
 		this.donnerContrainte(gbc,2,1,1,1,100,100,GridBagConstraints.NONE);
 		newPanel.add(ButtonCancel,gbc);
 		
-		
+		// Ajout du panel a la fenetre
 		getContentPane().add(newPanel, new GridBagConstraints());
 		pack();
 		this.getContentPane().validate();
@@ -148,7 +167,10 @@ public class IJTeamManagement extends JFrame{
 		super.setVisible(true);
 	}// Fin Init
 	
-	
+	/**
+	 * Fonction refreshUser()
+	 * Permet de rafraichir la Jtable avec ses composants
+	 */
 	public void refreshUsers()
 	{
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -165,6 +187,7 @@ public class IJTeamManagement extends JFrame{
 		this.remove(newPanel);
 		this.newPanel.remove(JSP);
 		
+		// Instanciation du JScrollPane et ajout au panel
 		JSP = new JScrollPane(JT);
 		this.newPanel.add(JSP,gbc);
 		this.getContentPane().add(newPanel, new GridBagConstraints());
@@ -226,6 +249,9 @@ public class IJTeamManagement extends JFrame{
 		return nP;
 	}
 	
+	/**
+	 * @return Returns the singleton.
+	 */
 	public static IJTeamManagement getIJTM(String nP) {
 		
 		if (IJTM==null){
@@ -236,6 +262,10 @@ public class IJTeamManagement extends JFrame{
 		return IJTM;
 	}
 	
+	/**
+	 * Fonction de retour de l'instance de JTable 
+	 * @return JTable
+	 */
 	public JTable getTable() {
 		return this.JT;
 	}
@@ -246,6 +276,14 @@ public class IJTeamManagement extends JFrame{
 	
 }
 
+/**
+ * 
+ * @author Antoine JULLIEN
+ * Classe d edition du bouton supprimer appartenant a la JTable.
+ * Cette classe recoit des evenements et execute l'action actionPerformed
+ * permettant de desaffecter un utilisateur d un projet
+ *
+ */
 class IJTeamManagementTableCellEditor extends AbstractCellEditor 
 implements TableCellEditor, ActionListener{
 	
@@ -258,7 +296,11 @@ implements TableCellEditor, ActionListener{
 	private JButton JB;
 	private String nomProjet;
 	
-	
+	/**
+	 * Constructeur de la classe IJTeamManagementTableCellEditor
+	 * @param IJTM
+	 * @param projet
+	 */
 	public IJTeamManagementTableCellEditor(IJTeamManagement IJTM, String projet) 
 	{
 		this.nomProjet = projet;
@@ -268,12 +310,17 @@ implements TableCellEditor, ActionListener{
 		JB.setBorderPainted(false);
 	}
 	
-	
+	/**
+	 * 
+	 */
 	public Object getCellEditorValue() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	
+	/**
+	 * Action permettant de desaffecter un utilisateur d un projet
+	 */
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if (EDIT.equals(e.getActionCommand())) {
@@ -281,24 +328,33 @@ implements TableCellEditor, ActionListener{
 		}
 	}
 	
+	/**
+	 * 
+	 */
 	public Component getTableCellEditorComponent(JTable table,Object value,boolean isSelected,int row,int column) 
 	{
 		return JB;
 	}
 	
+	/**
+	 * Methode desaffecterUser()
+	 * Methode permettant de supprimer un utilisateur d un projet	 *
+	 */
 	public void desaffecterUser() {
 		
-		int rowToDelete;
+		int rowToDelete;// ligne a supprimer dans la Jtable
 		
 		int out = JOptionPane.showOptionDialog(IJTeamManagement.getIJTM(this.nomProjet).getTable(),new String(Bundle.getText("ijteam.jtableSuppression.text")),new String(Bundle.getText("ijteam.jtableSuppressionUser.text")),JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,null,null);
 		if(out == JOptionPane.YES_OPTION) 
 		{
 			rowToDelete =IJTeamManagement.getIJTM(this.nomProjet).getTable().getSelectedRow();		
 			try {
+				// Suppression
 				ProjectsParser.getInstance().removeUser(this.nomProjet,((String)IJTeamManagement.getIJTM(this.nomProjet).getTable().getModel().getValueAt(rowToDelete,0)));
 			} catch (Exception e) {
 				ErrorManager.getInstance().display();
 			}
+			// Rafraichir la JTable
 			IJTeamManagement.getIJTM(this.nomProjet).refreshUsers();			
 		}
 	}	
@@ -336,43 +392,76 @@ class IJTeamManagementTableCellrenderer extends JButton implements TableCellRend
 	}
 }
 
-
+/**
+ * 
+ * @author Antoine JULLIEN
+ * Classe IJTeamManagementTableModel qui represente la modele de donnees 
+ * de la JTable pour IJTeamManagement
+ * Cette classe recupere les donnees du ProjectParser pour avoir 
+ * les utilisateurs d un projet
+ */
 class IJTeamManagementTableModel extends AbstractTableModel {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	private String nomColonne[] = {"Users","Architecte","Analyste","Redacteur","PManager","Desaffecter"};
 	private Object[][] rowData;
 		
+	/**
+	 * Constructeur de la classe IJTeamManagementTableModel
+	 * @param myProject
+	 * Appel a la fonction init()
+	 */
 	public IJTeamManagementTableModel( Project myProject) {
 			
 		this.init(myProject);		
 	}
 	
+	/**
+	 * Retourne le nombre de lignes de la structure
+	 */
 	public int getRowCount() {
 		return this.rowData.length;
 	}
 	
+	/**
+	 * Retourne le nombre de colonnes de la structure
+	 */
 	public int getColumnCount() {
 		return this.nomColonne.length;
 	}
 	
+	/**
+	 * Fonction qui retourne l objet de la cellule (rowIndex, ColumnIndex)
+	 * @param rowIndex: le numero de la ligne
+	 * @param columnIndex: le numero de colonne
+	 */
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		// TODO Auto-generated method stub
 		return this.rowData[rowIndex][columnIndex];
 	}
 	
+	/**
+	 * 
+	 */
 	public Class getColumnClass(int colonne) {
 		return getValueAt(0,colonne).getClass();
 	}
 	
+	/**
+	 * Fonction qui retourne le nom de la colonne 
+	 * @param: colonne: indice de la colonne dont on veut le nom
+	 * @return: String: le nom de la colonne
+	 */
 	public String getColumnName(int colonne) {
 		return this.nomColonne[colonne];
 	}
 	
+	/**
+	 * Fonction init() qui permet d'initialiser le model avec les diffrentes 
+	 * donnees recuperees dans ProjectParser
+	 * @param projet
+	 */
 	public void init(Project projet) {
 		ArrayList users = projet.getUsersLogin();
 		this.rowData = new Object[users.size()][this.getColumnCount()];
