@@ -24,6 +24,8 @@ import xagdop.Controleur.CTeamManagement;
 import xagdop.Interface.XAGDOP;
 import xagdop.Model.Project;
 import xagdop.Parser.ProjectsParser;
+import xagdop.Thread.ThreadTeamManagement;
+import xagdop.Thread.ThreadWait;
 import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
 
@@ -80,21 +82,11 @@ public class IJTeamManagement extends JFrame{
 		ButtonOK.setText(Bundle.getText("ijteam.jtable.ok"));
 		ButtonOK.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt){
-				
-				int j =JT.getRowCount();            	
-				int i=0;
-				while(i<j)
-				{
-					try {
-						CTeamM.Apply((String)JT.getValueAt(i,0),((Boolean)JT.getValueAt(i,1)).booleanValue(),((Boolean)JT.getValueAt(i,2)).booleanValue(),((Boolean)JT.getValueAt(i,3)).booleanValue(),((Boolean)JT.getValueAt(i,4)).booleanValue());
-					} catch (Exception e) {
-						ErrorManager.getInstance().display();
-					}
-					i++;  
-				}        					
-				(IJAdmin.getIJA()).dispose();				
-				
-				//fermer la fenetre
+				ThreadWait tWait = new ThreadWait(null);
+				tWait.start();
+				ThreadTeamManagement tTeamM = new ThreadTeamManagement(JT,nP,tWait);
+				tTeamM.start();
+								//fermer la fenetre
 				dispose();
 			}
 		});	// Fin bouton OK
