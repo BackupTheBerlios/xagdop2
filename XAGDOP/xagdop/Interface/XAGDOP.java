@@ -247,16 +247,24 @@ public class XAGDOP extends JFrame{
 		menuBar.add(menuHelp);
 		
 		
-		menuBar2.add(commit);
-		menuBar2.add(update);
-		menuBar2.add(Box.createHorizontalStrut(45)) ;
+	//	menuBar2.add(commit);
+	//	menuBar2.add(Box.createHorizontalStrut(15)) ;
+		
 		menuBar2.add(projet);
+		//menuBar2.add(Box.createHorizontalStrut(5)) ;
 		menuBar2.add(delProject);
+		menuBar2.add(Box.createHorizontalStrut(15)) ;
+
+		menuBar2.add(update);
+		menuBar2.add(Box.createHorizontalStrut(15)) ;
+		
 		menuBar2.add(equipe);
-		menuBar2.add(Box.createHorizontalStrut(45)) ;
-		menuBar2.add(preferences);
-		menuBar2.add(Box.createHorizontalStrut(30)) ;
+		//menuBar2.add(Box.createHorizontalStrut(5)) ;
 		menuBar2.add(admin);
+		menuBar2.add(Box.createHorizontalStrut(15)) ;
+		
+		menuBar2.add(preferences);
+		
 		
 		//tableVersion = new JTable(new MyTableModel());
 		
