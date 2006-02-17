@@ -3,15 +3,12 @@ package xagdop.Controleur;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.xml.xpath.XPathExpressionException;
-
 import xagdop.Interface.IProjectTree;
 import xagdop.Interface.XAGDOP;
 import xagdop.Parser.DependenciesParser;
 import xagdop.Parser.IeppNitParser;
 import xagdop.Parser.POGParser;
-import xagdop.Svn.SvnCommit;
 import xagdop.Svn.SvnHistory;
 import xagdop.Thread.ThreadCommit;
 import xagdop.Thread.ThreadWait;

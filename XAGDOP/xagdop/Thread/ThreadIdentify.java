@@ -1,17 +1,8 @@
 package xagdop.Thread;
 
-import java.io.File;
-import java.util.ArrayList;
-
-import org.tmatesoft.svn.core.SVNException;
-
-import xagdop.Controleur.CTree;
-import xagdop.Controleur.CTreeNode;
 import xagdop.Controleur.CUser;
 import xagdop.Interface.IIdentification;
-import xagdop.Interface.IProjectTree;
 import xagdop.Interface.XAGDOP;
-import xagdop.Svn.SvnUpdate;
 import xagdop.Util.ErrorManager;
 
 
