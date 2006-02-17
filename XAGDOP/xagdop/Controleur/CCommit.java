@@ -13,6 +13,8 @@ import xagdop.Parser.IeppNitParser;
 import xagdop.Parser.POGParser;
 import xagdop.Svn.SvnCommit;
 import xagdop.Svn.SvnHistory;
+import xagdop.Thread.ThreadCommit;
+import xagdop.Thread.ThreadWait;
 
 
 
@@ -331,8 +333,13 @@ public class CCommit{
 	}
 	
 	public void commitFile(CTreeNode currentNode,String comment) throws Exception{
-			SvnCommit svnC = new SvnCommit();
-			svnC.commit(currentNode,comment);
+		ThreadWait tWait = new ThreadWait(XAGDOP.getInstance());
+		tWait.start();
+		ThreadCommit commit = new ThreadCommit(currentNode,comment,tWait);
+		commit.start();
+		
+//		SvnCommit svnC = new SvnCommit();
+//			svnC.commit(currentNode,comment);
 	}
 	
 	
