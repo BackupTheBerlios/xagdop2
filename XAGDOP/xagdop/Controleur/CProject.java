@@ -82,8 +82,19 @@ public class CProject {
 		
 		SvnRemove svnR = new SvnRemove();
 		svnR.delete(node);
+		//Verification du type du noeud
+		//Si c'est un projet, il faut le retirer du project parser
+		if (node.isProject())
+		{
+			ProjectsParser.getInstance().removeProject(node.getName());
+		}
+		else
+		{
+			CCommit cc = new CCommit(node);
+			cc.DependencesRemoveInitialize(node);
+		}
 		
-		JOptionPane.showMessageDialog(null ,"Le projet "+node.getName()+" sera supprim? lors du prochain commit", "Validation" , 1) ;
+		//JOptionPane.showMessageDialog(null ,"Le dossier "+node.getName()+" sera supprim? lors du prochain commit", "Validation" , 1) ;
 		//Enregistrement dans le XML du projet
 		/*ProjectsParser PP = ProjectsParser.getInstance();
 		PP.removeProject(node.getName());*/
