@@ -3,6 +3,7 @@ package xagdop.Interface.Preferences;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -301,16 +302,17 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 					break;
 			case LANGUAGE_REF: CPreferencies.setDefaultLocale(LanguagePanel.getLanguage());
 					//this.repaint();
-					Frame[] fraTab = JFrame.getFrames();
+					/*Frame[] fraTab = JFrame.getFrames();
 					for (int j = 0; j < fraTab.length; j++) {
 						//fraTab[i].updateUI;
 						//SwingUtilities.updateComponentTreeUI(fraTab[i]);
-						fraTab[i].repaint();
-				
+						Graphics graph = fraTab[i].getGraphics();
+						fraTab[i].paint(graph);
 						System.out.println(fraTab.length);
-					}
+					}*/
 					//SwingUtilities.;
 					//this.parent.repaint();
+			JOptionPane.showMessageDialog(this, Bundle.getText("ipreferences.language.updated"));
 					break;
 			case PASSWORD_REF:
 				if (!PasswordPanel.isPasswordCorrect())
