@@ -244,6 +244,10 @@ public class SvnCommit{
 		fileInDirectory.add(name);
 		File[] file = new File[fileInDirectory.size()];
 		try{
+			if(!SvnHistory.isUnderVersion(name)){
+				SVNWCClient wcClient = new SVNWCClient(SvnConnect.getInstance().getRepository().getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
+				wcClient.doAdd(name,false, false, false, false);	
+			}
 			svnCC.doCommit((File[])fileInDirectory.toArray(file),false,commitMessage, true, false);
 		}catch (SVNException e) {
 			ErrorManager.getInstance().setErrMsg("L'envoi du fichier "+name.getName()+" a ??chou??.\n"+e.getCause());
