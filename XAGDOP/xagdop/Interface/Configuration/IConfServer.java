@@ -71,7 +71,7 @@ public class IConfServer extends  JFrame {
         /* Phrase d'introduction*/
         helpLocalPathLabel = new JLabel();
         helpLocalPathLabel.setText(Bundle.getText("iconfserver.adresse"));
-        helpLocalPathLabel.setFont(new Font("",0,14));
+        helpLocalPathLabel.setFont(new Font(null,0,14));
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 3;

@@ -64,7 +64,7 @@ public class IWelcome extends JFrame {
         /*Le texte de bienvenue */
         welcomeText = new JLabel();
         welcomeText.setText(Bundle.getText("iwelcome.welcome"));
-        welcomeText.setFont(new Font("",0,14));
+        welcomeText.setFont(new Font(null,0,14));
 		gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 2;
