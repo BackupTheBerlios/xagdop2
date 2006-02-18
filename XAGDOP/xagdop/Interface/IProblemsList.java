@@ -24,6 +24,7 @@ import org.tmatesoft.svn.core.SVNException;
 
 import xagdop.Parser.DependenciesParser;
 import xagdop.Parser.ProjectsParser;
+import xagdop.ressources.Bundle;
 
 
 /**
@@ -67,7 +68,7 @@ public class IProblemsList extends JFrame {
 				for (j=0;j<toUpdate.size();j++)
 				{
 					oneProblem[0] = "U";
-					oneProblem[1] = "Il faut mettre a jour :";
+					oneProblem[1] = Bundle.getText("iproblemlist.label.update");
 					oneProblem[2] = (String)toUpdate.get(j);
 					oneProblem[3] = (String)data.get(i);
 					problems.add(oneProblem);
@@ -78,7 +79,7 @@ public class IProblemsList extends JFrame {
 				for (j=0;j<toCreate.size();j++)
 				{
 					oneProblem[0] = "C";
-					oneProblem[1] = "Il faut creer :";
+					oneProblem[1] = Bundle.getText("iproblemlist.label.create");
 					oneProblem[2] = (String)toCreate.get(j);
 					oneProblem[3] = (String)data.get(i);
 					problems.add(oneProblem);
@@ -134,10 +135,10 @@ public class IProblemsList extends JFrame {
 		 */
 		private static final long serialVersionUID = -6660241017263485617L;
 
-		private String[] columnNames = {"icone",
-				"Description",
-				"Ressource", 
-				"Projet"};
+		private String[] columnNames = {Bundle.getText("iproblemlist.colonne.icone"),
+				Bundle.getText("iproblemlist.colonne.description"),
+				Bundle.getText("iproblemlist.colonne.ressource"), 
+				Bundle.getText("iproblemlist.colonne.projet")};
 		
 		private Object[][] rowData;
 		private ArrayList problems;

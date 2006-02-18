@@ -63,7 +63,7 @@ public class IWelcome extends JFrame {
         
         /*Le texte de bienvenue */
         welcomeText = new JLabel();
-        welcomeText.setText("<html><h3>Bienvenue dans XAGDOP.</h3><br> <p>Vous devez configurer l'application <br> pour pouvoir vous en servir. </p><p><br> Veuillez cliquer sur suivant pour acceder <br> a la fenetre de configuration de l'application. </p></html>");
+        welcomeText.setText(Bundle.getText("iwelcome.welcome"));
         welcomeText.setFont(new Font("",0,14));
 		gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -75,7 +75,7 @@ public class IWelcome extends JFrame {
 
         /*Le bouton suivant */
         buttonNext = new  JButton();
-        buttonNext.setText("Suivant");
+        buttonNext.setText(Bundle.getText("button.next"));
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 1; 
@@ -90,7 +90,7 @@ public class IWelcome extends JFrame {
             }
         });
        
-        /*Le bouton suivant */
+        /*Le bouton annuler */
         buttonCancel = new JButton(Bundle.getText("button.cancel"));
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;

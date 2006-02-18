@@ -76,7 +76,7 @@ public class IConfLocalPath extends  JFrame {
     	
         /* Phrase d'introduction*/
         helpLocalPathLabel = new JLabel();
-        helpLocalPathLabel.setText("<html><h3>Configuration du repertoire de travail.</h3><br>Il faut que vous donniez l'endroit o&ugrave; se situeront <br> vos fichiers de projets sur l'ordinateur local.</html>");
+        helpLocalPathLabel.setText(Bundle.getText("iconflocalpath.localpath"));
         helpLocalPathLabel.setFont(new Font("",0,14));
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -87,7 +87,7 @@ public class IConfLocalPath extends  JFrame {
         
         /*Affichage du label du chemin */
         LocalPathLabel = new  JLabel();
-        LocalPathLabel.setText("Chemin Local :");
+        LocalPathLabel.setText(Bundle.getText("iconflocalpath.label.chemin"));
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 1;
@@ -124,7 +124,7 @@ public class IConfLocalPath extends  JFrame {
         
         /*Bouton precedent*/   
         buttonPrevious = new  JButton();
-        buttonPrevious.setText("Previous");
+        buttonPrevious.setText(Bundle.getText("button.previous"));
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = 1;
@@ -140,7 +140,7 @@ public class IConfLocalPath extends  JFrame {
         
         /*Bouton suivant*/ 
         buttonNext = new  JButton();
-        buttonNext.setText("Next");
+        buttonNext.setText(Bundle.getText("button.next"));
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = 1;
