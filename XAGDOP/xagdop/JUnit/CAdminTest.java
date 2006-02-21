@@ -18,7 +18,7 @@ public class CAdminTest extends TestCase {
 			CAdmin cadmin = new CAdmin();
 			
 			//Creation d'un nouveau utilisateur
-			User usr = new User("toto","totopass",true,false);
+			User usr = new User("tadmin","totopass",true,false);
 			
 			//Ajouter un nouveau utilisateur dans UsersParsers
 			usrp.addUser(usr);
