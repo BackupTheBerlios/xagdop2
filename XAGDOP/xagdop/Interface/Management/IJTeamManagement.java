@@ -294,7 +294,7 @@ implements TableCellEditor, ActionListener{
 	public IJTeamManagementTableCellEditor(IJTeamManagement IJTM, String projet) 
 	{
 		this.nomProjet = projet;
-		JB = new JButton(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/supprimer.gif")));
+		JB = new JButton(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/delete.jpg")));
 		JB.setActionCommand(EDIT);
 		JB.addActionListener(this);
 		JB.setBorderPainted(false);
@@ -376,7 +376,7 @@ class IJTeamManagementTableCellrenderer extends JButton implements TableCellRend
 	 */
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean arg2, boolean arg3, int arg4, int arg5) 
 	{
-		this.setIcon(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/supprimer.gif")));
+		this.setIcon(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/delete.jpg")));
 		this.setSize(new Dimension(this.getIcon().getIconHeight(),this.getIcon().getIconWidth()));
 		return this;
 	}
