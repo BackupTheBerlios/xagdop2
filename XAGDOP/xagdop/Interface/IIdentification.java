@@ -19,8 +19,10 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 import xagdop.Controleur.CPreferencies;
+import xagdop.Controleur.CUser;
 import xagdop.Thread.ThreadIdentify;
 import xagdop.Thread.ThreadWait;
+import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
 
 public class IIdentification extends JFrame{
@@ -147,9 +149,26 @@ public class IIdentification extends JFrame{
 				    	
 				    	ThreadWait tWait = new ThreadWait(null);
 				    	tWait.start();
-				    	ThreadIdentify ti = new ThreadIdentify(userID.getText(),new String(password.getPassword()),ident,tWait);
-				    	ti.start();
-				    	
+				    	try 
+						{
+							CUser CU = new CUser();
+							if (CU.verifUser(userID.getText(),new String(password.getPassword())))
+							{
+								ident.setVisible(false);	
+								XAGDOP.getInstance().showFrame();
+							}
+						}
+						catch (Exception e1) 
+						{
+							ErrorManager.getInstance().setErrMsg("L'utilisateur n'existe pas");
+							ErrorManager.getInstance().setErrTitle("Probleme d'identification");
+							ErrorManager.getInstance().display();
+						}
+						finally
+						{
+							tWait.arreter();
+						}
+						
 				    	
 					
 				    }
