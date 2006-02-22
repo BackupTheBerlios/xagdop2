@@ -88,7 +88,7 @@ public class XAGDOP extends JFrame{
 	 * 
 	 */
 	protected JMenu menuFile = new JMenu(Bundle.getText("main.menu.file"));
-	protected JMenuItem fileMenuQuit = new JMenuItem(Bundle.getText("main.menu.file.quit"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/menu_quit.gif"))) ;
+	protected JMenuItem fileMenuQuit = new JMenuItem(Bundle.getText("main.menu.file.quit"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/quit.gif"))) ;
 	
 	protected JMenu menuEdite = new JMenu(Bundle.getText("main.menu.edit"));
 	protected JMenuItem menuEditeCommit = new JMenuItem(Bundle.getText("main.menu.edite.commit"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/envoyer.jpg")));
