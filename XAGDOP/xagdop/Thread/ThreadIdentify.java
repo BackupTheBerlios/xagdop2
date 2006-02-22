@@ -16,14 +16,14 @@ public class ThreadIdentify extends Thread {
 	String userID;
 	String password;
 	IIdentification ident;
-	IWaiting iWait ;
+
 	
-	public ThreadIdentify(String text, String password, IIdentification ident,IWaiting iWait) {
+	public ThreadIdentify(String text, String password, IIdentification ident) {
 
 		this.userID = text;
 		this.password = password;
 		this.ident = ident;
-		this.iWait = iWait;
+
 	}
 
 	public void run() {
@@ -44,7 +44,7 @@ public class ThreadIdentify extends Thread {
 			ErrorManager.getInstance().display();
 		}
 		finally{
-			this.iWait.arreter();
+			IWaiting.getInstance().arreter();
 		}
 		
 	}

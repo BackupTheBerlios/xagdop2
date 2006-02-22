@@ -147,9 +147,9 @@ public class IIdentification extends JFrame{
 		valide.addActionListener(new ActionListener(){
 				    public void actionPerformed(ActionEvent e){
 				    	
-				    	IWaiting iWait = new IWaiting(null);
+				    	IWaiting iWait = IWaiting.getInstance();
 				    	iWait.demarrer();
-				    	ThreadIdentify ti = new ThreadIdentify(userID.getText(),new String(password.getPassword()),ident,iWait);
+				    	ThreadIdentify ti = new ThreadIdentify(userID.getText(),new String(password.getPassword()),ident);
 				    	ti.start();
 				    	
 					
