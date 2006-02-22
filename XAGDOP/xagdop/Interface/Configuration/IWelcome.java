@@ -22,10 +22,6 @@ import javax.swing.JPanel;
 import xagdop.Interface.XAGDOP;
 import xagdop.ressources.Bundle;
 
-/**
- *
- * @author  Drez
- */
 public class IWelcome extends JFrame {
 
 	private static final long serialVersionUID = 7319233017920832803L;
@@ -109,11 +105,12 @@ public class IWelcome extends JFrame {
         /*Creation de la fenetre */
         getContentPane().add(panel,  BorderLayout.CENTER);
         setSize(600,300);
+        setLocation(200,200);
         setResizable(false) ;
     }
     
     private void buttonNextActionPerformed(ActionEvent evt) {
-    			IConfLocalPath iclp = new IConfLocalPath();
+    			IConfLocalPath iclp = new IConfLocalPath("");
     			iclp.setVisible(true);
     			this.setVisible(false);
     	    }
