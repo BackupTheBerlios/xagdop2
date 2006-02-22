@@ -14,19 +14,20 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import xagdop.Controleur.CPreferencies;
+import xagdop.Interface.IIdentification;
 import xagdop.Interface.XAGDOP;
+import xagdop.Parser.PreferenciesParser;
 import xagdop.ressources.Bundle;
 
-/**
- *
- * @author  Drez
- */
+
 public class IConfServer extends  JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -38,12 +39,13 @@ public class IConfServer extends  JFrame {
     private  JLabel logoLabel;
     private  JPanel panel;
     private  JTextField jTextField1;
-    
+    private	 String localPath;
     
     
     /** Creates new form IconfLocalPath */
-    public IConfServer() {
+    public IConfServer(String localPath) {
         initComponents();
+        this.localPath = localPath;
     }
     
    
@@ -136,6 +138,7 @@ public class IConfServer extends  JFrame {
         /*Creation de la fenetre */
         getContentPane().add(panel,  BorderLayout.CENTER);
         setSize(600,300);
+        setLocation(200,200);
         setResizable(false) ;
 
       
@@ -143,13 +146,24 @@ public class IConfServer extends  JFrame {
 
 
     private void buttonNextActionPerformed( ActionEvent evt) {
-    		
+
+    	//Creation du repertoire contenant les preferences
+    	File f1 = new File(System.getProperty("user.home")+File.separator+".xagdop");
+		f1.mkdir();
+		PreferenciesParser.createPreferencies();
+    	//Appel au parser des prferences
+    	CPreferencies.setServerPath(jTextField1.getText());
+    	CPreferencies.setLocalPath(this.localPath);
+		//Fermeture de la fenetre, ouverture de la fenetre d'identification
+		IIdentification.getInstance();
+		this.dispose();
+		
     }
 
     private void buttonPreviousActionPerformed( ActionEvent evt) {
-    		IConfLocalPath iclp = new IConfLocalPath();
-    		iclp.setVisible(true);
-    		this.setVisible(false);
+    	IConfLocalPath iclp = new IConfLocalPath(this.localPath);
+    	iclp.setVisible(true);
+    	this.setVisible(false);
     }
     
 
