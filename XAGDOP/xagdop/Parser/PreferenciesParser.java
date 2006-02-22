@@ -1,6 +1,8 @@
 package xagdop.Parser;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Locale;
 
 import javax.xml.xpath.XPath;
@@ -11,6 +13,7 @@ import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.Element;
 
 import xagdop.Model.Preferencies;
+import xagdop.Util.ErrorManager;
 
 public class PreferenciesParser extends Parser{
 	private File preferenciesXML;
@@ -25,7 +28,8 @@ public class PreferenciesParser extends Parser{
 	private PreferenciesParser()
 	{
 		try {
-			preferenciesXML = new File("xagdop/ressources/XML/preferencies.xml");
+			//preferenciesXML = new File("xagdop/ressources/XML/preferencies.xml");
+			preferenciesXML = new File(System.getProperty("user.home")+File.separator+".xagdop"+File.separator+"preferencies.xml");
 			loadTreeInMemory(preferenciesXML);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -286,6 +290,22 @@ public class PreferenciesParser extends Parser{
 		
 		return local;
 	}
+	
+	public static void createPreferencies()
+	{
+		File preferenciesFile = new File(System.getProperty("user.home")+File.separator+".xagdop"+File.separator+"preferencies.xml");
+		if (!preferenciesFile.exists())
+			try {
+				preferenciesFile.createNewFile();
+				FileWriter preferencies =new FileWriter(System.getProperty("user.home")+File.separator+".xagdop"+File.separator+"preferencies.xml");
+				preferencies.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?><preferencies> <local url=\"\"/>	<server url=\"\"/>	<lookNFeel name=\"CDE/Motif\"/>	<langue country=\"FR\" name=\"fr\"/></preferencies>");
+				preferencies.close();
+			} catch (IOException e) {
+				ErrorManager.getInstance().display();
+			}
+	}
+	
+	
 	
 	public Locale getLang(){
 		Locale lang = Locale.getDefault();
