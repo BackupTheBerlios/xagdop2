@@ -5,21 +5,21 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javax.xml.xpath.XPathExpressionException;
 import xagdop.Interface.IProjectTree;
+import xagdop.Interface.IWaiting;
 import xagdop.Interface.XAGDOP;
 import xagdop.Parser.DependenciesParser;
 import xagdop.Parser.IeppNitParser;
 import xagdop.Parser.POGParser;
 import xagdop.Svn.SvnCommit;
 import xagdop.Svn.SvnHistory;
-import xagdop.Thread.ThreadCommit;
-import xagdop.Thread.ThreadWait;
+
 
 
 
 
 public class CCommit{
 	
-	
+
 	public CCommit(CTreeNode currentNode) throws Exception{
 
 	}
@@ -228,7 +228,7 @@ public class CCommit{
 	public void recCommit(CTreeNode node,String extention) throws Exception
 	{
 		//On regarde si le node est un fils
-		if (!node.getAllowsChildren())
+		if (node.isLeaf())
 		{
 			if (node.getName().endsWith(extention))
 			{
@@ -351,7 +351,7 @@ public class CCommit{
 	public void recRemove(CTreeNode node,String extention) throws Exception
 	{
 		//On regarde si le node est un fils
-		if (!node.getAllowsChildren())
+		if (node.isLeaf())
 		{
 			if (node.getName().endsWith(extention))
 			{
