@@ -19,10 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 import xagdop.Controleur.CPreferencies;
-import xagdop.Controleur.CUser;
 import xagdop.Thread.ThreadIdentify;
-import xagdop.Thread.ThreadWait;
-import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
 
 public class IIdentification extends JFrame{
@@ -183,8 +180,5 @@ public class IIdentification extends JFrame{
 	}
 	
 
-	public static void main(String args[]){
-		IIdentification.getInstance();
-
-	}
+	
 }
