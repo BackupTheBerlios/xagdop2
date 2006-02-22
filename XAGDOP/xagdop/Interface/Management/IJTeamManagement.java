@@ -98,7 +98,7 @@ public class IJTeamManagement extends JFrame{
 				
 				IAffect IA = IAffect.getIA(nP);				
 				IA.setProjectName(nP);
-				IJTM.refreshUsers();             
+				//IJTM.refreshUsers();             
 				getContentPane().validate();	    
 			}
 		}); // Fin bouton Affecter
