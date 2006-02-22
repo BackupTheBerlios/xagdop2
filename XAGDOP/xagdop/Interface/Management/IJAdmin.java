@@ -356,7 +356,7 @@ public class IJAdmin extends JFrame{
 				//System.out.println(this.rowData[i][0]);
 				this.rowData[i][1] = new Boolean(((User)o).isPcreator());
 				this.rowData[i][2] = new Boolean(((User)o).isAdmin());
-				this.rowData[i][3] = new JButton(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/supprimer.gif")));
+				this.rowData[i][3] = new JButton(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/delete.jpg")));
 				i++;
 			}
 		}
@@ -482,7 +482,7 @@ public class IJAdmin extends JFrame{
 	    public IJAdminTableCellEditor(IJAdmin IJA) 
 	    {
 
-	    	JB = new JButton(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/supprimer.gif")));
+	    	JB = new JButton(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/delete.jpg")));
 	    	JB.setActionCommand(EDIT);
 	    	JB.addActionListener(this);
 	    	JB.setBorderPainted(false);
@@ -567,7 +567,7 @@ public class IJAdmin extends JFrame{
 		 */
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean arg2, boolean arg3, int arg4, int arg5) 
 		{
-			this.setIcon(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/supprimer.gif")));
+			this.setIcon(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/delete.jpg")));
 			this.setSize(new Dimension(this.getIcon().getIconHeight(),this.getIcon().getIconWidth()));
 			return this;
 		}
