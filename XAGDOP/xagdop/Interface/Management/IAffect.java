@@ -110,6 +110,7 @@ public class IAffect extends JFrame
 						JOptionPane.showMessageDialog(null ,Bundle.getText("iaffect.userExist.text"), Bundle.getText("iaffect.FrameErreur.text") , 1) ;
 					}
             		IA.dispose();
+            		IA = null;
             		
             }
         });
@@ -123,6 +124,7 @@ public class IAffect extends JFrame
         CancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 IA.dispose();
+                IA = null;
             }
         });
         gridBagConstraints.gridx = 3;
