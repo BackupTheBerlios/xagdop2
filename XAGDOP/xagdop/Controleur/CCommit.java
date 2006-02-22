@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javax.xml.xpath.XPathExpressionException;
 import xagdop.Interface.IProjectTree;
-import xagdop.Interface.IWaiting;
 import xagdop.Interface.XAGDOP;
 import xagdop.Parser.DependenciesParser;
 import xagdop.Parser.IeppNitParser;
