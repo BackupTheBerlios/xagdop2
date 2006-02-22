@@ -2,6 +2,7 @@ package xagdop.Thread;
 
 import xagdop.Controleur.CUser;
 import xagdop.Interface.IIdentification;
+import xagdop.Interface.IWaiting;
 import xagdop.Interface.XAGDOP;
 import xagdop.Util.ErrorManager;
 
@@ -11,18 +12,18 @@ import xagdop.Util.ErrorManager;
 public class ThreadIdentify extends Thread {
 
 
-	ThreadWait tWait;
+
 	String userID;
 	String password;
 	IIdentification ident;
+	IWaiting iWait ;
 	
-	
-	public ThreadIdentify(String text, String password, IIdentification ident, ThreadWait tWait) {
-		this.tWait = tWait;
+	public ThreadIdentify(String text, String password, IIdentification ident,IWaiting iWait) {
+
 		this.userID = text;
 		this.password = password;
 		this.ident = ident;
-		
+		this.iWait = iWait;
 	}
 
 	public void run() {
@@ -42,9 +43,8 @@ public class ThreadIdentify extends Thread {
 			ErrorManager.getInstance().setErrTitle("Probleme d'identification");
 			ErrorManager.getInstance().display();
 		}
-		finally
-		{
-			tWait.arreter();
+		finally{
+			this.iWait.arreter();
 		}
 		
 	}
