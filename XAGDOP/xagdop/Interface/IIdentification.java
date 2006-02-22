@@ -147,28 +147,10 @@ public class IIdentification extends JFrame{
 		valide.addActionListener(new ActionListener(){
 				    public void actionPerformed(ActionEvent e){
 				    	
-				    	ThreadWait tWait = new ThreadWait(null);
-				    	tWait.start();
-				    	try 
-						{
-							CUser CU = new CUser();
-							if (CU.verifUser(userID.getText(),new String(password.getPassword())))
-							{
-								ident.setVisible(false);	
-								XAGDOP.getInstance().showFrame();
-							}
-						}
-						catch (Exception e1) 
-						{
-							ErrorManager.getInstance().setErrMsg("L'utilisateur n'existe pas");
-							ErrorManager.getInstance().setErrTitle("Probleme d'identification");
-							ErrorManager.getInstance().display();
-						}
-						finally
-						{
-							tWait.arreter();
-						}
-						
+				    	IWaiting iWait = new IWaiting(null);
+				    	iWait.demarrer();
+				    	ThreadIdentify ti = new ThreadIdentify(userID.getText(),new String(password.getPassword()),ident,iWait);
+				    	ti.start();
 				    	
 					
 				    }
