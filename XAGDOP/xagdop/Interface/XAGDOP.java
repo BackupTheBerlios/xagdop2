@@ -92,19 +92,18 @@ public class XAGDOP extends JFrame{
 	
 	protected JMenu menuEdite = new JMenu(Bundle.getText("main.menu.edit"));
 	protected JMenuItem menuEditeCommit = new JMenuItem(Bundle.getText("main.menu.edite.commit"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/envoyer.jpg")));
-	protected JMenuItem menuEditeUpdate = new JMenuItem(Bundle.getText("main.menu.edite.update"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/update.jpg")));
-	protected JMenuItem menuEditeCheck = new JMenuItem(Bundle.getText("main.menu.edite.checkout"));
+	protected JMenuItem menuEditeUpdate = new JMenuItem(Bundle.getText("main.menu.edite.update"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/update11.jpg")));
 	
 	protected JMenu menuShow = new JMenu(Bundle.getText("main.menu.show"));
 	protected JCheckBoxMenuItem menuShowProblems = new JCheckBoxMenuItem(Bundle.getText("main.menu.show.problems"));
 	
 	protected JMenu menuConf = new JMenu(Bundle.getText("main.menu.parameters"));
-	protected JMenuItem menuConfPreferences = new JMenuItem(Bundle.getText("main.menu.parameters.preferences"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/tools.jpg")));
+	protected JMenuItem menuConfPreferences = new JMenuItem(Bundle.getText("main.menu.parameters.preferences"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/configure.png")));
 	
 	protected JMenu menuProjet = new JMenu(Bundle.getText("main.menu.project"));
 	protected JMenuItem menuProjetTeam = new JMenuItem(Bundle.getText("main.menu.project.team"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/equipe.jpeg")));
-	protected JMenuItem menuProjetCreate = new JMenuItem(Bundle.getText("main.menu.project.newProject"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/new-tab.png")));
-	protected JMenuItem menuProjetDelete = new JMenuItem(Bundle.getText("main.menu.project.delProject"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/supprimer.gif")));
+	protected JMenuItem menuProjetCreate = new JMenuItem(Bundle.getText("main.menu.project.newProject"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/folder_new.png")));
+	protected JMenuItem menuProjetDelete = new JMenuItem(Bundle.getText("main.menu.project.delProject"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/delete.jpg")));
 	protected JMenuItem menuProjetPreferences = new JMenuItem("Fichier Preferences");
 	protected JMenuItem menuProjetComposantCreate = new JMenuItem("Creation Composant");
 	
@@ -205,9 +204,7 @@ public class XAGDOP extends JFrame{
 //		TODO FonctionCommit		
 		menuEditeCommit.addActionListener(new actionCommit());
 		menuEditeCommit.setMnemonic('C');
-//		TODO FonctionCheck		
-		menuEditeCheck.addActionListener(new actionUpdate());
-		menuEditeCheck.setMnemonic('K');
+
 		
 		menuConfPreferences.addActionListener(new openIPreferences());
 		menuConfPreferences.setMnemonic('P');
@@ -234,7 +231,6 @@ public class XAGDOP extends JFrame{
 		menuShow.add(menuShowProblems);
 		menuEdite.add(menuEditeUpdate);
 		menuEdite.add(menuEditeCommit);
-		menuEdite.add(menuEditeCheck);
 		menuHelp.add(menuHelpAbout);
 		menuConf.add(menuConfPreferences);
 		
