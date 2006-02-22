@@ -4,16 +4,13 @@ import java.awt.Component;
 import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.Locale;
-
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-
 import xagdop.Interface.XAGDOP;
 import xagdop.Parser.PreferenciesParser;
 import xagdop.Parser.UsersParser;
-import xagdop.ressources.Bundle;
 
 
 public class CPreferencies {
