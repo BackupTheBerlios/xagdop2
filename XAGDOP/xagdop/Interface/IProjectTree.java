@@ -8,7 +8,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
-
 import javax.swing.Icon;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -26,9 +25,7 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 import javax.xml.xpath.XPathExpressionException;
-
 import org.tmatesoft.svn.core.SVNException;
-
 import xagdop.Controleur.CProject;
 import xagdop.Controleur.CTree;
 import xagdop.Controleur.CTreeNode;
@@ -37,7 +34,6 @@ import xagdop.Interface.SvnInterface.ICheckOut;
 import xagdop.Interface.SvnInterface.ICommit;
 import xagdop.Model.DirectoryModel;
 import xagdop.Parser.DependenciesParser;
-import xagdop.Svn.SvnRemove;
 import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
 
