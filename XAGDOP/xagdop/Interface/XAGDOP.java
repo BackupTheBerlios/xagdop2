@@ -16,7 +16,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.Icon;
@@ -32,12 +31,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
+import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
-
 import org.tmatesoft.svn.core.SVNException;
-
 import xagdop.Controleur.CProject;
 import xagdop.Controleur.CTree;
 import xagdop.Interface.Configuration.IWelcome;
@@ -104,8 +102,8 @@ public class XAGDOP extends JFrame{
 	protected JMenuItem menuProjetTeam = new JMenuItem(Bundle.getText("main.menu.project.team"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/equipe.jpeg")));
 	protected JMenuItem menuProjetCreate = new JMenuItem(Bundle.getText("main.menu.project.newProject"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/folder_new.png")));
 	protected JMenuItem menuProjetDelete = new JMenuItem(Bundle.getText("main.menu.project.delProject"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/delete.jpg")));
-	protected JMenuItem menuProjetPreferences = new JMenuItem("Fichier Preferences");
-	protected JMenuItem menuProjetComposantCreate = new JMenuItem("Creation Composant");
+	//protected JMenuItem menuProjetPreferences = new JMenuItem("Fichier Preferences");
+	protected JMenuItem menuProjetComposantCreate = new JMenuItem("Creation Composant",UIManager.getIcon("FileView.directoryIcon"));
 	
 	protected JMenu menuHelp = new JMenu(Bundle.getText("main.menu.help"));
 	protected JMenuItem menuHelpAbout = new JMenuItem(Bundle.getText("main.menu.help.about"));
@@ -196,7 +194,7 @@ public class XAGDOP extends JFrame{
 		menuProjetCreate.setMnemonic('C');
 		menuProjetDelete.setMnemonic('E');
 		menuProjetDelete.addActionListener(new delProject());
-		menuProjetPreferences.addActionListener(new openFilePreferences());
+	//	menuProjetPreferences.addActionListener(new openFilePreferences());
 		menuProjetComposantCreate.addActionListener(new openComposantCreate());
 		
 		menuEditeUpdate.addActionListener(new actionUpdate());
@@ -226,7 +224,7 @@ public class XAGDOP extends JFrame{
 		menuProjet.add(menuProjetTeam);
 		menuProjet.add(menuProjetCreate);
 		menuProjet.add(menuProjetDelete);
-		menuProjet.add(menuProjetPreferences);
+	//	menuProjet.add(menuProjetPreferences);
 		menuProjet.add(menuProjetComposantCreate);
 		menuShow.add(menuShowProblems);
 		menuEdite.add(menuEditeUpdate);
