@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.Icon;
@@ -35,7 +36,9 @@ import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
+
 import org.tmatesoft.svn.core.SVNException;
+
 import xagdop.Controleur.CProject;
 import xagdop.Controleur.CTree;
 import xagdop.Interface.Configuration.IWelcome;
@@ -270,9 +273,7 @@ public class XAGDOP extends JFrame{
         table.setShowVerticalLines( false );
         table.setIntercellSpacing( new Dimension( 0, 2 ) );
         //table.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-        table.getColumn( "Type" ).setCellRenderer( new DirectoryRenderer() );
-        table.getColumn( "Type" ).setMaxWidth( 32 );
-        table.getColumn( "Type" ).setMinWidth( 32 );
+       
 
         JScrollPane treeScroller = new JScrollPane( tree );
         JScrollPane tableScroller = new JScrollPane( table );

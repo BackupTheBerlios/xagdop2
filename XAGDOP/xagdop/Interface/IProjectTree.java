@@ -58,7 +58,12 @@ public class IProjectTree extends JTree implements  TreeModelListener, TreeSelec
 		} catch (SVNException e) {
 			ErrorManager.getInstance().display();
 		}
-		model = new DirectoryModel((File)((CTreeNode) getModel().getRoot()).getUserObject());
+		//try {
+			model = new DirectoryModel((CTreeNode) getModel().getRoot());
+//		} catch (SVNException e) {
+//			e.printStackTrace();
+//			ErrorManager.getInstance().display();
+//		}
 		
 		selectedNode = (CTreeNode) getModel().getRoot();
 		setEditable(true);
@@ -315,12 +320,18 @@ public class IProjectTree extends JTree implements  TreeModelListener, TreeSelec
 			} 
 			
 			
-	         if ( ((File)selectedNode.getUserObject()).isDirectory() ) {
-	             model.setDirectory( (File)selectedNode.getUserObject() );
-	         }
-	         else {
-	             model.setDirectory( null );
-	         }
+			if(selectedNode.isLeaf())
+				model.setDirectory(selectedNode);
+			else
+				model.setDirectory(null);
+	        
+//	             try {
+//					model.setFile( selectedNode );
+//				} catch (SVNException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//					ErrorManager.getInstance().display();
+//				}
 		}
 	} 
 	
