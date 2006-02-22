@@ -8,6 +8,7 @@ import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
+import xagdop.Interface.IWaiting;
 import xagdop.Interface.XAGDOP;
 import xagdop.Interface.Preferences.IPreferences;
 import xagdop.Model.User;
@@ -98,8 +99,10 @@ public class CProject {
 		}
 		else
 		{
+			IWaiting iWait = IWaiting.getInstance();
 			CCommit cc = new CCommit(node);
 			cc.DependencesRemoveInitialize(node);
+			
 		}
 		
 		//JOptionPane.showMessageDialog(null ,"Le dossier "+node.getName()+" sera supprim? lors du prochain commit", "Validation" , 1) ;
