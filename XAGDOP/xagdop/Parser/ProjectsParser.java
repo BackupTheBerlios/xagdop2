@@ -693,8 +693,8 @@ public class ProjectsParser extends Parser{
 		}	
 		
 		else {
-			ErrorManager.getInstance().setErrTitle("Utilisateur inconnu");
-			ErrorManager.getInstance().setErrMsg("L'utilisateur "+ login +" est inconnu.\n");
+			ErrorManager.getInstance().setErrTitle("Ne travaille plus sur ce projet");
+			ErrorManager.getInstance().setErrMsg("Vous ne travaillez plus sur ce projet, remettez ? jour vos projets.\n");
 			throw new NullPointerException(); 
 		}
 		return res;
