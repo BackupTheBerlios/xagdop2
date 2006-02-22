@@ -14,22 +14,21 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
 import xagdop.Interface.XAGDOP;
+import xagdop.Interface.Preferences.SmartChooser;
 import xagdop.ressources.Bundle;
 
 
-/**
- *
- * @author  Drez
- */
+
 public class IConfLocalPath extends  JFrame {
     
     /**
@@ -45,10 +44,12 @@ public class IConfLocalPath extends  JFrame {
     private  JLabel logoLabel;
     private  JPanel panel;
     private  JTextField jTextField1;
-  
+    private  String defaultLocalPath;
+    protected static String mDirectory = "";
     /** Creates new form IconfLocalPath */
-    public IConfLocalPath() {
+    public IConfLocalPath(String defaultLocalPath) {
         initComponents();
+        this.defaultLocalPath = defaultLocalPath;
     }
     
    
@@ -99,6 +100,7 @@ public class IConfLocalPath extends  JFrame {
         /*Affichage du champs du chemin */     
         jTextField1 = new  JTextField();
         jTextField1.setColumns(15); 
+        jTextField1.setText(this.defaultLocalPath);
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 1;
@@ -118,8 +120,10 @@ public class IConfLocalPath extends  JFrame {
         panel.add(buttonBrowse, gridBagConstraints);
         buttonBrowse.addActionListener(new  ActionListener() {
             public void actionPerformed( ActionEvent evt) {
-                buttonNextActionPerformed(evt);
+                buttonBrowseActionPerformed(evt);
             }
+
+			
         });
         
         /*Bouton precedent*/   
@@ -157,24 +161,53 @@ public class IConfLocalPath extends  JFrame {
         /*Creation de la fenetre */
         getContentPane().add(panel,  BorderLayout.CENTER);
         setSize(600,300);
+        setLocation(200,200);
         setResizable(false) ;
 
     }
 
 
     private void buttonNextActionPerformed( ActionEvent evt) {
-		IConfServer iclp = new IConfServer();
+		//Appel au parser des prferences
+    	
+//		CPreferencies.setLocalPath(jTextField1.getName());
+		//On fais passer le local path
+    	IConfServer iclp = new IConfServer(jTextField1.getText());
 		iclp.setVisible(true);
 		this.setVisible(false);
     }
 
     private void buttonPreviousActionPerformed( ActionEvent evt) {
-    		IWelcome iw = new IWelcome();
-    		iw.setVisible(true);
-    		this.setVisible(false);
+    	IWelcome iw = new IWelcome();
+    	iw.setVisible(true);
+    	this.setVisible(false);
     }
     
-
+    private void buttonBrowseActionPerformed(ActionEvent evt) {
+    
+    		SmartChooser chooser = SmartChooser.getChooser();
+    		chooser.setAcceptAllFileFilterUsed(true);
+    		System.out.println("PropertyDirectory"+mDirectory);
+    		chooser.setDirectory(mDirectory);
+    		chooser.setDialogTitle(Bundle.getText("choosePath")); 
+    		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+    		
+    		chooser.setApproveButtonMnemonic(KeyEvent.VK_O);
+    		
+    		int result = chooser.showDialog (this, Bundle.getText("open"));
+    		if (result == JFileChooser.APPROVE_OPTION )
+    		{
+    		    if(chooser.getSelectedFile().exists() && chooser.getSelectedFile().isDirectory())
+    			{
+    		    	mDirectory = chooser.getSelectedFile().getAbsolutePath();
+    		    	jTextField1.setText(mDirectory);
+    			}
+    			else{
+    				return;
+    		}
+    		}
+    	
+	}
 
     
 }
