@@ -5,9 +5,6 @@ import java.awt.HeadlessException;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
-import javax.swing.JOptionPane;
-
 import xagdop.Interface.IWaiting;
 import xagdop.Interface.XAGDOP;
 import xagdop.Interface.Preferences.IPreferences;
@@ -99,7 +96,7 @@ public class CProject {
 		}
 		else
 		{
-			IWaiting iWait = IWaiting.getInstance();
+			IWaiting.getInstance();
 			CCommit cc = new CCommit(node);
 			cc.DependencesRemoveInitialize(node);
 			
