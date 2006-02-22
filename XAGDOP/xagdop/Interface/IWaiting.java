@@ -19,6 +19,7 @@ public class IWaiting extends JFrame {
 	JPanel panel = new JPanel();
 	JLabel label = new JLabel("bla");
 	JProgressBar progressBar = new JProgressBar();
+	private static IWaiting iWait = null;
 	public IWaiting(JFrame jf){	
 		this.init();
 	}
@@ -49,5 +50,12 @@ public class IWaiting extends JFrame {
 		this.add(progressPanel, BorderLayout.CENTER);
 		this.setLocation(300,300);
 		this.pack();
+	}
+	
+	public static IWaiting getInstance(){
+		if (iWait == null )
+			iWait = new IWaiting(null);
+		
+		return iWait;
 	}
 }
