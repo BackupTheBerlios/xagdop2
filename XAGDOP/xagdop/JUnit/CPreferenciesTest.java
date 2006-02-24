@@ -207,7 +207,7 @@ public class CPreferenciesTest extends TestCase {
 		
 		//supression de l'utilisateur cree
 		try {
-			UsersParser.getInstance().removeUser("login");
+			UsersParser.getInstance().removeUser(login);
 		} catch (XPathExpressionException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
