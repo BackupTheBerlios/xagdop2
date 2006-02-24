@@ -92,8 +92,8 @@ public class XAGDOP extends JFrame{
 	protected JMenuItem fileMenuQuit = new JMenuItem(Bundle.getText("main.menu.file.quit"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/quit.gif"))) ;
 	
 	protected JMenu menuEdite = new JMenu(Bundle.getText("main.menu.edit"));
-	protected JMenuItem menuEditeCommit = new JMenuItem(Bundle.getText("main.menu.edite.commit"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/envoyer.jpg")));
-	protected JMenuItem menuEditeUpdate = new JMenuItem(Bundle.getText("main.menu.edite.update"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/update11.jpg")));
+	protected JMenuItem menuEditeCommit = new JMenuItem(Bundle.getText("main.menu.edite.commit"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/commit.png")));
+	protected JMenuItem menuEditeUpdate = new JMenuItem(Bundle.getText("main.menu.edite.update"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/update.gif")));
 	
 	protected JMenu menuShow = new JMenu(Bundle.getText("main.menu.show"));
 	protected JCheckBoxMenuItem menuShowProblems = new JCheckBoxMenuItem(Bundle.getText("main.menu.show.problems"));
@@ -141,7 +141,7 @@ public class XAGDOP extends JFrame{
 		projet = new JButton(new ImageIcon(imageURL));
 		imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/delete.jpg");
 		delProject = new JButton(new ImageIcon(imageURL));
-		imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/update11.jpg");
+		imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/update.gif");
 		update = new JButton(new ImageIcon(imageURL));		
 		imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/configure.png");
 		preferences = new JButton(new ImageIcon(imageURL));		
