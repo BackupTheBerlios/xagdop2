@@ -7,8 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
 import java.util.ArrayList;
+
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -34,8 +34,7 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 	 * 
 	 */
 	private static IPreferences IPref = null;
-	private static String defaultPath= ((File)new File("project")).getAbsolutePath()+File.separator; 
-	private static String rootPath=((File)new File("project")).getAbsolutePath()+File.separator;
+	private static String defaultPath;//= ((File)new File("project")).getAbsolutePath()+File.separator; 
 	
 	private static final long serialVersionUID = 1L;
 	private JPanel mLastEast;
@@ -128,10 +127,6 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 
 	public static String getDefaultPath() {
 		return defaultPath;
-	}
-
-	public static String getRootPath() {
-		return rootPath;
 	}
 
 	public static void setDefaultPath(String defaultPath) {

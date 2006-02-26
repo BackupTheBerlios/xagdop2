@@ -42,7 +42,7 @@ public class SvnUpdate{
 	 * @throws SVNException
 	 */
 	public File getUsersFile() throws SVNException{
-		File droitsLocal = new File(IPreferences.getRootPath()+".xagdop"+File.separator+repository.getRepositoryUUID()+File.separator+"users.xml");
+		File droitsLocal = new File(System.getProperty("user.home")+File.separator+".xagdop"+File.separator+repository.getRepositoryUUID()+File.separator+"users.xml");
 		if(!droitsLocal.exists())
 			getFiles();
 		droitsLocal.deleteOnExit();
@@ -56,7 +56,7 @@ public class SvnUpdate{
 	 */
 	public File getProjectFile() throws SVNException{
 		
-		File project = new File(IPreferences.getRootPath()+".xagdop"+File.separator+repository.getRepositoryUUID()+File.separator+"projects.xml");
+		File project = new File(System.getProperty("user.home")+File.separator+".xagdop"+File.separator+repository.getRepositoryUUID()+File.separator+"projects.xml");
 		if(!project.exists())
 			getFiles();
 		project.deleteOnExit();
@@ -69,7 +69,7 @@ public class SvnUpdate{
 	 */
 	public File getDependenciesFile() throws SVNException{
 		
-		File dependenciesLocal = new File(IPreferences.getRootPath()+".xagdop"+File.separator+repository.getRepositoryUUID()+File.separator+"dependencies.xml");
+		File dependenciesLocal = new File(System.getProperty("user.home")+File.separator+".xagdop"+File.separator+repository.getRepositoryUUID()+File.separator+"dependencies.xml");
 		if(!dependenciesLocal.exists())
 			getFiles();
 		dependenciesLocal.deleteOnExit();
@@ -86,13 +86,11 @@ public class SvnUpdate{
 		
 		SVNUpdateClient up = new SVNUpdateClient(repository.getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
 		//Test si les dossiers des diff??rents utilisateurs existent sinon il les cr??e
-		File projectDirectoryLocal = new File(IPreferences.getRootPath());
-		if(!projectDirectoryLocal.exists())
-			projectDirectoryLocal.mkdir();
-		File projectLocal = new File(IPreferences.getRootPath()+".xagdop"+File.separator);
+		
+		File projectLocal = new File(System.getProperty("user.home")+File.separator+".xagdop"+File.separator);
 		if(!projectLocal.exists())
 			projectLocal.mkdir();
-		projectLocal = new File(IPreferences.getRootPath()+".xagdop"+File.separator+repository.getRepositoryUUID()+File.separator);
+		projectLocal = new File(System.getProperty("user.home")+File.separator+".xagdop"+File.separator+repository.getRepositoryUUID()+File.separator);
 		
 		//R??cup??ration des fichiers
 		if(projectLocal.exists())

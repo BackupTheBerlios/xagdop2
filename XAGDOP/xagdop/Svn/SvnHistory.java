@@ -157,10 +157,12 @@ public class SvnHistory {
 		try {
 			if(!isUnderVersion((File)file.getUserObject())||file.isRoot())
 				return null;
+			System.out.println("bla");
 			SVNRepository repository = SvnConnect.getInstance().getRepository();
-			System.out.println("bla : "+CFile.treePathName(file));
+			System.out.println("blabla");
 			Collection logEntries = repository.log(new String[] {file.getProject().getName()+"/"+CFile.treePathName(file)}, null,
-					0, repository.getLatestRevision(), false, true);
+					0, repository.getLatestRevision(), false, false);
+			System.out.println((1.0+logEntries.size()/100));	
 			return logEntries;
 			
 		} catch (SVNException e) {

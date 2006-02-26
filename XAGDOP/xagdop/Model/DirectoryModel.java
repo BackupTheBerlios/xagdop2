@@ -2,6 +2,7 @@ package xagdop.Model;
 
 
 import java.io.File;
+import java.util.Collection;
 
 import javax.swing.UIManager;
 import javax.swing.table.AbstractTableModel;
@@ -18,8 +19,8 @@ public class DirectoryModel extends AbstractTableModel {
     protected int rowCount;
     protected Object dirIcon;
     protected Object fileIcon;
-    //protected File file;
-	//protected Collection infos;
+    protected File file;
+	protected Collection infos;
 
     public DirectoryModel() {
         init();
@@ -27,8 +28,10 @@ public class DirectoryModel extends AbstractTableModel {
 
     public DirectoryModel( CTreeNode dir ) {
         init();
-       // file = (File)dir.getUserObject();
+        file = (File)dir.getUserObject();
         directory = (File)dir.getUserObject();
+        if(!directory.exists())
+        	directory.mkdir();
         children = directory.list();
         rowCount = children.length;
     }
@@ -49,22 +52,26 @@ public class DirectoryModel extends AbstractTableModel {
             children = null;
             rowCount = 0;
         }
-        //file = (File)dir.getUserObject();
-//		try {
-//			infos = SvnHistory.getInfo(dir);
-//		} catch (SVNException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+        file = (File)dir.getUserObject();
+		/*try {
+			infos = SvnHistory.getInfo(dir);
+		} catch (SVNException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
         fireTableDataChanged();
     }
 
     public int getRowCount() {
+    	
+    	//if(infos != null) return infos.size(); else return 0;
         return children != null ? rowCount : 0;
     }
 
     public int getColumnCount() {
-        return children != null ? 3 :0;
+    	//return 3;
+    	return children != null ? 3 : 0;
+       
     }
 
     public Object getValueAt(int row, int column){
@@ -86,18 +93,23 @@ public class DirectoryModel extends AbstractTableModel {
 //		default:
 //			return "";
         case 0:
-            return "bla";
+//        	return new Double(1.0+(infos.size()-row)/100);
+        	return "";
         case 1:
-        	/*if(infos!=null){
-        		ArrayList comment =  new ArrayList(infos);
-        		System.out.println(((SVNLogEntry)comment.get(row)).getMessage());
-        	}*/
+//        	if(infos!=null){
+//        		ArrayList comment =  new ArrayList(infos);
+//        		System.out.println( ((SVNLogEntry)comment.get(row)).getMessage());
+//        		return ((SVNLogEntry)comment.get(row)).getMessage();
+//        	}
+//        	return "";
             return fileSysEntity.getName();
         case 2:
-        	/*if(infos!=null){
-        		ArrayList author =  new ArrayList(infos);
-        		System.out.println(((SVNLogEntry)author.get(row)).getAuthor());
-        	}*/
+//        	if(infos!=null){
+//        		ArrayList author =  new ArrayList(infos);
+//        		System.out.println( ((SVNLogEntry)author.get(row)).getAuthor());
+//        		 return ((SVNLogEntry)author.get(row)).getAuthor();
+//        	}
+//        	return "";
             if ( fileSysEntity.isDirectory() ) {
                 return "--";
             }
@@ -112,23 +124,23 @@ public class DirectoryModel extends AbstractTableModel {
     public String getColumnName( int column ) {
         switch ( column ) {
         case 0:
-            return "Type";
+            return "Version";
         case 1:
-            return "Name";
+            return "Commentaires";
         case 2:
-            return "Bytes";
+            return "Auteur";
         default:
             return "unknown";
         }
     }
 
     public Class getColumnClass( int column ) {
-        if ( column == 0 ) {
-            return getValueAt( 0, column).getClass();
-        }
-        else {
+//        if ( column == 0 ) {
+//            return getValueAt( 0, column).getClass();
+//        }
+//        else {
             return super.getColumnClass( column );
-        }
+        //}
     }
 }                   
 

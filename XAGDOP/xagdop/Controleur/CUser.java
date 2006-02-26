@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import xagdop.Interface.XAGDOP;
 import xagdop.Interface.Preferences.IPreferences;
 import xagdop.Model.User;
+import xagdop.Parser.PreferenciesParser;
 import xagdop.Parser.UsersParser;
 import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
@@ -26,7 +27,7 @@ public class CUser {
 		User user = uParser.getUser(login,CEncrypt.getEncodedPassword(passwd));
     	if (user != null){
     		/* Si l'utilisateur existe, on se connecte a l'application */
-    		IPreferences.setDefaultPath(IPreferences.getDefaultPath()+user.getLogin()+File.separator);
+    		IPreferences.setDefaultPath(PreferenciesParser.getInstance().buildPreferencies().getLocal()+File.separator+user.getLogin()+File.separator);
     		XAGDOP.getInstance().setUser(user);
     		return true;
     	}

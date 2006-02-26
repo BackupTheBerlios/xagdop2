@@ -320,11 +320,11 @@ public class IProjectTree extends JTree implements  TreeModelListener, TreeSelec
 			} 
 			
 			
-			if(selectedNode.isLeaf())
-				model.setDirectory(selectedNode);
-			else
-				model.setDirectory(null);
-	        
+//			if(!selectedNode.isLeaf())
+//				model.setDirectory(selectedNode);
+//			else
+//				model.setDirectory(null);
+			model.setDirectory(selectedNode);
 //	             try {
 //					model.setFile( selectedNode );
 //				} catch (SVNException e) {

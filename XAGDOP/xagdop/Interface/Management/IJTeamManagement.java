@@ -20,7 +20,6 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-import xagdop.Controleur.CTeamManagement;
 import xagdop.Interface.XAGDOP;
 import xagdop.Model.Project;
 import xagdop.Parser.ProjectsParser;
@@ -49,7 +48,6 @@ public class IJTeamManagement extends JFrame{
 	private JScrollPane JSP;
 	private GridBagConstraints gbc = new GridBagConstraints();
 	private Project projet;
-	private CTeamManagement CTeamM;	
 	private String nP;
 	
 	/**
@@ -74,7 +72,6 @@ public class IJTeamManagement extends JFrame{
 		} catch (Exception e1) {
 			ErrorManager.getInstance().display();
 		}
-		CTeamM = new CTeamManagement(nP);
 		newPanel.setLayout(new GridBagLayout());		
 		newPanel.setMinimumSize(new Dimension(296, 130));
 		

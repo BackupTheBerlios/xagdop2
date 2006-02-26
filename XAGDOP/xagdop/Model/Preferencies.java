@@ -10,6 +10,7 @@ public class Preferencies {
 	private Locale langue;
 	
 	
+	
 	public Preferencies(String server, String local, String lookNFeelName,Locale langue){
 		this.server=server;
 		this.local=local;
