@@ -53,14 +53,14 @@ public class IIdentification extends JFrame{
 		/*Creation de l'identifiant */
 		userIDLabel = new JLabel(Bundle.getText("iuser.label.id"));
 		userIDLabel.setForeground(Color.red);
-		userIDLabel.setFont(new Font("", Font.BOLD,14));
+		userIDLabel.setFont(new Font("BOLD", Font.BOLD,14));
 		//userID = new JTextField(Bundle.getText("iuser.Jtextfield.id"));
 		userID = new JTextField("claire");
 		userID.setColumns(12);
 		
 		/*Creation du mot de passe */
 		passwordLabel = new JLabel(Bundle.getText("iuser.label.password"));
-		passwordLabel.setFont(new Font("", Font.BOLD,14));
+		passwordLabel.setFont(new Font("BOLD", Font.BOLD,14));
 		passwordLabel.setForeground(Color.red);
 		password = new JPasswordField("pass");
 		//password = new JPasswordField();
@@ -69,7 +69,7 @@ public class IIdentification extends JFrame{
 		
 		/*Creation de l'image */
 		welcomlabel = new JLabel(Bundle.getText("iuser.label.welcom"));
-		welcomlabel.setFont(new Font("", Font.BOLD,23));
+		welcomlabel.setFont(new Font("BOLD", Font.BOLD,23));
 		welcomlabel.setForeground(Color.red);
 		
 		/*Affichage du mot de passe*/
