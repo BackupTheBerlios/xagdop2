@@ -174,9 +174,12 @@ public class CRole {
 	}
 	
 	
-	public boolean canShow(File file,String project){
+	public boolean canShow(File file, String project){
+		
+		
 		if(file.isHidden())
 			return false;
+		
 		
 		//System.out.println(project+ " : "+(projectsList.get(project)==null));
 		if(file.isDirectory()){

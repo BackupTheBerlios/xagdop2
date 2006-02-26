@@ -6,8 +6,6 @@ import java.io.Serializable;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import xagdop.Interface.Preferences.IPreferences;
-
 
 
 /**
@@ -44,22 +42,23 @@ public class CTreeNode extends DefaultMutableTreeNode implements Serializable
 	
 
 	public boolean isProject(){
-		if(((File)getUserObject()).getParentFile().equals(new File(IPreferences.getDefaultPath())))
+
+		CTreeNode parent = (CTreeNode)getParent();
+		if(parent!=null&&parent.isRoot())
 			return true;
 		
 		return false;
 	}
 
 	public CTreeNode getProject(){
+	
 		if(this.isRoot())
 			return null;
 		CTreeNode node = this;
 		while(!node.isProject()){
-
-			node = (CTreeNode)node.getParent();
-			
+			node = (CTreeNode)node.getParent();	
 		}
-		//System.out.println(node.getName());
+		
 		return node;
 	}
 	

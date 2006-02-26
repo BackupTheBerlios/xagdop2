@@ -65,8 +65,9 @@ public class CTree extends DefaultTreeModel
 	}
 	
 	protected File[] listFile(CTreeNode current){
-		final CTreeNode node = current.getProject();
+		final CTreeNode node;
 		final String project;
+		node = current.getProject();
 		if(node == null)
 			project = "";
 		else
@@ -77,6 +78,8 @@ public class CTree extends DefaultTreeModel
 			
 			public boolean accept(File dir, String name) {
 				File directory = new File(dir.getAbsolutePath()+File.separator+name);
+				if(project=="")
+					return CRole.getInstance().canShow(directory,name);
 				return CRole.getInstance().canShow(directory,project);
 			}
 		});
