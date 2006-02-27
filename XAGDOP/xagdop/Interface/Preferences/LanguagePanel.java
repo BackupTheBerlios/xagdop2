@@ -61,7 +61,7 @@ public class LanguagePanel extends PreferencePanel{
     		LocaleXtended tempLoc = new LocaleXtended((Locale)mLang_available.get(i));
     		mLangComboBox.addItem(tempLoc);
     		if (tempLoc.toString().equals(mLanguage.toString())) 
-    			{ mLanguagePos = i; System.out.println("ok"); }
+    			mLanguagePos = i;
     	}
     	//mLangComboBox.setSelectedItem(mLanguage); Enleve car ne fonctionne pas pour le moment
     	mLangComboBox.setSelectedIndex(mLanguagePos);

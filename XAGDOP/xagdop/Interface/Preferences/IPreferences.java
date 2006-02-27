@@ -73,7 +73,7 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 //		Create the nodes.
         DefaultMutableTreeNode top =
             new DefaultMutableTreeNode(Bundle.getText("ipreferences.tree.root"));
-        createNodes(top);
+        createNodes(top); 
 
         //Create a tree that allows one selection at a time.
         mTree = new JTree(top);
@@ -166,12 +166,12 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 
         category = new DefaultMutableTreeNode(Bundle.getText("ipreferences.tree.printing")); // affichage
         top.add(category);
-
+        
         //Look and Feel
         book = new DefaultMutableTreeNode(new PanelInfo(Bundle.getText("ipreferences.LNF.title"), new
         		LookAndFeelPanel()));
         category.add(book);
-
+        
         //Language
         book = new DefaultMutableTreeNode(new PanelInfo(Bundle.getText("ipreferences.language.title"), new
         		LanguagePanel()));
@@ -292,18 +292,7 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 			case LNF_REF: CPreferencies.setDefaultLNF(LookAndFeelPanel.getLNF());
 					break;
 			case LANGUAGE_REF: CPreferencies.setDefaultLocale(LanguagePanel.getLanguage());
-					//this.repaint();
-					/*Frame[] fraTab = JFrame.getFrames();
-					for (int j = 0; j < fraTab.length; j++) {
-						//fraTab[i].updateUI;
-						//SwingUtilities.updateComponentTreeUI(fraTab[i]);
-						Graphics graph = fraTab[i].getGraphics();
-						fraTab[i].paint(graph);
-						System.out.println(fraTab.length);
-					}*/
-					//SwingUtilities.;
-					//this.parent.repaint();
-			JOptionPane.showMessageDialog(this, Bundle.getText("ipreferences.language.updated"));
+					JOptionPane.showMessageDialog(this, Bundle.getText("ipreferences.language.updated"));
 					break;
 			case PASSWORD_REF:
 				if (!PasswordPanel.isPasswordCorrect())
@@ -324,12 +313,6 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 	}
 	
 	private void exit(){
-		/*try {
-			configMan.save();
-		} catch (IOException event) {
-			// TODO Auto-generated catch block
-			event.printStackTrace();
-		}*/
 		dispose();
 		IPref = null;
 	}
