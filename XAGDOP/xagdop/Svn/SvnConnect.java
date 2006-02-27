@@ -79,7 +79,7 @@ public class SvnConnect {
 	 * @throws SVNException
 	 * Connection au repository
 	 */
-	private SVNRepository connect() throws SVNException{
+	public SVNRepository connect() throws SVNException{
 		
 		try {
 			/*
