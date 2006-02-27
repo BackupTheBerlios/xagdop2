@@ -25,7 +25,18 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
 
+import org.tmatesoft.svn.core.SVNException;
+
 import xagdop.Controleur.CPreferencies;
+import xagdop.Controleur.CTree;
+import xagdop.Controleur.CTreeNode;
+import xagdop.Interface.IProjectTree;
+import xagdop.Interface.XAGDOP;
+import xagdop.Parser.ProjectsParser;
+import xagdop.Parser.UsersParser;
+import xagdop.Svn.SvnConnect;
+import xagdop.Svn.SvnUpdate;
+import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
 
 
@@ -286,8 +297,39 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 			ref = (Integer) changedPrefList.get(i);
 			switch (ref.intValue()) {
 			case LOCAL_PATH_REF: CPreferencies.setLocalPath(LocalPathPanel.getLocalPath());
+					//Refresh du panel
+						try {
+						((CTree)((IProjectTree)XAGDOP.getInstance().getTree()).getModel()).refreshFirst((CTreeNode)((XAGDOP.getInstance().getTree()).getModel().getRoot()));
+					} catch (SVNException e) {
+						ErrorManager.getInstance().setErrMsg("Probleme d'adresse locale");
+						ErrorManager.getInstance().setErrTitle("Probleme chemin local");
+						ErrorManager.getInstance().display();
+						
+					}
 					break;
 			case REMOTE_PATH_REF: CPreferencies.setServerPath(RemotePathPanel.getRemotePath());
+					//Refresh des fichiers de projet et de user
+					try{			
+							//On remet le nouveau path
+							SvnConnect.getInstance().setUrl(RemotePathPanel.getRemotePath());
+							//On s'y reconnecte
+							SvnConnect.getInstance().connect();
+							//On fait un update
+							SvnUpdate svnu = new SvnUpdate();
+							//On recupere les fichiers user et project
+							svnu.getFiles();
+								//On remet a jour les arbres en memoire
+								ProjectsParser.getInstance();
+								UsersParser.getInstance();
+							//On fait un refresh du local
+							((CTree)((IProjectTree)XAGDOP.getInstance().getTree()).getModel()).refreshFirst((CTreeNode)((XAGDOP.getInstance().getTree()).getModel().getRoot()));
+						}catch (Exception e1)
+						{
+							ErrorManager.getInstance().setErrMsg("Probleme lors du changement du chemin distant");
+							ErrorManager.getInstance().setErrTitle("Probleme chemin distant");
+							ErrorManager.getInstance().display();
+						}
+			
 					break;
 			case LNF_REF: CPreferencies.setDefaultLNF(LookAndFeelPanel.getLNF());
 					break;
