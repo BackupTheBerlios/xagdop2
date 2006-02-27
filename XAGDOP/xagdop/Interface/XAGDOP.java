@@ -42,6 +42,7 @@ import org.tmatesoft.svn.core.SVNException;
 import xagdop.Controleur.CProject;
 import xagdop.Controleur.CTree;
 import xagdop.Interface.Configuration.IWelcome;
+import xagdop.Interface.Help.IHelp;
 import xagdop.Interface.Management.IJAdmin;
 import xagdop.Interface.Management.IJTeamManagement;
 import xagdop.Interface.Preferences.IPreferences;
@@ -110,6 +111,8 @@ public class XAGDOP extends JFrame{
 	
 	protected JMenu menuHelp = new JMenu(Bundle.getText("main.menu.help"));
 	protected JMenuItem menuHelpAbout = new JMenuItem(Bundle.getText("main.menu.help.about"));
+	protected JMenuItem menuHelpHelp = new JMenuItem(Bundle.getText("main.menu.help.help"));
+	//protected JMenuItem ;
 	
 	//End of Menu Initialisation
 	
@@ -223,6 +226,15 @@ public class XAGDOP extends JFrame{
 			}
 		}) ;
 			
+		menuHelpHelp.addActionListener(new ActionListener()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
+						IHelp ihelp = new IHelp();
+						ihelp.setVisible(true);
+						
+					}
+				}) ;
 		menuFile.add(fileMenuQuit);
 		menuProjet.add(menuProjetTeam);
 		menuProjet.add(menuProjetCreate);
@@ -233,6 +245,7 @@ public class XAGDOP extends JFrame{
 		menuEdite.add(menuEditeUpdate);
 		menuEdite.add(menuEditeCommit);
 		menuHelp.add(menuHelpAbout);
+		menuHelp.add(menuHelpHelp);
 		menuConf.add(menuConfPreferences);
 		
 		
