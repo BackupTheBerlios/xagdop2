@@ -52,7 +52,7 @@ public class MiddlePanel extends JPanel {
         
 		JDesc = new JLabel(desc);
 		JMiddlePanel.add(JDesc);
-		
+		this.add(JMiddlePanel);
 		
 	}
 
