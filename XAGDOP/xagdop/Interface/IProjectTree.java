@@ -1,6 +1,8 @@
 package xagdop.Interface;
 
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,6 +14,8 @@ import javax.swing.Icon;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
 import javax.swing.event.TreeExpansionEvent;
@@ -58,13 +62,7 @@ public class IProjectTree extends JTree implements  TreeModelListener, TreeSelec
 		} catch (SVNException e) {
 			ErrorManager.getInstance().display();
 		}
-		//try {
-			model = new DirectoryModel((CTreeNode) getModel().getRoot());
-//		} catch (SVNException e) {
-//			e.printStackTrace();
-//			ErrorManager.getInstance().display();
-//		}
-		
+		model = new DirectoryModel((CTreeNode) getModel().getRoot());
 		selectedNode = (CTreeNode) getModel().getRoot();
 		setEditable(true);
 		getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
@@ -191,11 +189,10 @@ public class IProjectTree extends JTree implements  TreeModelListener, TreeSelec
 	public class PopupListener extends MouseAdapter {
 		private JPopupMenu popup = null;
 		private JMenuItem menuRefresh = new JMenuItem(Bundle.getText("tree.popup.menu.refresh"));
-		//private JMenuItem menuUpdate = new JMenuItem(Bundle.getText("tree.popup.menu.update"));
 		private JMenuItem menuCommit = new JMenuItem(Bundle.getText("tree.popup.menu.commit"));
 		private JMenuItem menuRename = new JMenuItem(Bundle.getText("tree.popup.menu.rename"));
 		private JMenuItem menuDelete = new JMenuItem(Bundle.getText("tree.popup.menu.delete"));
-		//private JMenuItem menuProperty = new JMenuItem(Bundle.getText("tree.popup.menu.property"));
+		private JMenuItem menuVersion = new JMenuItem(Bundle.getText("tree.popup.menu.version"));
 		private JMenuItem menuRefrechFL = new JMenuItem(Bundle.getText("tree.popup.menu.refreshfromlocal"));
 		
 		public PopupListener(JPopupMenu pop) {
@@ -243,6 +240,24 @@ public class IProjectTree extends JTree implements  TreeModelListener, TreeSelec
 			}
 			);
 			
+			
+			menuVersion.addActionListener( new ActionListener() {
+				public void actionPerformed (ActionEvent e){
+					JTable table = new JTable( model );
+			        table.setShowHorizontalLines( false );
+			        table.setShowVerticalLines( false );
+			        table.setIntercellSpacing( new Dimension( 0, 2 ) );
+			        //table.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+			       
+
+			        JScrollPane tableScroller = new JScrollPane( table );
+			        tableScroller.setMinimumSize( new Dimension( 0, 0 ) );
+			        tableScroller.setBackground( Color.white );
+					model.setDirectory(selectedNode);
+					XAGDOP.getInstance().setAssociatePanel(tableScroller);
+				}
+			});
+			
 			popup.add(menuRefrechFL);
 			popup.addSeparator();
 			popup.add(menuRefresh);
@@ -250,8 +265,8 @@ public class IProjectTree extends JTree implements  TreeModelListener, TreeSelec
 			popup.addSeparator();
 			popup.add(menuRename);
 			popup.add(menuDelete);
-			//popup.addSeparator();
-			//popup.add(menuProperty);
+			popup.addSeparator();
+			popup.add(menuVersion);
 
 		}
 		
@@ -319,19 +334,6 @@ public class IProjectTree extends JTree implements  TreeModelListener, TreeSelec
 					popup.show(me.getComponent(), me.getX(), me.getY());				
 			} 
 			
-			
-//			if(!selectedNode.isLeaf())
-//				model.setDirectory(selectedNode);
-//			else
-//				model.setDirectory(null);
-			model.setDirectory(selectedNode);
-//	             try {
-//					model.setFile( selectedNode );
-//				} catch (SVNException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//					ErrorManager.getInstance().display();
-//				}
 		}
 	} 
 	

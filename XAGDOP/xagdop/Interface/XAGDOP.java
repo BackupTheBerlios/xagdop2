@@ -23,6 +23,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -71,9 +72,11 @@ public class XAGDOP extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private static XAGDOP xag = null;
 	protected User user;
-	protected JPanel panel = new JPanel();
 	protected JMenuBar menuBar = new JMenuBar();
 	protected JMenuBar menuBar2 = new JMenuBar();
+	protected JSplitPane splitPane;
+	protected JScrollPane treeScroller;
+	protected JPanel panel2;
 	
 	protected JButton commit;
 	protected JButton update;
@@ -82,7 +85,7 @@ public class XAGDOP extends JFrame{
 	protected JButton delProject;
 	protected JButton preferences;
 	protected JButton admin;
-	protected JTable tableVersion;
+	
 
 
 	/*
@@ -112,24 +115,18 @@ public class XAGDOP extends JFrame{
 	protected JMenu menuHelp = new JMenu(Bundle.getText("main.menu.help"));
 	protected JMenuItem menuHelpAbout = new JMenuItem(Bundle.getText("main.menu.help.about"));
 	protected JMenuItem menuHelpHelp = new JMenuItem(Bundle.getText("main.menu.help.help"));
-	//protected JMenuItem ;
 	
 	//End of Menu Initialisation
 	
 	protected IProjectTree tree;
 	
 	private XAGDOP(){
-		
-		//init();
-		//testsParsers tests = new testsParsers(); 
+
 	}
 	public void showFrame(){
 		init();
 		setVisible(true);
 		refreshButton();
-		//Ouverture de la fenetre de problemes
-		//IProblemsList ipl = new IProblemsList();
-		//ipl.setVisible(true);
 	
 	}
 
@@ -150,9 +147,9 @@ public class XAGDOP extends JFrame{
 		preferences = new JButton(new ImageIcon(imageURL));		
 		admin= new JButton("ADMIN");
 		
-		JPanel pan = (JPanel)this.getContentPane();
-		JPanel pan2 = new JPanel(new BorderLayout());
-		pan.setLayout(new BorderLayout());
+		JPanel panel = (JPanel)this.getContentPane();
+		panel2 = new JPanel(new BorderLayout());
+		panel.setLayout(new BorderLayout());
 		
 		
 		//Ajout des bouton sur le panel
@@ -288,12 +285,12 @@ public class XAGDOP extends JFrame{
         //table.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
        
 
-        JScrollPane treeScroller = new JScrollPane( tree );
+        treeScroller = new JScrollPane( tree );
         JScrollPane tableScroller = new JScrollPane( table );
         treeScroller.setMinimumSize( new Dimension( 0, 0 ) );
         tableScroller.setMinimumSize( new Dimension( 0, 0 ) );
         tableScroller.setBackground( Color.white );
-        JSplitPane splitPane = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT,
+        splitPane = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT,
                                                treeScroller,
                                                tableScroller );
         splitPane.setDividerLocation(200);
@@ -302,10 +299,10 @@ public class XAGDOP extends JFrame{
 		Border border = BorderFactory.createLoweredBevelBorder();
 		tree.setBorder(border);
 		
-        pan2.add( splitPane , BorderLayout.CENTER);
-		pan2.add(menuBar2, BorderLayout.NORTH);
-		pan.add(menuBar, BorderLayout.NORTH);
-		pan.add(pan2,BorderLayout.CENTER);
+        panel2.add( splitPane , BorderLayout.CENTER);
+		panel2.add(menuBar2, BorderLayout.NORTH);
+		panel.add(menuBar, BorderLayout.NORTH);
+		panel.add(panel2,BorderLayout.CENTER);
         
         
 		
@@ -477,7 +474,10 @@ public class XAGDOP extends JFrame{
 		return xag;
 	}
 	
-
+	public void setAssociatePanel(JComponent panel){
+		splitPane.add(panel,JSplitPane.RIGHT);
+		splitPane.setDividerLocation(200);
+	}
 	
 	/*
 	 * Return Tree of XAGDOP.java

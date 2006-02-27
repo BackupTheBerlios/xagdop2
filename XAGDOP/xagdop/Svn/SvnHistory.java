@@ -1,6 +1,7 @@
 package xagdop.Svn;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.tmatesoft.svn.core.SVNException;
@@ -17,10 +18,7 @@ import xagdop.Util.ErrorManager;
 
 
 public class SvnHistory {
-	
-	
-	
-	
+
 	
 	/**
 	 * @param file Fichier que l'on veut tester
@@ -152,18 +150,15 @@ public class SvnHistory {
 		}
 	}
 	
-	public static Collection getInfo(CTreeNode file) throws SVNException{
+	public static ArrayList getInfo(CTreeNode file) throws SVNException{
 		
 		try {
 			if(!isUnderVersion((File)file.getUserObject())||file.isRoot())
 				return null;
-			System.out.println("bla");
 			SVNRepository repository = SvnConnect.getInstance().getRepository();
-			System.out.println("blabla");
 			Collection logEntries = repository.log(new String[] {file.getProject().getName()+"/"+CFile.treePathName(file)}, null,
 					0, repository.getLatestRevision(), false, false);
-			System.out.println((1.0+logEntries.size()/100));	
-			return logEntries;
+			return new ArrayList(logEntries);
 			
 		} catch (SVNException e) {
 			ErrorManager.getInstance().setErrMsg("La version du fichier "+file.getName()+" n'a pu ??tre r??cup??r??.\n"+e.getCause());
@@ -172,6 +167,5 @@ public class SvnHistory {
 		}
 		
 	}
-	
-	
+
 }
