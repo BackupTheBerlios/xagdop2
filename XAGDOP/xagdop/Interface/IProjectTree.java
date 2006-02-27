@@ -1,8 +1,6 @@
 package xagdop.Interface;
 
-import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,11 +8,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+
 import javax.swing.Icon;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
@@ -29,10 +27,13 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 import javax.xml.xpath.XPathExpressionException;
+
 import org.tmatesoft.svn.core.SVNException;
+
 import xagdop.Controleur.CProject;
 import xagdop.Controleur.CTree;
 import xagdop.Controleur.CTreeNode;
+import xagdop.Interface.Panel.IJPToggleTable;
 import xagdop.Interface.Preferences.IPreferences;
 import xagdop.Interface.SvnInterface.ICheckOut;
 import xagdop.Interface.SvnInterface.ICommit;
@@ -244,17 +245,9 @@ public class IProjectTree extends JTree implements  TreeModelListener, TreeSelec
 			menuVersion.addActionListener( new ActionListener() {
 				public void actionPerformed (ActionEvent e){
 					JTable table = new JTable( model );
-			        table.setShowHorizontalLines( false );
-			        table.setShowVerticalLines( false );
-			        table.setIntercellSpacing( new Dimension( 0, 2 ) );
-			        //table.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-			       
-
-			        JScrollPane tableScroller = new JScrollPane( table );
-			        tableScroller.setMinimumSize( new Dimension( 0, 0 ) );
-			        tableScroller.setBackground( Color.white );
+					IJPToggleTable tablePanel = new IJPToggleTable(table); 
 					model.setDirectory(selectedNode);
-					XAGDOP.getInstance().setAssociatePanel(tableScroller);
+					XAGDOP.getInstance().setAssociatePanel(tablePanel);
 				}
 			});
 			
@@ -333,6 +326,8 @@ public class IProjectTree extends JTree implements  TreeModelListener, TreeSelec
 			if ((SwingUtilities.isRightMouseButton(me))&&(isPathSelected(pathClicked))) {		
 					popup.show(me.getComponent(), me.getX(), me.getY());				
 			} 
+			
+			XAGDOP.getInstance().setNoPanel();
 			
 		}
 	} 

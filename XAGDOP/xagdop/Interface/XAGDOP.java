@@ -11,7 +11,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,7 +25,6 @@ import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -48,6 +46,8 @@ import xagdop.Interface.Configuration.IWelcome;
 import xagdop.Interface.Help.IHelp;
 import xagdop.Interface.Management.IJAdmin;
 import xagdop.Interface.Management.IJTeamManagement;
+import xagdop.Interface.Panel.IJPToggle;
+import xagdop.Interface.Panel.IJPToggleTable;
 import xagdop.Interface.Preferences.IPreferences;
 import xagdop.Interface.Preferences.IPreferencesFile;
 import xagdop.Interface.SvnInterface.ICheckOut;
@@ -79,6 +79,7 @@ public class XAGDOP extends JFrame{
 	protected JSplitPane splitPane;
 	protected JScrollPane treeScroller;
 	protected JPanel panel2;
+	protected IJPToggle toggle = new IJPToggle();
 	
 	protected JButton commit;
 	protected JButton update;
@@ -288,7 +289,7 @@ public class XAGDOP extends JFrame{
        
 /***************************************************************/
         treeScroller = new JScrollPane( tree );
-		JScrollPane tableScroller = new JScrollPane(new JPToggleTable(table));
+		JScrollPane tableScroller = new JScrollPane(new IJPToggleTable(table));
         treeScroller.setMinimumSize( new Dimension( 0, 0 ) );
         tableScroller.setMinimumSize( new Dimension( 0, 0 ) );
         tableScroller.setBackground( Color.white );
@@ -481,6 +482,10 @@ public class XAGDOP extends JFrame{
 		splitPane.add(panel,JSplitPane.RIGHT);
 		splitPane.setDividerLocation(200);
 	}
+	public void setNoPanel(){
+		splitPane.add(toggle,JSplitPane.RIGHT);
+		splitPane.setDividerLocation(200);
+	}
 	
 	/*
 	 * Return Tree of XAGDOP.java
@@ -565,40 +570,5 @@ public class XAGDOP extends JFrame{
 	            return super.getTableCellRendererComponent( table, value, isSelected, hasFocus, row, column );
 	        }
 	    }
-	  
-	  public class JPToggle extends JPanel
-	  {
-		  /**
-		   * 
-		   */
-		  private static final long serialVersionUID = 1L;
-		  private ImageIcon IIlogo = null;
-		  private JLabel JLText = null;
-		  
-		  public JPToggle()
-		  {
-			  this.setLayout(new FlowLayout());
-			  IIlogo = new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/LogoXAGDOP9.jpg"));
-			  JLText = new JLabel(IIlogo);
-			  this.setBackground(Color.WHITE);
-			  this.add(JLText);
-		  }
-	  }
-	  
-	  public class JPToggleTable extends JPanel
-	  {
-		  /**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-		
-		public JPToggleTable(JTable jt)
-		{
-			this.setLayout(new FlowLayout());
-			this.setBackground(Color.WHITE);
-			this.add(new JScrollPane(jt));
-		}
-		  
-	  }
 	
 }
