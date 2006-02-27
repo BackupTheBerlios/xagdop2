@@ -11,6 +11,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,6 +26,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -284,15 +286,16 @@ public class XAGDOP extends JFrame{
         table.setIntercellSpacing( new Dimension( 0, 2 ) );
         //table.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
        
-
+/***************************************************************/
         treeScroller = new JScrollPane( tree );
-        JScrollPane tableScroller = new JScrollPane( table );
+		JScrollPane tableScroller = new JScrollPane(new JPToggleTable(table));
         treeScroller.setMinimumSize( new Dimension( 0, 0 ) );
         tableScroller.setMinimumSize( new Dimension( 0, 0 ) );
         tableScroller.setBackground( Color.white );
         splitPane = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT,
                                                treeScroller,
                                                tableScroller );
+        /********************************************************/
         splitPane.setDividerLocation(200);
         splitPane.setContinuousLayout( true );
 //      Create the tree
@@ -315,7 +318,7 @@ public class XAGDOP extends JFrame{
 		preferences.addActionListener(new openIPreferences());
 		admin.addActionListener(new openIAdmin());
 		setTitle(Bundle.getText("main.title"));
-		setSize(700, 400);
+		setSize(700, 450);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//Initialisation des boutons
 		equipe.setEnabled(false);
@@ -562,5 +565,40 @@ public class XAGDOP extends JFrame{
 	            return super.getTableCellRendererComponent( table, value, isSelected, hasFocus, row, column );
 	        }
 	    }
+	  
+	  public class JPToggle extends JPanel
+	  {
+		  /**
+		   * 
+		   */
+		  private static final long serialVersionUID = 1L;
+		  private ImageIcon IIlogo = null;
+		  private JLabel JLText = null;
+		  
+		  public JPToggle()
+		  {
+			  this.setLayout(new FlowLayout());
+			  IIlogo = new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/LogoXAGDOP9.jpg"));
+			  JLText = new JLabel(IIlogo);
+			  this.setBackground(Color.WHITE);
+			  this.add(JLText);
+		  }
+	  }
+	  
+	  public class JPToggleTable extends JPanel
+	  {
+		  /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		
+		public JPToggleTable(JTable jt)
+		{
+			this.setLayout(new FlowLayout());
+			this.setBackground(Color.WHITE);
+			this.add(new JScrollPane(jt));
+		}
+		  
+	  }
 	
 }
