@@ -145,6 +145,7 @@ public class IConfServer extends  JFrame {
         getContentPane().add(panel,  BorderLayout.CENTER);
         setSize(620,320);
         setLocation(200,200);
+        setTitle(Bundle.getText("iconfserver.title"));
         setResizable(false) ;
 
       

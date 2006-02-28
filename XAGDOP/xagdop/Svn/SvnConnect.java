@@ -10,7 +10,6 @@ import org.tmatesoft.svn.core.io.SVNRepository;
 import org.tmatesoft.svn.core.io.SVNRepositoryFactory;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
-import xagdop.Interface.XAGDOP;
 import xagdop.Parser.PreferenciesParser;
 import xagdop.Util.ErrorManager;
 

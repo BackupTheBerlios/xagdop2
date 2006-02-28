@@ -165,6 +165,7 @@ public class IConfLocalPath extends  JFrame {
 		getContentPane().add(panel,  BorderLayout.CENTER);
 		setSize(620,320);
 		setLocation(200,200);
+		setTitle(Bundle.getText("iconflocalpath.title"));
 		setResizable(false) ;
 		
 	}
@@ -198,14 +199,13 @@ public class IConfLocalPath extends  JFrame {
 		
 		SmartChooser chooser = SmartChooser.getChooser();
 		chooser.setAcceptAllFileFilterUsed(true);
-		System.out.println("PropertyDirectory"+mDirectory);
 		chooser.setDirectory(mDirectory);
-		chooser.setDialogTitle(Bundle.getText("choosePath")); 
+		chooser.setDialogTitle(Bundle.getText("iconflocalpath.choosePath")); 
 		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		
 		chooser.setApproveButtonMnemonic(KeyEvent.VK_O);
 		
-		int result = chooser.showDialog (this, Bundle.getText("open"));
+		int result = chooser.showDialog (this, Bundle.getText("iconflocalpath.open"));
 		if (result == JFileChooser.APPROVE_OPTION )
 		{
 			if(chooser.getSelectedFile().exists() && chooser.getSelectedFile().isDirectory())
