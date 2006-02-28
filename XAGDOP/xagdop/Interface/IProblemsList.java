@@ -67,6 +67,7 @@ public class IProblemsList extends JFrame {
 				ArrayList toUpdate = DependenciesParser.getInstance().getAllToUpdate();
 				for (j=0;j<toUpdate.size();j++)
 				{
+						//Remplissage du tableau
 					oneProblem[0] = "U";
 					oneProblem[1] = Bundle.getText("iproblemlist.label.update");
 					oneProblem[2] = (String)toUpdate.get(j);
@@ -78,6 +79,7 @@ public class IProblemsList extends JFrame {
 				ArrayList toCreate = DependenciesParser.getInstance().getAllToCreate();
 				for (j=0;j<toCreate.size();j++)
 				{
+					//Remplissage du tableau
 					oneProblem[0] = "C";
 					oneProblem[1] = Bundle.getText("iproblemlist.label.create");
 					oneProblem[2] = (String)toCreate.get(j);
@@ -164,10 +166,10 @@ public class IProblemsList extends JFrame {
 			this.problems = problems;
 			this.rowData = new Object[this.problems.size()][4];
 			Iterator iter = this.problems.iterator();
-			int i=0;
+			int i=0;String[] listeProblems;
 			while(iter.hasNext())
 			{
-				String[] listeProblems = (String[]) iter.next();
+				listeProblems = (String[]) iter.next();
 				
 				this.rowData[i][0] = listeProblems[0];
 				this.rowData[i][1] = listeProblems[1];
