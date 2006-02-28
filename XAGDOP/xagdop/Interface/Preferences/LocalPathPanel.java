@@ -80,7 +80,6 @@ public class LocalPathPanel extends PreferencePanel
 	public void jButton_pressed(){
 		SmartChooser chooser = SmartChooser.getChooser();
 		chooser.setAcceptAllFileFilterUsed(true);
-		System.out.println("PropertyDirectory"+mDirectory);
 		chooser.setDirectory(mDirectory);
 		chooser.setDialogTitle(Bundle.getText("choosePath")); 
 		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -105,4 +104,10 @@ public class LocalPathPanel extends PreferencePanel
 	public static String getLocalPath() {
 		return mDirectory;
 	}
+
+	public void setLocalPath(String directory) {
+		mDirectory = directory;
+		mDirectoryPath.setText(mDirectory);
+	}
+	
 }

@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -30,11 +31,11 @@ import org.tmatesoft.svn.core.SVNException;
 import xagdop.Controleur.CPreferencies;
 import xagdop.Controleur.CTree;
 import xagdop.Controleur.CTreeNode;
-import xagdop.Interface.IProjectTree;
 import xagdop.Interface.XAGDOP;
 import xagdop.Parser.ProjectsParser;
 import xagdop.Parser.UsersParser;
 import xagdop.Svn.SvnConnect;
+import xagdop.Svn.SvnHistory;
 import xagdop.Svn.SvnUpdate;
 import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
@@ -57,6 +58,8 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 	private JTree mTree;
 	private JScrollPane mScroll;
 	private static JButton mApplyButton;
+	private LocalPathPanel localPathPanel;
+	private RemotePathPanel remotePathPanel;
 	
 	public static final int LOCAL_PATH_REF = 1;
 	public static final int REMOTE_PATH_REF = 2;
@@ -82,18 +85,18 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 		mBox = Box.createHorizontalBox() ;
 		
 //		Create the nodes.
-        DefaultMutableTreeNode top =
-            new DefaultMutableTreeNode(Bundle.getText("ipreferences.tree.root"));
-        createNodes(top); 
-
-        //Create a tree that allows one selection at a time.
-        mTree = new JTree(top);
-        mTree.getSelectionModel().setSelectionMode
-                (TreeSelectionModel.SINGLE_TREE_SELECTION);
-
-        //Listen for when the selection changes.
-        mTree.addTreeSelectionListener(this);
-
+		DefaultMutableTreeNode top =
+			new DefaultMutableTreeNode(Bundle.getText("ipreferences.tree.root"));
+		createNodes(top); 
+		
+		//Create a tree that allows one selection at a time.
+		mTree = new JTree(top);
+		mTree.getSelectionModel().setSelectionMode
+		(TreeSelectionModel.SINGLE_TREE_SELECTION);
+		
+		//Listen for when the selection changes.
+		mTree.addTreeSelectionListener(this);
+		
 		mScroll = new JScrollPane();
 		mScroll.setPreferredSize(new Dimension(180,450));
 		
@@ -134,123 +137,123 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 		}
 		return IPref;
 	}
-
-
+	
+	
 	public static String getDefaultPath() {
 		return defaultPath;
 	}
-
+	
 	public static void setDefaultPath(String defaultPath) {
 		IPreferences.defaultPath = defaultPath;
 	}
 	
 	private class PanelInfo {
-        public String pName; // nom du panel
-        public JPanel mPanel; // le panel
-
-        public PanelInfo(String pName, JPanel mPanel) {
-            this.pName = pName;
-            this.mPanel = mPanel;
-        }
-
-        public String toString() {
-            return pName;
-        }
-    }
+		public String pName; // nom du panel
+		public JPanel mPanel; // le panel
+		
+		public PanelInfo(String pName, JPanel mPanel) {
+			this.pName = pName;
+			this.mPanel = mPanel;
+		}
+		
+		public String toString() {
+			return pName;
+		}
+	}
 	
 	private void createNodes(DefaultMutableTreeNode top) {
-        DefaultMutableTreeNode category = null;
-        DefaultMutableTreeNode book = null;
-
-        category = new DefaultMutableTreeNode(Bundle.getText("ipreferences.tree.paths"));
-        top.add(category);
-
-        //Repertoire Local de travail
-        book = new DefaultMutableTreeNode(new PanelInfo(Bundle.getText("ipreferences.localWorkspace.title"), new
-        		LocalPathPanel()));
-        category.add(book);
-        
-        //URL du serveur de travail
-        book = new DefaultMutableTreeNode(new PanelInfo(Bundle.getText("ipreferences.serverUrl.title"), new
-        		RemotePathPanel()));
-        category.add(book);
-
-        category = new DefaultMutableTreeNode(Bundle.getText("ipreferences.tree.printing")); // affichage
-        top.add(category);
-        
-        //Look and Feel
-        book = new DefaultMutableTreeNode(new PanelInfo(Bundle.getText("ipreferences.LNF.title"), new
-        		LookAndFeelPanel()));
-        category.add(book);
-        
-        //Language
-        book = new DefaultMutableTreeNode(new PanelInfo(Bundle.getText("ipreferences.language.title"), new
-        		LanguagePanel()));
-        category.add(book);
-        
-        category = new DefaultMutableTreeNode(Bundle.getText("ipreferences.tree.userData"));
-        top.add(category);
-
-        //Mot de passe
-        book = new DefaultMutableTreeNode(new PanelInfo(Bundle.getText("ipreferences.password.title"), new
-        		PasswordPanel()));
-        category.add(book);
-    }
-
+		DefaultMutableTreeNode category = null;
+		DefaultMutableTreeNode book = null;
+		
+		category = new DefaultMutableTreeNode(Bundle.getText("ipreferences.tree.paths"));
+		top.add(category);
+		
+		//Repertoire Local de travail
+		book = new DefaultMutableTreeNode(new PanelInfo(Bundle.getText("ipreferences.localWorkspace.title"),localPathPanel = new
+				LocalPathPanel()));
+		category.add(book);
+		
+		//URL du serveur de travail
+		book = new DefaultMutableTreeNode(new PanelInfo(Bundle.getText("ipreferences.serverUrl.title"), remotePathPanel = new
+				RemotePathPanel()));
+		category.add(book);
+		
+		category = new DefaultMutableTreeNode(Bundle.getText("ipreferences.tree.printing")); // affichage
+		top.add(category);
+		
+		//Look and Feel
+		book = new DefaultMutableTreeNode(new PanelInfo(Bundle.getText("ipreferences.LNF.title"), new
+				LookAndFeelPanel()));
+		category.add(book);
+		
+		//Language
+		book = new DefaultMutableTreeNode(new PanelInfo(Bundle.getText("ipreferences.language.title"), new
+				LanguagePanel()));
+		category.add(book);
+		
+		category = new DefaultMutableTreeNode(Bundle.getText("ipreferences.tree.userData"));
+		top.add(category);
+		
+		//Mot de passe
+		book = new DefaultMutableTreeNode(new PanelInfo(Bundle.getText("ipreferences.password.title"), new
+				PasswordPanel()));
+		category.add(book);
+	}
+	
 	public void valueChanged(TreeSelectionEvent arg0) {
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode)
-        mTree.getLastSelectedPathComponent();
-
+		mTree.getLastSelectedPathComponent();
+		
 		if (node == null) return;
 		
 		Object nodeInfo = node.getUserObject();
 		if (node.isLeaf()) {
-		PanelInfo pInfo = (PanelInfo)nodeInfo;
-		displayPanel(pInfo.mPanel);
+			PanelInfo pInfo = (PanelInfo)nodeInfo;
+			displayPanel(pInfo.mPanel);
 		}
 	}
 	
 	protected void createButtons(){
 		mOkButton = new JButton(Bundle.getText("button.ok"));
-   		mCancelButton = new JButton(Bundle.getText("button.cancel"));
-   		mApplyButton = new JButton(Bundle.getText("button.apply"));
-   		mApplyButton.setEnabled(false);
-   		mCancelButton.addActionListener(new ActionListener(){
+		mCancelButton = new JButton(Bundle.getText("button.cancel"));
+		mApplyButton = new JButton(Bundle.getText("button.apply"));
+		mApplyButton.setEnabled(false);
+		mCancelButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				cancelChanges();
 				dispose();
 			}
 		});
-   		mApplyButton.addActionListener(new ActionListener(){
+		mApplyButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				applyChanges();
 			}
 		});
-   		mOkButton.addActionListener(new ActionListener(){
+		mOkButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				applyChanges();
 				exit();
 			}
 		});
-   		mBox.add(Box.createHorizontalGlue());
-   	
-   		addButton(mOkButton, Bundle.getChar("button.ok.mnemonic"));
-   		mBox.add (Box.createRigidArea(new Dimension(10,0))); // ajoute un espace
-   		addButton(mApplyButton, Bundle.getChar("button.apply.mnemonic"));
-   		mBox.add (Box.createRigidArea(new Dimension(10,0))); // ajoute un espace  
-   		addButton(mCancelButton, Bundle.getChar("button.cancel.mnemonic"));
+		mBox.add(Box.createHorizontalGlue());
+		
+		addButton(mOkButton, Bundle.getChar("button.ok.mnemonic"));
+		mBox.add (Box.createRigidArea(new Dimension(10,0))); // ajoute un espace
+		addButton(mApplyButton, Bundle.getChar("button.apply.mnemonic"));
+		mBox.add (Box.createRigidArea(new Dimension(10,0))); // ajoute un espace  
+		addButton(mCancelButton, Bundle.getChar("button.cancel.mnemonic"));
 	}
 	
 	protected void addButton(JButton button, char mnemonique)
 	{
-       	button.setMnemonic(mnemonique);
-   		if ((button.getText()).length() < 10)
-   			button.setPreferredSize(new Dimension(85,30));
-       	//button.setMinimumSize(new Dimension(150,139));
-   		//button.setMaximumSize(new Dimension(340,30));
-   		button.setMargin(new Insets(2,5,2,5));
-   		button.setActionCommand(button.getText());
-   		mBox.add(button);
+		button.setMnemonic(mnemonique);
+		if ((button.getText()).length() < 10)
+			button.setPreferredSize(new Dimension(85,30));
+		//button.setMinimumSize(new Dimension(150,139));
+		//button.setMaximumSize(new Dimension(340,30));
+		button.setMargin(new Insets(2,5,2,5));
+		button.setActionCommand(button.getText());
+		mBox.add(button);
 	}
 	
 	public void displayPanel (JPanel panel) {
@@ -264,7 +267,7 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 	}
 	
 	public void updateComponent(){
-   		mLastEast.paintAll(mLastEast.getGraphics());
+		mLastEast.paintAll(mLastEast.getGraphics());
 	}
 	
 	public static void prefHasChanged(int ref, int action) {
@@ -296,46 +299,84 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 		for (int i = 0; i < changedPrefList.size(); i++) {
 			ref = (Integer) changedPrefList.get(i);
 			switch (ref.intValue()) {
-			case LOCAL_PATH_REF: CPreferencies.setLocalPath(LocalPathPanel.getLocalPath());
-					//Refresh du panel
-						try {
-						((CTree)((IProjectTree)XAGDOP.getInstance().getTree()).getModel()).refreshFirst((CTreeNode)((XAGDOP.getInstance().getTree()).getModel().getRoot()));
-					} catch (SVNException e) {
-						ErrorManager.getInstance().setErrMsg("Probleme d'adresse locale");
-						ErrorManager.getInstance().setErrTitle("Probleme chemin local");
-						ErrorManager.getInstance().display();
-						
-					}
-					break;
-			case REMOTE_PATH_REF: CPreferencies.setServerPath(RemotePathPanel.getRemotePath());
-					//Refresh des fichiers de projet et de user
-					try{			
-							//On remet le nouveau path
-							SvnConnect.getInstance().setUrl(RemotePathPanel.getRemotePath());
-							//On s'y reconnecte
-							SvnConnect.getInstance().connect();
-							//On fait un update
-							SvnUpdate svnu = new SvnUpdate();
-							//On recupere les fichiers user et project
-							svnu.getFiles();
-								//On remet a jour les arbres en memoire
-								ProjectsParser.getInstance();
-								UsersParser.getInstance();
-							//On fait un refresh du local
-							((CTree)((IProjectTree)XAGDOP.getInstance().getTree()).getModel()).refreshFirst((CTreeNode)((XAGDOP.getInstance().getTree()).getModel().getRoot()));
-						}catch (Exception e1)
-						{
-							ErrorManager.getInstance().setErrMsg("Probleme lors du changement du chemin distant");
-							ErrorManager.getInstance().setErrTitle("Probleme chemin distant");
+			case LOCAL_PATH_REF: 
+				//Refresh du panel
+				
+				File localPath = new File(LocalPathPanel.getLocalPath());
+				if(localPath.exists()){
+					try {
+						if(!SvnConnect.getInstance().getRepositoryUUID().equals(SvnHistory.getRepositoryUUID(localPath))){
+							ErrorManager.getInstance().setErrMsg( "Le répertoire de travail choisi est déjà utilisé pour un autre dépôt SubVersion, en choisir un autre.");
+							ErrorManager.getInstance().setErrTitle("Probleme serveur");
 							ErrorManager.getInstance().display();
+							localPathPanel.setLocalPath(CPreferencies.getLocalPath());
+							return;
 						}
+						File localPathUser = new File(localPath,XAGDOP.getInstance().getUser().getLogin());
+						if(!SvnConnect.getInstance().getRepositoryUUID().equals(SvnHistory.getRepositoryUUID(localPathUser))){
+							ErrorManager.getInstance().setErrMsg( "Le répertoire de travail choisi est déjà utilisé pour un autre dépôt SubVersion, en choisir un autre.");
+							ErrorManager.getInstance().setErrTitle("Probleme serveur");
+							ErrorManager.getInstance().display();
+							localPathPanel.setLocalPath(CPreferencies.getLocalPath());
+							break;
+						}
+						
+					} catch (SVNException e) {
+						ErrorManager.getInstance().display();
+						return;
+					}
+					File localPathUser = new File(localPath,XAGDOP.getInstance().getUser().getLogin());
+					setDefaultPath(localPathUser.getAbsolutePath()+File.separator);
+					((CTree)XAGDOP.getInstance().getTree().getModel()).setRoot(new CTreeNode(localPathUser));
+					XAGDOP.getInstance().refreshTree();
+					CPreferencies.setLocalPath(LocalPathPanel.getLocalPath());
+				}
+				else{
+					ErrorManager.getInstance().setErrMsg("Probleme d'adresse locale");
+					ErrorManager.getInstance().setErrTitle("Probleme chemin local");
+					ErrorManager.getInstance().display();
+					break;
+				}
+				break;
+			case REMOTE_PATH_REF: 
+			//Refresh des fichiers de projet et de user
+			try{			
+				//On remet le nouveau path
+				SvnConnect.getInstance().setUrl(RemotePathPanel.getRemotePath());
+				//On s'y reconnecte
+				SvnConnect.getInstance().connect();
+				if(!SvnConnect.getInstance().getRepositoryUUID().equals(SvnHistory.getRepositoryUUID(new File(IPreferences.getDefaultPath())))){
+					ErrorManager.getInstance().setErrMsg("Le répertoire de travail choisi est déjà utilisé pour un autre dépôt SubVersion, en choisir un autre avant de changer l'adresse du serveur");
+					ErrorManager.getInstance().setErrTitle("Probleme serveur");
+					ErrorManager.getInstance().display();
+					remotePathPanel.setRemotePath(CPreferencies.getServerPath());
+					break;
+				}
+				//System.out.println(SvnConnect.getInstance().getRepositoryUUID());
+				//System.out.println(SvnHistory.getRepositoryUUID(new File(IPreferences.getDefaultPath())));
+				//On fait un update
+				SvnUpdate svnu = new SvnUpdate();
+				//On recupere les fichiers user et project
+				svnu.getFiles();
+				//On remet a jour les arbres en memoire
+				ProjectsParser.getInstance();
+				UsersParser.getInstance();
+				//On fait un refresh du local
+				XAGDOP.getInstance().refreshTree();
+				CPreferencies.setServerPath(RemotePathPanel.getRemotePath());
+			}catch (Exception e1)
+			{
+				ErrorManager.getInstance().display();
+				remotePathPanel.setRemotePath(CPreferencies.getServerPath());
+				break;
+			}
 			
-					break;
+			break;
 			case LNF_REF: CPreferencies.setDefaultLNF(LookAndFeelPanel.getLNF());
-					break;
+			break;
 			case LANGUAGE_REF: CPreferencies.setDefaultLocale(LanguagePanel.getLanguage());
-					JOptionPane.showMessageDialog(this, Bundle.getText("ipreferences.language.updated"));
-					break;
+			JOptionPane.showMessageDialog(this, Bundle.getText("ipreferences.language.updated"));
+			break;
 			case PASSWORD_REF:
 				if (!PasswordPanel.isPasswordCorrect())
 					JOptionPane.showMessageDialog(this, Bundle.getText("ipreferences.password.bothNotTheSame"));

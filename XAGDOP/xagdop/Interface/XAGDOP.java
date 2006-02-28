@@ -42,6 +42,7 @@ import org.tmatesoft.svn.core.SVNException;
 
 import xagdop.Controleur.CProject;
 import xagdop.Controleur.CTree;
+import xagdop.Controleur.CTreeNode;
 import xagdop.Interface.Configuration.IWelcome;
 import xagdop.Interface.Help.IHelp;
 import xagdop.Interface.Management.IJAdmin;
@@ -513,11 +514,13 @@ public class XAGDOP extends JFrame{
 	 */
 	public void refreshTree(){
 		try {
-			((CTree)tree.getModel()).refreshFromLocal(tree.getSelectedNode());
+			((CTree)tree.getModel()).refreshFirst((CTreeNode)tree.getModel().getRoot());
 		} catch (SVNException e) {
 			ErrorManager.getInstance().display();
 		}
 	}
+	
+	
 	
 	
 	/*

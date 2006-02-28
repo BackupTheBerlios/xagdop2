@@ -88,13 +88,14 @@ public class SvnConnect {
 			 * repository location used to create this SVNRepository.
 			 * SVNURL is a wrapper for URL strings that refer to repository locations.
 			 */
-			repository = SVNRepositoryFactory.create(SVNURL.parseURIEncoded(_url));
+			SVNRepository repositoryTmp = SVNRepositoryFactory.create(SVNURL.parseURIEncoded(_url));
+			repository = repositoryTmp;
 		} catch (SVNException svne) {
 			ErrorManager.getInstance().setErrMsg("Le serveur distant n'est pas disponible.\nVeuillez contacter l'administrateur.");
 			ErrorManager.getInstance().setErrTitle("Connection Impossible");
 			throw svne;
 		}
-	
+		
 		/*
 		 * User's authentication information is provided via an ISVNAuthenticationManager
 		 * instance. SVNWCUtil creates a default usre's authentication manager given user's
@@ -151,6 +152,10 @@ public class SvnConnect {
 	 */
 	public SVNRepository getRepository(){
 		return repository;
+	}
+	
+	public String getRepositoryUUID(){
+		return repository.getRepositoryUUID();
 	}
 	
 	public String getName() {

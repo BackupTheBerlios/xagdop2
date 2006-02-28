@@ -199,7 +199,7 @@ public class CTree extends DefaultTreeModel
 				//System.out.println(allFiles[i]+" : "+node.getName());
 			}
 			if(!exist){
-				System.out.println("Suppression : "+node.getName());
+				//System.out.println("Suppression : "+node.getName());
 				//remove(node);
 				fireTreeNodesRemoved(node,null,null,null);
 			}

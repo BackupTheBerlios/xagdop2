@@ -6,9 +6,12 @@ import java.util.Collection;
 
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.io.SVNRepository;
+import org.tmatesoft.svn.core.wc.SVNInfo;
+import org.tmatesoft.svn.core.wc.SVNRevision;
 import org.tmatesoft.svn.core.wc.SVNStatus;
 import org.tmatesoft.svn.core.wc.SVNStatusClient;
 import org.tmatesoft.svn.core.wc.SVNStatusType;
+import org.tmatesoft.svn.core.wc.SVNWCClient;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
 import xagdop.Controleur.CFile;
@@ -18,7 +21,7 @@ import xagdop.Util.ErrorManager;
 
 
 public class SvnHistory {
-
+	
 	
 	/**
 	 * @param file Fichier que l'on veut tester
@@ -113,11 +116,28 @@ public class SvnHistory {
 	   return true;
 	   }
 	   }
-	   
-	   /**
-	    * @param file Fichier dont on veut la revision
-	    * @return le num??ro de revision
-	    */
+	   */
+	public static String getRepositoryUUID(File file){
+		try {
+			if(isUnderVersion(file)){
+				SVNWCClient wcClient = new SVNWCClient(SvnConnect.getInstance().getRepository().getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
+				SVNInfo info = wcClient.doInfo(file,SVNRevision.WORKING);
+				return info.getRepositoryUUID();
+			}else
+				return SvnConnect.getInstance().getRepositoryUUID();
+		} catch (SVNException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+		
+	}
+	
+	
+	/**
+	 * @param file Fichier dont on veut la revision
+	 * @return le num??ro de revision
+	 */
 	public static long getRevision(CTreeNode file) throws SVNException{
 		SVNStatusClient ssClient;
 		try {
@@ -167,5 +187,5 @@ public class SvnHistory {
 		}
 		
 	}
-
+	
 }

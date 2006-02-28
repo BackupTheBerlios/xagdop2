@@ -78,4 +78,10 @@ public class RemotePathPanel extends PreferencePanel
 	public static String getRemotePath() {
 		return mDirectory;
 	}
+
+	public void setRemotePath(String serverPath) {
+		mDirectory=serverPath;
+		mDirectoryPath.setText(mDirectory);
+		
+	}
 }
