@@ -11,6 +11,7 @@ import xagdop.Interface.Preferences.IPreferences;
 import xagdop.Model.User;
 import xagdop.Parser.PreferenciesParser;
 import xagdop.Parser.UsersParser;
+import xagdop.Svn.SvnConnect;
 import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
 
@@ -22,7 +23,7 @@ public class CUser {
 	/*Lors de l'identification de l'utilisateur, on verifie s'il existe */
 	public boolean verifUser(String login, String passwd) throws Exception{
 		UsersParser uParser = UsersParser.getInstance();
-		
+		SvnConnect.getInstance().setName(login);
 		/*On recupere l'utilisateur qui possède le login et le mot de passe inscrit */
 		User user = uParser.getUser(login,CEncrypt.getEncodedPassword(passwd));
     	if (user != null){

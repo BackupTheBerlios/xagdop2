@@ -10,6 +10,7 @@ import org.tmatesoft.svn.core.io.SVNRepository;
 import org.tmatesoft.svn.core.io.SVNRepositoryFactory;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
+import xagdop.Interface.XAGDOP;
 import xagdop.Parser.PreferenciesParser;
 import xagdop.Util.ErrorManager;
 
@@ -156,8 +157,15 @@ public class SvnConnect {
 	public String getName() {
 		return _name;
 	}
-	public void setName(String name) {
+	public void setName(String name) throws SVNException {
 		this._name = name;
+		try {
+			connect();
+		} catch (SVNException svne) {
+			ErrorManager.getInstance().setErrMsg("Le serveur distant n'est pas disponible.\nVeuillez contacter l'administrateur.");
+			ErrorManager.getInstance().setErrTitle("Connection Impossible");
+			throw svne;
+		}
 	}
 	public String getPassword() {
 		return _password;

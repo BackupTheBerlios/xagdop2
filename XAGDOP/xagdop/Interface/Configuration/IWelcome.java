@@ -14,6 +14,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Locale;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -39,6 +41,7 @@ public class IWelcome extends JFrame {
     }
     
     private void initComponents() {
+    	Bundle.setCurrentLocale(Locale.FRANCE);
         /*Construction du panel */
     	GridBagConstraints gridBagConstraints;
         gridBagConstraints = new GridBagConstraints();
@@ -104,7 +107,7 @@ public class IWelcome extends JFrame {
         
         /*Creation de la fenetre */
         getContentPane().add(panel,  BorderLayout.CENTER);
-        setSize(600,300);
+        setSize(620,320);
         setLocation(200,200);
         setResizable(false) ;
     }

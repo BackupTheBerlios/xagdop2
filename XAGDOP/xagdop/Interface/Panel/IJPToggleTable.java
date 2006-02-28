@@ -13,7 +13,11 @@ public class IJPToggleTable extends JScrollPane
 	
 	public IJPToggleTable(JTable jt)
 	{
-		super(jt);//this.setLayout(new ScrollPaneLayout());
+		super(jt);
+		jt.getColumn("Version").setMaxWidth(50);
+		jt.getColumn("Auteur").setMaxWidth(80);
+		jt.getColumn("Date").setMaxWidth(80);
+		jt.getColumn("Commentaires").setPreferredWidth(120);
 		this.setBackground(Color.WHITE);
 		
 	}

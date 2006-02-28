@@ -35,7 +35,7 @@ public class IAbout extends JFrame{
 		setSize(536, 500);
 	
 		
-
+		
 		//logo.setPreferredSize(new Dimension(200 , 134)) ;
 		logoContainer.add(logo);
 		logoContainer.add(closeButton);

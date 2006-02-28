@@ -15,16 +15,22 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import org.tmatesoft.svn.core.SVNException;
+
 import xagdop.Controleur.CPreferencies;
 import xagdop.Interface.IIdentification;
 import xagdop.Interface.XAGDOP;
 import xagdop.Parser.PreferenciesParser;
+import xagdop.Svn.SvnConnect;
+import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
 
 
@@ -137,7 +143,7 @@ public class IConfServer extends  JFrame {
         
         /*Creation de la fenetre */
         getContentPane().add(panel,  BorderLayout.CENTER);
-        setSize(600,300);
+        setSize(620,320);
         setLocation(200,200);
         setResizable(false) ;
 
@@ -150,13 +156,22 @@ public class IConfServer extends  JFrame {
     	//Creation du repertoire contenant les preferences
     	File f1 = new File(System.getProperty("user.home")+File.separator+".xagdop");
 		f1.mkdir();
-		PreferenciesParser.createPreferencies();
-    	//Appel au parser des prferences
-    	CPreferencies.setServerPath(jTextField1.getText());
-    	CPreferencies.setLocalPath(this.localPath);
-		//Fermeture de la fenetre, ouverture de la fenetre d'identification
-		IIdentification.getInstance();
-		this.dispose();
+		try {
+			if(jTextField1.getText().endsWith("/"))
+				SvnConnect.getInstance(jTextField1.getText(),"XAGDOP","blabla");
+			else
+				SvnConnect.getInstance(jTextField1.getText()+"/","XAGDOP","blabla");
+			PreferenciesParser.createPreferencies();
+	    	//Appel au parser des prferences
+	    	CPreferencies.setServerPath(jTextField1.getText());
+	    	CPreferencies.setLocalPath(this.localPath);
+			//Fermeture de la fenetre, ouverture de la fenetre d'identification
+			IIdentification.getInstance();
+			this.dispose();
+		} catch (SVNException e) {
+			ErrorManager.getInstance().display();
+		}
+		
 		
     }
 
