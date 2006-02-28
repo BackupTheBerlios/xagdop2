@@ -156,7 +156,7 @@ public class XAGDOP extends JFrame{
 		
 		//Ajout des bouton sur le panel
 		update.setMargin(new Insets(0,0,0,0));
-		update.setToolTipText("Update");
+		update.setToolTipText(Bundle.getText("main.menu.edite.update"));
 		commit.setMargin(new Insets(0,0,0,0));
 		commit.setToolTipText("Commit");
 		projet.setMargin(new Insets(0,0,0,0));
@@ -168,6 +168,7 @@ public class XAGDOP extends JFrame{
 		preferences.setMargin(new Insets(0,0,0,0));
 		preferences.setToolTipText(Bundle.getText("main.menu.parameters.preferences"));
 		admin.setMargin(new Insets(0,0,0,0));
+		admin.setToolTipText(Bundle.getText("ijadmin.title"));
 		
 		
 		update.addActionListener(new actionUpdate());
