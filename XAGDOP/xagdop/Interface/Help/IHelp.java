@@ -95,7 +95,7 @@ public class IHelp extends JFrame implements TreeSelectionListener{
 			}
 
 		});
-		setSize(670,450);
+		setSize(700,700);
 		setResizable(false);
 		setVisible(true);
         
@@ -122,7 +122,7 @@ public class IHelp extends JFrame implements TreeSelectionListener{
         }
     }
 	private void createNode(DefaultMutableTreeNode top) {
-		 DefaultMutableTreeNode category = null;
+		    DefaultMutableTreeNode category = null;
 	        DefaultMutableTreeNode book = null;
 
 	        category = new DefaultMutableTreeNode(Bundle.getText("ihelp.projects"));
@@ -164,22 +164,32 @@ public class IHelp extends JFrame implements TreeSelectionListener{
 	        		MiddlePanel(31)));
 	        category.add(book);
 	        
-	        //supprimer utilisateur dans un projet
-	        book = new DefaultMutableTreeNode(new PanelInfo(Bundle.getText("ihelp.userinproject.delete"), new
+	        //Modifier les roles d'un utilisateur dans un projet
+	        book = new DefaultMutableTreeNode(new PanelInfo(Bundle.getText("ihelp.userinproject.modify"), new
 	        		MiddlePanel(32)));
 	        category.add(book);
 	        
-	        category = new DefaultMutableTreeNode(Bundle.getText("ihelp.users"));
+	        //supprimer utilisateur dans un projet
+	        book = new DefaultMutableTreeNode(new PanelInfo(Bundle.getText("ihelp.userinproject.delete"), new
+	        		MiddlePanel(33)));
+	        category.add(book);
+	        
+	        category = new DefaultMutableTreeNode(Bundle.getText("ihelp.user"));
 	        top.add(category);
 	        
-	        //ajouter utilisateur dans un projet
-	        book = new DefaultMutableTreeNode(new PanelInfo(Bundle.getText("ihelp.userinproject.add"), new
+	        //ajouter utilisateur 
+	        book = new DefaultMutableTreeNode(new PanelInfo(Bundle.getText("ihelp.user.add"), new
 	        		MiddlePanel(41)));
 	        category.add(book);
 	        
-	        //supprimer utilisateur dans un projet
-	        book = new DefaultMutableTreeNode(new PanelInfo(Bundle.getText("ihelp.userinproject.delete"), new
+	        //modifier les droits de l'utilisateur
+	        book = new DefaultMutableTreeNode(new PanelInfo(Bundle.getText("ihelp.user.modify"), new
 	        		MiddlePanel(42)));
+	        category.add(book);
+	        
+	        //supprimer utilisateur 
+	        book = new DefaultMutableTreeNode(new PanelInfo(Bundle.getText("ihelp.user.delete"), new
+	        		MiddlePanel(43)));
 	        category.add(book);
 	        
 	        
