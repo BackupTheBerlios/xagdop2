@@ -166,7 +166,7 @@ public class XAGDOP extends JFrame{
 		equipe.setMargin(new Insets(0,0,0,0));
 		equipe.setToolTipText(Bundle.getText("main.menu.project.team"));
 		preferences.setMargin(new Insets(0,0,0,0));
-		preferences.setToolTipText(Bundle.getText("main.menu.paramaters.preferences"));
+		preferences.setToolTipText(Bundle.getText("main.menu.parameters.preferences"));
 		admin.setMargin(new Insets(0,0,0,0));
 		
 		
