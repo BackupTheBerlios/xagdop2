@@ -53,16 +53,7 @@ public class DirectoryModel extends AbstractTableModel {
     }
 
     public void setDirectory( CTreeNode dir ) {
-        if ( dir != null ) {
-        	 directory = (File)dir.getUserObject();
-             children = directory.list();
-            rowCount = children.length;
-        }
-        else {
-            directory = null;
-            children = null;
-            rowCount = 0;
-        }
+       
         file = (File)dir.getUserObject();
 		try {
 			infos = SvnHistory.getInfo(dir);

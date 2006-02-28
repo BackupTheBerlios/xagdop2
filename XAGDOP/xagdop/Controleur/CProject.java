@@ -45,15 +45,15 @@ public class CProject {
 			File project = new File(IPreferences.getDefaultPath()+projectName);
 			if(!project.exists())
 				project.mkdir();
-			File icon = new File(IPreferences.getDefaultPath()+projectName+File.separator+"icones");
+			File icon = new File(IPreferences.getDefaultPath()+projectName,"Icones");
 			if(!icon.exists())
 				icon.mkdir();
-			icon = new File(IPreferences.getDefaultPath()+projectName+File.separator+"icones"+File.separator+"Produits");
-			if(!icon.exists())
-				icon.mkdir();
-			icon = new File(IPreferences.getDefaultPath()+projectName+File.separator+"icones"+File.separator+"Composants");
-			if(!icon.exists())
-				icon.mkdir();
+			File produits = new File(icon,"Produits");
+			if(!produits.exists())
+				produits.mkdir();
+			File composants = new File(icon,"Composants");
+			if(!composants.exists())
+				composants.mkdir();
 			
 			
 			FileWriter dependencies;

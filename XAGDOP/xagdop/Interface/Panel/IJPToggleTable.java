@@ -1,12 +1,10 @@
 package xagdop.Interface.Panel;
 
 import java.awt.Color;
-import java.awt.FlowLayout;
 
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-public class IJPToggleTable extends JPanel
+public class IJPToggleTable extends JScrollPane
 {
 	/**
 	 * 
@@ -15,9 +13,9 @@ public class IJPToggleTable extends JPanel
 	
 	public IJPToggleTable(JTable jt)
 	{
-		this.setLayout(new FlowLayout());
+		super(jt);//this.setLayout(new ScrollPaneLayout());
 		this.setBackground(Color.WHITE);
-		this.add(new JScrollPane(jt));
+		
 	}
 	
 }

@@ -47,7 +47,6 @@ import xagdop.Interface.Help.IHelp;
 import xagdop.Interface.Management.IJAdmin;
 import xagdop.Interface.Management.IJTeamManagement;
 import xagdop.Interface.Panel.IJPToggle;
-import xagdop.Interface.Panel.IJPToggleTable;
 import xagdop.Interface.Preferences.IPreferences;
 import xagdop.Interface.Preferences.IPreferencesFile;
 import xagdop.Interface.SvnInterface.ICheckOut;
@@ -289,7 +288,7 @@ public class XAGDOP extends JFrame{
        
 /***************************************************************/
         treeScroller = new JScrollPane( tree );
-		JScrollPane tableScroller = new JScrollPane(new IJPToggleTable(table));
+		JScrollPane tableScroller = new JScrollPane(new IJPToggle());
         treeScroller.setMinimumSize( new Dimension( 0, 0 ) );
         tableScroller.setMinimumSize( new Dimension( 0, 0 ) );
         tableScroller.setBackground( Color.white );
