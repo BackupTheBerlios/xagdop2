@@ -482,7 +482,7 @@ public class CCommit{
 		ArrayList allIepp = dp.getIeppFromApes(apesDependant);
 		int taille = allPog.size()+allIepp.size();
 		//Si il n'y a pas d'autre fils, et que le fichier Apes n'est pas sur le serveur
-		if ((taille==1)&&(dp.getApesOnServer(apesDependant)))
+		if ((taille==1)&&(!dp.getApesOnServer(apesDependant)))
 		{
 			dp.delApes(apesDependant);
 			dp.delToCreate(apesDependant);
