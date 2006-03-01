@@ -956,6 +956,8 @@ public class DependenciesParser extends Parser{
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//apes[@fileNameApes=\""+apesName+"\"]/iepp[@fileNameIepp=\""+ieppName+"\"]";
+		
+		
 		Node iepp = null;
 		
 		try {
@@ -969,9 +971,11 @@ public class DependenciesParser extends Parser{
 		if(iepp == null)
 		{
 			Node apes = null;
+			
 			Element newElem = doc.createElement("iepp");
 			newElem.setAttribute("fileNameIepp", ieppName);	
 			try {
+				expression =  "//apes[@fileNameApes=\""+apesName+"\"]";
 				apes = (Node)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
 			}
 			catch (XPathExpressionException e) {
@@ -979,7 +983,6 @@ public class DependenciesParser extends Parser{
 				ErrorManager.getInstance().setErrMsg("Expression XPath "+ expression +" Incorrecte");
 				throw new XPathExpressionException(expression);
 			}
-			
 			
 			if ( apes != null ) {
 				apes.appendChild(newElem);
@@ -1008,6 +1011,7 @@ public class DependenciesParser extends Parser{
 			Element newElem = doc.createElement("iepp");
 			newElem.setAttribute("fileNameIepp", ieppName);	
 			try {
+				expression = "//dependencies/pog[@fileNamePog=\""+pogName+"\"]";
 				elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
 			}
 			catch (XPathExpressionException e) {
