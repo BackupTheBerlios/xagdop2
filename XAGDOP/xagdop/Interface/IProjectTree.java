@@ -206,13 +206,12 @@ public class IProjectTree extends JTree implements  TreeModelListener, TreeSelec
 						CProject cp = new CProject();
 						cp.deleteProject(selectedNode);
 						((CTree)getModel()).remove(selectedNode);
-					} catch (SVNException e1) {
+						JOptionPane.showMessageDialog(null ,"Le fichier "+selectedNode.getName()+" sera supprim? lors du prochain commit", "Validation" , 1) ;
+					}catch (Exception ex) {
+						ex.printStackTrace();
 						ErrorManager.getInstance().display();
-					} catch (HeadlessException e3) {
-
-					} catch (Exception e2) {
 					}
-					JOptionPane.showMessageDialog(null ,"Le fichier "+selectedNode.getName()+" sera supprim? lors du prochain commit", "Validation" , 1) ;
+					
 					
 					
 				}
