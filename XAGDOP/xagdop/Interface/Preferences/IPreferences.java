@@ -305,7 +305,7 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 				if(localPath.exists()){
 					try {
 						if(!SvnConnect.getInstance().getRepositoryUUID().equals(SvnHistory.getRepositoryUUID(localPath))){
-							ErrorManager.getInstance().setErrMsg( "Le répertoire de travail choisi est déjà utilisé pour un autre dépôt SubVersion, en choisir un autre.");
+							ErrorManager.getInstance().setErrMsg( "Le r??pertoire de travail choisi est d??j?? utilis?? pour un autre d??p??t SubVersion, en choisir un autre.");
 							ErrorManager.getInstance().setErrTitle("Probleme serveur");
 							ErrorManager.getInstance().display();
 							localPathPanel.setLocalPath(CPreferencies.getLocalPath());
@@ -313,7 +313,7 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 						}
 						File localPathUser = new File(localPath,XAGDOP.getInstance().getUser().getLogin());
 						if(!SvnConnect.getInstance().getRepositoryUUID().equals(SvnHistory.getRepositoryUUID(localPathUser))){
-							ErrorManager.getInstance().setErrMsg( "Le répertoire de travail choisi est déjà utilisé pour un autre dépôt SubVersion, en choisir un autre.");
+							ErrorManager.getInstance().setErrMsg( "Le r??pertoire de travail choisi est d??j?? utilis?? pour un autre d??p??t SubVersion, en choisir un autre.");
 							ErrorManager.getInstance().setErrTitle("Probleme serveur");
 							ErrorManager.getInstance().display();
 							localPathPanel.setLocalPath(CPreferencies.getLocalPath());
@@ -357,11 +357,16 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 				if (!PasswordPanel.isPasswordCorrect())
 					JOptionPane.showMessageDialog(this, Bundle.getText("ipreferences.password.bothNotTheSame"));
 				else {
-					boolean bOk;
-					bOk = CPreferencies.submitPasswd(PasswordPanel.getFormerPassword(), 
+					if (!PasswordPanel.lengthPasswordCorrect()){
+						JOptionPane.showMessageDialog(this,Bundle.getText("cuser.length.text"));
+					}
+					else {
+						boolean bOk;
+						bOk = CPreferencies.submitPasswd(PasswordPanel.getFormerPassword(), 
 							PasswordPanel.getNewPassword());
-					if (!bOk) JOptionPane.showMessageDialog(this, Bundle.getText("ipreferences.password.formerNotGood"));
-					PasswordPanel.eraseFields();
+						if (!bOk) JOptionPane.showMessageDialog(this, Bundle.getText("ipreferences.password.formerNotGood"));
+						PasswordPanel.eraseFields();
+					}
 				}
 			}
 		}
