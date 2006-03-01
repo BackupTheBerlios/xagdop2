@@ -344,7 +344,8 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 					ErrorManager.getInstance().display();
 					break;
 				}
-			case REMOTE_PATH_REF: CPreferencies.setServerPath(RemotePathPanel.getRemotePath());
+				break;
+			case REMOTE_PATH_REF: //CPreferencies.setServerPath(RemotePathPanel.getRemotePath());
 				IWaiting iWait = IWaiting.getInstance();
 				iWait.demarrer();
 				ThreadServerChanged tv = new ThreadServerChanged(remotePathPanel);

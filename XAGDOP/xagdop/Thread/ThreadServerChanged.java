@@ -37,7 +37,7 @@ public class ThreadServerChanged extends Thread {
 				ErrorManager.getInstance().setErrMsg("Le r??pertoire de travail choisi est d??j?? utilis?? pour un autre d??p??t SubVersion, en choisir un autre avant de changer l'adresse du serveur");
 				ErrorManager.getInstance().setErrTitle("Probleme serveur");
 				//ErrorManager.getInstance().display();
-				///remotePathPanel.setRemotePath(CPreferencies.getServerPath());
+				remotePathPanel.setRemotePath(CPreferencies.getServerPath());
 				throw new SVNException();
 			}
 			//System.out.println(SvnConnect.getInstance().getRepositoryUUID());
