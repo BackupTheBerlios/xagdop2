@@ -39,7 +39,7 @@ public class CCommit{
 		String pathToRoot = CFile.treePathName(node);
 		//R?cup?ration du fichier a envoyer
 		File toCommit = new File(node.getLocalPath());
-		System.out.println(nameOfFile);
+//		System.out.println(nameOfFile);
 			//-----------------------------------------
 			//Si le fichier est un apes -->
 			//-----------------------------------------
@@ -59,7 +59,7 @@ public class CCommit{
 			//-----------------------------------------
 			else if (nameOfFile.endsWith(".iepp")) 
 			{
-				System.out.println("iepp File ");
+//				System.out.println("iepp File ");
 				sendIeppFile(toCommit,node,pathToRoot);
 			}
 	}
@@ -87,7 +87,7 @@ public class CCommit{
 			{
 				adressApes = (String) pathDependantApesFile.get(i);
 				//On verifie que le APES est present sur le serveur
-				System.out.println(adressApes);
+	//			System.out.println(adressApes);
 				if (!dp.isApes(adressApes))
 				{
 					//Si le fichier Apes n'est pas present on le rajoute
@@ -96,7 +96,7 @@ public class CCommit{
 				//On rajoute le Iepp au fichier Apes
 				dp.addIeppToApes(adressApes,pathToRoot);
 			}
-			System.out.println("Path To Root"+pathToRoot);
+//			System.out.println("Path To Root"+pathToRoot);
 //			Si le fichier est anciens
 			if (SvnHistory.isModified(toCommit))
 			{
@@ -273,7 +273,7 @@ public class CCommit{
 			{
 				//Pas d'entrainement de verification de fichier pog, car fichier tout nouveau
 				//Rajout dans le fichier de d?pendances le fichier apes que l'on veut envoyer
-				System.out.println("sdfkjsdklfjl");
+		//		System.out.println("sdfkjsdklfjl");
 				dp.addApes(pathToRoot);
 			}
 		}
@@ -494,7 +494,7 @@ public class CCommit{
 		//Si il y a des fils, on ne supprime que le pog
 		else  
 		{
-			System.out.println(pathToRoot);
+			//System.out.println(pathToRoot);
 			dp.delPog(pathToRoot);
 			dp.delToUpdate(pathToRoot);
 		}
