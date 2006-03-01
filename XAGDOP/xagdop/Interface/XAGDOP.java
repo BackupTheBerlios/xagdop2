@@ -44,7 +44,7 @@ import org.tmatesoft.svn.core.SVNException;
 import xagdop.Controleur.CProject;
 import xagdop.Controleur.CTree;
 import xagdop.Controleur.CTreeNode;
-import xagdop.Interface.Configuration.IWelcome;
+import xagdop.Interface.Configuration.IAbout;
 import xagdop.Interface.Help.IHelp;
 import xagdop.Interface.Management.IJAdmin;
 import xagdop.Interface.Management.IJTeamManagement;
@@ -223,7 +223,7 @@ public class XAGDOP extends JFrame{
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				IWelcome iabout = new IWelcome();
+				IAbout iabout = IAbout.getIA();
 				iabout.setVisible(true);
 				
 			}
@@ -558,10 +558,13 @@ public class XAGDOP extends JFrame{
 		{
 			admin.setEnabled(false);
 		}
-				
 		
 	}
 	
+		public void allowUpdate(boolean bb){
+			menuEditeUpdate.setEnabled(bb);
+			update.setEnabled(bb);
+		}
 	  public class DirectoryRenderer extends DefaultTableCellRenderer {
 	        /**
 	    	 * 
