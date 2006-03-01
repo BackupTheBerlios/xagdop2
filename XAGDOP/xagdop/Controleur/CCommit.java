@@ -93,6 +93,8 @@ public class CCommit{
 				{
 					//Si le fichier Apes n'est pas present on le rajoute
 					dp.addApes(adressApes,false);
+					//Et on le met aussi dans les fichiers à créer
+					dp.addToCreate(adressApes);
 				}	
 				//On rajoute le Iepp au fichier Apes
 				dp.addIeppToApes(adressApes,pathToRoot);
