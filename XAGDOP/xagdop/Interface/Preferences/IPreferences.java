@@ -26,13 +26,16 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
+
 import org.tmatesoft.svn.core.SVNException;
+
 import xagdop.Controleur.CPreferencies;
 import xagdop.Controleur.CTree;
 import xagdop.Controleur.CTreeNode;
 import xagdop.Interface.IWaiting;
 import xagdop.Interface.XAGDOP;
 import xagdop.Parser.DependenciesParser;
+import xagdop.Parser.UsersParser;
 import xagdop.Svn.SvnConnect;
 import xagdop.Svn.SvnHistory;
 import xagdop.Thread.ThreadServerChanged;
@@ -354,8 +357,10 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 			JOptionPane.showMessageDialog(this, Bundle.getText("ipreferences.language.updated"));
 			break;
 			case PASSWORD_REF:
-				if (!PasswordPanel.isPasswordCorrect())
+				if (!PasswordPanel.isPasswordCorrect()){
 					JOptionPane.showMessageDialog(this, Bundle.getText("ipreferences.password.bothNotTheSame"));
+					
+				}
 				else {
 					if (!PasswordPanel.lengthPasswordCorrect()){
 						JOptionPane.showMessageDialog(this,Bundle.getText("cuser.length.text"));
@@ -364,7 +369,16 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 						boolean bOk;
 						bOk = CPreferencies.submitPasswd(PasswordPanel.getFormerPassword(), 
 							PasswordPanel.getNewPassword());
-						if (!bOk) JOptionPane.showMessageDialog(this, Bundle.getText("ipreferences.password.formerNotGood"));
+						if (!bOk) 
+							JOptionPane.showMessageDialog(this, Bundle.getText("ipreferences.password.formerNotGood"));
+						else
+						{
+							try {
+								UsersParser.getInstance().publish(UsersParser.getInstance().getUsersXML());
+							} catch (Exception e) {
+								ErrorManager.getInstance().display();
+							}
+						}
 						PasswordPanel.eraseFields();
 					}
 				}
