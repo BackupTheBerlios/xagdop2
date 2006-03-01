@@ -1,7 +1,6 @@
 package xagdop.Interface;
 
 import java.awt.Component;
-import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -37,6 +36,7 @@ import xagdop.Interface.SvnInterface.ICheckOut;
 import xagdop.Interface.SvnInterface.ICommit;
 import xagdop.Model.DirectoryModel;
 import xagdop.Parser.DependenciesParser;
+import xagdop.Svn.SvnHistory;
 import xagdop.Thread.ThreadVersion;
 import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
@@ -287,6 +287,18 @@ public class IProjectTree extends JTree implements  TreeModelListener, TreeSelec
 					
 					clearSelection();
 			} 
+			
+			if(!SvnHistory.isUnderVersion((File)selectedNode.getUserObject())){
+				menuRefresh.setEnabled(false);
+				XAGDOP.getInstance().allowUpdate(false);
+			}
+				
+			else{
+				menuRefresh.setEnabled(true);
+				XAGDOP.getInstance().allowUpdate(false);
+			}
+				
+			
 			
 			if (selectedNode.isProject())
 			{
