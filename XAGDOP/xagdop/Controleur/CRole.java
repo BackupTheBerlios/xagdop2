@@ -11,7 +11,10 @@ import org.tmatesoft.svn.core.SVNException;
 
 import xagdop.Interface.XAGDOP;
 import xagdop.Model.Project;
+import xagdop.Model.User;
+import xagdop.Parser.DependenciesParser;
 import xagdop.Parser.ProjectsParser;
+import xagdop.Svn.SvnHistory;
 import xagdop.Util.ErrorManager;
 
 public class CRole {
@@ -50,6 +53,7 @@ public class CRole {
 	
 	public void refreshRole() throws XPathExpressionException, SVNException, IOException, Exception{
 		ArrayList projects = ProjectsParser.getInstance().getProjects(XAGDOP.getInstance().getUser().getLogin());
+		projectsList.clear();
 		for(int i = 0; i < projects.size() ; i++){
 			//System.out.println((String)projects.get(i));
 			Project tmpPj = ProjectsParser.getInstance().buildProject((String)projects.get(i));
@@ -183,12 +187,30 @@ public class CRole {
 		
 		//System.out.println(project+ " : "+(projectsList.get(project)==null));
 		if(file.isDirectory()){
-			if(projectsList.get(project)==null&&project!="")
-				return false;
-			if(!isArchitect(project)&&file.getName().startsWith("lib"))
-				return false;
-			
-			return true;
+			if(!SvnHistory.isUnderVersion(file)&&file.getName().equals(project)&&projectsList.get(project)==null&&XAGDOP.getInstance().getUser().isPcreator()){
+				File dependencies = new File(file,"dependencies.xml");
+				if(dependencies.exists()){
+					User user = XAGDOP.getInstance().getUser();	
+					try {
+						ProjectsParser.getInstance().addProject(project,user,"");
+						DependenciesParser.getInstance().addFile(project, new File(file,"dependencies.xml"));
+						refreshRole();
+						return true;
+					} catch (Exception e) {
+						return false;
+					}
+					
+				}
+			}else {
+				if(projectsList.get(project)==null)
+					return false;
+				
+				if(!isArchitect(project)&&file.getName().startsWith("lib"))
+					return false;
+				
+				return true;
+			}
+			return false;
 		}
 		
 		

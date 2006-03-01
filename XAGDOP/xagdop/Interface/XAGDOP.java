@@ -37,6 +37,7 @@ import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.xml.xpath.XPathExpressionException;
 
 import org.tmatesoft.svn.core.SVNException;
 
@@ -55,6 +56,7 @@ import xagdop.Interface.SvnInterface.ICommit;
 import xagdop.Interface.SvnInterface.IComposantCreate;
 import xagdop.Interface.SvnInterface.IProject;
 import xagdop.Model.User;
+import xagdop.Parser.UsersParser;
 import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
 
@@ -520,6 +522,15 @@ public class XAGDOP extends JFrame{
 		}
 	}
 	
+	public void refreshUser(){
+		try {
+			user = UsersParser.getInstance().getUserByLogin(user.getLogin());
+		} catch (XPathExpressionException e) {
+			ErrorManager.getInstance().display();
+		} catch (NullPointerException e) {
+			ErrorManager.getInstance().display();
+		}
+	}
 	
 	
 	
@@ -527,7 +538,7 @@ public class XAGDOP extends JFrame{
 	 * Permet de raffraichir les boutons en fonctions des droits de l'utilisateur
 	 */
 	public void refreshButton(){
-		if (getUser().isPcreator()){
+		if (user.isPcreator()){
 			projet.setEnabled(true);
 			menuProjetCreate.setEnabled(true);
 			delProject.setEnabled(true);
@@ -540,7 +551,7 @@ public class XAGDOP extends JFrame{
 			delProject.setEnabled(false);
 			menuProjetDelete.setEnabled(false);
 		}
-		if (getUser().isAdmin()){
+		if (user.isAdmin()){
 			admin.setEnabled(true);
 		}
 		else

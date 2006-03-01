@@ -68,8 +68,9 @@ public class CProject {
 			}
 			User user = XAGDOP.getInstance().getUser();	
 			pp.addProject(projectName,user,description);
-			DependenciesParser.getInstance().addFile(projectName, new File(project.getAbsolutePath()+File.separator+"dependencies.xml"));
+			DependenciesParser.getInstance().addFile(projectName, new File(project,"dependencies.xml"));
 			CRole.getInstance().refreshRole();
+			XAGDOP.getInstance().refreshTree();
 		}else{
 			ErrorManager.getInstance().setErrMsg("Le projet existe d?j?.");
 			ErrorManager.getInstance().setErrTitle("Projet existant");

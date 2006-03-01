@@ -27,6 +27,7 @@ import org.tmatesoft.svn.core.SVNException;
 import org.w3c.dom.DOMException;
 
 import xagdop.Controleur.CAdmin;
+import xagdop.Controleur.CRole;
 import xagdop.Interface.XAGDOP;
 import xagdop.Model.User;
 import xagdop.Parser.UsersParser;
@@ -115,8 +116,15 @@ public class IJAdmin extends JFrame{
 						ErrorManager.getInstance().display();
 					}
         			i++;  
-        		}      	
-        	
+        		}   
+        		XAGDOP.getInstance().refreshUser();
+        		try {
+					CRole.getInstance().refreshRole();
+				} catch (Exception e) {
+					
+					ErrorManager.getInstance().display();
+				}
+				XAGDOP.getInstance().refreshTree();
         		ThreadWait tWait = new ThreadWait(null);
 				tWait.start();
 				ThreadAdmin tAdmin= new ThreadAdmin(tWait);

@@ -955,7 +955,8 @@ public class DependenciesParser extends Parser{
 
 	
 	public void addFile (String projectName, File file){
-		dependencies.put(projectName, file);
+		if(dependencies.get(projectName)==null)
+			dependencies.put(projectName, file);
 	}
 	public void refreshFiles () throws IOException{
 		CDependencies cdep = new CDependencies();

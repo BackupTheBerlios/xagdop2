@@ -339,7 +339,7 @@ public class UsersParser extends Parser{
 						elem.appendChild(newRole);
 						saveDocument(usersXML);
 						
-						publish(usersXML);
+						//publish(usersXML);
 						
 					}						
 				}
