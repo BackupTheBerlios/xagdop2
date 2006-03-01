@@ -288,14 +288,14 @@ public class IProjectTree extends JTree implements  TreeModelListener, TreeSelec
 					clearSelection();
 			} 
 			
-			if(!SvnHistory.isUnderVersion((File)selectedNode.getUserObject())){
+			if(!SvnHistory.isUnderVersion((File)selectedNode.getUserObject())&&!selectedNode.isRoot()){
 				menuRefresh.setEnabled(false);
 				XAGDOP.getInstance().allowUpdate(false);
 			}
 				
 			else{
 				menuRefresh.setEnabled(true);
-				XAGDOP.getInstance().allowUpdate(false);
+				XAGDOP.getInstance().allowUpdate(true);
 			}
 				
 			
