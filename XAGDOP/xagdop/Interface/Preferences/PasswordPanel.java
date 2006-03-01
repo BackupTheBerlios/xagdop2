@@ -120,6 +120,13 @@ public class PasswordPanel extends PreferencePanel{
 		return pass1.equals(pass2);
 	}
 	
+	// Fonction verifiant si le nouveau mot de passe 
+	// est superieur a 3 caracteres
+	public static boolean lengthPasswordCorrect() {
+		String pass1 = new String(pfNewPass1.getPassword());
+		return (pass1.length()>3);
+	}
+	
 	public static String getNewPassword() {
 		return new String(pfNewPass1.getPassword());
 	}
@@ -133,4 +140,4 @@ public class PasswordPanel extends PreferencePanel{
 		pfFormerPass.setText("");
 		pfNewPass2.setText("");
 	}
-}
+}  
