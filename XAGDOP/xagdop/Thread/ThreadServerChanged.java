@@ -2,6 +2,8 @@ package xagdop.Thread;
 
 import java.io.File;
 
+import org.tmatesoft.svn.core.SVNException;
+
 import xagdop.Controleur.CPreferencies;
 import xagdop.Interface.IWaiting;
 import xagdop.Interface.XAGDOP;
@@ -34,8 +36,9 @@ public class ThreadServerChanged extends Thread {
 			if(!SvnConnect.getInstance().getRepositoryUUID().equals(SvnHistory.getRepositoryUUID(new File(IPreferences.getDefaultPath())))){
 				ErrorManager.getInstance().setErrMsg("Le r??pertoire de travail choisi est d??j?? utilis?? pour un autre d??p??t SubVersion, en choisir un autre avant de changer l'adresse du serveur");
 				ErrorManager.getInstance().setErrTitle("Probleme serveur");
-				ErrorManager.getInstance().display();
-				remotePathPanel.setRemotePath(CPreferencies.getServerPath());
+				//ErrorManager.getInstance().display();
+				///remotePathPanel.setRemotePath(CPreferencies.getServerPath());
+				throw new SVNException();
 			}
 			//System.out.println(SvnConnect.getInstance().getRepositoryUUID());
 			//System.out.println(SvnHistory.getRepositoryUUID(new File(IPreferences.getDefaultPath())));
