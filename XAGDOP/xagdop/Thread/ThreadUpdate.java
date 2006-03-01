@@ -36,11 +36,11 @@ public class ThreadUpdate extends Thread {
 			svnu = new SvnUpdate();
 			if(list==null){
 				svnu.checkOut(new File(node.getLocalPath()));
-				((CTree)((IProjectTree)XAGDOP.getInstance().getTree()).getModel()).refreshFromLocal(node);
+	//			((CTree)((IProjectTree)XAGDOP.getInstance().getTree()).getModel()).refreshFromLocal(node);
 			}
 			else{
 				svnu.checkOut(list);
-				((CTree)((IProjectTree)XAGDOP.getInstance().getTree()).getModel()).refreshFirst(node);
+	//			((CTree)((IProjectTree)XAGDOP.getInstance().getTree()).getModel()).refreshFirst(node);
 			}
 			
 			
