@@ -45,6 +45,13 @@ public class UsersParser extends Parser{
 		return UPInstance;
 	}
 	
+	public void setFile()throws Exception{
+		SvnUpdate svnu = new SvnUpdate(); 
+		usersXML = svnu.getUsersFile(); 
+		//fichierXML = new File("xagdop/Parser/users.xml"); //debug
+		loadTreeInMemory(usersXML);
+	}
+	
 	/**
 	 * constructeur de la classe UsersParser
 	 * @throws Exception 

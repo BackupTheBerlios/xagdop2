@@ -47,6 +47,13 @@ public class ProjectsParser extends Parser{
 		return PPInstance;
 	}
 	
+	public void setFile()throws Exception{
+		SvnUpdate svnu = new SvnUpdate(); 
+		projectXML = svnu.getProjectFile(); 
+		//fichierXML = new File("xagdop/Parser/users.xml"); //debug
+		loadTreeInMemory(projectXML);
+	}
+	
 	
 	/**
 	 * Constructeur de la classe

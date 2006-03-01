@@ -32,7 +32,7 @@ public class ThreadServerChanged extends Thread {
 			//On s'y reconnecte
 			SvnConnect.getInstance().connect();
 			if(!SvnConnect.getInstance().getRepositoryUUID().equals(SvnHistory.getRepositoryUUID(new File(IPreferences.getDefaultPath())))){
-				ErrorManager.getInstance().setErrMsg("Le répertoire de travail choisi est déjà utilisé pour un autre dépôt SubVersion, en choisir un autre avant de changer l'adresse du serveur");
+				ErrorManager.getInstance().setErrMsg("Le r??pertoire de travail choisi est d??j?? utilis?? pour un autre d??p??t SubVersion, en choisir un autre avant de changer l'adresse du serveur");
 				ErrorManager.getInstance().setErrTitle("Probleme serveur");
 				ErrorManager.getInstance().display();
 				remotePathPanel.setRemotePath(CPreferencies.getServerPath());
@@ -44,8 +44,8 @@ public class ThreadServerChanged extends Thread {
 			//On recupere les fichiers user et project
 			svnu.getFiles();
 			//On remet a jour les arbres en memoire
-			ProjectsParser.getInstance();
-			UsersParser.getInstance();
+			ProjectsParser.getInstance().setFile();
+			UsersParser.getInstance().setFile();
 			//On fait un refresh du local
 			XAGDOP.getInstance().refreshTree();
 			CPreferencies.setServerPath(RemotePathPanel.getRemotePath());
