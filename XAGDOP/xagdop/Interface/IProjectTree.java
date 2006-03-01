@@ -221,7 +221,7 @@ public class IProjectTree extends JTree implements  TreeModelListener, TreeSelec
 			menuRefrechFL.addActionListener( new ActionListener() {
 			public void actionPerformed (ActionEvent e){
 				try {
-					((CTree)getModel()).refreshFromLocal(selectedNode);
+					((CTree)getModel()).refreshFirst(selectedNode);
 				} catch (SVNException e1) {
 					ErrorManager.getInstance().display();
 				}

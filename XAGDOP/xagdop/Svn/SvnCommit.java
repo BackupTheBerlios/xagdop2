@@ -12,6 +12,7 @@ import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
 import xagdop.Controleur.CRole;
 import xagdop.Controleur.CTreeNode;
+import xagdop.Parser.DependenciesParser;
 import xagdop.Parser.ProjectsParser;
 import xagdop.Parser.UsersParser;
 import xagdop.Util.ErrorManager;
@@ -219,6 +220,8 @@ public class SvnCommit{
 		//Si le fichiers des d??pendances est modifi?? on l'envoi en m??me temps
 		if(SvnHistory.isModified(UsersParser.getInstance().getUsersXML())||SvnHistory.isModified(ProjectsParser.getInstance().getProjectXML()))
 			sendXMLFile();
+		if(SvnHistory.isModified(DependenciesParser.getInstance().getFile(node.getProject().getName())))
+			sendFile(DependenciesParser.getInstance().getFile(node.getProject().getName()),"");
 		CRole.getInstance().refreshRole();
 	}
 	public void sendXMLFile() throws Exception{
