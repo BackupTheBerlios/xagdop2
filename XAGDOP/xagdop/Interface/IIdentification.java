@@ -42,7 +42,11 @@ public class IIdentification extends JFrame{
 	}
 
 	private void init(){
+		/*Récupération de la langue courante*/
 		Bundle.setCurrentLocale(CPreferencies.getDefaultLocale());
+		
+		/*Récupération du Look and Feel courant*/
+		CPreferencies.setDefaultLNF(CPreferencies.getDefaultLNF());
 		
 		/*Creation du panel */
 		panel = new JPanel();
