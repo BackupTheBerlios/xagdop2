@@ -10,8 +10,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -40,9 +38,9 @@ public class IProblemsList extends JFrame {
 	
 	  private JPanel mainPanel;
 	  private JTable problemsTable;
-	  private static IProblemsList ipl ;
+	  
 	
-	private IProblemsList() {
+	public IProblemsList() {
         initComponents();
     }
     
@@ -51,70 +49,16 @@ public class IProblemsList extends JFrame {
         mainPanel = new JPanel();
   
 
-        //Initialisation des problemes
-        ArrayList problems = new ArrayList();
-        String[] oneProblem = new String[]{null,null,null,null};
-        int j;
-        //On recupere la liste des projet de l'utilisateur
-    	try {
-			ArrayList data = ProjectsParser.getInstance().getProjects(XAGDOP.getInstance().getUser().getLogin());
-//			Pour tous les projets, on recupere les toUpdate et les toCreate de chaque fichier
-			for(int i=0;i<data.size();i++)
-			{
-				DependenciesParser.getInstance().setFile((String)data.get(i));
-				//Recuperation de la liste des updates
-				//ArrayListdp.getToUpdate
-				ArrayList toUpdate = DependenciesParser.getInstance().getAllToUpdate();
-				for (j=0;j<toUpdate.size();j++)
-				{
-						//Remplissage du tableau
-					oneProblem[0] = "U";
-					oneProblem[1] = Bundle.getText("iproblemlist.label.update");
-					oneProblem[2] = (String)toUpdate.get(j);
-					oneProblem[3] = (String)data.get(i);
-					problems.add(oneProblem);
-				}
-				//Recuperation de la liste des Creates
-				//ArrayListdp.getToUpdate
-				ArrayList toCreate = DependenciesParser.getInstance().getAllToCreate();
-				for (j=0;j<toCreate.size();j++)
-				{
-					//Remplissage du tableau
-					oneProblem[0] = "C";
-					oneProblem[1] = Bundle.getText("iproblemlist.label.create");
-					oneProblem[2] = (String)toCreate.get(j);
-					oneProblem[3] = (String)data.get(i);
-					problems.add(oneProblem);
-				}
-				
-				
-				
-			}
-			
-    	} catch (XPathExpressionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SVNException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	
-		
+       
 		
 		
 		
         
-	    problemsTable = new JTable(new IProblemsListTableModel(problems));
+	    problemsTable = new JTable(new IProblemsListTableModel());
 
 		problemsTable.setBorder(BorderUIResource.getBlackLineBorderUIResource()  );
         problemsTable.getColumnModel().getColumn(0).setResizable(false);
-        problemsTable.getColumnModel().getColumn(0).setMaxWidth(10);
+        problemsTable.getColumnModel().getColumn(0).setMaxWidth(30);
         problemsTable.getColumnModel().getColumn(1).setResizable(true);
         problemsTable.getColumnModel().getColumn(2).setResizable(true);
         problemsTable.getColumnModel().getColumn(3).setResizable(true);
@@ -137,12 +81,12 @@ public class IProblemsList extends JFrame {
 		 */
 		private static final long serialVersionUID = -6660241017263485617L;
 
-		private String[] columnNames = {Bundle.getText("iproblemlist.colonne.icone"),
+		private String[] columnNames = {"",
 				Bundle.getText("iproblemlist.colonne.description"),
 				Bundle.getText("iproblemlist.colonne.ressource"), 
 				Bundle.getText("iproblemlist.colonne.projet")};
 		
-		private Object[][] rowData;
+		
 		private ArrayList problems;
 		
 		/**
@@ -150,9 +94,9 @@ public class IProblemsList extends JFrame {
 		 * @param users: Liste des utilisateurs du systeme creee par le parser XML
 		 * @docRoot Ce constructeur appelle la fonction <i>init</i>
 		 */
-		public IProblemsListTableModel(ArrayList problems)
+		public IProblemsListTableModel()
 		{
-			this.init(problems);
+			this.init();
 		}
 		
 		/**
@@ -161,22 +105,67 @@ public class IProblemsList extends JFrame {
 		 * Fonction qui initialise le modele et remplit la structure de donnees avec
 		 * les elements necessaires
 		 */
-		public void init(ArrayList problems)
+		public void init()
 		{
-			this.problems = problems;
-			this.rowData = new Object[this.problems.size()][4];
-			Iterator iter = this.problems.iterator();
-			int i=0;String[] listeProblems;
-			while(iter.hasNext())
-			{
-				listeProblems = (String[]) iter.next();
+			
+			
+			 //Initialisation des problemes
+	        problems = new ArrayList();
+	        String[] oneProblem = new String[]{null,null,null,null};
+	        int j;
+	        //On recupere la liste des projet de l'utilisateur
+	    	try {
+				ArrayList data = ProjectsParser.getInstance().getProjects(XAGDOP.getInstance().getUser().getLogin());
+//				Pour tous les projets, on recupere les toUpdate et les toCreate de chaque fichier
+				for(int i=0;i<data.size();i++)
+				{
+					DependenciesParser.getInstance().setFile((String)data.get(i));
+					//Recuperation de la liste des updates
+					//ArrayListdp.getToUpdate
+					ArrayList toUpdate = DependenciesParser.getInstance().getAllToUpdate();
+					for (j=0;j<toUpdate.size();j++)
+					{
+						oneProblem = new String[]{null,null,null,null};
+							//Remplissage du tableau
+						oneProblem[0] = "U";
+						oneProblem[1] = Bundle.getText("iproblemlist.label.update");
+						oneProblem[2] = (String)toUpdate.get(j);
+						oneProblem[3] = (String)data.get(i);
+						problems.add(oneProblem);
+					}
+					//Recuperation de la liste des Creates
+					//ArrayListdp.getToUpdate
+					ArrayList toCreate = DependenciesParser.getInstance().getAllToCreate();
+					for (j=0;j<toCreate.size();j++)
+					{
+						oneProblem = new String[]{null,null,null,null};
+						//Remplissage du tableau
+						oneProblem[0] = "C";
+						oneProblem[1] = Bundle.getText("iproblemlist.label.create");
+						oneProblem[2] = (String)toCreate.get(j);
+						oneProblem[3] = (String)data.get(i);
+						problems.add(oneProblem);
+					}
+					
+					
+					
+				}
 				
-				this.rowData[i][0] = listeProblems[0];
-				this.rowData[i][1] = listeProblems[1];
-				this.rowData[i][2] = listeProblems[2];
-				this.rowData[i][3] = listeProblems[3];
-				i++;
+	    	} catch (XPathExpressionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SVNException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
+	    	
+			
 		}
 
 		/**
@@ -185,7 +174,7 @@ public class IProblemsList extends JFrame {
 		public int getRowCount() 
 		{
 			// TODO Auto-generated method stub
-			return this.rowData.length;
+			return this.problems.size();
 		}
 
 		/**
@@ -206,7 +195,7 @@ public class IProblemsList extends JFrame {
 		public Object getValueAt(int row, int col) 
 		{
 			// TODO Auto-generated method stub
-			return this.rowData[row][col];
+			return ((String[])this.problems.get(row))[col];
 		}
 		
 		/**
@@ -245,41 +234,11 @@ public class IProblemsList extends JFrame {
 	    	    return false;
 	    }
 	    
-	    /*
-	     * Don't need to implement this method unless your table's
-	     * data can change.
-	     */
-	    /**
-	     * @param value: Object to put at a specific location
-	     * @param row: row where to put value
-	     * @param col: column where to put value
-	     * 
-	     * Update the model when data are changed and send an TableCell event
-	     */
-	    public void setValueAt(Object value, int row, int col) 
-	    {
-	    	
-	    	if(col<this.getColumnCount() && row<this.getRowCount())
-	        {
-	    		this.rowData[row][col] = value;
-	    		this.fireTableCellUpdated(row, col);
-	        }
-	    }
 	    
 
 	    
 	}
 
-    public static IProblemsList getInstance()
-    {
-    	if (ipl==null)
-    	{
-    		
-    		ipl = new IProblemsList();
-    		return ipl;
-    	}
-    	return ipl;
-    }
     
     
     
