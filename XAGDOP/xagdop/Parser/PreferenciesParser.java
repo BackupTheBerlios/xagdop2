@@ -298,7 +298,7 @@ public class PreferenciesParser extends Parser{
 			try {
 				preferenciesFile.createNewFile();
 				FileWriter preferencies =new FileWriter(System.getProperty("user.home")+File.separator+".xagdop"+File.separator+"preferencies.xml");
-				preferencies.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?><preferencies> <local url=\"\"/>	<server url=\"\"/>	<lookNFeel name=\"CDE/Motif\"/>	<langue country=\"FR\" name=\"fr\"/></preferencies>");
+				preferencies.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?><preferencies> <local url=\"\"/>	<server url=\"\"/>	<lookNFeel name=\"Metal\"/>	<langue country=\"FR\" name=\"fr\"/></preferencies>");
 				preferencies.close();
 			} catch (IOException e) {
 				ErrorManager.getInstance().display();
