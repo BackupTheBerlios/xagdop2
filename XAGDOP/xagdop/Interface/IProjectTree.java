@@ -39,6 +39,8 @@ import xagdop.Interface.SvnInterface.ICheckOut;
 import xagdop.Interface.SvnInterface.ICommit;
 import xagdop.Model.DirectoryModel;
 import xagdop.Parser.DependenciesParser;
+import xagdop.Thread.ThreadRemoveUser;
+import xagdop.Thread.ThreadVersion;
 import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
 
@@ -244,10 +246,12 @@ public class IProjectTree extends JTree implements  TreeModelListener, TreeSelec
 			
 			menuVersion.addActionListener( new ActionListener() {
 				public void actionPerformed (ActionEvent e){
-					JTable table = new JTable( model );
-					IJPToggleTable tablePanel = new IJPToggleTable(table); 
-					model.setDirectory(selectedNode);
-					XAGDOP.getInstance().setAssociatePanel(tablePanel);
+					
+					IWaiting iWait = IWaiting.getInstance();
+			    	iWait.demarrer();
+					ThreadVersion tv = new ThreadVersion(selectedNode,model);
+					tv.start();
+					
 				}
 			});
 			
