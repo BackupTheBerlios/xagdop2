@@ -5,7 +5,7 @@ import java.awt.HeadlessException;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import xagdop.Interface.IWaiting;
+
 import xagdop.Interface.XAGDOP;
 import xagdop.Interface.Preferences.IPreferences;
 import xagdop.Model.User;
@@ -44,8 +44,13 @@ public class CProject {
 				svnu.checkOut(new File(IPreferences.getDefaultPath()));
 			}
 			File project = new File(IPreferences.getDefaultPath()+projectName);
+			
 			if(!project.exists())
 				project.mkdir();
+			File style = new File(project,"WebSite/styles_perso");
+			if(!style.exists())
+				style.mkdirs();
+			
 			File icon = new File(IPreferences.getDefaultPath()+projectName,"Icones");
 			if(!icon.exists())
 				icon.mkdir();
@@ -72,6 +77,10 @@ public class CProject {
 			DependenciesParser.getInstance().addFile(projectName, new File(project,"dependencies.xml"));
 			CRole.getInstance().refreshRole();
 			XAGDOP.getInstance().refreshTree();
+			SvnCommit commit = new SvnCommit();
+			commit.sendFile(project,"Création du projet");
+			commit.sendXMLFile();
+			
 		}else{
 			ErrorManager.getInstance().setErrMsg("Le projet existe d?j?.");
 			ErrorManager.getInstance().setErrTitle("Projet existant");
@@ -93,15 +102,17 @@ public class CProject {
 		cc.DependencesRemoveInitialize(node);
 		//Verification du type du noeud
 		//Si c'est un projet, il faut le retirer du project parser
+		
+		
+		SvnRemove svnR = new SvnRemove();
+		svnR.delete(node);
+		
 		if (node.isProject())
 		{
 			ProjectsParser.getInstance().removeProject(node.getName());
 			SvnCommit commit = new SvnCommit();
-			commit.commit(node,"");
+			commit.commit(node,"Suppression du projet");
 		}
-		
-		SvnRemove svnR = new SvnRemove();
-		svnR.delete(node);
 		
 		//JOptionPane.showMessageDialog(null ,"Le dossier "+node.getName()+" sera supprim? lors du prochain commit", "Validation" , 1) ;
 		//Enregistrement dans le XML du projet
