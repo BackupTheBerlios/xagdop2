@@ -60,7 +60,7 @@ public class IProject extends JFrame{
 		
 		/*Description du projet*/
 		JlabelDescProject = new JLabel(Bundle.getText("iproject.label.description"));
-		TADesc=new TextArea(4,31);
+		TADesc=new TextArea(7,30);
 		
 		/*Creation boutons*/
 		JButton ok = new JButton(Bundle.getText("iproject.button.ok"));
@@ -88,9 +88,11 @@ public class IProject extends JFrame{
         gridBagConstraints.insets = new Insets(10, 10, 0, 10);
         JPanelProject.add(JlabelDescProject, gridBagConstraints);
         
+        
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.gridwidth = 2;
+      
         
         JPanelProject.add(TADesc, gridBagConstraints);
 		
@@ -139,7 +141,7 @@ public class IProject extends JFrame{
         // Creation de la fenetre
 		setTitle(Bundle.getText("iproject.title"));
 		setLocation(300,200);
-		setSize(500, 300);
+		setSize(920, 320);
 		setResizable(false) ;
 		getContentPane().add(JPanelProject,BorderLayout.CENTER);
 		
