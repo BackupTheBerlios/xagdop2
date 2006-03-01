@@ -250,9 +250,9 @@ public class SvnCommit{
 		try{
 			if(!SvnHistory.isUnderVersion(name)){
 				SVNWCClient wcClient = new SVNWCClient(SvnConnect.getInstance().getRepository().getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
-				wcClient.doAdd(name,false, false, false, false);	
+				wcClient.doAdd(name,false, false, false, true);	
 			}
-			svnCC.doCommit((File[])fileInDirectory.toArray(file),false,commitMessage, true, false);
+			svnCC.doCommit((File[])fileInDirectory.toArray(file),false,commitMessage, true, true);
 		}catch (SVNException e) {
 			ErrorManager.getInstance().setErrMsg("L'envoi du fichier "+name.getName()+" a ??chou??.\n"+e.getCause());
 			ErrorManager.getInstance().setErrTitle("Envoi impossible");

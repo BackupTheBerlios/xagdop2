@@ -466,7 +466,8 @@ public class XAGDOP extends JFrame{
 						JOptionPane.showMessageDialog(null ,"Le fichier "+tree.getSelectedNode().getName()+" sera supprim? lors du prochain commit", "Validation" , 1) ;
 					else
 						JOptionPane.showMessageDialog(null ,"Le projet "+tree.getSelectedNode().getName()+" est supprimé");
-					((CTree)tree.getModel()).remove(tree.getSelectedNode());
+					//((CTree)tree.getModel()).remove(tree.getSelectedNode());
+					refreshTree();
 				}
 			} catch (Exception e1) {
 				//e1.printStackTrace();

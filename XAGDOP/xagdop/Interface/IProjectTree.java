@@ -212,7 +212,8 @@ public class IProjectTree extends JTree implements  TreeModelListener, TreeSelec
 								JOptionPane.showMessageDialog(null ,"Le fichier "+selectedNode.getName()+" sera supprim? lors du prochain commit", "Validation" , 1) ;
 							else
 								JOptionPane.showMessageDialog(null ,"Le projet "+selectedNode.getName()+" est supprimé");
-							((CTree)getModel()).remove(selectedNode);
+							//((CTree)getModel()).remove(selectedNode);
+							((CTree)getModel()).refreshFirst((CTreeNode)((CTree)getModel()).getRoot());
 						}
 					}catch (Exception ex) {
 						ex.printStackTrace();
