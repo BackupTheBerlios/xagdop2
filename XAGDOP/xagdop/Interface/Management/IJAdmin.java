@@ -114,7 +114,16 @@ public class IJAdmin extends JFrame{
 					}
         			i++;  
         		}      	
-            	
+        	
+        		try {
+					UsersParser.getInstance().publish(UsersParser.getInstance().getUsersXML() );
+				} catch (SVNException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             	(IJAdmin.getIJA()).dispose();
             	IJA = null;
               }
@@ -567,6 +576,7 @@ public class IJAdmin extends JFrame{
 		 */
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean arg2, boolean arg3, int arg4, int arg5) 
 		{
+			this.setToolTipText(Bundle.getText("main.menu.project.delProject"));
 			this.setIcon(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/delete.jpg")));
 			this.setSize(new Dimension(this.getIcon().getIconHeight(),this.getIcon().getIconWidth()));
 			return this;

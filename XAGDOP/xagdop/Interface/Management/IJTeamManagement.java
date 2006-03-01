@@ -373,6 +373,7 @@ class IJTeamManagementTableCellrenderer extends JButton implements TableCellRend
 	 */
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean arg2, boolean arg3, int arg4, int arg5) 
 	{
+		this.setToolTipText(Bundle.getText("main.menu.project.delProject"));
 		this.setIcon(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/delete.jpg")));
 		this.setSize(new Dimension(this.getIcon().getIconHeight(),this.getIcon().getIconWidth()));
 		return this;

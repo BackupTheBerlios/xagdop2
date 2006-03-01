@@ -81,12 +81,12 @@ public class LocalPathPanel extends PreferencePanel
 		SmartChooser chooser = SmartChooser.getChooser();
 		chooser.setAcceptAllFileFilterUsed(true);
 		chooser.setDirectory(mDirectory);
-		chooser.setDialogTitle(Bundle.getText("choosePath")); 
+		chooser.setDialogTitle(Bundle.getText("iconflocalpath.choosePath")); 
 		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		
 		chooser.setApproveButtonMnemonic(KeyEvent.VK_O);
 		
-		int result = chooser.showDialog (this, Bundle.getText("open"));
+		int result = chooser.showDialog (this, Bundle.getText("iconflocalpath.open"));
 		if (result == JFileChooser.APPROVE_OPTION )
 		{
 		    if(chooser.getSelectedFile().exists() && chooser.getSelectedFile().isDirectory())

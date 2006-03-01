@@ -245,7 +245,7 @@ public class CPreferencies {
 	 * @param name Nom du LNF
 	 * @return Nom de la classe du LNF
 	 */
-	private static String getLNFClassName (String name)
+	public static String getLNFClassName (String name)
 	{
 		UIManager.LookAndFeelInfo[] info = UIManager.getInstalledLookAndFeels();
 		int i = 0;
