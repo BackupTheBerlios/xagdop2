@@ -20,7 +20,7 @@ import xagdop.Util.ErrorManager;
 public class ThreadServerChanged extends Thread {
 	RemotePathPanel remotePathPanel;
 	public ThreadServerChanged(RemotePathPanel remotePathPanel) {
-this.remotePathPanel = remotePathPanel;
+		this.remotePathPanel = remotePathPanel;
 	
 	}
 

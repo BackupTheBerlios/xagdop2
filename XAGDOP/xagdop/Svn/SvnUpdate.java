@@ -18,6 +18,7 @@ import xagdop.Controleur.CRole;
 import xagdop.Interface.XAGDOP;
 import xagdop.Interface.Preferences.IPreferences;
 import xagdop.Model.User;
+import xagdop.Parser.DependenciesParser;
 import xagdop.Parser.ProjectsParser;
 import xagdop.Util.ErrorManager;
 
@@ -150,6 +151,7 @@ public class SvnUpdate{
 			cleanUp(projectDirectoryLocal);
 		
 		CRole.getInstance().refreshRole();
+		DependenciesParser.getInstance().refreshFiles();
 	}
 	
 	
@@ -201,6 +203,7 @@ public class SvnUpdate{
 			}
 		}
 		CRole.getInstance().refreshRole();	
+		DependenciesParser.getInstance().refreshFiles();
 	}
 	
 	public void cleanUp(File file) throws SVNException, IOException, Exception{

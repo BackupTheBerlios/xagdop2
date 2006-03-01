@@ -1,30 +1,21 @@
 package xagdop.Interface.Help;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.text.StyledEditorKit.BoldAction;
 
 import xagdop.Interface.XAGDOP;
-import xagdop.Interface.SvnInterface.IProject;
 import xagdop.ressources.Bundle;
 
 //import com.sun.java.util.jar.pack.Instruction.Switch;
@@ -32,7 +23,7 @@ import xagdop.ressources.Bundle;
 public class MiddlePanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private static MiddlePanel mp= null;
+//	private static MiddlePanel mp= null;
 	protected JPanel JMiddlePanel;
 	private GridBagConstraints gridBagConstraints = new GridBagConstraints();
 	
@@ -215,10 +206,10 @@ public class MiddlePanel extends JPanel {
 
 	}
 
-	private JLabel JDescLabel(String desc) {
-		JLabel JDesc;
-		JDesc = new JLabel(desc);
-		return JDesc;
-	}
+//	private JLabel JDescLabel(String desc) {
+//		JLabel JDesc;
+//		JDesc = new JLabel(desc);
+//		return JDesc;
+//	}
 
 }

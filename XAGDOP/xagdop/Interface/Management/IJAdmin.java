@@ -31,7 +31,6 @@ import xagdop.Interface.XAGDOP;
 import xagdop.Model.User;
 import xagdop.Parser.UsersParser;
 import xagdop.Thread.ThreadAdmin;
-import xagdop.Thread.ThreadTeamManagement;
 import xagdop.Thread.ThreadWait;
 import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;

@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -31,6 +32,7 @@ import xagdop.Controleur.CTree;
 import xagdop.Controleur.CTreeNode;
 import xagdop.Interface.IWaiting;
 import xagdop.Interface.XAGDOP;
+import xagdop.Parser.DependenciesParser;
 import xagdop.Svn.SvnConnect;
 import xagdop.Svn.SvnHistory;
 import xagdop.Thread.ThreadServerChanged;
@@ -324,7 +326,12 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 					}
 					File localPathUser = new File(localPath,XAGDOP.getInstance().getUser().getLogin());
 					setDefaultPath(localPathUser.getAbsolutePath()+File.separator);
-					((CTree)XAGDOP.getInstance().getTree().getModel()).setRoot(new CTreeNode(localPathUser));
+					try {
+						DependenciesParser.getInstance().refreshFiles();
+					} catch (IOException e) {
+						ErrorManager.getInstance().display();
+					}
+					((CTree)XAGDOP.getInstance().getTree().getModel()).setRoot(new CTreeNode(localPathUser));				
 					XAGDOP.getInstance().refreshTree();
 					CPreferencies.setLocalPath(LocalPathPanel.getLocalPath());
 				}

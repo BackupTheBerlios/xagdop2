@@ -957,6 +957,10 @@ public class DependenciesParser extends Parser{
 	public void addFile (String projectName, File file){
 		dependencies.put(projectName, file);
 	}
+	public void refreshFiles () throws IOException{
+		CDependencies cdep = new CDependencies();
+		dependencies = cdep.getDependenciesFiles();
+	}
 	
 	public ArrayList getAllToUpdate() throws XPathExpressionException
 	{

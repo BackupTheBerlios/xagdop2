@@ -4,11 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -21,31 +19,29 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
 
-
-
 import xagdop.ressources.Bundle;
 
 public class IHelp extends JFrame implements TreeSelectionListener{
 
-	private IHelp ihp=null;
+	//private IHelp ihp=null;
 	
 	private static final long serialVersionUID = 1L;
 	private JPanel leftPanel;
 	private JPanel centralPanel;
-	private JButton buttonOk;
-	private JButton buttonCancel;
+	//private JButton buttonOk;
+	//private JButton buttonCancel;
 	
 	private Box mBox;
 	private JTree tree;
 	private JScrollPane scroll;
-	private static JButton buttonApply;
+	//private static JButton buttonApply;
 	
 	
-	private static ArrayList changedHelpList;
+	//private static ArrayList changedHelpList;
 	
 	public IHelp(){
 		init();
-		changedHelpList = new ArrayList();
+//		changedHelpList = new ArrayList();
 	}	
 	private void init() {
 		setTitle(Bundle.getText("ihelp.title"));
@@ -224,7 +220,7 @@ public class IHelp extends JFrame implements TreeSelectionListener{
 	}
 	private void exit() {
 		dispose();
-		ihp = null;
+	//	ihp = null;
 		
 	}
 
