@@ -30,6 +30,9 @@ import xagdop.Controleur.CAdmin;
 import xagdop.Interface.XAGDOP;
 import xagdop.Model.User;
 import xagdop.Parser.UsersParser;
+import xagdop.Thread.ThreadAdmin;
+import xagdop.Thread.ThreadTeamManagement;
+import xagdop.Thread.ThreadWait;
 import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
 
@@ -115,15 +118,10 @@ public class IJAdmin extends JFrame{
         			i++;  
         		}      	
         	
-        		try {
-					UsersParser.getInstance().publish(UsersParser.getInstance().getUsersXML() );
-				} catch (SVNException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+        		ThreadWait tWait = new ThreadWait(null);
+				tWait.start();
+				ThreadAdmin tAdmin= new ThreadAdmin(tWait);
+				tAdmin.start();
             	(IJAdmin.getIJA()).dispose();
             	IJA = null;
               }
