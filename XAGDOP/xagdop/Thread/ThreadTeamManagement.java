@@ -4,9 +4,6 @@ import javax.swing.JTable;
 
 import xagdop.Controleur.CRole;
 import xagdop.Controleur.CTeamManagement;
-import xagdop.Controleur.CTree;
-import xagdop.Interface.IProjectTree;
-import xagdop.Interface.XAGDOP;
 import xagdop.Parser.ProjectsParser;
 import xagdop.Util.ErrorManager;
 
@@ -38,7 +35,7 @@ public class ThreadTeamManagement extends Thread {
 			i++;  
 		}        
 			CRole.getInstance().refreshRole();
-			((CTree)((IProjectTree)XAGDOP.getInstance().getTree()).getModel()).refreshFirst(((IProjectTree)XAGDOP.getInstance().getTree()).getCurrentProject());
+			//((CTree)((IProjectTree)XAGDOP.getInstance().getTree()).getModel()).refreshFirst(((IProjectTree)XAGDOP.getInstance().getTree()).getCurrentProject());
 			ProjectsParser.getInstance().publish(ProjectsParser.getInstance().getProjectXML());
 		} catch (Exception e) {
 			ErrorManager.getInstance().display();

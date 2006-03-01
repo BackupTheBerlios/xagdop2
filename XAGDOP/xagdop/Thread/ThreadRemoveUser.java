@@ -28,8 +28,9 @@ public class ThreadRemoveUser extends Thread {
 				PP.removeUser(this.projectName,this.user);
 			} catch (Exception e) {
 				// :p
+			}finally{
+				IWaiting.getInstance().arreter();
 			}
-			IWaiting.getInstance().arreter();
 	}
 	
 	

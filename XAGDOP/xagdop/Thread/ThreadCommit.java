@@ -1,14 +1,14 @@
 package xagdop.Thread;
 
 import java.util.ArrayList;
+
 import javax.xml.xpath.XPathExpressionException;
+
 import org.tmatesoft.svn.core.SVNException;
+
 import xagdop.Controleur.CCommit;
-import xagdop.Controleur.CTree;
 import xagdop.Controleur.CTreeNode;
-import xagdop.Interface.IProjectTree;
 import xagdop.Interface.IWaiting;
-import xagdop.Interface.XAGDOP;
 import xagdop.Parser.DependenciesParser;
 import xagdop.Util.ErrorManager;
 
