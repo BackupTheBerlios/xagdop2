@@ -64,7 +64,6 @@ public class CTeamManagement{
 		//Remove the user from the project
     	IWaiting iWait = IWaiting.getInstance();
     	iWait.demarrer();
-		PP.removeUser(this._projectName,user);
 		ThreadRemoveUser tru = new ThreadRemoveUser(PP,this._projectName,user);
 		tru.start();
 	}
