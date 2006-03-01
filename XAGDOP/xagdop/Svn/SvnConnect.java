@@ -119,11 +119,13 @@ public class SvnConnect {
 			 */
 			SVNNodeKind nodeKind = repository.checkPath("", -1);
 			if (nodeKind == SVNNodeKind.NONE) {
-				System.err.println("There is no entry at '" + _url + "'.");
-				//System.exit(1);
+				ErrorManager.getInstance().setErrMsg("Le serveur distant n'est pas disponible.\nVeuillez contacter l'administrateur.");
+				ErrorManager.getInstance().setErrTitle("Connection Impossible");
+				throw new SVNException();
 			} else if (nodeKind == SVNNodeKind.FILE) {
-				System.err.println("The entry at '" + _url + "' is a file while a directory was expected.");
-				//System.exit(1);
+				ErrorManager.getInstance().setErrMsg("Le serveur distant n'est pas disponible.\nVeuillez contacter l'administrateur.");
+				ErrorManager.getInstance().setErrTitle("Connection Impossible");
+				throw new SVNException();
 			}
 		
 		} catch (SVNException svne) {
