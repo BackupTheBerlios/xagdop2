@@ -11,6 +11,7 @@ import xagdop.Interface.Preferences.IPreferences;
 import xagdop.Model.User;
 import xagdop.Parser.DependenciesParser;
 import xagdop.Parser.ProjectsParser;
+import xagdop.Svn.SvnCommit;
 import xagdop.Svn.SvnHistory;
 import xagdop.Svn.SvnRemove;
 import xagdop.Svn.SvnUpdate;
@@ -87,21 +88,20 @@ public class CProject {
 	//Supression du fichier correspondant au noeud
 	public void deleteProject(CTreeNode node) throws HeadlessException, Exception{
 		
-		SvnRemove svnR = new SvnRemove();
-		svnR.delete(node);
+		
+		CCommit cc = new CCommit(node);
+		cc.DependencesRemoveInitialize(node);
 		//Verification du type du noeud
 		//Si c'est un projet, il faut le retirer du project parser
 		if (node.isProject())
 		{
 			ProjectsParser.getInstance().removeProject(node.getName());
+			SvnCommit commit = new SvnCommit();
+			commit.commit(node,"");
 		}
-		else
-		{
-			IWaiting.getInstance();
-			CCommit cc = new CCommit(node);
-			cc.DependencesRemoveInitialize(node);
-			
-		}
+		
+		SvnRemove svnR = new SvnRemove();
+		svnR.delete(node);
 		
 		//JOptionPane.showMessageDialog(null ,"Le dossier "+node.getName()+" sera supprim? lors du prochain commit", "Validation" , 1) ;
 		//Enregistrement dans le XML du projet

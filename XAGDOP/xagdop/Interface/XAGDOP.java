@@ -91,8 +91,8 @@ public class XAGDOP extends JFrame{
 	protected JButton preferences;
 	protected JButton admin;
 	
-
-
+	
+	
 	/*
 	 * Initialisation of Menu
 	 * 
@@ -126,15 +126,15 @@ public class XAGDOP extends JFrame{
 	protected IProjectTree tree;
 	
 	private XAGDOP(){
-
+		
 	}
 	public void showFrame(){
 		init();
 		setVisible(true);
 		refreshButton();
-	
+		
 	}
-
+	
 	private void init(){
 		
 		//Image for button
@@ -181,7 +181,7 @@ public class XAGDOP extends JFrame{
 		
 		fileMenuQuit.setMnemonic('Q') ;
 		fileMenuQuit.addActionListener(new ActionListener()
-		{
+				{
 			public void actionPerformed(ActionEvent e)
 			{
 				int confirmQuit = JOptionPane.showConfirmDialog(null , Bundle.getText("main.confirmQuit.label") , Bundle.getText("main.confirmQuit.title") , JOptionPane.YES_NO_OPTION);
@@ -191,7 +191,7 @@ public class XAGDOP extends JFrame{
 				}
 				
 			}
-		}) ;
+				}) ;
 		
 		menuShowProblems.addActionListener(new openIProblemsList());
 		
@@ -203,7 +203,7 @@ public class XAGDOP extends JFrame{
 		menuProjetCreate.setMnemonic('C');
 		menuProjetDelete.setMnemonic('E');
 		menuProjetDelete.addActionListener(new delProject());
-	//	menuProjetPreferences.addActionListener(new openFilePreferences());
+		//	menuProjetPreferences.addActionListener(new openFilePreferences());
 		menuProjetComposantCreate.addActionListener(new openComposantCreate());
 		
 		menuEditeUpdate.addActionListener(new actionUpdate());
@@ -211,38 +211,38 @@ public class XAGDOP extends JFrame{
 //		TODO FonctionCommit		
 		menuEditeCommit.addActionListener(new actionCommit());
 		menuEditeCommit.setMnemonic('C');
-
+		
 		
 		menuConfPreferences.addActionListener(new openIPreferences());
 		menuConfPreferences.setMnemonic('P');
 		
-
+		
 		
 		
 		menuHelpAbout.addActionListener(new ActionListener()
-		{
+				{
 			public void actionPerformed(ActionEvent e)
 			{
 				IAbout iabout = IAbout.getIA();
 				iabout.setVisible(true);
 				
 			}
-		}) ;
-			
+				}) ;
+		
 		menuHelpHelp.addActionListener(new ActionListener()
 				{
-					public void actionPerformed(ActionEvent e)
-					{
-						IHelp ihelp = new IHelp();
-						ihelp.setVisible(true);
-						
-					}
+			public void actionPerformed(ActionEvent e)
+			{
+				IHelp ihelp = new IHelp();
+				ihelp.setVisible(true);
+				
+			}
 				}) ;
 		menuFile.add(fileMenuQuit);
 		menuProjet.add(menuProjetTeam);
 		menuProjet.add(menuProjetCreate);
 		menuProjet.add(menuProjetDelete);
-	//	menuProjet.add(menuProjetPreferences);
+		//	menuProjet.add(menuProjetPreferences);
 		menuProjet.add(menuProjetComposantCreate);
 		menuShow.add(menuShowProblems);
 		menuEdite.add(menuEditeUpdate);
@@ -260,14 +260,14 @@ public class XAGDOP extends JFrame{
 		menuBar.add(menuHelp);
 		
 		
-	//	menuBar2.add(commit);
-	//	menuBar2.add(Box.createHorizontalStrut(15)) ;
+		//	menuBar2.add(commit);
+		//	menuBar2.add(Box.createHorizontalStrut(15)) ;
 		
 		menuBar2.add(projet);
 		//menuBar2.add(Box.createHorizontalStrut(5)) ;
 		menuBar2.add(delProject);
 		menuBar2.add(Box.createHorizontalStrut(15)) ;
-
+		
 		menuBar2.add(update);
 		menuBar2.add(Box.createHorizontalStrut(15)) ;
 		
@@ -284,34 +284,34 @@ public class XAGDOP extends JFrame{
 		//tableVersion.setBorder(BorderUIResource.getBlackLineBorderUIResource()  );
 		tree = new IProjectTree();
 		
-        JTable table = new JTable( tree.getDirModel() );
-        table.setShowHorizontalLines( false );
-        table.setShowVerticalLines( false );
-        table.setIntercellSpacing( new Dimension( 0, 2 ) );
-        //table.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-       
-/***************************************************************/
-        treeScroller = new JScrollPane( tree );
+		JTable table = new JTable( tree.getDirModel() );
+		table.setShowHorizontalLines( false );
+		table.setShowVerticalLines( false );
+		table.setIntercellSpacing( new Dimension( 0, 2 ) );
+		//table.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+		
+		/***************************************************************/
+		treeScroller = new JScrollPane( tree );
 		JScrollPane tableScroller = new JScrollPane(new IJPToggle());
-        treeScroller.setMinimumSize( new Dimension( 0, 0 ) );
-        tableScroller.setMinimumSize( new Dimension( 0, 0 ) );
-        tableScroller.setBackground( Color.white );
-        splitPane = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT,
-                                               treeScroller,
-                                               tableScroller );
-        /********************************************************/
-        splitPane.setDividerLocation(200);
-        splitPane.setContinuousLayout( true );
-//      Create the tree
+		treeScroller.setMinimumSize( new Dimension( 0, 0 ) );
+		tableScroller.setMinimumSize( new Dimension( 0, 0 ) );
+		tableScroller.setBackground( Color.white );
+		splitPane = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT,
+				treeScroller,
+				tableScroller );
+		/********************************************************/
+		splitPane.setDividerLocation(200);
+		splitPane.setContinuousLayout( true );
+//		Create the tree
 		Border border = BorderFactory.createLoweredBevelBorder();
 		tree.setBorder(border);
 		
-        panel2.add( splitPane , BorderLayout.CENTER);
+		panel2.add( splitPane , BorderLayout.CENTER);
 		panel2.add(menuBar2, BorderLayout.NORTH);
 		panel.add(menuBar, BorderLayout.NORTH);
 		panel.add(panel2,BorderLayout.CENTER);
-        
-        
+		
+		
 		
 		projet.addActionListener (new openIprojet());
 		equipe.addActionListener (new openIUser());
@@ -357,8 +357,8 @@ public class XAGDOP extends JFrame{
 		}
 		
 	}
-
-
+	
+	
 	
 	class openIUser implements ActionListener { 
 		public void actionPerformed (ActionEvent e)  {
@@ -382,8 +382,8 @@ public class XAGDOP extends JFrame{
 			} catch (Exception e1) {
 				ErrorManager.getInstance().display();
 			}
-
-
+			
+			
 			
 		}
 		
@@ -393,7 +393,7 @@ public class XAGDOP extends JFrame{
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-				new ICommit(tree.getSelectedNode());
+			new ICommit(tree.getSelectedNode());
 		}
 	}
 //	****************************
@@ -408,7 +408,7 @@ public class XAGDOP extends JFrame{
 		}
 	}
 	
-
+	
 	class openComposantCreate implements ActionListener { 
 		public void actionPerformed (ActionEvent e)  {
 			if (tree.getSelectedNode().isProject())
@@ -429,13 +429,13 @@ public class XAGDOP extends JFrame{
 			menuShowProblems.setSelected(true);
 			ipbl.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE) ;
 			ipbl.addWindowListener(new WindowAdapter()
-			    {
+					{
 				public void windowClosing(WindowEvent e) // when closing unchecks the matching checkbox
 				{
-				    menuShowProblems.setSelected(false) ;
+					menuShowProblems.setSelected(false) ;
 				}
 				
-			    }) ;
+					}) ;
 			
 		}
 	}
@@ -454,21 +454,27 @@ public class XAGDOP extends JFrame{
 	}
 	
 	class delProject implements ActionListener { 
-			public void actionPerformed (ActionEvent e)  {
+		public void actionPerformed (ActionEvent e)  {
+			
+			try {
 				int confirmSupp = JOptionPane.showConfirmDialog(null , Bundle.getText("main.confirmSupp.label") , Bundle.getText("main.confirmSupp.title") , JOptionPane.YES_NO_OPTION);
 				if (confirmSupp == JOptionPane.OK_OPTION )
 				{
 					CProject cp = new CProject();
-					
-					try {
-						cp.deleteProject(tree.getSelectedNode());
-					} catch (Exception e1) {
-						e1.printStackTrace();
-						ErrorManager.getInstance().display();
-					}
+					cp.deleteProject(tree.getSelectedNode());
+					if(!tree.getSelectedNode().isProject())
+						JOptionPane.showMessageDialog(null ,"Le fichier "+tree.getSelectedNode().getName()+" sera supprim? lors du prochain commit", "Validation" , 1) ;
+					else
+						JOptionPane.showMessageDialog(null ,"Le projet "+tree.getSelectedNode().getName()+" est supprimé");
+					((CTree)tree.getModel()).remove(tree.getSelectedNode());
 				}
+			} catch (Exception e1) {
+				//e1.printStackTrace();
+				ErrorManager.getInstance().display();
 			}
+		}
 	}
+	
 	
 	/**
 	 * @return Returns the singleton.
@@ -497,7 +503,7 @@ public class XAGDOP extends JFrame{
 	public IProjectTree getTree() {
 		return tree;
 	}
-
+	
 	/*
 	 * Set the current User
 	 */
@@ -561,31 +567,31 @@ public class XAGDOP extends JFrame{
 		
 	}
 	
-		public void allowUpdate(boolean bb){
-			menuEditeUpdate.setEnabled(bb);
-			update.setEnabled(bb);
+	public void allowUpdate(boolean bb){
+		menuEditeUpdate.setEnabled(bb);
+		update.setEnabled(bb);
+	}
+	public class DirectoryRenderer extends DefaultTableCellRenderer {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		
+		public Component getTableCellRendererComponent(JTable table, Object value,
+				boolean isSelected, boolean hasFocus, int row, int column) {
+			
+			if ( value != null && value instanceof Icon ) {
+				super.getTableCellRendererComponent( table, value, isSelected, hasFocus, row, column );
+				setIcon( (Icon)value );
+				setText( "" );
+				return this;
+			}
+			else {
+				setIcon( null );
+			}
+			
+			return super.getTableCellRendererComponent( table, value, isSelected, hasFocus, row, column );
 		}
-	  public class DirectoryRenderer extends DefaultTableCellRenderer {
-	        /**
-	    	 * 
-	    	 */
-	    	private static final long serialVersionUID = 1L;
-
-	    	public Component getTableCellRendererComponent(JTable table, Object value,
-	                                                       boolean isSelected, boolean hasFocus, int row, int column) {
-
-	            if ( value != null && value instanceof Icon ) {
-	               super.getTableCellRendererComponent( table, value, isSelected, hasFocus, row, column );
-	               setIcon( (Icon)value );
-	               setText( "" );
-	               return this;
-	            }
-	            else {
-	               setIcon( null );
-	            }
-
-	            return super.getTableCellRendererComponent( table, value, isSelected, hasFocus, row, column );
-	        }
-	    }
+	}
 	
 }
