@@ -26,8 +26,9 @@ public class CCommit{
 	public void DependancesSendInitialize(CTreeNode currentNode)throws Exception{
 		recCommit(currentNode,".apes");
 		recCommit(currentNode,".pog");
-		recCommit(currentNode,".iepp");	
-		DependenciesParser.getInstance().publish(DependenciesParser.getInstance().getFile(currentNode.getProject().getName()));
+		recCommit(currentNode,".iepp");
+		if(!currentNode.isProject()&&SvnHistory.isUnderVersion((File)currentNode.getProject().getUserObject()))
+			DependenciesParser.getInstance().publish(DependenciesParser.getInstance().getFile(currentNode.getProject().getName()));
 	}
 	
 	
