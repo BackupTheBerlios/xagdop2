@@ -298,8 +298,12 @@ public class IProjectTree extends JTree implements  TreeModelListener, TreeSelec
 						XAGDOP.getInstance().equipe.setEnabled(true);
 						XAGDOP.getInstance().menuProjetTeam.setEnabled(true);
 						
-					}else
+					}else{
+						XAGDOP.getInstance().equipe.setEnabled(false);
+						XAGDOP.getInstance().menuProjetTeam.setEnabled(false);
 						XAGDOP.getInstance().delProject.setEnabled(false);
+					}
+						
 				} catch (Exception e) {
 					ErrorManager.getInstance().display();
 				}
