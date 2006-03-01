@@ -2,7 +2,9 @@ package xagdop.Controleur;
 
 import java.io.IOException;
 
+import xagdop.Interface.IWaiting;
 import xagdop.Parser.ProjectsParser;
+import xagdop.Thread.ThreadRemoveUser;
 
 public class CTeamManagement{
 	
@@ -60,9 +62,11 @@ public class CTeamManagement{
 	
 	public void disaffectUser(ProjectsParser PP,String user) throws Exception{
 		//Remove the user from the project
-		
+    	IWaiting iWait = IWaiting.getInstance();
+    	iWait.demarrer();
 		PP.removeUser(this._projectName,user);
-
+		ThreadRemoveUser tru = new ThreadRemoveUser(PP,this._projectName,user);
+		tru.start();
 	}
 			
 			
