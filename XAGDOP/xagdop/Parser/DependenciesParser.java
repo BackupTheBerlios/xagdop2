@@ -19,16 +19,34 @@ import xagdop.Controleur.CDependencies;
 import xagdop.Util.ErrorManager;
 
 
+/**
+ * @author Claire
+ * Classe qui gere tous les acces au fichier xml dependencies.xml
+ *
+ */
 public class DependenciesParser extends Parser{
 
-	/**Un fichier dependances par projet
-	*Donc une Hashmap, avec en clef le nom du projet, et associe un File
-	*/
+	/**
+	 * Un fichier dependencies.xml par projet
+	 * Donc une Hashmap, avec en clef le nom du projet, et associe un File
+	 * qui pointe sur le fichier dependencies.xml associe au rpojet
+	 */
 	private HashMap dependencies;
+	
+	/**
+	 * Attribut qui permet de connaitre le projet courant
+	 */
 	private String currentProject;
 	
+	
+	/**
+	 * Attribut static pour l'implementation du pattern singleton
+	 */
 	private static DependenciesParser dependenciesInstance = null; 
 	
+	/**
+	 * fonction static qui permet de recuperer l'unique instance de la classe
+	 */
 	public static DependenciesParser getInstance() throws IOException
 	{
 		if(dependenciesInstance==null)
@@ -38,18 +56,28 @@ public class DependenciesParser extends Parser{
 		return dependenciesInstance;
 	}
 	
+	/**
+	 * Constructeur
+	 */
 	private DependenciesParser() throws IOException
 	{
 		
-			CDependencies cdep = new CDependencies();
-			dependencies = cdep.getDependenciesFiles();
+		/**
+		 * Recuperation de la liste des fichiers dependencies.xml existants
+		 * Et affectation de l'attribut dependencies
+		 */
+		CDependencies cdep = new CDependencies();
+		dependencies = cdep.getDependenciesFiles();
 			
-		/*** Pour le debuggage		
+		/*** Pour le debuggage*		
 			dependencies = new HashMap();
 			dependencies.put("Test",new File("xagdop/ressources/XML/dependencies.xml"));
-		*/	
+		/**/	
 	}
 
+	/**
+	 * Getter retournant le File dependencies.xml du projet passe en parametre
+	 */
 	public File getFile(String project) throws NullPointerException
 	{
 		if((File)dependencies.get(project)!=null)
@@ -65,25 +93,48 @@ public class DependenciesParser extends Parser{
 		
 	}
 	
+	/**
+	 * Setter permettant de charger en memoire le fichier dependencies.xml
+	 * associe au nouveau projet courant
+	 */
 	public void setFile(String project) throws NullPointerException, Exception
 	{
-			currentProject = project;
-			if((File)dependencies.get(project)!=null)
-			{
-				loadTreeInMemory((File)dependencies.get(project));			
-			}
-			else
-			{
-				ErrorManager.getInstance().setErrMsg("Projet "+ project + " inexistant \n");
-				ErrorManager.getInstance().setErrTitle("Projet inexistant");
-				throw new NullPointerException();
-			}		
+		/**
+		 * Changement du projet courant
+		 */
+		currentProject = project;
+		
+		/**
+		 * Recuperation du File associe au projet passe en parametre
+		 */
+		if((File)dependencies.get(project)!=null)
+		{
+			/**
+			 * Chargement du fichier dependencies.xml
+			 */
+			loadTreeInMemory((File)dependencies.get(project));			
+		}
+		else
+		{
+			ErrorManager.getInstance().setErrMsg("Projet "+ project + " inexistant \n");
+			ErrorManager.getInstance().setErrTitle("Projet inexistant");
+			throw new NullPointerException();
+		}		
 	}
 	
+	/**
+	 * Fonction recherchant tous les fichiers .pog associes au fichier .apes passe en parametre 
+	 */
 	public ArrayList getPogFromApes(String apesName) throws XPathExpressionException, NullPointerException
 	{
+		/**
+		 * Liste resultat, retournee vide si aucun fichier .pog
+		 */
 		ArrayList pogList = new ArrayList();
 		
+		/**
+		 * Creation de l'expression XPath recherchant la balise apes
+		 */
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//apes[@fileNameApes=\""+apesName+"\"]";
 
@@ -91,6 +142,9 @@ public class DependenciesParser extends Parser{
 		NodeList pogNodeList;
 			
 		try {
+			/**
+			 * Evaluation de l'expression XPath
+			 */
 			apesNode = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
 		}
 		catch (XPathExpressionException e) {
@@ -98,23 +152,50 @@ public class DependenciesParser extends Parser{
 			ErrorManager.getInstance().setErrMsg("Expression XPath "+ expression +" Incorrecte");
 			throw new XPathExpressionException(expression);
 		}
+		/**
+		 * Si le noeud apes recherche existe bien
+		 */
 		if(apesNode != null){
 			
+			/**
+			 * Dans le cas ou la balise apes possede des balises filles
+			 * donc des .pog et/ou des .iepp
+			 */
 			if(apesNode.hasChildNodes()){
 				
 				Node nodeAll = null;
 				Node attributePath = null;
 				NamedNodeMap mapAttributes = null;
 				
+				/**
+				 * Recuperation de toutes les balises filles
+				 * Et parcours de toutes ces balises
+				 */
 				pogNodeList = apesNode.getChildNodes();
 				for (int i=0; i<pogNodeList.getLength(); i++)
 				{
+					/**
+					 * Pour chaque noeud recuperation de tous ces attributs
+					 */
 					nodeAll = pogNodeList.item(i);
 					mapAttributes = nodeAll.getAttributes();
+					
+					/**
+					 * Si le noeud possede bien au moins un attribut
+					 */
 					if(mapAttributes != null){					
+						/**
+						 * Recuperation de la valeur de l'attribut fileNamePog
+						 */
 						attributePath = mapAttributes.getNamedItem("fileNamePog");
 						
+						/**
+						 * Si la valeur de l'attribut n'est pas null
+						 */
 						if(attributePath!=null){
+							/**
+							 * Ajout du chemin du fichier .pog dans la liste resultat
+							 */
 							pogList.add(attributePath.getNodeValue());
 						}
 					}					
@@ -131,16 +212,29 @@ public class DependenciesParser extends Parser{
 	}
 	
 	
+	/**
+	 * Fonction recherchant tous les fichiers .apes associes au fichier .iepp passe en parametre
+	 */
 	public ArrayList getApesFromIepp(String ieppName) throws XPathExpressionException, NullPointerException
 	{
+		/**
+		 * Liste resultat, vide si aucun fichier .apes trouve
+		 */
 		ArrayList apesList = new ArrayList();
 		
+		/**
+		 * Creation de l'expression XPath recherchant tous les noeuds apes ayant un noeud fils
+		 * iepp avec l'attribut fileNameIepp egal au parametre
+		 */
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//apes[iepp[@fileNameIepp=\""+ieppName+"\"]]";
 
 		NodeList apesNodeList = null;
 			
 		try {
+			/**
+			 * Evaluation de l'expression XPath  
+			 */
 			apesNodeList = (NodeList)xpath.evaluate(expression, this.doc, XPathConstants.NODESET);
 		}
 		catch (XPathExpressionException e) {
@@ -148,13 +242,25 @@ public class DependenciesParser extends Parser{
 			ErrorManager.getInstance().setErrMsg("Expression XPath "+ expression +" Incorrecte");
 			throw new XPathExpressionException(expression);
 		}
+		/**
+		 * Fonction recherchant tous les fichiers .apes associes au fichier .iepp passe en parametre
+		 * Si le resultat est null c'est que le fichier iepp est inconnu
+		 */
 		if(apesNodeList!=null){
 			Element apes = null;
+			
+			/**
+			 * Recuperation et parcours de la liste des attributs de chaque noeud apes trouve
+			 */
 			NamedNodeMap mapAttributes;
 			for (int i=0; i<apesNodeList.getLength(); i++)
 			{
 				apes = (Element)apesNodeList.item(i);
 				mapAttributes = apes.getAttributes();
+				/**
+				 * Ajout dans la liste resultat de la valeur de l'attribut fileNameApes 
+				 * Si la liste des attributs n'est pas null
+				 */
 				if(mapAttributes != null){					
 					apesList.add(mapAttributes.getNamedItem("fileNameApes").getNodeValue());
 				}
@@ -170,15 +276,25 @@ public class DependenciesParser extends Parser{
 	}
 
 		
+	/**
+	 * Fonction recherchant le fichier .apes associe au fichier .pog passe en parametre
+	 */
 	public String getApesFromPog(String pogName) throws XPathExpressionException, NullPointerException
 	{
 	
+		/**
+		 * Creation de l'expression XPath recherchant tous les noeuds apes ayant un noeud fils
+		 * pog avec l'attribut fileNamePog egal au parametre
+		 */
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//apes[pog[@fileNamePog=\""+pogName+"\"]]";
 
 		Node apesNode = null;
 			
 		try {
+			/**
+			 * Evaluation de l'expression XPath
+			 */
 			apesNode = (Node)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
 		}
 		catch (XPathExpressionException e) {
@@ -186,9 +302,18 @@ public class DependenciesParser extends Parser{
 			ErrorManager.getInstance().setErrMsg("Expression XPath "+ expression +" Incorrecte");
 			throw new XPathExpressionException(expression);
 		}
+		
+		/**
+		 * Si aucun noeud apes n'est trouve, c'est que le fichier pog passe en parametre est inconnu
+		 */
 		if(apesNode!=null){
 			NamedNodeMap mapAttributes;
 			mapAttributes = apesNode.getAttributes();
+			
+			/**
+			 * Recuperation de la liste des attributs, et si la liste est non null
+			 * Retour de la valeur de l'attribut fileNameApes
+			 */
 			if(mapAttributes != null){					
 				return (mapAttributes.getNamedItem("fileNameApes").getNodeValue());
 			}
@@ -203,8 +328,14 @@ public class DependenciesParser extends Parser{
 	}
 	
 	
+	/**
+	 * Fonction recherchant tous les fichiers .iepp associes au fichier .apes passe en parametre
+	 */
 	public ArrayList getIeppFromApes(String apesName) throws XPathExpressionException, NullPointerException
 	{
+		/**
+		 * Liste resultat, retournee vide si aucune balise iepp trouvee
+		 */
 		ArrayList ieppList = new ArrayList();
 		
 		/**
@@ -244,7 +375,8 @@ public class DependenciesParser extends Parser{
 						if(nodeChild.getNodeName().equals("iepp")){					
 							NamedNodeMap mapAttributes = null;
 							/**
-							 * Getting all node's attribute in a NamedNodeMap  
+							 * Getting all node's attribute in a NamedNodeMap
+							 * Et ajoute la valeur de l'attribut fileNameIepp si la map est non null  
 							 */
 							mapAttributes = nodeChild.getAttributes();
 							if(mapAttributes != null){					
@@ -266,6 +398,9 @@ public class DependenciesParser extends Parser{
 		return ieppList;			
 	}
 	
+	/**
+	 * Fonction recherchant tous les fichiers .iepp associes au fichier .pog passe en parametre
+	 */
 	public ArrayList getIeppFromPog(String pogName) throws XPathExpressionException
 	{
 		ArrayList ieppList = new ArrayList();
@@ -324,13 +459,22 @@ public class DependenciesParser extends Parser{
 		return ieppList;			
 	}
 	
+	/**
+	 * Fonction qui renvoie TRUE si le fichier passe en parametre est a mettre a jour 
+	 */
 	public boolean isToUpdate(String filePath) throws XPathExpressionException
 	{
+		/**
+		 * Creation de l'expression XPath
+		 */
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//toUpdate/file[@path=\""+filePath+"\"]";
 		Element elem = null;
 		 
 		try {
+			/**
+			 * Evaluation de l'expression XPath
+			 */
 			elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
 		}
 		catch (XPathExpressionException e) {
@@ -338,20 +482,36 @@ public class DependenciesParser extends Parser{
 			ErrorManager.getInstance().setErrMsg("Expression XPath "+ expression +" Incorrecte");
 			throw new XPathExpressionException(expression);
 		}
+		
+		/**
+		 * Si le fichier est trouve dans la liste des noeuds fils de toUpdate, on renvoie TRUE
+		 */
 		if ( elem != null ) {			
 				return true;		
 		}
+		/**
+		 * Si le fichier n'est pas trouve dans la liste des noeuds fils de toUpdate, on renvoie FALSE
+		 */
 		else {
 			return false;
 		}
 	}
 
+	/**
+	 * Fonction qui retourne TRUE si le fichier passe en parametre existe, FALSE sinon
+	 */
 	public boolean isApes(String apesName) throws XPathExpressionException
 	{
+		/**
+		 * Creation de l'expression XPath
+		 */
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//apes[@fileNameApes=\""+apesName+"\"]";
 		Element apes = null;
 		try {
+			/**
+			 * Evaluation de l'expression XPath
+			 */
 			apes = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
 		}
 		catch (XPathExpressionException e) {
@@ -359,21 +519,37 @@ public class DependenciesParser extends Parser{
 			ErrorManager.getInstance().setErrMsg("Expression XPath "+ expression +" Incorrecte");
 			throw new XPathExpressionException(expression);
 		}
+		/**
+		 * Si une balise est trouvee on renvoie TRUE
+		 */
 		if ( apes != null ) {			
 				return true;		
 		}
+		/**
+		 * Sinon on renvoie FALSE
+		 */
 		else {
 			return false;
 		}
 	}
 	
+	/**
+	 * Fonction permettant d'ajouter une balise apes
+	 */
 	public void addApes(String apesName) throws Exception
 	{
+		
+		/**
+		 * Creation de l'expression XPath
+		 */
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		
 		String expr_test = "//apes[@fileNameApes=\""+apesName+"\"]";
 		Element test_elem = null;		
 		try {
+			/**
+			 * Evaluation de l'expression XPath
+			 */
 			test_elem = (Element)xpath.evaluate(expr_test, this.doc, XPathConstants.NODE);
 		}
 		catch (XPathExpressionException e) {
@@ -382,11 +558,23 @@ public class DependenciesParser extends Parser{
 			throw new XPathExpressionException(expr_test);
 		}
 		
+		
+		/**
+		 * Si la balise apes n'existe pas deja on l'ajoute
+		 */
 		if(test_elem == null)
 		{
+			
+			/**
+			 * Expression XPath permettant de se positionner au niveau du noeud 
+			 * parent du futur noeud apes
+			 */
 			String expression = "//dependencies";
 
 			Element elem = null;
+			/**
+			 * Creation d'un nouvel element de nom apes
+			 */
 			Element newElem = doc.createElement("apes");
 			newElem.setAttribute("fileNameApes", apesName);	
 			try {
@@ -398,9 +586,18 @@ public class DependenciesParser extends Parser{
 				throw new XPathExpressionException(expr_test);
 			}
 
+			/**
+			 * Si la balise parente est bien trouvee
+			 */
 			if ( elem != null ) {
+				/**
+				 * Ajout du nouvel element comme fils de la balise parente
+				 */
 				elem.appendChild(newElem);
 				
+				/**
+				 * Recuperation du nouveau noeud pour lui ajouter le noeud fils onServer
+				 */
 				expression = "//apes[@fileNameApes='"+ apesName +"']";
 				newElem = null;
 				try {
@@ -418,7 +615,7 @@ public class DependenciesParser extends Parser{
 				}
 				
 				saveDocument((File)dependencies.get(currentProject));	
-				publish((File)dependencies.get(currentProject));
+				//publish((File)dependencies.get(currentProject));
 			}
 			
 		}
@@ -476,7 +673,7 @@ public class DependenciesParser extends Parser{
 					}
 				}
 				saveDocument((File)dependencies.get(currentProject));	
-				publish((File)dependencies.get(currentProject));
+				//publish((File)dependencies.get(currentProject));
 			}
 			else
 			{
@@ -534,7 +731,7 @@ public class DependenciesParser extends Parser{
 				}
 			}
 			saveDocument((File)dependencies.get(currentProject));	
-			publish((File)dependencies.get(currentProject));
+			//publish((File)dependencies.get(currentProject));
 		}
 		else
 		{
@@ -627,7 +824,7 @@ public class DependenciesParser extends Parser{
 			if ( elem != null ) {
 				elem.appendChild(newElem);
 				saveDocument((File)dependencies.get(currentProject));
-				publish((File)dependencies.get(currentProject));
+				//publish((File)dependencies.get(currentProject));
 			}
 			
 		}
@@ -666,7 +863,7 @@ public class DependenciesParser extends Parser{
 			if ( elem != null ) {
 				elem.appendChild(newElem);
 				saveDocument((File)dependencies.get(currentProject));	
-				publish((File)dependencies.get(currentProject));
+				//publish((File)dependencies.get(currentProject));
 			}
 		}
 		
@@ -705,7 +902,7 @@ public class DependenciesParser extends Parser{
 			if ( elem != null ) {
 				elem.appendChild(newElem);
 				saveDocument((File)dependencies.get(currentProject));	
-				publish((File)dependencies.get(currentProject));
+				//publish((File)dependencies.get(currentProject));
 			}
 		}
 		
@@ -747,7 +944,7 @@ public class DependenciesParser extends Parser{
 			if ( elem != null ) {
 				elem.appendChild(newElem);
 				saveDocument((File)dependencies.get(currentProject));	
-				publish((File)dependencies.get(currentProject));
+				//publish((File)dependencies.get(currentProject));
 			}
 			
 		}
@@ -847,7 +1044,7 @@ public class DependenciesParser extends Parser{
 		if ( elem != null && oldElem != null) {
 			elem.removeChild(oldElem);
 			saveDocument((File)dependencies.get(currentProject));	
-			publish((File)dependencies.get(currentProject));
+			//publish((File)dependencies.get(currentProject));
 		}
 	}
 
@@ -872,7 +1069,7 @@ public class DependenciesParser extends Parser{
 		if ( elem != null && oldElem != null) {
 			elem.removeChild(oldElem);
 			saveDocument((File)dependencies.get(currentProject));	
-			publish((File)dependencies.get(currentProject));
+			//publish((File)dependencies.get(currentProject));
 		}
 	}
 
@@ -898,40 +1095,39 @@ public class DependenciesParser extends Parser{
 		if ( elem != null && oldElem != null) {
 			elem.removeChild(oldElem);
 			saveDocument((File)dependencies.get(currentProject));	
-			publish((File)dependencies.get(currentProject));
+			//publish((File)dependencies.get(currentProject));
 		}
 	}
 	
 	public void delPog(String filePath) throws Exception
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//dependencies/apes";
-		String expr = "//apes/pog[@fileNamePog=\""+filePath+"\"]";
-				
-		Element elem = null;
-		Element oldElem = null;
+		String expr = "//pog[@fileNamePog=\""+filePath+"\"]";
+		
+		Node parent = null;
+		Element child = null;
 		
 		try {
-			elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
-			oldElem = (Element)xpath.evaluate(expr, this.doc, XPathConstants.NODE);
+			child = (Element)xpath.evaluate(expr, this.doc, XPathConstants.NODE);
 		}
 		catch (XPathExpressionException e) {
 			ErrorManager.getInstance().setErrTitle("Expression XPath Incorrecte");
-			ErrorManager.getInstance().setErrMsg("Expression XPath "+ expression +" Incorrecte");
-			throw new XPathExpressionException(expression);
+			throw new XPathExpressionException(expr);
 		}
-		if ( elem != null && oldElem != null) {
-			elem.removeChild(oldElem);
+		if (child != null) {
+			parent = child.getParentNode();
+			parent.removeChild(child);
 			saveDocument((File)dependencies.get(currentProject));	
-			publish((File)dependencies.get(currentProject));
+			//publish((File)dependencies.get(currentProject));
 		}
 	}
 	
+
 	
 	public void delIepp(String filePath, String apesName) throws Exception
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//dependencies/apes[@fileNameApes=\""+apesName+"\"]";
+		String expression = "//apes[@fileNameApes=\""+apesName+"\"]";
 		String expr = "//apes[@fileNameApes=\""+apesName+"\"]/iepp[@fileNameIepp=\""+filePath+"\"]";
 				
 		Node apes = null;
@@ -949,7 +1145,7 @@ public class DependenciesParser extends Parser{
 		if ( apes != null && oldElem != null) {
 			apes.removeChild(oldElem);
 			saveDocument((File)dependencies.get(currentProject));	
-			publish((File)dependencies.get(currentProject));
+			//publish((File)dependencies.get(currentProject));
 		}
 	}
 
