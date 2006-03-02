@@ -141,7 +141,7 @@ public class IProject extends JFrame{
         // Creation de la fenetre
 		setTitle(Bundle.getText("iproject.title"));
 		setLocation(300,200);
-		setSize(920, 320);
+		setSize(300, 320);
 		setResizable(false) ;
 		getContentPane().add(JPanelProject,BorderLayout.CENTER);
 		

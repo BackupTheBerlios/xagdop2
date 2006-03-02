@@ -116,7 +116,7 @@ public class SvnCommit{
 					if(directory.isDirectory()&&!directory.isHidden())
 						return true;
 					//if(XAGDOP.getInstance().getUser().is)
-					if(name.endsWith(".pre")||name.endsWith(".pog")||name.endsWith(".apes"))
+					if(name.endsWith(".iepp")||name.endsWith(".pog")||name.endsWith(".apes"))
 						return true;
 
 					return false;
@@ -224,6 +224,20 @@ public class SvnCommit{
 			sendFile(DependenciesParser.getInstance().getFile(node.getProject().getName()),"");
 		CRole.getInstance().refreshRole();
 	}
+	
+	public void commitRemoveProject(CTreeNode toRemove,String commitMessage) throws SVNException{
+		ArrayList fileInDirectory = new ArrayList();
+		fileInDirectory.add((File)toRemove.getUserObject());
+		File[] file = new File[fileInDirectory.size()];
+		try {
+			svnCC.doCommit((File[])fileInDirectory.toArray(file),false,commitMessage, false, true);
+		} catch (SVNException e) {
+			ErrorManager.getInstance().setErrMsg("La suppression du projet "+toRemove.getName()+" a ??chou??.\n"+e.getCause());
+			ErrorManager.getInstance().setErrTitle("Suppression impossible");
+			throw e;
+		}
+	}
+	
 	public void sendXMLFile() throws Exception{
 		ArrayList fileInDirectory = new ArrayList();
 		fileInDirectory.add(UsersParser.getInstance().getUsersXML());
