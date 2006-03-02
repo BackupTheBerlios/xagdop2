@@ -4,9 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.net.URL;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -17,8 +19,10 @@ import javax.swing.border.Border;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeSelectionModel;
 
+import xagdop.Interface.XAGDOP;
 import xagdop.ressources.Bundle;
 
 public class IHelp extends JFrame implements TreeSelectionListener{
@@ -59,10 +63,13 @@ public class IHelp extends JFrame implements TreeSelectionListener{
         tree = new JTree(top);
         tree.getSelectionModel().setSelectionMode
                 (TreeSelectionModel.SINGLE_TREE_SELECTION);
-
+        tree.putClientProperty("JTree.lineStyle","None");
       
         tree.addTreeSelectionListener(this);
-
+        DefaultTreeCellRenderer monRenderer = new DefaultTreeCellRenderer();
+        URL imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/lab_err1.gif");
+        monRenderer.setLeafIcon(new ImageIcon(imageURL));
+        tree.setCellRenderer(monRenderer);
 		scroll = new JScrollPane();
 		scroll.setPreferredSize(new Dimension(180,450));
 		
