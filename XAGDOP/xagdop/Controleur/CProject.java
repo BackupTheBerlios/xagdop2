@@ -78,7 +78,7 @@ public class CProject {
 			CRole.getInstance().refreshRole();
 			XAGDOP.getInstance().refreshTree();
 			SvnCommit commit = new SvnCommit();
-			commit.sendFile(project,"Création du projet");
+			commit.sendFile(project,"Cr??ation du projet");
 			commit.sendXMLFile();
 			
 		}else{
@@ -97,9 +97,11 @@ public class CProject {
 	//Supression du fichier correspondant au noeud
 	public void deleteProject(CTreeNode node) throws HeadlessException, Exception{
 		
-		
-		CCommit cc = new CCommit(node);
-		cc.DependencesRemoveInitialize(node);
+		if (!node.isProject())
+		{
+			CCommit cc = new CCommit(node);
+			cc.DependencesRemoveInitialize(node);
+		}
 		//Verification du type du noeud
 		//Si c'est un projet, il faut le retirer du project parser
 		
@@ -111,7 +113,8 @@ public class CProject {
 		{
 			ProjectsParser.getInstance().removeProject(node.getName());
 			SvnCommit commit = new SvnCommit();
-			commit.commit(node,"Suppression du projet");
+			//System.out.println(SvnHistory.isToDelete((File)node.getUserObject()));
+			commit.commitRemoveProject(node,"Suppression du projet");
 		}
 		
 		//JOptionPane.showMessageDialog(null ,"Le dossier "+node.getName()+" sera supprim? lors du prochain commit", "Validation" , 1) ;

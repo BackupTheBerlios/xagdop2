@@ -105,21 +105,23 @@ public class SvnCommit{
 	 * @throws SVNException
 	 * Si un dossier est versionn??, la fonction r??cup??re tous les sous fichiers et sous dossiers non versionn??s et les ajoute au repository
 	 */
-	public void doAdd(File file) throws SVNException{
+	public void doAdd(File file,String project) throws SVNException{
+		final String proj = project;
 		SVNWCClient wcClient = new SVNWCClient(SvnConnect.getInstance().getRepository().getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
 		//Verification si le fichier est bien un dossier
 		if(file.isDirectory()){
 			//R??cuperation des fichiers qui sont autoris??s ?? etre envoy??s
 			File[] fileInDirectory = file.listFiles(new FilenameFilter() {
 				public boolean accept(File dir, String name) {
-					File directory = new File(dir.getAbsolutePath()+"/"+name); 
-					if(directory.isDirectory()&&!directory.isHidden())
-						return true;
-					//if(XAGDOP.getInstance().getUser().is)
-					if(name.endsWith(".iepp")||name.endsWith(".pog")||name.endsWith(".apes"))
-						return true;
-
-					return false;
+//					File directory = new File(dir.getAbsolutePath()+"/"+name); 
+//					if(directory.isDirectory()&&!directory.isHidden())
+//						return true;
+//					//if(XAGDOP.getInstance().getUser().is)
+//					if(name.endsWith(".iepp")||name.endsWith(".pog")||name.endsWith(".apes"))
+//						return true;
+//
+//					return false;
+					return CRole.getInstance().canShow(dir,proj);
 				}
 		
 			});
@@ -138,7 +140,7 @@ public class SvnCommit{
 				else
 					//Si le fichier est un repertoire, on re??fectue le traitement
 					if(fileInDirectory[i].isDirectory())
-						doAdd(fileInDirectory[i]);
+						doAdd(fileInDirectory[i],project);
 			}
 		}else
 			//Si on a un fichier, et qu'il n'est pas versionn?? on l'ajoute au repository
@@ -167,6 +169,7 @@ public class SvnCommit{
 	 * @throws Exception 
 	 */
 	public void commit(CTreeNode node, String commitMessage) throws Exception{
+		final CTreeNode nodeC = node;
 		File toCommit = new File(node.getLocalPath());
 		//Si on doit envoyer un dossier
 		if(toCommit.isDirectory()){
@@ -180,18 +183,19 @@ public class SvnCommit{
 				//Liste les fichiers que l'utilisateur ?? le droit d'envoyer
 				fileInDirectory = toCommit.listFiles(new FilenameFilter() {
 					public boolean accept(File dir, String name) {
-						File directory = new File(dir.getAbsolutePath()+"/"+name); 
-						if(directory.isDirectory()&&!directory.isHidden())
-							return true;
-						if(name.endsWith(".xml")||name.endsWith(".pre")||name.endsWith(".pog")||name.endsWith(".apes"))
-							return true;
-
-						return false;
+//						File directory = new File(dir.getAbsolutePath()+"/"+name); 
+//						if(directory.isDirectory()&&!directory.isHidden())
+//							return true;
+//						if(name.endsWith(".xml")||name.endsWith(".iepp")||name.endsWith(".pog")||name.endsWith(".apes"))
+//							return true;
+//
+//						return false;
+						return CRole.getInstance().canShow(dir,nodeC.getProject().getName());
 				}
 			
 			});
 				//Ajout des fichiers non versionn??s dans le cas o?? le dossier est versionn??
-				doAdd(toCommit);			
+				doAdd(toCommit,node.getProject().getName());			
 			}
 			//Envoi des fichiers
 			try {
