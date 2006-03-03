@@ -93,7 +93,7 @@ public class CCommit{
 				{
 					//Si le fichier Apes n'est pas present on le rajoute
 					dp.addApes(adressApes,false);
-					//Et on le met aussi dans les fichiers à créer
+					//Et on le met aussi dans les fichiers ?? cr??er
 					dp.addToCreate(adressApes);
 				}	
 				//On rajoute le Iepp au fichier Apes
@@ -351,7 +351,8 @@ public class CCommit{
 		recRemove(currentNode,".iepp");
 		recRemove(currentNode,".pog");
 		recRemove(currentNode,".apes");
-		DependenciesParser.getInstance().publish(DependenciesParser.getInstance().getFile(currentNode.getProject().getName()));
+		if(!currentNode.isProject()&&SvnHistory.isUnderVersion((File)currentNode.getProject().getUserObject()))
+			DependenciesParser.getInstance().publish(DependenciesParser.getInstance().getFile(currentNode.getProject().getName()));
 	}
 		
 	public void recRemove(CTreeNode node,String extention) throws Exception

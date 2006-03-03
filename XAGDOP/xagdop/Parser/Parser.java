@@ -63,7 +63,7 @@ public class Parser {
 	public void publish(File file) throws SVNException, Exception {
 		SvnCommit svnc;	
 			svnc = new SvnCommit();
-			svnc.sendFile(file,"");	
+			svnc.sendFile(file,"Administration des dependances");	
 			loadTreeInMemory(file);
 		
 	}

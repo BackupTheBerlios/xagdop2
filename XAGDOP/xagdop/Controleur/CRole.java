@@ -217,7 +217,7 @@ public class CRole {
 		
 			ArrayList view = getViewFileRight(project);
 			//System.out.println("file : "+project);
-			if(file.getParentFile().getName().startsWith("lib")||file.getParentFile().getName().equals("icones"))
+			if(file.getParentFile().getName().startsWith("lib")||file.getParentFile().getName().contains("Icones"))
 				return true;
 			int i = 0;
 			if(view!=null){

@@ -248,7 +248,7 @@ public class SvnCommit{
 		fileInDirectory.add(ProjectsParser.getInstance().getProjectXML());
 		File[] file = new File[fileInDirectory.size()];
 		try{
-			svnCC.doCommit((File[])fileInDirectory.toArray(file),false,"", true, false);
+			svnCC.doCommit((File[])fileInDirectory.toArray(file),false,"Administration du projet", true, false);
 		}catch (SVNException e) {
 			ErrorManager.getInstance().setErrMsg("L'envoi des fichiers XML a ??chou??.\n"+e.getCause());
 			ErrorManager.getInstance().setErrTitle("Envoi impossible");
