@@ -47,17 +47,9 @@ public class CProject {
 			if(!project.exists())
 				project.mkdir();
 			
-			File style = new File(project,"website");
-			if(!style.exists())
-				style.mkdirs();
-			
 			File css = new File(project,"css");
 			if(!css.exists())
 				css.mkdirs();
-			
-			File export = new File(project,"export");
-			if(!export.exists())
-				export.mkdirs();
 			
 			File bib = new File(project,"bib");
 			if(!bib.exists())
@@ -94,6 +86,14 @@ public class CProject {
 			SvnCommit commit = new SvnCommit();
 			commit.sendFile(project,"Cr??ation du projet");
 			commit.sendXMLFile();
+			
+			File style = new File(project,"website");
+			if(!style.exists())
+				style.mkdirs();
+			
+			File export = new File(project,"export");
+			if(!export.exists())
+				export.mkdirs();
 			
 		}else{
 			ErrorManager.getInstance().setErrMsg("Le projet existe d?j?.");
