@@ -323,7 +323,28 @@ public class XAGDOP extends JFrame{
 		admin.addActionListener(new openIAdmin());
 		setTitle(Bundle.getText("main.title"));
 		setSize(700, 450);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		/************/
+		//Deactivation of the closing operation
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		/************/
+		//Replaced by a windowListener
+		this.addWindowListener(new WindowAdapter()
+				{
+					public void windowClosing(WindowEvent we)
+					{
+						//If user has selected yes, the application will be exited
+						if(JOptionPane.showConfirmDialog(XAGDOP.this,Bundle.getText("main.close.confirm"),Bundle.getText("main.close.confirm.title"),JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION)
+						{
+							//Main frame disposal
+							XAGDOP.this.dispose();
+							//Exiting application
+							System.exit(0);
+						}
+						
+					}
+			
+				});
 		//Initialisation des boutons
 		equipe.setEnabled(false);
 		menuProjetTeam.setEnabled(false);
@@ -465,7 +486,7 @@ public class XAGDOP extends JFrame{
 					if(!tree.getSelectedNode().isProject())
 						JOptionPane.showMessageDialog(null ,"Le fichier "+tree.getSelectedNode().getName()+" sera supprim? lors du prochain commit", "Validation" , 1) ;
 					else
-						JOptionPane.showMessageDialog(null ,"Le projet "+tree.getSelectedNode().getName()+" est supprimé");
+						JOptionPane.showMessageDialog(null ,"Le projet "+tree.getSelectedNode().getName()+" est supprim??");
 					//((CTree)tree.getModel()).remove(tree.getSelectedNode());
 					refreshTree();
 				}
