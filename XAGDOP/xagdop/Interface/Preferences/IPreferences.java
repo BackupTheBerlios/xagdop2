@@ -42,13 +42,16 @@ import xagdop.Thread.ThreadServerChanged;
 import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
 
-
+/**
+ * 
+ * @author Paul Fresquet
+ * @desc Cette classe definit la fenetre principale de la fenetre des preferences.
+ * Implemente la Design Pattern Singleton
+ *
+ */
 public class IPreferences extends JFrame implements TreeSelectionListener{
-	/**
-	 * 
-	 */
 	private static IPreferences IPref = null;
-	private static String defaultPath;//= ((File)new File("project")).getAbsolutePath()+File.separator; 
+	private static String defaultPath;
 	
 	private static final long serialVersionUID = 1L;
 	private JPanel mLastEast;
@@ -63,22 +66,33 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 	private LocalPathPanel localPathPanel;
 	private RemotePathPanel remotePathPanel;
 	
+	// Constantes utilisees pour determiner les modifications faites par l'utilisateur
 	public static final int LOCAL_PATH_REF = 1;
 	public static final int REMOTE_PATH_REF = 2;
 	public static final int LNF_REF = 3;
 	public static final int LANGUAGE_REF = 4;
 	public static final int PASSWORD_REF = 5;
 	
+	// Constantes utilisees pour la gestion des modifiations
 	public static final int ADD = 0;
 	public static final int DEL = 1;
 	
+	// Contient la liste des elements qui ont ete modifies
 	private static ArrayList changedPrefList;
 	
+	/**
+	 * Constructeur de IPreferences
+	 * Prive, conformement au Design Pattern Singleton
+	 */
 	private IPreferences(){
 		init();
 		changedPrefList = new ArrayList();
 	}	
 	
+	/**
+	 * Initialise les composants graphiques
+	 *
+	 */
 	private void init(){
 		setTitle(Bundle.getText("ipreferences.title"));
 		mLastEast = new JPanel();
@@ -130,6 +144,7 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 		setResizable(false);
 		setVisible(true);
 	}
+	
 	/**
 	 * @return Returns the singleton.
 	 */
@@ -140,15 +155,27 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 		return IPref;
 	}
 	
-	
+	/**
+	 * Non utilisée
+	 * @return defaultPath
+	 */
 	public static String getDefaultPath() {
 		return defaultPath;
 	}
 	
+	/**
+	 * Non utilisee
+	 * @param defaultPath
+	 */
 	public static void setDefaultPath(String defaultPath) {
 		IPreferences.defaultPath = defaultPath;
 	}
 	
+	/**
+	 * 
+	 * @author Paul Fresquet
+	 * Classe permettant de lier un panel de preferences à un nom
+	 */
 	private class PanelInfo {
 		public String pName; // nom du panel
 		public JPanel mPanel; // le panel
@@ -163,6 +190,10 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 		}
 	}
 	
+	/**
+	 * Creer les noeuds du TreeView
+	 * @param top
+	 */
 	private void createNodes(DefaultMutableTreeNode top) {
 		DefaultMutableTreeNode category = null;
 		DefaultMutableTreeNode book = null;
@@ -202,6 +233,10 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 		category.add(book);
 	}
 	
+	/**
+	 * Utilisee lorsqu'un nouvel element est selectionne dans le TreeView, affiche le panel
+	 * correspondant le cas echeant
+	 */
 	public void valueChanged(TreeSelectionEvent arg0) {
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode)
 		mTree.getLastSelectedPathComponent();
@@ -215,6 +250,10 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 		}
 	}
 	
+	/**
+	 * Cree les boutons OK, Cancel, Appliquer sur la fenetre
+	 *
+	 */
 	protected void createButtons(){
 		mOkButton = new JButton(Bundle.getText("button.ok"));
 		mCancelButton = new JButton(Bundle.getText("button.cancel"));
@@ -246,6 +285,11 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 		addButton(mCancelButton, Bundle.getChar("button.cancel.mnemonic"));
 	}
 	
+	/**
+	 * Ajoute le bouton a la fenetre, en y associant un mnemonique
+	 * @param button bouton a ajouter
+	 * @param mnemonique mnemonique associe
+	 */
 	protected void addButton(JButton button, char mnemonique)
 	{
 		button.setMnemonic(mnemonique);
@@ -258,6 +302,10 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 		mBox.add(button);
 	}
 	
+	/**
+	 * Affiche le panel sur la droite de la fenetre 
+	 * @param panel
+	 */
 	public void displayPanel (JPanel panel) {
 		if(mCentralPanel != null)
 			mLastEast.remove(mCentralPanel);
@@ -268,10 +316,21 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 		getContentPane().add(mLastEast, BorderLayout.EAST);
 	}
 	
+	/**
+	 * Redessine les composants du panel de droite
+	 *
+	 */
 	public void updateComponent(){
 		mLastEast.paintAll(mLastEast.getGraphics());
 	}
 	
+	/**
+	 * Enregistre le fait qu'un des parametres a change. ref correspond a l'option qui a change,
+	 * 		action correspond au fait que l'option a change, ou qu'elle a retrouve sa valeur
+	 * 		initiale
+	 * @param ref
+	 * @param action
+	 */
 	public static void prefHasChanged(int ref, int action) {
 		Integer myInt = new Integer(ref);
 		if (action == ADD) {
@@ -291,11 +350,19 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 			mApplyButton.setEnabled(false);
 	}
 	
+	/**
+	 * Annule les changements effectues
+	 *
+	 */
 	private void cancelChanges() {
 		PasswordPanel.eraseFields();
 		exit();
 	}
 	
+	/**
+	 * Applique les changements effectues
+	 *
+	 */
 	private void applyChanges() {
 		Integer ref;
 		for (int i = 0; i < changedPrefList.size(); i++) {
@@ -391,6 +458,10 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 		mApplyButton.setEnabled(false);
 	}
 	
+	/**
+	 * On quitte cette fenetre
+	 *
+	 */
 	private void exit(){
 		dispose();
 		IPref = null;
