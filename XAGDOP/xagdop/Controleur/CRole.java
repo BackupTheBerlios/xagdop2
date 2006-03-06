@@ -70,13 +70,6 @@ public class CRole {
 		
 		
 		writeFile.add(".xml");
-		viewFile.add(".pref");
-		writeFile.add(".css");
-		viewFile.add(".css");
-		/*System.out.println("Manager : "+isProjectManager(project));
-		 System.out.println("Archi : "+isArchitect(project));
-		 System.out.println("Redactor : "+isRedactor(project));
-		 System.out.println("analyst : "+isAnalyst(project));*/
 		if(isProjectManager(project))
 			addManagerRight();
 		
@@ -96,15 +89,14 @@ public class CRole {
 	protected void addAnalystRight(){
 		writeFile.add(".pog");
 		writeFile.add(".apes");
-		//viewFile.add("bib");
 		
 		viewFile.add(".pog");
 		viewFile.add(".apes");
-		//forbidenViewDirectory.add("lib");
 	}
 	
 	protected void addArchitectRight(){
 		writeFile.add(".iepp");
+		
 		viewFile.add(".iepp");
 		viewFile.add(".apes");
 		viewFile.add(".pog");
@@ -177,34 +169,53 @@ public class CRole {
 			return false;
 		
 		if(file.isDirectory())
-			return showDirectory(file,project);
+			return showWriteDirectory(file,project);
 		else
 			return showFile(file,project);
-			
-		
 		
 		
 	}
-
 	
-
+	public boolean canSend(File file, String project){
+		
+		
+		if(file.isHidden())
+			return false;
+		
+		if(projectsList.get(project)==null)
+			return false;
+		
+		if(file.isDirectory())
+			return showWriteDirectory(file,project);
+		else
+			return sendFile(file,project);
+		
+		
+	}
+	
+	
+	
+	
 	private boolean showFile(File file, String project) {
 		if(file.getAbsolutePath().contains(File.separator+"icones"+File.separator))
-			return true;
+			if(file.getName().endsWith(".jpg")||file.getName().endsWith(".jpeg")||file.getName().endsWith(".png"))
+				return true;
+			else 
+				return false;
 		
 		if(file.getAbsolutePath().contains(File.separator+"bib"+File.separator))
 			return true;
 		
 		if(file.getAbsolutePath().contains(File.separator+"images"+File.separator))
-			if(file.getName().endsWith(".jpg")||file.getName().endsWith(".jpeg")||file.getName().endsWith(".png"))
+			if(file.getName().endsWith(".gif")||file.getName().endsWith(".jpg")||file.getName().endsWith(".jpeg")||file.getName().endsWith(".png"))
 				return true;
 		
 		
 		if(file.getParent().equals("css"))
-				if(file.getName().endsWith(".css")||file.getName().endsWith(".html"))
-					return true;
-				else 
-					return false;
+			if(file.getName().endsWith(".css")||file.getName().endsWith(".html"))
+				return true;
+			else 
+				return false;
 		
 		
 		
@@ -220,8 +231,44 @@ public class CRole {
 		}
 		return false;
 	}
-
-	private boolean showDirectory(File file, String project) {
+	
+	
+	private boolean sendFile(File file, String project) {
+		if(file.getAbsolutePath().contains(File.separator+"icones"+File.separator))
+			if(file.getName().endsWith(".jpg")||file.getName().endsWith(".jpeg")||file.getName().endsWith(".png"))
+				return true;
+			else 
+				return false;
+		
+		if(file.getAbsolutePath().contains(File.separator+"bib"+File.separator))
+			return true;
+		
+		if(file.getAbsolutePath().contains(File.separator+"images"+File.separator))
+			if(file.getName().endsWith(".gif")||file.getName().endsWith(".jpg")||file.getName().endsWith(".jpeg")||file.getName().endsWith(".png"))
+				return true;
+		
+		
+		if(file.getParent().equals("css"))
+			if(file.getName().endsWith(".css")||file.getName().endsWith(".html"))
+				return true;
+			else 
+				return false;
+		
+		
+		int i = 0;
+		ArrayList write = getWriteFileRight(project);
+		if(write!=null){
+			while(i < write.size()){
+				if(file.getName().endsWith((String)write.get(i)))
+					return true;
+				i++;
+			}
+		}
+		return false;
+	}
+	
+	
+	private boolean showWriteDirectory(File file, String project) {
 		
 		if(file.getName().equals("export")||file.getName().equals("website"))
 			return false;

@@ -113,7 +113,7 @@ public class SvnCommit{
 			//R??cuperation des fichiers qui sont autoris??s ?? etre envoy??s
 			File[] fileInDirectory = file.listFiles(new FilenameFilter() {
 				public boolean accept(File dir, String name) {
-					return CRole.getInstance().canShow(dir,proj);
+					return CRole.getInstance().canSend(dir,proj);
 				}
 		
 			});
@@ -163,6 +163,8 @@ public class SvnCommit{
 	public void commit(CTreeNode node, String commitMessage) throws Exception{
 		final CTreeNode nodeC = node;
 		File toCommit = new File(node.getLocalPath());
+		if(!CRole.getInstance().canSend(toCommit,node.getProject().getName()))
+			return;
 		//Si on doit envoyer un dossier
 		if(toCommit.isDirectory()){
 			File[] fileInDirectory ;
@@ -175,14 +177,7 @@ public class SvnCommit{
 				//Liste les fichiers que l'utilisateur ?? le droit d'envoyer
 				fileInDirectory = toCommit.listFiles(new FilenameFilter() {
 					public boolean accept(File dir, String name) {
-//						File directory = new File(dir.getAbsolutePath()+"/"+name); 
-//						if(directory.isDirectory()&&!directory.isHidden())
-//							return true;
-//						if(name.endsWith(".xml")||name.endsWith(".iepp")||name.endsWith(".pog")||name.endsWith(".apes"))
-//							return true;
-//
-//						return false;
-						return CRole.getInstance().canShow(dir,nodeC.getProject().getName());
+						return CRole.getInstance().canSend(dir,nodeC.getProject().getName());
 				}
 			
 			});
