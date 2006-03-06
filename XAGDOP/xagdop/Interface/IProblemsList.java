@@ -48,7 +48,7 @@ public class IProblemsList extends JFrame {
     private void initComponents() {
         mainPanel = new JPanel();
   
-
+        setTitle(Bundle.getText("iproblemlist.colonne.description"));
        
 		
 		
