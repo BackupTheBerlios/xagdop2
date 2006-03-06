@@ -490,10 +490,10 @@ public class XAGDOP extends JFrame{
 					threadDelete tDelete = new threadDelete(tree.getSelectedNode(),tWait);
 					tDelete.start();
 					
-					refreshTree();
+					//refreshTree();
 				}
 			} catch (Exception e1) {
-				//e1.printStackTrace();
+				e1.printStackTrace();
 				ErrorManager.getInstance().display();
 			}
 			
