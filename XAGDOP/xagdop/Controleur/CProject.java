@@ -90,7 +90,7 @@ public class CProject {
 			pp.addProject(projectName,user,description);
 			DependenciesParser.getInstance().addFile(projectName, new File(project,"dependencies.xml"));
 			CRole.getInstance().refreshRole();
-			XAGDOP.getInstance().refreshTree();
+			//XAGDOP.getInstance().refreshTree();
 			SvnCommit commit = new SvnCommit();
 			commit.sendFile(project,"Cr??ation du projet");
 			commit.sendXMLFile();

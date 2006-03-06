@@ -178,7 +178,6 @@ public class CRole {
 	
 	public boolean canSend(File file, String project){
 		
-		
 		if(file.isHidden())
 			return false;
 		

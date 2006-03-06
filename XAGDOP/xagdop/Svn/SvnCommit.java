@@ -12,7 +12,6 @@ import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
 import xagdop.Controleur.CRole;
 import xagdop.Controleur.CTreeNode;
-import xagdop.Parser.DependenciesParser;
 import xagdop.Parser.ProjectsParser;
 import xagdop.Parser.UsersParser;
 import xagdop.Util.ErrorManager;
@@ -113,7 +112,7 @@ public class SvnCommit{
 			//R??cuperation des fichiers qui sont autoris??s ?? etre envoy??s
 			File[] fileInDirectory = file.listFiles(new FilenameFilter() {
 				public boolean accept(File dir, String name) {
-					return CRole.getInstance().canSend(dir,proj);
+					return CRole.getInstance().canSend(new File(dir,name),proj);
 				}
 		
 			});
@@ -165,6 +164,7 @@ public class SvnCommit{
 		File toCommit = new File(node.getLocalPath());
 		if(!CRole.getInstance().canSend(toCommit,node.getProject().getName()))
 			return;
+		
 		//Si on doit envoyer un dossier
 		if(toCommit.isDirectory()){
 			File[] fileInDirectory ;
@@ -177,7 +177,7 @@ public class SvnCommit{
 				//Liste les fichiers que l'utilisateur ?? le droit d'envoyer
 				fileInDirectory = toCommit.listFiles(new FilenameFilter() {
 					public boolean accept(File dir, String name) {
-						return CRole.getInstance().canSend(dir,nodeC.getProject().getName());
+						return CRole.getInstance().canSend(new File(dir,name),nodeC.getProject().getName());
 				}
 			
 			});
@@ -211,8 +211,6 @@ public class SvnCommit{
 		//Si le fichiers des d??pendances est modifi?? on l'envoi en m??me temps
 		if(SvnHistory.isModified(UsersParser.getInstance().getUsersXML())||SvnHistory.isModified(ProjectsParser.getInstance().getProjectXML()))
 			sendXMLFile();
-		if(SvnHistory.isModified(DependenciesParser.getInstance().getFile(node.getProject().getName())))
-			sendFile(DependenciesParser.getInstance().getFile(node.getProject().getName()),"");
 		CRole.getInstance().refreshRole();
 	}
 	
