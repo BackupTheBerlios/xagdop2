@@ -11,10 +11,7 @@ import org.tmatesoft.svn.core.SVNException;
 
 import xagdop.Interface.XAGDOP;
 import xagdop.Model.Project;
-import xagdop.Model.User;
-import xagdop.Parser.DependenciesParser;
 import xagdop.Parser.ProjectsParser;
-import xagdop.Svn.SvnHistory;
 import xagdop.Util.ErrorManager;
 
 public class CRole {
@@ -25,9 +22,7 @@ public class CRole {
 	
 	
 	protected ArrayList viewFile;
-	protected ArrayList forbidenViewDirectory;
 	protected ArrayList writeFile;
-	protected ArrayList forbidenWriteDirectory;
 	
 	
 	protected CRole() {
@@ -76,6 +71,8 @@ public class CRole {
 		
 		writeFile.add(".xml");
 		viewFile.add(".pref");
+		writeFile.add(".css");
+		viewFile.add(".css");
 		/*System.out.println("Manager : "+isProjectManager(project));
 		 System.out.println("Archi : "+isArchitect(project));
 		 System.out.println("Redactor : "+isRedactor(project));
@@ -99,7 +96,7 @@ public class CRole {
 	protected void addAnalystRight(){
 		writeFile.add(".pog");
 		writeFile.add(".apes");
-		//viewFile.add("lib");
+		//viewFile.add("bib");
 		
 		viewFile.add(".pog");
 		viewFile.add(".apes");
@@ -125,12 +122,8 @@ public class CRole {
 		if(tmp != null){
 			return (ArrayList) tmp.get(2);
 		}
-			
+		
 		return null;
-	}
-	
-	public ArrayList getForbidenViewDirectoryRight(String project){
-		return forbidenViewDirectory;
 	}
 	
 	public ArrayList getWriteFileRight(String project){
@@ -138,10 +131,6 @@ public class CRole {
 		if(tmp != null)
 			return (ArrayList) tmp.get(1);
 		return null;
-	}
-	
-	public ArrayList getForbidenWriteDirectoryRight(String project){
-		return forbidenWriteDirectory;
 	}
 	
 	
@@ -184,52 +173,72 @@ public class CRole {
 		if(file.isHidden())
 			return false;
 		
-		
-		//System.out.println(project+ " : "+(projectsList.get(project)==null));
-		if(file.isDirectory()){
-			if(!SvnHistory.isUnderVersion(file)&&file.getName().equals(project)&&projectsList.get(project)==null&&XAGDOP.getInstance().getUser().isPcreator()){
-				File dependencies = new File(file,"dependencies.xml");
-				if(dependencies.exists()){
-					User user = XAGDOP.getInstance().getUser();	
-					try {
-						ProjectsParser.getInstance().addProject(project,user,"");
-						DependenciesParser.getInstance().addFile(project, new File(file,"dependencies.xml"));
-						refreshRole();
-						return true;
-					} catch (Exception e) {
-						return false;
-					}
-					
-				}
-			}else {
-				if(projectsList.get(project)==null)
-					return false;
-				
-				if(!isArchitect(project)&&file.getName().startsWith("lib"))
-					return false;
-				
-				return true;
-			}
+		if(projectsList.get(project)==null)
 			return false;
-		}
+		
+		if(file.isDirectory())
+			return showDirectory(file,project);
+		else
+			return showFile(file,project);
+			
 		
 		
 		
-			ArrayList view = getViewFileRight(project);
-			//System.out.println("file : "+project);
-			if(file.getParentFile().getName().startsWith("lib")||file.getParentFile().getName().contains("Icones"))
+	}
+
+	
+
+	private boolean showFile(File file, String project) {
+		if(file.getAbsolutePath().contains(File.separator+"icones"+File.separator))
+			return true;
+		
+		if(file.getAbsolutePath().contains(File.separator+"bib"+File.separator))
+			return true;
+		
+		if(file.getAbsolutePath().contains(File.separator+"images"+File.separator))
+			if(file.getName().endsWith(".jpg")||file.getName().endsWith(".jpeg")||file.getName().endsWith(".png"))
 				return true;
-			int i = 0;
-			if(view!=null){
-				while(i < view.size()){
-					if(file.getName().endsWith((String)view.get(i)))
-						return true;
-					i++;
-				}
+		
+		
+		if(file.getParent().equals("css"))
+				if(file.getName().endsWith(".css")||file.getName().endsWith(".html"))
+					return true;
+				else 
+					return false;
+		
+		
+		
+		
+		int i = 0;
+		ArrayList view = getViewFileRight(project);
+		if(view!=null){
+			while(i < view.size()){
+				if(file.getName().endsWith((String)view.get(i)))
+					return true;
+				i++;
 			}
-		
+		}
 		return false;
+	}
+
+	private boolean showDirectory(File file, String project) {
 		
+		if(file.getName().equals("export")||file.getName().equals("website"))
+			return false;
+		
+		if(file.getName().equals("bib")||file.getName().equals("images"))
+			if(isRedactor(project))
+				return true;
+			else 
+				return false;
+		
+		if(file.getName().equals("images"))
+			if(isArchitect(project))
+				return true;
+			else 
+				return false;
+		
+		return true;
 	}
 	
 	

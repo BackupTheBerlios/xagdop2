@@ -113,14 +113,6 @@ public class SvnCommit{
 			//R??cuperation des fichiers qui sont autoris??s ?? etre envoy??s
 			File[] fileInDirectory = file.listFiles(new FilenameFilter() {
 				public boolean accept(File dir, String name) {
-//					File directory = new File(dir.getAbsolutePath()+"/"+name); 
-//					if(directory.isDirectory()&&!directory.isHidden())
-//						return true;
-//					//if(XAGDOP.getInstance().getUser().is)
-//					if(name.endsWith(".iepp")||name.endsWith(".pog")||name.endsWith(".apes"))
-//						return true;
-//
-//					return false;
 					return CRole.getInstance().canShow(dir,proj);
 				}
 		

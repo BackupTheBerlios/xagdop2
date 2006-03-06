@@ -9,20 +9,18 @@ import java.awt.TextArea;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
-import org.tmatesoft.svn.core.SVNException;
-import xagdop.Controleur.CProject;
+
 import xagdop.Interface.IWaiting;
 import xagdop.Thread.ThreadProject;
-import xagdop.Thread.ThreadWait;
 import xagdop.ressources.Bundle;
 
 

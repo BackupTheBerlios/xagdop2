@@ -41,7 +41,6 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.tmatesoft.svn.core.SVNException;
 
-import xagdop.Controleur.CProject;
 import xagdop.Controleur.CTree;
 import xagdop.Controleur.CTreeNode;
 import xagdop.Interface.Configuration.IAbout;
@@ -57,7 +56,6 @@ import xagdop.Interface.SvnInterface.IComposantCreate;
 import xagdop.Interface.SvnInterface.IProject;
 import xagdop.Model.User;
 import xagdop.Parser.UsersParser;
-import xagdop.Thread.ThreadWait;
 import xagdop.Thread.ThreadDelete;
 import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;

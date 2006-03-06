@@ -44,20 +44,34 @@ public class CProject {
 				svnu.checkOut(new File(IPreferences.getDefaultPath()));
 			}
 			File project = new File(IPreferences.getDefaultPath()+projectName);
-			
 			if(!project.exists())
 				project.mkdir();
-			File style = new File(project,"WebSite/styles_perso");
+			
+			File style = new File(project,"website");
 			if(!style.exists())
 				style.mkdirs();
 			
-			File icon = new File(IPreferences.getDefaultPath()+projectName,"Icones");
+			File css = new File(project,"css");
+			if(!css.exists())
+				css.mkdirs();
+			
+			File export = new File(project,"export");
+			if(!export.exists())
+				export.mkdirs();
+			
+			File bib = new File(project,"bib");
+			if(!bib.exists())
+				bib.mkdirs();
+			
+			File icon = new File(IPreferences.getDefaultPath()+projectName,"icones");
 			if(!icon.exists())
 				icon.mkdir();
-			File produits = new File(icon,"Produits");
+			
+			File produits = new File(icon,"produits");
 			if(!produits.exists())
 				produits.mkdir();
-			File composants = new File(icon,"Composants");
+			
+			File composants = new File(icon,"composants");
 			if(!composants.exists())
 				composants.mkdir();
 			
