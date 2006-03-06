@@ -57,6 +57,8 @@ import xagdop.Interface.SvnInterface.IComposantCreate;
 import xagdop.Interface.SvnInterface.IProject;
 import xagdop.Model.User;
 import xagdop.Parser.UsersParser;
+import xagdop.Thread.ThreadWait;
+import xagdop.Thread.threadDelete;
 import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
 
@@ -477,23 +479,24 @@ public class XAGDOP extends JFrame{
 	class delProject implements ActionListener { 
 		public void actionPerformed (ActionEvent e)  {
 			
+			
 			try {
 				int confirmSupp = JOptionPane.showConfirmDialog(null , Bundle.getText("main.confirmSupp.label") , Bundle.getText("main.confirmSupp.title") , JOptionPane.YES_NO_OPTION);
 				if (confirmSupp == JOptionPane.OK_OPTION )
 				{
-					CProject cp = new CProject();
-					cp.deleteProject(tree.getSelectedNode());
-					if(!tree.getSelectedNode().isProject())
-						JOptionPane.showMessageDialog(null ,"Le fichier "+tree.getSelectedNode().getName()+" sera supprim? lors du prochain commit", "Validation" , 1) ;
-					else
-						JOptionPane.showMessageDialog(null ,"Le projet "+tree.getSelectedNode().getName()+" est supprim??");
-					//((CTree)tree.getModel()).remove(tree.getSelectedNode());
+
+					ThreadWait tWait = new ThreadWait(null);
+					tWait.start();					
+					threadDelete tDelete = new threadDelete(tree.getSelectedNode(),tWait);
+					tDelete.start();
+					
 					refreshTree();
 				}
 			} catch (Exception e1) {
 				//e1.printStackTrace();
 				ErrorManager.getInstance().display();
 			}
+			
 		}
 	}
 	
