@@ -5,17 +5,16 @@ import javax.swing.JOptionPane;
 import org.tmatesoft.svn.core.SVNException;
 
 import xagdop.Controleur.CProject;
+import xagdop.Interface.IWaiting;
 
 public class ThreadProject extends Thread{
 
-	ThreadWait tWait;
 	String nomProjet;
 	String descProjet;
 	
-	public ThreadProject(String nP, String descP,ThreadWait wait) {
+	public ThreadProject(String nP, String descP) {
 		this.nomProjet = nP;
 		this.descProjet = descP;
-		this.tWait = wait;
 	}
 	
 	public void run() {
@@ -33,7 +32,7 @@ public class ThreadProject extends Thread{
     		JOptionPane.showMessageDialog(null ,"Le projet "+nomProjet+" n'a pu etre cree ", "Validation" , 1) ;
 		}
 		finally {
-			tWait.arreter();
+			IWaiting.getInstance().arreter();
 		}
 	}
 }

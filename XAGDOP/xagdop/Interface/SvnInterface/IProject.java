@@ -20,6 +20,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import org.tmatesoft.svn.core.SVNException;
 import xagdop.Controleur.CProject;
+import xagdop.Interface.IWaiting;
 import xagdop.Thread.ThreadProject;
 import xagdop.Thread.ThreadWait;
 import xagdop.ressources.Bundle;
@@ -118,10 +119,10 @@ public class IProject extends JFrame{
 				    public void actionPerformed(ActionEvent e)
 				    {
 				    	
-				    	ThreadWait tWait = new ThreadWait(null);
-				    	tWait.start();
+				    	IWaiting iWait = IWaiting.getInstance();
+						iWait.demarrer();
 				    	try{				    		
-				    		ThreadProject tProject = new ThreadProject(TFNp.getText(),TADesc.getText(),tWait);
+				    		ThreadProject tProject = new ThreadProject(TFNp.getText(),TADesc.getText());
 					    	tProject.start();
 				    		TADesc.setText("");
 				    		TFNp.setText("");

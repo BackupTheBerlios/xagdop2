@@ -58,7 +58,7 @@ import xagdop.Interface.SvnInterface.IProject;
 import xagdop.Model.User;
 import xagdop.Parser.UsersParser;
 import xagdop.Thread.ThreadWait;
-import xagdop.Thread.threadDelete;
+import xagdop.Thread.ThreadDelete;
 import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
 
@@ -485,9 +485,9 @@ public class XAGDOP extends JFrame{
 				if (confirmSupp == JOptionPane.OK_OPTION )
 				{
 
-					ThreadWait tWait = new ThreadWait(null);
-					tWait.start();					
-					threadDelete tDelete = new threadDelete(tree.getSelectedNode(),tWait);
+					IWaiting iWait = IWaiting.getInstance();
+					iWait.demarrer();
+					ThreadDelete tDelete = new ThreadDelete(tree.getSelectedNode());
 					tDelete.start();
 					
 					//refreshTree();
