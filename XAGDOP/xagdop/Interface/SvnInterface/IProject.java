@@ -20,6 +20,8 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import org.tmatesoft.svn.core.SVNException;
 import xagdop.Controleur.CProject;
+import xagdop.Thread.ThreadProject;
+import xagdop.Thread.ThreadWait;
 import xagdop.ressources.Bundle;
 
 
@@ -115,17 +117,15 @@ public class IProject extends JFrame{
 				{
 				    public void actionPerformed(ActionEvent e)
 				    {
-				    	CProject project= new CProject();			    	
-				    	try{
-				    		project.createProject(TFNp.getText(),TADesc.getText());
-				    		JOptionPane.showMessageDialog(null ,"Le projet "+TFNp.getText()+" a bien ete cree ", "Validation" , 1) ;
+				    	
+				    	ThreadWait tWait = new ThreadWait(null);
+				    	tWait.start();
+				    	try{				    		
+				    		ThreadProject tProject = new ThreadProject(TFNp.getText(),TADesc.getText(),tWait);
+					    	tProject.start();
 				    		TADesc.setText("");
 				    		TFNp.setText("");
-				    	}catch(SVNException ex){
-				    		JOptionPane.showMessageDialog(null ,"Impossible de se connecter au server subversion", "Validation" , 1) ;
-				    	}
-				    	catch(Exception ex){
-				    		JOptionPane.showMessageDialog(null ,"Le projet "+TFNp.getText()+" n'a pu etre cree ", "Validation" , 1) ;
+				    	
 				    	}finally{
 				    		IP.setVisible(false);
 				    	}
