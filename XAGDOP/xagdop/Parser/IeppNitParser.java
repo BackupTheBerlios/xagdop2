@@ -19,11 +19,17 @@ import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 
 import xagdop.Util.ErrorManager;
 
 
+/**
+ * @author claire
+ * Parser utilise pour retrouver les .apes et les .epg 
+ * utilises dans iepp / nit
+ */
 public class IeppNitParser {
 	
 	private DocumentBuilderFactory dbf;
@@ -34,6 +40,11 @@ public class IeppNitParser {
 	private DataInputStream ieppNitFile;
 	private String ieppNitName = "DefinitionProcessus.xml";
 
+	/**
+	 * Constructeur
+	 * @param file
+	 * @throws Exception
+	 */
 	public IeppNitParser(File file) throws Exception {
 
 		this.ieppNitZip = file;
@@ -45,6 +56,10 @@ public class IeppNitParser {
 		}
 	}
 	
+	/**
+	 * Chargement de l'arbre xml en memoire
+	 * @throws Exception
+	 */
 	private void loadTreeInMemory() throws Exception{
 		this.dbf = DocumentBuilderFactory.newInstance();
 		this.dbf.setValidating(false);
@@ -95,6 +110,40 @@ public class IeppNitParser {
 			throw new NullPointerException();
 			
 		}		
+		return list;
+	}
+	
+	/**
+	 * Fonction recherchant tous les fichiers epg references dans le fichier iepp courant
+	 * @return une liste de String, qui correspondent aux noms des fichiers epg
+	 * @throws IOException 
+	 */
+	public ArrayList getEpg() 
+	{
+		ArrayList list = new ArrayList();
+		
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		String expression = "//paquetage";
+		NodeList epgList = null;
+		
+		try {
+			epgList = (NodeList)xpath.evaluate(expression, this.doc, XPathConstants.NODESET);
+		}
+		catch (XPathExpressionException e) {
+			
+			e.printStackTrace();
+		}
+		if ( epgList != null ) {
+			Element epg = null;
+			NamedNodeMap mapAttributes = null;
+			for(int i=0; i<epgList.getLength(); i++)
+			{
+				epg = (Element)epgList.item(i);
+				mapAttributes = epg.getAttributes();
+				list.add(mapAttributes.getNamedItem("file"));
+			}
+		}
+		
 		return list;
 	}
 
