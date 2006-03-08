@@ -148,13 +148,10 @@ public class IUserCreate extends JFrame{
 		
 		//Creation de la fenetre
 		setTitle(Bundle.getText("iusercreate.title"));
-		setSize(405, 200);
-		setBounds(300,200,405,200);
+		setBounds(300,200,350,140);
 		setResizable(true) ;
 		getContentPane().add(panel);
-		setLocation(300,200);
 		setVisible(true);
-		pack();
          
 	}
 	/**
