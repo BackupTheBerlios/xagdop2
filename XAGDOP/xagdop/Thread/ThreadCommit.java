@@ -36,12 +36,9 @@ public class ThreadCommit extends Thread {
 			CC.commitFile(this.node,this.comment);
 			DependenciesParser dp = DependenciesParser.getInstance();
 			dp.publish(dp.getFile(this.node.getProject().getName()));
-		} catch (SVNException e1) {
-			ErrorManager.getInstance().display();
-		} catch (XPathExpressionException e2) {
-			ErrorManager.getInstance().display();
-		} catch (Exception e1) {
+		}  catch (Exception e1) {
 			// TODO Auto-generated catch block
+			e1.printStackTrace();
 			ErrorManager.getInstance().display();
 			
 		}finally{

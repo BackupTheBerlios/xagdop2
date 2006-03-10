@@ -6,7 +6,6 @@ import org.tmatesoft.svn.core.SVNException;
 
 import xagdop.Controleur.CPreferencies;
 import xagdop.Interface.IWaiting;
-import xagdop.Interface.XAGDOP;
 import xagdop.Interface.Preferences.IPreferences;
 import xagdop.Interface.Preferences.RemotePathPanel;
 import xagdop.Parser.ProjectsParser;
@@ -50,7 +49,7 @@ public class ThreadServerChanged extends Thread {
 			ProjectsParser.getInstance().setFile();
 			UsersParser.getInstance().setFile();
 			//On fait un refresh du local
-			XAGDOP.getInstance().refreshTree();
+		//	XAGDOP.getInstance().refreshTree();
 			CPreferencies.setServerPath(RemotePathPanel.getRemotePath());
 		}catch (Exception e1)
 		{
