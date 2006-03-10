@@ -832,7 +832,44 @@ public class DependenciesParser extends Parser{
 		}
 	}
 	
-
+	/**
+	 * Fonction qui retourne TRUE si le fichier passe en parametre existe, FALSE sinon
+	 * @param apesName
+	 * @return
+	 * @throws XPathExpressionException
+	 */
+	public boolean isPog(String pogName) throws XPathExpressionException
+	{
+		/**
+		 * Creation de l'expression XPath
+		 */
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		String expression = "//pog[@fileNamePog=\""+pogName+"\"]";
+		Element pog = null;
+		try {
+			/**
+			 * Evaluation de l'expression XPath
+			 */
+			pog = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+		}
+		catch (XPathExpressionException e) {
+			ErrorManager.getInstance().setErrTitle("Expression XPath Incorrecte");
+			ErrorManager.getInstance().setErrMsg("Expression XPath "+ expression +" Incorrecte");
+			throw new XPathExpressionException(expression);
+		}
+		/**
+		 * Si une balise est trouvee on renvoie TRUE
+		 */
+		if ( pog != null ) {			
+				return true;		
+		}
+		/**
+		 * Sinon on renvoie FALSE
+		 */
+		else {
+			return false;
+		}
+	}
 	/**
 	 * Fonction permettant d'ajouter une balise apes
 	 * @param apesName
