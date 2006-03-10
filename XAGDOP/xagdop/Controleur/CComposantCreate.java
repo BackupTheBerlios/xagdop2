@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import xagdop.Interface.Preferences.IPreferences;
 import xagdop.Util.ErrorManager;
+import xagdop.ressources.Bundle;
 
 
 
@@ -22,8 +23,8 @@ public class CComposantCreate {
 		File compo = new File(project,nomComposant);
 		if (!compo.mkdir())
 		{
-			ErrorManager.getInstance().setErrMsg("La cr?ation du composant n'a pu se faire");
-			ErrorManager.getInstance().setErrTitle("Cr?ation de composant impossible.");
+			ErrorManager.getInstance().setErrMsg(Bundle.getText("ccomposantcreate.err.msg"));
+			ErrorManager.getInstance().setErrTitle(Bundle.getText("ccomposantcreate.err.title"));
 			throw new IOException();
 		}
 		

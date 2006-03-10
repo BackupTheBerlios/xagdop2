@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 import xagdop.Interface.Preferences.IPreferences;
 import xagdop.Util.ErrorManager;
+import xagdop.ressources.Bundle;
 
 
 
@@ -58,13 +59,13 @@ public class CDependencies {
 						try {
 							CFile.copy(dependencyFile,tmp);
 						} catch (IOException e) {
-							ErrorManager.getInstance().setErrMsg("Le fichier est en lecture seule et ne peut ?tre ?crit.");
-							ErrorManager.getInstance().setErrTitle("Fichier inaccessible");
+							ErrorManager.getInstance().setErrMsg(Bundle.getText("cdependencies.err.msg"));
+							ErrorManager.getInstance().setErrTitle(Bundle.getText("cdependencies.err.title"));
 							throw new IOException();
 						}
 						if(!dependencyFile.delete()) {
-							ErrorManager.getInstance().setErrMsg("Le fichier est en lecture seule et ne peut ?tre ?crit.");
-							ErrorManager.getInstance().setErrTitle("Fichier inaccessible");
+							ErrorManager.getInstance().setErrMsg(Bundle.getText("cdependencies.err.msg"));
+							ErrorManager.getInstance().setErrTitle(Bundle.getText("cdependencies.err.title"));
 							throw new IOException();
 						}	
 					tmp.renameTo(dependencyFile);

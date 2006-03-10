@@ -4,6 +4,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import xagdop.Util.ErrorManager;
+import xagdop.ressources.Bundle;
 
 //Encrypt passwords
 public class CEncrypt {
@@ -14,8 +15,8 @@ public class CEncrypt {
 		try {
 			hash = MessageDigest.getInstance("MD5").digest(uniqueKey);
 		} catch (NoSuchAlgorithmException e) {
-			ErrorManager.getInstance().setErrMsg("La machine virtuelle ne supporte pas l'encryptage MD5 requis pour l'application.\nVeuillez installer une virtuelle machine plus r?c?ente.");
-			ErrorManager.getInstance().setErrTitle("Virtuelle Machine insuffisante");
+			ErrorManager.getInstance().setErrMsg(Bundle.getText("cencrypt.err.msg"));
+			ErrorManager.getInstance().setErrTitle(Bundle.getText("cencrypt.err.title"));
 			throw new Error();
 		}
 		StringBuffer hashString = new StringBuffer();

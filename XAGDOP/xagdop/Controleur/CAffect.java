@@ -8,6 +8,7 @@ import xagdop.Interface.Management.IJTeamManagement;
 import xagdop.Parser.ProjectsParser;
 import xagdop.Parser.UsersParser;
 import xagdop.Util.ErrorManager;
+import xagdop.ressources.Bundle;
 
 
 
@@ -25,17 +26,15 @@ public class CAffect {
 					IJTeamManagement.getIJTM(project).refreshUsers();
 				}
 				else{
-					ErrorManager.getInstance().setErrMsg("L'utilisateur "+login+" ne fais pas parti du projet "+project+".\nVeuillez contacter un administrateur.");
-					ErrorManager.getInstance().setErrTitle("Utilisateur inconnu");
+					ErrorManager.getInstance().setErrMsg(Bundle.getText("controleur.theUser") + " " +login+ " " + Bundle.getText("caffect.userNotBelongs")+ " "+project+"\n" + Bundle.getText("controleur.contactAdmin"));
+					ErrorManager.getInstance().setErrTitle(Bundle.getText("controleur.userUnknown"));
 					throw new Exception();
 				}
 		}else
 		{
-			ErrorManager.getInstance().setErrMsg("L'utilisateur "+login+" n'existe pas.");
-			ErrorManager.getInstance().setErrTitle("Utilisateur inconnu");
+			ErrorManager.getInstance().setErrMsg(Bundle.getText("controleur.theUser") + " " +login+" " + Bundle.getText("caffect.userNotExists"));
+			ErrorManager.getInstance().setErrTitle(Bundle.getText("controleur.userUnknown"));
 			throw new InstanceNotFoundException();
 		}
-		
-	}
-		
+	}			
 }

@@ -16,6 +16,7 @@ import xagdop.Svn.SvnHistory;
 import xagdop.Svn.SvnRemove;
 import xagdop.Svn.SvnUpdate;
 import xagdop.Util.ErrorManager;
+import xagdop.ressources.Bundle;
 
 
 public class CProject {
@@ -74,8 +75,8 @@ public class CProject {
 				dependencies.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?><files project=\""+projectName+"\"><dependencies></dependencies><toUpdate></toUpdate><toCreate></toCreate></files>");
 				dependencies.close();
 			} catch (IOException e) {
-				ErrorManager.getInstance().setErrMsg("Cr??ation du fichier des d??pendances.\nVeuillez v??rifier les droits du dossier.");
-				ErrorManager.getInstance().setErrTitle("Cr??ation de projet impossible");
+				ErrorManager.getInstance().setErrMsg(Bundle.getText("cproject.projectCreation.err1.msg"));
+				ErrorManager.getInstance().setErrTitle(Bundle.getText("cproject.projectCreation.err1.title"));
 				throw e;
 			}
 			User user = XAGDOP.getInstance().getUser();	
@@ -84,7 +85,7 @@ public class CProject {
 			CRole.getInstance().refreshRole();
 			//XAGDOP.getInstance().refreshTree();
 			SvnCommit commit = new SvnCommit();
-			commit.sendFile(project,"Cr??ation du projet");
+			commit.sendFile(project,Bundle.getText("cproject.projectCreation"));
 			commit.sendXMLFile();
 			
 			File style = new File(project,"website");
@@ -96,8 +97,8 @@ public class CProject {
 				export.mkdirs();
 			
 		}else{
-			ErrorManager.getInstance().setErrMsg("Le projet existe d?j?.");
-			ErrorManager.getInstance().setErrTitle("Projet existant");
+			ErrorManager.getInstance().setErrMsg(Bundle.getText("cproject.projectCreation.err2.msg"));
+			ErrorManager.getInstance().setErrTitle(Bundle.getText("cproject.projectCreation.err2.title"));
 			throw new Exception();
 		}
 		
@@ -128,7 +129,7 @@ public class CProject {
 			ProjectsParser.getInstance().removeProject(node.getName());
 			SvnCommit commit = new SvnCommit();
 			//System.out.println(SvnHistory.isToDelete((File)node.getUserObject()));
-			commit.commitRemoveProject(node,"Suppression du projet");
+			commit.commitRemoveProject(node,Bundle.getText("cproject.projectDelete"));
 		}
 		
 		//JOptionPane.showMessageDialog(null ,"Le dossier "+node.getName()+" sera supprim? lors du prochain commit", "Validation" , 1) ;

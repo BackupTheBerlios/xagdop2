@@ -219,12 +219,12 @@ public class CPreferencies {
 			//System.out.println("User.login: "+UP.getUserByLogin(login).getLogin());
 			if(CEncrypt.testPassword(oldPasswd,UP.getUserByLogin(login).getPasswd())){
 				UP.setAttribute(login, UsersParser.ATTR_PASSWD, CEncrypt.getEncodedPassword(newPasswd));
-				System.out.println("New Pass: "+UP.getAttribute(login, UsersParser.ATTR_PASSWD));
+				//System.out.println("New Pass: "+UP.getAttribute(login, UsersParser.ATTR_PASSWD));
 				result=true;
-				System.out.println("Ancien mod de passe ok");
+				//System.out.println("Ancien mod de passe ok");
 			}
 			else{
-				System.out.println("Ancien mod de passe erone");
+				//System.out.println("Ancien mod de passe erone");
 			}
 		} catch (NullPointerException e) {
 			// TODO Auto-generated catch block
