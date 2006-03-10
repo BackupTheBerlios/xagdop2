@@ -348,6 +348,7 @@ public class XAGDOP extends JFrame{
 		//Initialisation des boutons
 		equipe.setEnabled(false);
 		menuProjetTeam.setEnabled(false);
+		commit.setEnabled(false);
 		
 		
 	}
