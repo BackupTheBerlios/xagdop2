@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.xml.xpath.XPathExpressionException;
-import xagdop.Interface.IProjectTree;
-import xagdop.Interface.XAGDOP;
 import xagdop.Parser.DependenciesParser;
 import xagdop.Parser.IeppNitParser;
 import xagdop.Parser.POGParser;
@@ -26,6 +24,7 @@ public class CCommit{
 	public void DependancesSendInitialize(CTreeNode currentNode)throws Exception{
 		recCommit(currentNode,".apes");
 		recCommit(currentNode,".pog");
+		recCommit(currentNode,".epg");
 		recCommit(currentNode,".iepp");
 		if(!currentNode.isProject()&&SvnHistory.isUnderVersion((File)currentNode.getProject().getUserObject()))
 			DependenciesParser.getInstance().publish(DependenciesParser.getInstance().getFile(currentNode.getProject().getName()));
@@ -55,6 +54,13 @@ public class CCommit{
 			{		
 				sendPogFile(toCommit,node,pathToRoot);
 			}
+//			-----------------------------------------
+			//Si le fichier est un epg -->
+			//-----------------------------------------
+			else if (nameOfFile.endsWith(".epg"))
+			{		
+				sendEpgFile(toCommit,node,pathToRoot);
+			}
 			//-----------------------------------------
 			//Si le fichier est un iepp -->
 			//-----------------------------------------
@@ -70,6 +76,54 @@ public class CCommit{
 	 * 
 	 * 
 	 */
+
+	private void sendEpgFile(File toCommit, CTreeNode node, String pathToRoot) throws XPathExpressionException, NullPointerException, Exception {
+		// TODO Auto-generated method stub
+			DependenciesParser dp = DependenciesParser.getInstance();
+			//	Si le fichier est tout neuf
+			if (!SvnHistory.isUnderVersion(toCommit))
+			{
+				String pathToPog = pathToRoot;
+				pathToPog = pathToPog.substring(0,pathToPog.length()-3);
+				pathToPog += "pog";
+					if (!DependenciesParser.getInstance().isPog(pathToRoot))
+					{
+						//Si le fichier apes n'est pas present, on le rajoute en virtuel
+						dp.addPog(pathToPog);
+						dp.setPogOnServer(false,pathToPog);
+						//Et on indique qu'on l'a rajoute en virtuel
+						dp.addToCreate(pathToPog);
+					}
+					//On rajoute le pog dans le dependencies parser !
+					dp.addEpg(pathToPog,pathToRoot);
+			}
+			//Si le fichier est anciens
+			else if (SvnHistory.isModified(toCommit))
+			{
+				//Indiquer qu'il faut modifier les fichiers Iepp dependant
+				//On recupere la liste de tous les iepp dependant du pog dependant de l'epg
+				ArrayList allIepp = dp.getIeppFromPog(pathToRoot);
+				//Initialisation du parcours
+				int j = 0;
+				//On parcours la liste
+				for (j=0;j<allIepp.size();j++)
+				{
+					//On indique qu'il faut mettre a jour tous les fichiers
+					//Qui sont d?pendants du fichier apes que l'on veux envoyer
+					//A condition qu'il ne soit pas deja a modifier
+					if (!dp.isToUpdate((String)allIepp.get(j)))
+					{
+						//Ajouter dans la liste
+						dp.addToUpdate((String)allIepp.get(j));
+					}
+				}
+				//On essaie de supprimer le fichier de la liste des fichiers ? modifier
+				dp.delToUpdate(pathToRoot);
+			}
+					
+			
+
+	}
 
 	protected void sendIeppFile(File toCommit, CTreeNode node, String pathToRoot) throws Exception {
 
@@ -149,23 +203,18 @@ public class CCommit{
 			
 			if (!pathDependantApesFile.equals(""))
 			{
-				//Recuperation du path absolue de la racine des projets
-				String pathGlobal = ((CTreeNode)((IProjectTree)XAGDOP.getInstance().getTree()).getModel().getRoot()).getLocalPath();
-				//Recuperation du pathToRoot du fichier Apes en 
-				//Enlevant les premiers caracteres correspondant au debut du chemin absolue
-				String pathSemiGlobal = pathDependantApesFile.substring(pathGlobal.length()+1);
-				pathSemiGlobal = pathSemiGlobal.substring(node.getProject().getName().length()+1);
-				//Ajout dans le DependenciesParser du Pog correspondant
-				//addPog(Apes,Pog)
-				if (!DependenciesParser.getInstance().isApes(pathSemiGlobal))
+				String pathToApes = pathToRoot;
+				pathToApes = pathToApes.substring(0,pathToApes.length()-3);
+				pathToApes += "apes";
+				if (!DependenciesParser.getInstance().isApes(pathToRoot))
 				{
 					//Si le fichier apes n'est pas present, on le rajoute en virtuel
-					dp.addApes(pathSemiGlobal,false);
+					dp.addApes(pathToApes,false);
 					//Et on indique qu'on l'a rajoute en virtuel
-					dp.addToCreate(pathSemiGlobal);
+					dp.addToCreate(pathToApes);
 				}
 				//On rajoute le pog dans le dependencies parser !
-				dp.addPog(pathSemiGlobal,pathToRoot);
+				dp.addPog(pathToApes,pathToRoot);
 				
 			}
 
@@ -173,17 +222,6 @@ public class CCommit{
 			{
 				dp.addPog(pathToRoot);
 			}
-			//TODO
-			//Appelle a la methode qui permet de calculer le chemin relatif
-			//relative(Pog,Apes)
-			//String relativeToApes = relative(node.getLocalPath(),pathDependantApesFile);
-			
-			//Modification du fichier POG	
-			//POGP.setApesPathToRelative(relativeToApes);
-			
-			
-			
-			
 			
 		}
 			
