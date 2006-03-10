@@ -7,15 +7,21 @@
 package xagdop.Interface;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.plaf.BorderUIResource;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.tmatesoft.svn.core.SVNException;
@@ -47,26 +53,29 @@ public class IProblemsList extends JFrame {
    
     private void initComponents() {
         mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
   
-        setTitle(Bundle.getText("iproblemlist.colonne.description"));
-       
-		
-		
-		
+        setTitle(Bundle.getText("iproblemlist.title"));
         
 	    problemsTable = new JTable(new IProblemsListTableModel());
 
 		problemsTable.setBorder(BorderUIResource.getBlackLineBorderUIResource()  );
         problemsTable.getColumnModel().getColumn(0).setResizable(false);
-        problemsTable.getColumnModel().getColumn(0).setMaxWidth(30);
+        problemsTable.getColumnModel().getColumn(0).setMaxWidth(20);
         problemsTable.getColumnModel().getColumn(1).setResizable(true);
+        problemsTable.getColumnModel().getColumn(1).setMinWidth(200);
         problemsTable.getColumnModel().getColumn(2).setResizable(true);
+        problemsTable.getColumnModel().getColumn(2).setMinWidth(200);
         problemsTable.getColumnModel().getColumn(3).setResizable(true);
+        problemsTable.getColumnModel().getColumn(3).setMinWidth(200);
         problemsTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        problemsTable.setSize(new Dimension(200,200));
-        mainPanel.add(new JScrollPane(problemsTable), BorderLayout.CENTER);
-        this.setSize(new Dimension(800,800));
-        getContentPane().add(mainPanel, BorderLayout.CENTER);
+        problemsTable.setDefaultRenderer(JLabel.class, new IProblemsListTableCellRenderer());
+        
+        mainPanel.add(problemsTable);
+        JScrollPane mScroll = new JScrollPane(mainPanel);
+		mScroll.setPreferredSize(new Dimension(800,350));
+		
+		getContentPane().add(mScroll, BorderLayout.CENTER);
 
        pack();
     }
@@ -111,7 +120,8 @@ public class IProblemsList extends JFrame {
 			
 			 //Initialisation des problemes
 	        problems = new ArrayList();
-	        String[] oneProblem = new String[]{null,null,null,null};
+	        //String[] oneProblem = new String[]{null,null,null,null};
+	        Object[] oneProblem = new Object[]{null,null,null,null};
 	        int j;
 	        //On recupere la liste des projet de l'utilisateur
 	    	try {
@@ -125,9 +135,10 @@ public class IProblemsList extends JFrame {
 					ArrayList toUpdate = DependenciesParser.getInstance().getAllToUpdate();
 					for (j=0;j<toUpdate.size();j++)
 					{
-						oneProblem = new String[]{null,null,null,null};
+						oneProblem = new Object[]{null,null,null,null};
 							//Remplissage du tableau
-						oneProblem[0] = "U";
+						//oneProblem[0] = "U";
+						oneProblem[0] = new JLabel(new ImageIcon (XAGDOP.class.getResource("/xagdop/ressources/Icon/update.gif")));
 						oneProblem[1] = Bundle.getText("iproblemlist.label.update");
 						oneProblem[2] = (String)toUpdate.get(j);
 						oneProblem[3] = (String)data.get(i);
@@ -138,9 +149,10 @@ public class IProblemsList extends JFrame {
 					ArrayList toCreate = DependenciesParser.getInstance().getAllToCreate();
 					for (j=0;j<toCreate.size();j++)
 					{
-						oneProblem = new String[]{null,null,null,null};
+						oneProblem = new Object[]{null,null,null,null};
 						//Remplissage du tableau
-						oneProblem[0] = "C";
+//						oneProblem[0] = "C";
+						oneProblem[0] = new JLabel(new ImageIcon (XAGDOP.class.getResource("/xagdop/ressources/Icon/configure.png")));
 						oneProblem[1] = Bundle.getText("iproblemlist.label.create");
 						oneProblem[2] = (String)toCreate.get(j);
 						oneProblem[3] = (String)data.get(i);
@@ -195,7 +207,10 @@ public class IProblemsList extends JFrame {
 		public Object getValueAt(int row, int col) 
 		{
 			// TODO Auto-generated method stub
-			return ((String[])this.problems.get(row))[col];
+			//return ((String[])this.problems.get(row))[col];
+			//return ((String[])this.problems.get(row))[col];
+			Object [] objTabl = (Object[]) this.problems.get(row);
+			return (objTabl[col]);
 		}
 		
 		/**
@@ -221,7 +236,7 @@ public class IProblemsList extends JFrame {
 	        return this.getValueAt(0, c).getClass();
 	    }
 
-	    //
+	    
 	    /**
 		 * @param: row - ligne 
 		 * @param: col - colonne
@@ -239,7 +254,40 @@ public class IProblemsList extends JFrame {
 	    
 	}
 
-    
+	/**
+	 * 
+	 * @author Clavreul Mickael
+	 * @docRoot Classe de rendu permettant d'afficher des boutons
+	 * dans la JTable.
+	 * Cette classe etend JButton et implemente TableCellRenderer
+	 */
+	class IProblemsListTableCellRenderer extends JLabel implements TableCellRenderer
+	{
+
+		private static final long serialVersionUID = 1L;
+		
+		/**
+		 *
+		 * @docRoot Ce constructeur initialise les instances de cet objet opaques.
+		 */
+		public IProblemsListTableCellRenderer()
+		{
+			this.setOpaque(true);
+		}
+		
+		/**
+		 * Methode surchargee qui retourne l'objet a afficher dans une cellule
+		 */
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean arg2, boolean arg3, int arg4, int arg5) 
+		{
+			this.setToolTipText(Bundle.getText("main.menu.project.delProject"));
+			//this.setIcon(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/delete.jpg")));
+			//this.setSize(new Dimension(this.getIcon().getIconHeight(),this.getIcon().getIconWidth()));
+			JLabel myLabel = (JLabel) value;
+			this.setIcon(myLabel.getIcon());
+			return this;
+		}
+	}
     
     
     
