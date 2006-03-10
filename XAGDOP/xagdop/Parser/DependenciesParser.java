@@ -871,6 +871,44 @@ public class DependenciesParser extends Parser{
 		}
 	}
 	/**
+	 * Fonction qui retourne TRUE si le fichier passe en parametre existe, FALSE sinon
+	 * @param apesName
+	 * @return
+	 * @throws XPathExpressionException
+	 */
+	public boolean isEpg(String epgName) throws XPathExpressionException
+	{
+		/**
+		 * Creation de l'expression XPath
+		 */
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		String expression = "//epg[@fileNameEpg=\""+epgName+"\"]";
+		Element epg = null;
+		try {
+			/**
+			 * Evaluation de l'expression XPath
+			 */
+			epg = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+		}
+		catch (XPathExpressionException e) {
+			ErrorManager.getInstance().setErrTitle("Expression XPath Incorrecte");
+			ErrorManager.getInstance().setErrMsg("Expression XPath "+ expression +" Incorrecte");
+			throw new XPathExpressionException(expression);
+		}
+		/**
+		 * Si une balise est trouvee on renvoie TRUE
+		 */
+		if ( epg != null ) {			
+				return true;		
+		}
+		/**
+		 * Sinon on renvoie FALSE
+		 */
+		else {
+			return false;
+		}
+	}
+	/**
 	 * Fonction permettant d'ajouter une balise apes
 	 * @param apesName
 	 * @throws Exception
@@ -1383,7 +1421,74 @@ public class DependenciesParser extends Parser{
 			throw new NullPointerException();
 		}		
 	}
-	
+	/**
+	 * Fonction retournant true si la balise onServer est presente, sinon false
+	 * @param pogName
+	 * @return
+	 * @throws Exception
+	 * @throws NullPointerException
+	 */
+	public boolean getEpgOnServer(String epgName) throws Exception,NullPointerException
+	{
+		/**
+		 * Verification que la balise pog existe
+		 */
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		
+		String expression = "//epg[@fileNameEpg=\""+epgName+"\"]";
+		Element epg = null;		
+		try {
+			epg = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+		}
+		catch (XPathExpressionException e) {
+			ErrorManager.getInstance().setErrTitle("Expression XPath Incorrecte");
+			ErrorManager.getInstance().setErrMsg("Expression XPath "+ expression +" Incorrecte");
+			throw new XPathExpressionException(expression);
+		}
+		/**
+		 * Si la balise pog existe
+		 */
+		if(epg!=null)
+		{
+			/**
+			 * Test si la balise onServer est presente ou non
+			 */
+			xpath = XPathFactory.newInstance().newXPath();
+			
+			expression = "//epg[@fileNamePog=\""+epgName+"\"]/onServer";
+			Element onServer = null;		
+			try {
+				onServer = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
+			}
+			catch (XPathExpressionException e) {
+				ErrorManager.getInstance().setErrTitle("Expression XPath Incorrecte");
+				ErrorManager.getInstance().setErrMsg("Expression XPath "+ expression +" Incorrecte");
+				throw new XPathExpressionException(expression);
+			}
+			
+			if(onServer != null)
+			{
+				/**
+				 * La balise onServer est presente
+				 * On retourne true
+				 */
+				return true;
+			}
+			else
+			{				
+				/**
+				 * Sinon on retourne false
+				 */
+				return false;
+			}
+		}
+		else
+		{
+			ErrorManager.getInstance().setErrTitle("Pb Epg inconnu");
+			ErrorManager.getInstance().setErrMsg("Fichier Epg : "+ epgName +" inconnu.\n");
+			throw new NullPointerException();
+		}		
+	}
 	/**
 	 * Focntion permettant de creer un noeud pog qui ne depend pas d'un noeud apes
 	 * Pour les pog sans modele
@@ -1762,10 +1867,10 @@ public class DependenciesParser extends Parser{
 	 * @param ieppName
 	 * @throws Exception
 	 */
-	public void addIeppToPog(String pogName, String ieppName) throws Exception
+	public void addIeppToEpg(String epgName, String ieppName) throws Exception
 	{
 		XPath xpath = XPathFactory.newInstance().newXPath();
-		String expression = "//dependencies/pog[@fileNamePog=\""+pogName+"\"]/iepp[@fileNameIepp=\""+ieppName+"\"]";
+		String expression = "//dependencies/pog/epg[@fileNameEpg=\""+epgName+"\"]/iepp[@fileNameIepp=\""+ieppName+"\"]";
 		Node iepp = null;
 		
 		try {
@@ -1782,7 +1887,7 @@ public class DependenciesParser extends Parser{
 			Element newElem = doc.createElement("iepp");
 			newElem.setAttribute("fileNameIepp", ieppName);	
 			try {
-				expression = "//dependencies/pog[@fileNamePog=\""+pogName+"\"]";
+				expression = "//dependencies/pog/epg[@fileNameEpg=\""+epgName+"\"]";
 				elem = (Element)xpath.evaluate(expression, this.doc, XPathConstants.NODE);
 			}
 			catch (XPathExpressionException e) {
