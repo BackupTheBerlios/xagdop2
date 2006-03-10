@@ -86,7 +86,7 @@ public class CCommit{
 				String pathToPog = pathToRoot;
 				pathToPog = pathToPog.substring(0,pathToPog.length()-3);
 				pathToPog += "pog";
-					if (!DependenciesParser.getInstance().isPog(pathToRoot))
+					if (!DependenciesParser.getInstance().isPog(pathToPog))
 					{
 						//Si le fichier apes n'est pas present, on le rajoute en virtuel
 						dp.addPog(pathToPog);
@@ -159,22 +159,25 @@ public class CCommit{
 			{
 				dp.delToUpdate(pathToRoot);
 			}
-			/*
+			
 			//On le rajoute dans les pog sans model
-			ArrayList pathDependantPogFile = inp.getPog();
-			
-//			Initialisation du parcours
-
-
-			
+			ArrayList pathDependantEpgFile = inp.getEpg();
+			//Initialisation du parcours
 
 			//On parcours la liste
-			for (i=0;i<pathDependantApesFile.size();i++)
+			for (i=0;i<pathDependantEpgFile.size();i++)
 			{
-					dp.addIeppToApes(node.getProject().getName()+File.separator+pathDependantApesFile.get(i),pathToRoot);
+				//Si le epg n'est pas present
+				if (dp.isEpg((String)pathDependantEpgFile.get(i)))
+				{
+					//On rajoute l'epg dans le dependence
+					sendEpgFile(toCommit,node,pathToRoot);
+				}
+				dp.addIeppToEpg(node.getProject().getName()+File.separator+pathDependantEpgFile.get(i),pathToRoot);
+					
 			}
 			
-			*/
+			
 		
 			
 	
@@ -206,7 +209,7 @@ public class CCommit{
 				String pathToApes = pathToRoot;
 				pathToApes = pathToApes.substring(0,pathToApes.length()-3);
 				pathToApes += "apes";
-				if (!DependenciesParser.getInstance().isApes(pathToRoot))
+				if (!DependenciesParser.getInstance().isApes(pathToApes))
 				{
 					//Si le fichier apes n'est pas present, on le rajoute en virtuel
 					dp.addApes(pathToApes,false);
