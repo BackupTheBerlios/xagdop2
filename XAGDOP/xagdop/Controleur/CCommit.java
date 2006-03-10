@@ -100,9 +100,12 @@ public class CCommit{
 			//Si le fichier est anciens
 			else if (SvnHistory.isModified(toCommit))
 			{
+				String pathToPog = pathToRoot;
+				pathToPog = pathToPog.substring(0,pathToPog.length()-3);
+				pathToPog += "pog";
 				//Indiquer qu'il faut modifier les fichiers Iepp dependant
 				//On recupere la liste de tous les iepp dependant du pog dependant de l'epg
-				ArrayList allIepp = dp.getIeppFromPog(pathToRoot);
+				ArrayList allIepp = dp.getIeppFromPog(pathToPog);
 				//Initialisation du parcours
 				int j = 0;
 				//On parcours la liste
@@ -159,7 +162,7 @@ public class CCommit{
 			{
 				dp.delToUpdate(pathToRoot);
 			}
-			
+			/*
 			//On le rajoute dans les pog sans model
 			ArrayList pathDependantEpgFile = inp.getEpg();
 			//Initialisation du parcours
@@ -176,7 +179,7 @@ public class CCommit{
 				dp.addIeppToEpg(node.getProject().getName()+File.separator+pathDependantEpgFile.get(i),pathToRoot);
 					
 			}
-			
+			*/
 			
 		
 			
@@ -225,7 +228,7 @@ public class CCommit{
 			{
 				dp.addPog(pathToRoot);
 			}
-			
+			dp.delToCreate(pathToRoot);
 		}
 			
 			
@@ -233,18 +236,10 @@ public class CCommit{
 		else if (SvnHistory.isModified(toCommit))
 		{
 			//Indiquer qu'il faut modifier les fichiers Iepp dependant
-
 			//On recupere la liste de tous les iepp dependant de l'apes
-			
 			ArrayList allIepp = dp.getIeppFromPog(pathToRoot);
-			
-			
-			
 			//Initialisation du parcours
 			int j = 0;
-
-			
-
 			//On parcours la liste
 			for (j=0;j<allIepp.size();j++)
 			{
@@ -257,9 +252,23 @@ public class CCommit{
 					dp.addToUpdate((String)allIepp.get(j));
 				}
 			}
-			
-			
-			
+			//Indiquer qu'il faut modifier les fichiers Iepp dependant
+			//On recupere la liste de tous les iepp dependant de l'apes
+			ArrayList allEpg = dp.getEpgFromPog(pathToRoot);
+			//Initialisation du parcours
+			int i = 0;
+			//On parcours la liste
+			for (i=0;i<allEpg.size();i++)
+			{
+				//On indique qu'il faut mettre a jour tous les fichiers
+				//Qui sont d?pendants du fichier apes que l'on veux envoyer
+				//A condition qu'il ne soit pas deja a modifier
+				if (!dp.isToUpdate((String)allEpg.get(i)))
+				{
+					//Ajouter dans la liste
+					dp.addToUpdate((String)allEpg.get(i));
+				}
+			}
 			//On essaie de supprimer le fichier de la liste des fichiers ? modifier
 			dp.delToUpdate(pathToRoot);
 			
@@ -373,7 +382,24 @@ public class CCommit{
 					dp.addToUpdate((String)allIepp.get(j));
 				}
 			}			
-
+			//On vient de modifier le fichier apes
+			//Il faut donc dire de changer les iepp dependants
+			//On recupere la liste de tous les iepp dependant de l'apes
+			ArrayList allEpg = dp.getEpgFromApes(pathToRoot);
+			//Initialisation du parcours
+			int k = 0;
+		//On parcours la liste
+			for (k=0;k<allEpg.size();k++)
+			{
+				//On indique qu'il faut mettre a jour tous les fichiers
+				//Qui sont d?pendants du fichier apes que l'on veux envoyer
+				//A condition qu'il ne soit pas deja a modifier
+				if (!dp.isToUpdate((String)allEpg.get(k)))
+				{
+					//Ajouter dans la liste
+					dp.addToUpdate((String)allEpg.get(k));
+				}
+			}			
 		}
 	}
 	
