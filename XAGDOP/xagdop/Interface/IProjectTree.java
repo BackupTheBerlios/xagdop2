@@ -211,7 +211,7 @@ public class IProjectTree extends JTree implements  TreeModelListener, TreeSelec
 							if(!selectedNode.isProject())
 								JOptionPane.showMessageDialog(null ,"Le fichier "+selectedNode.getName()+" sera supprim? lors du prochain commit", "Validation" , 1) ;
 							else
-								JOptionPane.showMessageDialog(null ,"Le projet "+selectedNode.getName()+" est supprimé");
+								JOptionPane.showMessageDialog(null ,"Le projet "+selectedNode.getName()+" est supprim??");
 							//((CTree)getModel()).remove(selectedNode);
 							((CTree)getModel()).refreshFirst((CTreeNode)((CTree)getModel()).getRoot());
 						}
@@ -285,7 +285,7 @@ public class IProjectTree extends JTree implements  TreeModelListener, TreeSelec
 			
 			int selRow = getRowForLocation(me.getX(), me.getY());
 				
-				if(selRow != -1 && me.getClickCount()==1)
+				if(selRow != -1) //&& me.getClickCount()==1)
 					selectedNode = (CTreeNode)pathClicked.getLastPathComponent();
 				else
 					selectedNode = (CTreeNode) ((CTree)getModel()).getRoot();;
@@ -311,6 +311,7 @@ public class IProjectTree extends JTree implements  TreeModelListener, TreeSelec
 			if (selectedNode.isProject())
 			{
 				try {
+					XAGDOP.getInstance().menuEditeCommit.setEnabled(true);
 					if ((XAGDOP.getInstance()).getUser().isPManager(selectedNode.getName()))
 					{
 						XAGDOP.getInstance().delProject.setEnabled(true);
@@ -321,17 +322,21 @@ public class IProjectTree extends JTree implements  TreeModelListener, TreeSelec
 						XAGDOP.getInstance().equipe.setEnabled(false);
 						XAGDOP.getInstance().menuProjetTeam.setEnabled(false);
 						XAGDOP.getInstance().delProject.setEnabled(false);
+						
 					}
 						
 				} catch (Exception e) {
 					ErrorManager.getInstance().display();
 				}
+				this.menuCommit.setEnabled(true);
 			}
 			else
 			{
 					XAGDOP.getInstance().delProject.setEnabled(true);
 					XAGDOP.getInstance().equipe.setEnabled(false);
 					XAGDOP.getInstance().menuProjetTeam.setEnabled(false);
+					XAGDOP.getInstance().menuEditeCommit.setEnabled(false);
+					this.menuCommit.setEnabled(false);
 			}
 				
 				
@@ -347,8 +352,12 @@ public class IProjectTree extends JTree implements  TreeModelListener, TreeSelec
 				}
 			
 				
-			if ((SwingUtilities.isRightMouseButton(me))&&(isPathSelected(pathClicked))) {		
-					popup.show(me.getComponent(), me.getX(), me.getY());				
+			if ((SwingUtilities.isRightMouseButton(me))){//&&(isPathSelected(pathClicked))) {
+				if(getRowForLocation(me.getX(), me.getY())!=-1)
+				{
+					setSelectionRow(getRowForLocation(me.getX(), me.getY()));
+					popup.show(me.getComponent(), me.getX(), me.getY());
+				}
 			} 
 			
 			XAGDOP.getInstance().setNoPanel();
