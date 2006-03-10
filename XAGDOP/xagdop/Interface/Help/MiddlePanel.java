@@ -11,11 +11,15 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneLayout;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 import xagdop.Interface.XAGDOP;
+import xagdop.Interface.Preferences.PanelDescription;
 import xagdop.ressources.Bundle;
 
 //import com.sun.java.util.jar.pack.Instruction.Switch;
@@ -30,6 +34,7 @@ public class MiddlePanel extends JPanel {
 	public MiddlePanel(int value) {
 		String title=null;
 		ArrayList desc = new ArrayList();
+		
 		
 		switch(value)
 		{
@@ -75,6 +80,10 @@ public class MiddlePanel extends JPanel {
 				desc.add(new String("ihelp.desc3.getfile"));
 				desc.add(new String("ihelp.desc4.getfile"));
 				break;
+				
+			case 24:
+				title=Bundle.getText("ihelp.file.view");
+				desc.add(new String("ihelp.desc1.viewfile"));
 			
 			case 31:
 				title=Bundle.getText("ihelp.userinproject.add");
@@ -150,34 +159,49 @@ public class MiddlePanel extends JPanel {
 	private void init(String title, ArrayList desc) {
 		
 		
-		this.setLayout(new BorderLayout());
 		
-		this.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+		/*this.setLayout(new BorderLayout());
+		
+		this.setBorder(BorderFactory.createEmptyBorder(0,10,10,10));
 		this.add(getPanelCentral(title, desc),BorderLayout.NORTH);
 	
-		this.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+		this.setBorder(BorderFactory.createEmptyBorder(0,5,5,5));
 		
+		*/
+		this.setLayout(new BorderLayout());
+		this.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+		this.add(getPanelDescription(title), BorderLayout.NORTH);
+		this.add(getPanelCentral(desc), BorderLayout.CENTER);
+		this.setBorder(BorderFactory.createEmptyBorder(5,5,20,5));
 		
 		
 		
 	}
 
-	private JPanel getPanelCentral(String title, ArrayList desc) {
+	private JScrollPane getPanelCentral(ArrayList desc) {
 		
 		JLabel JDescr = new JLabel();
 		JLabel img;
+		
+		JDescr.setText(Bundle.getText((String)desc.get(0)));
+		JDescr.setFont(new Font(null,0,12));
+		//jsp.setAutoscrolls(true);
+		//jsp.setLayout(new ScrollPaneLayout());
+		//jsp.getViewport().add(JDescr,ScrollPaneLayout.UPPER_LEFT_CORNER);
 		JMiddlePanel = new JPanel();
 	
 		JMiddlePanel.setLayout(new GridBagLayout());
-		Border cadre = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
-		TitledBorder titleStyle = BorderFactory.createTitledBorder(cadre,title);
-		JMiddlePanel.setBorder(titleStyle);
+		//Border cadre = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+		//TitledBorder titleStyle = BorderFactory.createTitledBorder(cadre,title);
+		//JMiddlePanel.setBorder(titleStyle);
 		JDescr.setText(Bundle.getText((String)desc.get(0)));
 		JDescr.setFont(new Font(null,0,12));
 		gridBagConstraints = new GridBagConstraints();
 		gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new Insets(20, 0, 20, 0);
+        //gridBagConstraints.insets = new Insets(20, 0, 20, 0);
+        //gridBagConstraints.fill= GridBagConstraints.NONE;
+        gridBagConstraints.anchor = GridBagConstraints.NORTH;
 		JMiddlePanel.add(JDescr, gridBagConstraints);
 		for (int i =1; i<desc.size();i++){
 			if ((Bundle.getText((String)desc.get(i))).endsWith("jpg")){
@@ -201,10 +225,15 @@ public class MiddlePanel extends JPanel {
 	        JMiddlePanel.add(img,gridBagConstraints); 
 	        
 		}
-		setSize(800, 400);
-		return JMiddlePanel;
+		//setSize(800, 400);
+		JScrollPane jsp =new JScrollPane(JMiddlePanel);
+		return jsp;
 
 	}
+	protected JPanel getPanelDescription(String title){
+   		JPanel panelNorth = new PanelDescription(title);
+   		return panelNorth;
+    }
 
 //	private JLabel JDescLabel(String desc) {
 //		JLabel JDesc;

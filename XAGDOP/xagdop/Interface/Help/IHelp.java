@@ -2,15 +2,21 @@ package xagdop.Interface.Help;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.URL;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
@@ -32,22 +38,23 @@ public class IHelp extends JFrame implements TreeSelectionListener{
 	private static final long serialVersionUID = 1L;
 	private JPanel leftPanel;
 	private JPanel centralPanel;
-	//private JButton buttonOk;
+	
 	//private JButton buttonCancel;
 	
 	private Box mBox;
 	private JTree tree;
 	private JScrollPane scroll;
-	//private static JButton buttonApply;
+	private JButton buttonClose;
 	
 	
 	//private static ArrayList changedHelpList;
 	
 	public IHelp(){
 		init();
-//		changedHelpList = new ArrayList();
+		//changedHelpList = new ArrayList();
 	}	
 	private void init() {
+		
 		setTitle(Bundle.getText("ihelp.title"));
 		leftPanel = new JPanel();
 		centralPanel = null;
@@ -67,7 +74,10 @@ public class IHelp extends JFrame implements TreeSelectionListener{
       
         tree.addTreeSelectionListener(this);
         DefaultTreeCellRenderer monRenderer = new DefaultTreeCellRenderer();
-        URL imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/lab_err1.gif");
+        URL imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/iconHelp.jpg");
+        URL imageURL1 = XAGDOP.class.getResource("/xagdop/ressources/Icon/blue.jpg");
+        monRenderer.setOpenIcon(new ImageIcon(imageURL1));
+        monRenderer.setClosedIcon(new ImageIcon(imageURL1));
         monRenderer.setLeafIcon(new ImageIcon(imageURL));
         tree.setCellRenderer(monRenderer);
 		scroll = new JScrollPane();
@@ -81,12 +91,14 @@ public class IHelp extends JFrame implements TreeSelectionListener{
 		
 		
 		leftPanel.setLayout(new BorderLayout());
+		
 		createButtons();
 		leftPanel.add(mBox, BorderLayout.SOUTH);
 		leftPanel.setPreferredSize(new Dimension(500, 450));
 		
-
-		((JComponent) getContentPane()).setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+		
+		
+		((JComponent) getContentPane()).setBorder(BorderFactory.createEmptyBorder(15,5,5,5));
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().add(scroll, BorderLayout.WEST);
 		getContentPane().add(leftPanel, BorderLayout.CENTER);
@@ -108,7 +120,17 @@ public class IHelp extends JFrame implements TreeSelectionListener{
 		
 	}
 	private void createButtons() {
-		// TODO Auto-generated method stub
+		buttonClose =new JButton(Bundle.getText("iabout.button.close"));
+		buttonClose.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		mBox.add(Box.createHorizontalStrut(200));
+		buttonClose.setMargin(new Insets(2,5,2,5));
+		
+		mBox.add (Box.createRigidArea(new Dimension(10,0))); // ajoute un espace  
+		mBox.add(buttonClose);
 		
 	}
 	private class PanelInfo {
@@ -159,8 +181,16 @@ public class IHelp extends JFrame implements TreeSelectionListener{
 	        		MiddlePanel(23)));
 	        category.add(book);
 	        
+	        //visualiser un fichier selon les roles
+	        book = new DefaultMutableTreeNode(new PanelInfo(Bundle.getText("ihelp.files.view"), new
+	        		MiddlePanel(24)));
+	        category.add(book);
+	        
 	        category = new DefaultMutableTreeNode(Bundle.getText("ihelp.userinproject"));
 	        top.add(category);
+	        
+	                
+	 
 
 	        //ajouter utilisateur dans un projet
 	        book = new DefaultMutableTreeNode(new PanelInfo(Bundle.getText("ihelp.userinproject.add"), new
