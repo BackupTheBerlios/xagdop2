@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.xml.xpath.XPathExpressionException;
+
+import xagdop.Interface.XAGDOP;
 import xagdop.Parser.DependenciesParser;
 import xagdop.Parser.IeppNitParser;
 import xagdop.Parser.POGParser;
@@ -39,35 +41,47 @@ public class CCommit{
 		String pathToRoot = CFile.treePathName(node);
 		//R?cup?ration du fichier a envoyer
 		File toCommit = new File(node.getLocalPath());
-//		System.out.println(nameOfFile);
+		//System.out.println(nameOfFile);
 			//-----------------------------------------
 			//Si le fichier est un apes -->
 			//-----------------------------------------
 			if (nameOfFile.endsWith(".apes"))
 			{		
-				sendApesFile(toCommit,node,pathToRoot);	
+				if (CRole.getInstance().canSend(toCommit,node.getProject().getName()))
+				{
+					sendApesFile(toCommit,node,pathToRoot);
+				}
 			}
 			//-----------------------------------------
 			//Si le fichier est un pog -->
 			//-----------------------------------------
 			else if (nameOfFile.endsWith(".pog"))
-			{		
-				sendPogFile(toCommit,node,pathToRoot);
+			{	
+				if (CRole.getInstance().canSend(toCommit,node.getProject().getName()))
+				{
+					sendPogFile(toCommit,node,pathToRoot);
+				}
 			}
 //			-----------------------------------------
 			//Si le fichier est un epg -->
 			//-----------------------------------------
 			else if (nameOfFile.endsWith(".epg"))
-			{		
-				sendEpgFile(toCommit,node,pathToRoot);
+			{	
+				if (CRole.getInstance().canSend(toCommit,node.getProject().getName()))
+				{
+					sendEpgFile(toCommit,node,pathToRoot);
+				}
 			}
 			//-----------------------------------------
 			//Si le fichier est un iepp -->
 			//-----------------------------------------
 			else if (nameOfFile.endsWith(".iepp")) 
 			{
-//				System.out.println("iepp File ");
-				sendIeppFile(toCommit,node,pathToRoot);
+				if (CRole.getInstance().canSend(toCommit,node.getProject().getName()))
+				{
+					//System.out.println("iepp File ");
+					sendIeppFile(toCommit,node,pathToRoot);
+				}
 			}
 	}
 	
