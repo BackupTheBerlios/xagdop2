@@ -40,7 +40,10 @@ public class POGParser extends Parser{
 		}
 		if ( elem != null ) {
 			String path = elem.getTextContent();
-			path = path.substring(4);
+			if (path.length()>=4)
+			{
+				path = path.substring(4);
+			}
 			return path;
 		}
 		else {
