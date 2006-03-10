@@ -311,7 +311,6 @@ public class IProjectTree extends JTree implements  TreeModelListener, TreeSelec
 			if (selectedNode.isProject())
 			{
 				try {
-					XAGDOP.getInstance().menuEditeCommit.setEnabled(true);
 					if ((XAGDOP.getInstance()).getUser().isPManager(selectedNode.getName()))
 					{
 						XAGDOP.getInstance().delProject.setEnabled(true);
@@ -335,13 +334,14 @@ public class IProjectTree extends JTree implements  TreeModelListener, TreeSelec
 					XAGDOP.getInstance().delProject.setEnabled(true);
 					XAGDOP.getInstance().equipe.setEnabled(false);
 					XAGDOP.getInstance().menuProjetTeam.setEnabled(false);
-					XAGDOP.getInstance().menuEditeCommit.setEnabled(false);
-					this.menuCommit.setEnabled(false);
 			}
 				
 				
 				//changement du noeud courrant
 			if(!selectedNode.isRoot())
+			{
+				XAGDOP.getInstance().menuEditeCommit.setEnabled(true);
+				this.menuCommit.setEnabled(true);
 				//rechargement de larbre en memoire				
 				try {
 					DependenciesParser.getInstance().setFile(selectedNode.getProject().getName());
@@ -350,6 +350,12 @@ public class IProjectTree extends JTree implements  TreeModelListener, TreeSelec
 				} catch (Exception e) {
 					ErrorManager.getInstance().display();
 				}
+			}
+			else
+			{
+				XAGDOP.getInstance().menuEditeCommit.setEnabled(false);
+				this.menuCommit.setEnabled(false);
+			}
 			
 				
 			if ((SwingUtilities.isRightMouseButton(me))){//&&(isPathSelected(pathClicked))) {
