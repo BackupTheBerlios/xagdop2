@@ -3,9 +3,9 @@ package xagdop.Controleur;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+
 import javax.xml.xpath.XPathExpressionException;
 
-import xagdop.Interface.XAGDOP;
 import xagdop.Parser.DependenciesParser;
 import xagdop.Parser.IeppNitParser;
 import xagdop.Parser.POGParser;
@@ -176,7 +176,7 @@ public class CCommit{
 			{
 				dp.delToUpdate(pathToRoot);
 			}
-			/*
+			
 			//On le rajoute dans les pog sans model
 			ArrayList pathDependantEpgFile = inp.getEpg();
 			//Initialisation du parcours
@@ -193,7 +193,7 @@ public class CCommit{
 				dp.addIeppToEpg(node.getProject().getName()+File.separator+pathDependantEpgFile.get(i),pathToRoot);
 					
 			}
-			*/
+	
 			
 		
 			
