@@ -54,8 +54,9 @@ public class IProblemsList extends JFrame {
     private void initComponents() {
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
-  
+
         setTitle(Bundle.getText("iproblemlist.title"));
+
         
 	    problemsTable = new JTable(new IProblemsListTableModel());
 
