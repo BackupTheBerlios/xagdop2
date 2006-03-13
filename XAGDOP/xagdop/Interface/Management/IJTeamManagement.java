@@ -392,7 +392,7 @@ class IJTeamManagementTableModel extends AbstractTableModel {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private String nomColonne[] = {"Users","Architecte","Analyste","Redacteur","PManager","Desaffecter"};
+	private String nomColonne[] = {Bundle.getText("ijteam.jtable.users"),Bundle.getText("iaffect.architect"),Bundle.getText("iaffect.analyst"),Bundle.getText("iaffect.redactor"),Bundle.getText("iaffect.manager"),Bundle.getText("ijteam.jtable.desaffecter")};
 	private Object[][] rowData;
 		
 	/**
