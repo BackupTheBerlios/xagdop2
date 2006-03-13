@@ -22,6 +22,7 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.xml.xpath.XPathExpressionException;
+import javax.swing.UIManager;
 
 import org.tmatesoft.svn.core.SVNException;
 import org.w3c.dom.DOMException;
@@ -184,6 +185,10 @@ public class IJAdmin extends JFrame{
         JT.getColumnModel().getColumn(1).setMinWidth(105);
         JT.getColumnModel().getColumn(2).setMinWidth(105);
         JT.getColumnModel().getColumn(3).setMaxWidth(40);
+        /*if(UIManager.getLookAndFeel().getName().equals("CDE/Motif"))
+        	JT.setRowHeight(30);
+        else
+        	JT.setRowHeight(16);*/
         
         //Ajout de la JTable dans le panel d'affichage
         this.donnerContrainte(this.gbc,0,0,3,1,100,100,GridBagConstraints.BOTH);
@@ -209,6 +214,8 @@ public class IJAdmin extends JFrame{
 		
 		//Fenetre non redimensionnable
 		this.setResizable(false);
+		//this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
 		
 	}
 	
