@@ -375,7 +375,7 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 				if(localPath.exists()){
 					try {
 						if(!SvnConnect.getInstance().getRepositoryUUID().equals(SvnHistory.getRepositoryUUID(localPath))){
-							ErrorManager.getInstance().setErrMsg( "Le r??pertoire de travail choisi est d??j?? utilis?? pour un autre d??p??t SubVersion, en choisir un autre.");
+							ErrorManager.getInstance().setErrMsg( "Le repertoire de travail choisi est deja utilise pour un autre depot SubVersion, en choisir un autre.");
 							ErrorManager.getInstance().setErrTitle("Probleme serveur");
 							ErrorManager.getInstance().display();
 							localPathPanel.setLocalPath(CPreferencies.getLocalPath());
@@ -383,7 +383,7 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 						}
 						File localPathUser = new File(localPath,XAGDOP.getInstance().getUser().getLogin());
 						if(!SvnConnect.getInstance().getRepositoryUUID().equals(SvnHistory.getRepositoryUUID(localPathUser))){
-							ErrorManager.getInstance().setErrMsg( "Le r??pertoire de travail choisi est d??j?? utilis?? pour un autre d??p??t SubVersion, en choisir un autre.");
+							ErrorManager.getInstance().setErrMsg( "Le repertoire de travail choisi est deja utilise pour un autre depot SubVersion, en choisir un autre.");
 							ErrorManager.getInstance().setErrTitle("Probleme serveur");
 							ErrorManager.getInstance().display();
 							localPathPanel.setLocalPath(CPreferencies.getLocalPath());
@@ -441,6 +441,7 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 							JOptionPane.showMessageDialog(this, Bundle.getText("ipreferences.password.formerNotGood"));
 						else
 						{
+							JOptionPane.showMessageDialog(this, Bundle.getText("ipreferences.password.modifOK"));
 							try {
 								UsersParser.getInstance().publish(UsersParser.getInstance().getUsersXML());
 							} catch (Exception e) {

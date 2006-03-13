@@ -3,6 +3,10 @@ package xagdop.Interface.Configuration;
 
 
 
+import java.awt.GraphicsEnvironment;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -20,9 +24,10 @@ public class IAbout extends JFrame{
 	 */
 	private static final long serialVersionUID = 4083774665179672609L;
 	private static IAbout IA = null;
+	JButton closeButton = new JButton(Bundle.getText("iabout.button.close"));
 	JPanel logoContainer=new JPanel();
 	JLabel logo = new JLabel(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/LogoXAGDOP.jpg"))) ;
-	JButton closeButton = new JButton(Bundle.getText("iabout.button.close"));
+	JButton but = new JButton();
 	
 	private IAbout(){
 		init();
@@ -30,11 +35,15 @@ public class IAbout extends JFrame{
 	
 	
 	private void init(){
-		
 		setTitle(Bundle.getText("iabout.title"));
 		setSize(536, 500);
+		this.setLocation(GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint());
 	
-		
+		closeButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
 		
 		//logo.setPreferredSize(new Dimension(200 , 134)) ;
 		logoContainer.add(logo);
