@@ -37,8 +37,8 @@ public class IAbout extends JFrame{
 	private void init(){
 		setTitle(Bundle.getText("iabout.title"));
 		setSize(536, 500);
-		this.setLocation(GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint());
-	
+		this.setLocation(200, 200);
+		
 		closeButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				dispose();

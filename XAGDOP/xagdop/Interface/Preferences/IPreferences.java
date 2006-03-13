@@ -375,16 +375,16 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 				if(localPath.exists()){
 					try {
 						if(!SvnConnect.getInstance().getRepositoryUUID().equals(SvnHistory.getRepositoryUUID(localPath))){
-							ErrorManager.getInstance().setErrMsg( "Le repertoire de travail choisi est deja utilise pour un autre depot SubVersion, en choisir un autre.");
-							ErrorManager.getInstance().setErrTitle("Probleme serveur");
+							ErrorManager.getInstance().setErrMsg(Bundle.getText("ipreferences.localWorkspace.wrongRep.msg"));
+							ErrorManager.getInstance().setErrTitle(Bundle.getText("ipreferences.localWorkspace.wrongRep.title"));
 							ErrorManager.getInstance().display();
 							localPathPanel.setLocalPath(CPreferencies.getLocalPath());
 							return;
 						}
 						File localPathUser = new File(localPath,XAGDOP.getInstance().getUser().getLogin());
 						if(!SvnConnect.getInstance().getRepositoryUUID().equals(SvnHistory.getRepositoryUUID(localPathUser))){
-							ErrorManager.getInstance().setErrMsg( "Le repertoire de travail choisi est deja utilise pour un autre depot SubVersion, en choisir un autre.");
-							ErrorManager.getInstance().setErrTitle("Probleme serveur");
+							ErrorManager.getInstance().setErrMsg(Bundle.getText("ipreferences.localWorkspace.wrongRep.msg"));
+							ErrorManager.getInstance().setErrTitle(Bundle.getText("ipreferences.localWorkspace.wrongRep.title"));
 							ErrorManager.getInstance().display();
 							localPathPanel.setLocalPath(CPreferencies.getLocalPath());
 							break;
@@ -406,8 +406,8 @@ public class IPreferences extends JFrame implements TreeSelectionListener{
 					CPreferencies.setLocalPath(LocalPathPanel.getLocalPath());
 				}
 				else{
-					ErrorManager.getInstance().setErrMsg("Probleme d'adresse locale");
-					ErrorManager.getInstance().setErrTitle("Probleme chemin local");
+					ErrorManager.getInstance().setErrMsg(Bundle.getText("ipreferences.localWorkspace.notExists.msg"));
+					ErrorManager.getInstance().setErrTitle(Bundle.getText("ipreferences.localWorkspace.notExists.title"));
 					ErrorManager.getInstance().display();
 					break;
 				}

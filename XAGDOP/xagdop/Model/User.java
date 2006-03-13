@@ -20,6 +20,7 @@ public class User {
 		pcreator = pcreat;
 	}
 	
+	
 	// Utilise pour le debug
 	public String toString() {
 		StringBuffer sb;

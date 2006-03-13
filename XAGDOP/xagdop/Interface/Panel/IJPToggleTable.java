@@ -44,7 +44,8 @@ public class IJPToggleTable extends JScrollPane
 			jButton.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e) 
 				{
-					int out = JOptionPane.showOptionDialog(null,new String("Etes-vous sur de vouloir recuperer cette version ?"),"Recuperation d'une version antérieure",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,null,null);
+					//int out = JOptionPane.showOptionDialog(null,new String("Etes-vous sur de vouloir recuperer cette version ?"),"Recuperation d'une version antérieure",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,null,null);
+					int out = JOptionPane.showOptionDialog(null,new String(Bundle.getText("ijptoogletable.conf.msg")),Bundle.getText("ijptoogletable.conf.title"),JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,null,null);
 					if(out == JOptionPane.YES_OPTION);
 				}
 			});
