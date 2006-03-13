@@ -231,7 +231,7 @@ public class PreferenciesParser extends Parser{
 	
 	
 	public void setLang(Locale lang) throws Exception{
-		System.out.println("PrefPars.setLang( Lang: "+lang.getLanguage()+"   Pays: "+lang.getCountry()+ " )");//debug
+		//System.out.println("PrefPars.setLang( Lang: "+lang.getLanguage()+"   Pays: "+lang.getCountry()+ " )");//debug
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		String expression = "//langue";
 		Element elem = null;
