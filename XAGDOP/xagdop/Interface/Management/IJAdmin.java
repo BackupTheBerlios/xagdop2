@@ -97,8 +97,8 @@ public class IJAdmin extends JFrame{
         		}      	
             	
         		if(nbAdmin==0){
-        			ErrorManager.getInstance().setErrTitle("Administration");
-        			ErrorManager.getInstance().setErrMsg("Le nombre d'administrateur ne peut etre nul");
+        			ErrorManager.getInstance().setErrTitle(Bundle.getText("ijadmin.title"));
+        			ErrorManager.getInstance().setErrMsg(Bundle.getText("ijadmin.jtable.msgErr"));
         			ErrorManager.getInstance().display();
         			return ;
         		}
