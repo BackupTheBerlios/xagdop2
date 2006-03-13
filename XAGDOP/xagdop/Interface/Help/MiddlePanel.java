@@ -160,46 +160,51 @@ public class MiddlePanel extends JPanel {
 		
 		
 		
-		/*this.setLayout(new BorderLayout());
+		this.setLayout(new BorderLayout());
 		
 		this.setBorder(BorderFactory.createEmptyBorder(0,10,10,10));
 		this.add(getPanelCentral(title, desc),BorderLayout.NORTH);
 	
 		this.setBorder(BorderFactory.createEmptyBorder(0,5,5,5));
 		
-		*/
-		this.setLayout(new BorderLayout());
+		
+		/*this.setLayout(new GridBagLayout());
+		GridBagConstraints gb = new GridBagConstraints();
 		this.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-		this.add(getPanelDescription(title), BorderLayout.NORTH);
-		this.add(getPanelCentral(desc), BorderLayout.CENTER);
+		gb.anchor=GridBagConstraints.NORTH;
+		gb.gridx=0;
+		gb.gridy=0;
+		this.add(getPanelDescription(title), gb);
+		
+		gb.gridx=0;
+		gb.gridy=1;
+		
+		this.add(getPanelCentral(title,desc),gb);
 		this.setBorder(BorderFactory.createEmptyBorder(5,5,20,5));
 		
-		
+		*/
 		
 	}
 
-	private JScrollPane getPanelCentral(ArrayList desc) {
+	private JPanel getPanelCentral(String title,ArrayList desc) {
 		
 		JLabel JDescr = new JLabel();
 		JLabel img;
 		
 		JDescr.setText(Bundle.getText((String)desc.get(0)));
 		JDescr.setFont(new Font(null,0,12));
-		//jsp.setAutoscrolls(true);
-		//jsp.setLayout(new ScrollPaneLayout());
-		//jsp.getViewport().add(JDescr,ScrollPaneLayout.UPPER_LEFT_CORNER);
 		JMiddlePanel = new JPanel();
 	
 		JMiddlePanel.setLayout(new GridBagLayout());
-		//Border cadre = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
-		//TitledBorder titleStyle = BorderFactory.createTitledBorder(cadre,title);
-		//JMiddlePanel.setBorder(titleStyle);
+		Border cadre = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
+		TitledBorder titleStyle = BorderFactory.createTitledBorder(cadre,title);
+		JMiddlePanel.setBorder(titleStyle);
 		JDescr.setText(Bundle.getText((String)desc.get(0)));
 		JDescr.setFont(new Font(null,0,12));
 		gridBagConstraints = new GridBagConstraints();
 		gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        //gridBagConstraints.insets = new Insets(20, 0, 20, 0);
+        gridBagConstraints.insets = new Insets(20, 0, 20, 0);
         //gridBagConstraints.fill= GridBagConstraints.NONE;
         gridBagConstraints.anchor = GridBagConstraints.NORTH;
 		JMiddlePanel.add(JDescr, gridBagConstraints);
@@ -226,8 +231,8 @@ public class MiddlePanel extends JPanel {
 	        
 		}
 		//setSize(800, 400);
-		JScrollPane jsp =new JScrollPane(JMiddlePanel);
-		return jsp;
+		//JScrollPane jsp =new JScrollPane(JMiddlePanel);
+		return JMiddlePanel;
 
 	}
 	protected JPanel getPanelDescription(String title){
