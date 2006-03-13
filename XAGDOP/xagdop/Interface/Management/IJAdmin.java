@@ -425,7 +425,10 @@ public class IJAdmin extends JFrame{
 	     */
 	    public Class getColumnClass(int c) 
 	    {
-	        return this.getValueAt(0, c).getClass();
+	    	if(c==this.getColumnCount()-1)
+	    		return JButton.class;
+	    	else
+	    		return this.getValueAt(0, c).getClass();
 	    }
 
 	    //
@@ -551,7 +554,7 @@ public class IJAdmin extends JFrame{
 					ErrorManager.getInstance().display();
 				}
 				IJAdmin.getIJA().refreshUsers();
-			}
+			}				
 	    }
 	}
 	
