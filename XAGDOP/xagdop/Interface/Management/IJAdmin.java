@@ -537,7 +537,7 @@ public class IJAdmin extends JFrame{
 	    public void deleteUser()
 	    {
 	    	int rowToDelete;
-	    	int out = JOptionPane.showOptionDialog(this.IJA.getTable(),new String("Etes-vous sur de vouloir supprimer cet utilisateur ?"),new String("Suppression d'un utilisateur"),JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,null,null);
+	    	int out = JOptionPane.showOptionDialog(this.IJA.getTable(),new String(Bundle.getText("ijteam.jtableSuppression.text")),new String(Bundle.getText("ijteam.jtableSuppressionUser.text")),JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,null,null);
 			if(out == JOptionPane.YES_OPTION)
 			{
 				rowToDelete =this.IJA.getTable().getSelectedRow();
