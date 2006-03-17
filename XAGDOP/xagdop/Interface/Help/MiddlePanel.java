@@ -196,7 +196,7 @@ public class MiddlePanel extends JPanel {
 		JMiddlePanel = new JPanel();
 	
 		JMiddlePanel.setLayout(new GridBagLayout());
-		Border cadre = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
+		Border cadre = BorderFactory.createEmptyBorder();
 		TitledBorder titleStyle = BorderFactory.createTitledBorder(cadre,title);
 		JMiddlePanel.setBorder(titleStyle);
 		JDescr.setText(Bundle.getText((String)desc.get(0)));
