@@ -234,7 +234,7 @@ public class XAGDOP extends JFrame{
 			public void actionPerformed(ActionEvent e)
 			{
 				IHelp ihelp = new IHelp();
-				ihelp.setVisible(true);
+				ihelp.setLocation(300,100);
 				
 			}
 				}) ;
