@@ -1,26 +1,24 @@
+
 package xagdop.Interface.Help;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Insets;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.net.URL;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComponent;
+import javax.swing.JEditorPane;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTree;
-import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
@@ -33,232 +31,208 @@ import xagdop.ressources.Bundle;
 
 public class IHelp extends JFrame implements TreeSelectionListener{
 
-	//private IHelp ihp=null;
-	
 	private static final long serialVersionUID = 1L;
-	private JPanel leftPanel;
-	private JPanel centralPanel;
-	
-	//private JButton buttonCancel;
-	
-	private Box mBox;
+	private JEditorPane htmlPane;
 	private JTree tree;
-	private JScrollPane scroll;
+	private URL helpURL;
 	private JButton buttonClose;
-	
-	
-	//private static ArrayList changedHelpList;
-	
+	private JPanel helpPanel;
+	private JPanel buttonPanel;
 	public IHelp(){
-		init();
-		//changedHelpList = new ArrayList();
-	}	
-	private void init() {
 		
-		setTitle(Bundle.getText("ihelp.title"));
-		leftPanel = new JPanel();
-		centralPanel = null;
-		
-		mBox = Box.createHorizontalBox() ;
-		
-		
-        DefaultMutableTreeNode top =
-            new DefaultMutableTreeNode(Bundle.getText("ihelp.tree.root"));
-        createNode(top);
-        
-        
-        tree = new JTree(top);
-        tree.getSelectionModel().setSelectionMode
-                (TreeSelectionModel.SINGLE_TREE_SELECTION);
-        tree.putClientProperty("JTree.lineStyle","None");
-      
-        tree.addTreeSelectionListener(this);
-        DefaultTreeCellRenderer monRenderer = new DefaultTreeCellRenderer();
-        URL imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/iconHelp.jpg");
-        URL imageURL1 = XAGDOP.class.getResource("/xagdop/ressources/Icon/blue.jpg");
-        monRenderer.setOpenIcon(new ImageIcon(imageURL1));
-        monRenderer.setClosedIcon(new ImageIcon(imageURL1));
-        monRenderer.setLeafIcon(new ImageIcon(imageURL));
-        tree.setCellRenderer(monRenderer);
-		scroll = new JScrollPane();
-		scroll.setPreferredSize(new Dimension(180,450));
-		
+    //Create the nodes.
+    DefaultMutableTreeNode top =
+        new DefaultMutableTreeNode(Bundle.getText("ihelp.title"));
+     createNodes(top);
 
-		Border border = BorderFactory.createLoweredBevelBorder();
-		tree.setBorder(border);
-		scroll.getViewport().add(tree);
-		
-		
-		
-		leftPanel.setLayout(new BorderLayout());
-		
-		createButtons();
-		leftPanel.add(mBox, BorderLayout.SOUTH);
-		leftPanel.setPreferredSize(new Dimension(500, 450));
-		
-		
-		
-		((JComponent) getContentPane()).setBorder(BorderFactory.createEmptyBorder(15,5,5,5));
-		getContentPane().setLayout(new BorderLayout());
-		getContentPane().add(scroll, BorderLayout.WEST);
-		getContentPane().add(leftPanel, BorderLayout.CENTER);
-		
-		
-		addWindowListener(new WindowAdapter(){
-			public void windowClosing(WindowEvent e){
-				exit();
-			}
+    //Create a tree that allows one selection at a time.
+    tree = new JTree(top);
+    tree.getSelectionModel().setSelectionMode
+            (TreeSelectionModel.SINGLE_TREE_SELECTION);
+    //Listen for when the selection changes.
+    tree.addTreeSelectionListener(this);
+    DefaultTreeCellRenderer monRenderer = new DefaultTreeCellRenderer();
+    URL imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/iconHelp.jpg");
+    URL imageURL1 = XAGDOP.class.getResource("/xagdop/ressources/Icon/blue.jpg");
 
-		});
-		setSize(700,700);
-		setResizable(false);
-		setVisible(true);
-        
-        
-        
+	monRenderer.setOpenIcon(new ImageIcon(imageURL1));
+    monRenderer.setClosedIcon(new ImageIcon(imageURL1));
+    monRenderer.setLeafIcon(new ImageIcon(imageURL));
+    tree.setCellRenderer(monRenderer);
+    //Listen for when the selection changes.
+    tree.addTreeSelectionListener(this);
 
-		
+    //Create the scroll pane and add the tree to it. 
+    JScrollPane treeView = new JScrollPane();
+    treeView.setPreferredSize(new Dimension(180,450));
+    Border border = BorderFactory.createLoweredBevelBorder();
+	tree.setBorder(border);
+	treeView.getViewport().add(tree);
+	
+    //Create the HTML viewing pane.
+    htmlPane = new JEditorPane();
+    htmlPane.setEditable(false);
+    initHelp();
+    JScrollPane htmlView = new JScrollPane(htmlPane);
+    
+    //  Add the scroll panes to a split pane.
+    JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+    splitPane.setLeftComponent(treeView);
+    splitPane.setRightComponent(htmlView);
+    Dimension minimumSize = new Dimension(100, 50);
+    htmlView.setMinimumSize(minimumSize);
+    treeView.setMinimumSize(minimumSize);
+    splitPane.setDividerLocation(180);
+    
+    //treeView.setPreferredSize(new Dimension(100, 100)); 
+
+    splitPane.setPreferredSize(new Dimension(600, 300));
+
+    helpPanel = new JPanel();
+    helpPanel.setLayout(new BorderLayout());
+    helpPanel.add(splitPane,BorderLayout.CENTER);
+    
+    buttonPanel = new JPanel();
+    buttonPanel.setLayout(new FlowLayout());
+    buttonPanel.setBackground(Color.white);
+    buttonClose =new JButton(Bundle.getText("iabout.button.close"));
+	buttonClose.addActionListener(new ActionListener(){
+		public void actionPerformed(ActionEvent e) {
+			dispose();
+		}
+	});
+	buttonPanel.add(buttonClose);
+    //Add the split pane to this panel.
+    getContentPane().add(helpPanel, BorderLayout.CENTER);
+    getContentPane().add(buttonPanel,BorderLayout.SOUTH);
+    setSize(700,700);
+	setResizable(false);
+	setVisible(true);
 	}
-	private void createButtons() {
-		buttonClose =new JButton(Bundle.getText("iabout.button.close"));
-		buttonClose.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-			}
-		});
-		mBox.add(Box.createHorizontalStrut(200));
-		buttonClose.setMargin(new Insets(2,5,2,5));
-		
-		mBox.add (Box.createRigidArea(new Dimension(10,0))); // ajoute un espace  
-		mBox.add(buttonClose);
-		
-	}
-	private class PanelInfo {
-        public String pName; // nom du panel
-        public JPanel mPanel; // le panel
-
-        public PanelInfo(String pName, JPanel mPanel) {
-            this.pName = pName;
-            this.mPanel = mPanel;
+	private void initHelp() {
+		// TODO Auto-generated method stub
+		String s = Bundle.getText("ihelp.index");
+        helpURL = IHelp.class.getResource(s);
+        if (helpURL == null) {
+            System.err.println("Couldn't open help file: " + s);
         }
 
-        public String toString() {
-            return pName;
+        displayURL(helpURL);
+		
+	}
+	private void displayURL(URL url) {
+		// TODO Auto-generated method stub
+		try {
+            if (url != null) {
+                htmlPane.setPage(url);
+            } else { //null url
+		htmlPane.setText("File Not Found");
+                
+            }
+        } catch (IOException e) {
+            System.err.println("Attempted to read a bad URL: " + url);
         }
-    }
-	private void createNode(DefaultMutableTreeNode top) {
-		    DefaultMutableTreeNode category = null;
+	}
+	private void createNodes(DefaultMutableTreeNode top) {
+		// TODO Auto-generated method stub
+		 DefaultMutableTreeNode category = null;
 	        DefaultMutableTreeNode book = null;
 
+	        //managing project
 	        category = new DefaultMutableTreeNode(Bundle.getText("ihelp.projects"));
 	        top.add(category);
 
-	        //creer un projet
-	        book = new DefaultMutableTreeNode(new PanelInfo(Bundle.getText("ihelp.projects.create"), new
-	        		MiddlePanel(11)));
-	        category.add(book);
+	        	//Create a project
+	        	book = new DefaultMutableTreeNode(new BookInfo
+	        			(Bundle.getText("ihelp.projects.create"),
+	        					Bundle.getText("ihelp.createproject")));
+	        	category.add(book);
 	        
-	        //supprimer un projet
-	        book = new DefaultMutableTreeNode(new PanelInfo(Bundle.getText("ihelp.projects.delete"), new
-	        		MiddlePanel(12)));
-	        category.add(book);
-
-	        category = new DefaultMutableTreeNode(Bundle.getText("ihelp.files")); 
-	        top.add(category);
-
-	        //ajouter un fichier ou repertoire
-	        book = new DefaultMutableTreeNode(new PanelInfo(Bundle.getText("ihelp.files.add"), new
-	        		MiddlePanel(21)));
-	        category.add(book);
-
-	        //mettre a jour un fichier
-	        book = new DefaultMutableTreeNode(new PanelInfo(Bundle.getText("ihelp.files.refresh"), new
-	        		MiddlePanel(22)));
-	        category.add(book);
+	        	//Delete a project
+	        	book = new DefaultMutableTreeNode(new BookInfo
+	        			(Bundle.getText("ihelp.projects.delete"),
+	        					Bundle.getText("ihelp.deleteproject")));
+	        	category.add(book);
 	        
-	        //recuperer  un fichier
-	        book = new DefaultMutableTreeNode(new PanelInfo(Bundle.getText("ihelp.files.get"), new
-	        		MiddlePanel(23)));
-	        category.add(book);
-	        
-	        //visualiser un fichier selon les roles
-	        book = new DefaultMutableTreeNode(new PanelInfo(Bundle.getText("ihelp.files.view"), new
-	        		MiddlePanel(24)));
-	        category.add(book);
-	        
+	        //managing user in project
 	        category = new DefaultMutableTreeNode(Bundle.getText("ihelp.userinproject"));
 	        top.add(category);
 	        
-	                
-	 
-
-	        //ajouter utilisateur dans un projet
-	        book = new DefaultMutableTreeNode(new PanelInfo(Bundle.getText("ihelp.userinproject.add"), new
-	        		MiddlePanel(31)));
-	        category.add(book);
+	        	//Add an user in a project
+        		book = new DefaultMutableTreeNode(new BookInfo
+        				(Bundle.getText("ihelp.userinproject.add"),
+        						Bundle.getText("ihelp.add.userinproject")));
+        		category.add(book);
+        		
+        		//Modify  user's role in a project
+        		book = new DefaultMutableTreeNode(new BookInfo
+        				(Bundle.getText("ihelp.userinproject.modify"),
+        						Bundle.getText("ihelp.modify.userinproject")));
+        		category.add(book);
+        		
+        		//Delete user in a project
+        		book = new DefaultMutableTreeNode(new BookInfo
+        				(Bundle.getText("ihelp.userinproject.delete"),
+        						Bundle.getText("ihelp.delete.userinproject")));
+        		category.add(book);
+        		
+        	//managing users
+        	category = new DefaultMutableTreeNode(Bundle.getText("ihelp.user"));
+    	        top.add(category);
 	        
-	        //Modifier les roles d'un utilisateur dans un projet
-	        book = new DefaultMutableTreeNode(new PanelInfo(Bundle.getText("ihelp.userinproject.modify"), new
-	        		MiddlePanel(32)));
-	        category.add(book);
-	        
-	        //supprimer utilisateur dans un projet
-	        book = new DefaultMutableTreeNode(new PanelInfo(Bundle.getText("ihelp.userinproject.delete"), new
-	        		MiddlePanel(33)));
-	        category.add(book);
-	        
-	        category = new DefaultMutableTreeNode(Bundle.getText("ihelp.user"));
-	        top.add(category);
-	        
-	        //ajouter utilisateur 
-	        book = new DefaultMutableTreeNode(new PanelInfo(Bundle.getText("ihelp.user.add"), new
-	        		MiddlePanel(41)));
-	        category.add(book);
-	        
-	        //modifier les droits de l'utilisateur
-	        book = new DefaultMutableTreeNode(new PanelInfo(Bundle.getText("ihelp.user.modify"), new
-	        		MiddlePanel(42)));
-	        category.add(book);
-	        
-	        //supprimer utilisateur 
-	        book = new DefaultMutableTreeNode(new PanelInfo(Bundle.getText("ihelp.user.delete"), new
-	        		MiddlePanel(43)));
-	        category.add(book);
-	        
-	        
+    	        //Create a user
+    	        book = new DefaultMutableTreeNode(new BookInfo
+        				(Bundle.getText("ihelp.user.add"),
+        						Bundle.getText("ihelp.add.user")));
+        		category.add(book);
+        		
+        		//Modify a user
+        		book = new DefaultMutableTreeNode(new BookInfo
+        				(Bundle.getText("ihelp.user.modify"),
+        						Bundle.getText("ihelp.modify.user")));
+        		category.add(book);
+        		
+        		//Delete a user
+        		book = new DefaultMutableTreeNode(new BookInfo
+        				(Bundle.getText("ihelp.user.delete"),
+        						Bundle.getText("ihelp.delete.user")));
+        		category.add(book);
+    	        
 	}
-	public void valueChanged(TreeSelectionEvent e) {
+	public void valueChanged(TreeSelectionEvent arg0) {
+		// TODO Auto-generated method stub
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode)
         tree.getLastSelectedPathComponent();
 
 		if (node == null) return;
-		
-		Object nodeInfo = node.getUserObject();
-		if (node.isLeaf()) {
-		PanelInfo pInfo = (PanelInfo)nodeInfo;
-		displayPanel(pInfo.mPanel);
-		}
-		
+			Object nodeInfo = node.getUserObject();
+         if (node.isLeaf()) {
+        	 BookInfo book = (BookInfo)nodeInfo;
+        	 displayURL(book.bookURL);
+
+         }
+	
+         
+         }
+	private class BookInfo {
+        public String bookName;
+        public URL bookURL;
+
+        public BookInfo(String book, String filename) {
+            bookName = book;
+            bookURL = IHelp.class.getResource(filename);
+            if (bookURL == null) {
+                System.err.println("Couldn't find file: "
+                                   + filename);
+            }
+        }
+	
+        public String toString() {
+            return bookName;
+        }
+	}
+	
+	
+
 	}
 
-
-	private void displayPanel(JPanel panel) {
-		if(centralPanel != null)
-			leftPanel.remove(centralPanel);
-		centralPanel = panel;
-		SwingUtilities.updateComponentTreeUI(panel);
-		leftPanel.add(centralPanel, BorderLayout.CENTER);
-		updateComponent();
-		getContentPane().add(leftPanel, BorderLayout.EAST);
-		
-	}
-	public void updateComponent(){
-   		leftPanel.paintAll(leftPanel.getGraphics());
-	}
-	private void exit() {
-		dispose();
-	//	ihp = null;
-		
-	}
-
-}
