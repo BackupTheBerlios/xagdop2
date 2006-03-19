@@ -154,6 +154,40 @@ public class IHelp extends JFrame implements TreeSelectionListener{
 	        					Bundle.getText("ihelp.deleteproject")));
 	        	category.add(book);
 	        
+           //managing files or directories
+		    category = new DefaultMutableTreeNode(Bundle.getText("ihelp.files"));
+		        top.add(category);
+		        
+		        //Get files or directories
+		        book = new DefaultMutableTreeNode(new BookInfo
+	        			(Bundle.getText("ihelp.files.get"),
+	        					Bundle.getText("ihelp.getfiles")));
+	        	category.add(book);
+	        	
+	        	//Update files or directories
+	        	book = new DefaultMutableTreeNode(new BookInfo
+	        			(Bundle.getText("ihelp.files.refresh"),
+	        					Bundle.getText("ihelp.updatefiles")));
+	        	category.add(book);
+	        	
+	        	//Add files or directories
+	        	book = new DefaultMutableTreeNode(new BookInfo
+	        			(Bundle.getText("ihelp.files.add"),
+	        					Bundle.getText("ihelp.addfiles")));
+	        	category.add(book);
+	        	
+	        	//View dependencies problems
+	        	book = new DefaultMutableTreeNode(new BookInfo
+	        			(Bundle.getText("ihelp.files.problem"),
+	        					Bundle.getText("ihelp.problemfiles")));
+	        	category.add(book);
+	        	
+		        //View files 
+	        	book = new DefaultMutableTreeNode(new BookInfo
+	        			(Bundle.getText("ihelp.files.view"),
+	        					Bundle.getText("ihelp.viewfiles")));
+	        	category.add(book);
+		        
 	        //managing user in project
 	        category = new DefaultMutableTreeNode(Bundle.getText("ihelp.userinproject"));
 	        top.add(category);
