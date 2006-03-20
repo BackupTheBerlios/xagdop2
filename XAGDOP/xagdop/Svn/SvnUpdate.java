@@ -148,7 +148,7 @@ public class SvnUpdate{
 			}
 		//On supprime les projets dont on ne fait pas parti
 		if(parent.compareTo(new File(IPreferences.getDefaultPath()))==0)
-			cleanUp(projectDirectoryLocal);
+			clear(projectDirectoryLocal);
 		
 		CRole.getInstance().refreshRole();
 		DependenciesParser.getInstance().refreshFiles();
@@ -206,7 +206,7 @@ public class SvnUpdate{
 		DependenciesParser.getInstance().refreshFiles();
 	}
 	
-	public void cleanUp(File file) throws SVNException, IOException, Exception{
+	public void clear(File file) throws SVNException, IOException, Exception{
 		User user = XAGDOP.getInstance().getUser();
 		ProjectsParser pp = ProjectsParser.getInstance();
 		File[] fileInDirectory = file.listFiles(new FilenameFilter() {
@@ -224,8 +224,16 @@ public class SvnUpdate{
 	}
 	
 	
-	public void svnUpdate(long revision, File file){
+	public void update(long revision, File file) throws SVNException{
+		SVNUpdateClient up = new SVNUpdateClient(repository.getAuthenticationManager(), SVNWCUtil.createDefaultOptions(true));
 		
+		try{
+			up.doUpdate(file,SVNRevision.create(revision),true);
+		} catch (SVNException svne) {
+			ErrorManager.getInstance().setErrMsg("Impossible de se synchroniser avec le serveur.\nVeuillez v??rifier l'adresse de ce dernier.");
+			ErrorManager.getInstance().setErrTitle("Recuperation de la version impossible");
+			throw svne;
+		}
 	}
 	
 	

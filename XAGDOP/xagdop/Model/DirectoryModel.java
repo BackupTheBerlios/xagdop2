@@ -52,11 +52,24 @@ public class DirectoryModel extends AbstractTableModel {
     	return infos != null ? infos.size() :  0;
 
     }
+    
 
     public int getColumnCount() {
     	return 5;
     }
 
+    public boolean isCellEditable(int row, int column){
+    	
+    	if(column==4)
+    		return true;
+    	
+    	return false;
+    	
+    }
+    
+    
+    
+    
     public Object getValueAt(int row, int column){
         switch ( column ) {
 
@@ -80,6 +93,10 @@ public class DirectoryModel extends AbstractTableModel {
             return "";
         }
     }
+    public long getRevsion(int row){
+    	return ((SVNLogEntry)infos.get(infos.size()-row-1)).getRevision();
+    }
+    
 
     public String getColumnName( int column ) {
         switch ( column ) {
@@ -99,7 +116,6 @@ public class DirectoryModel extends AbstractTableModel {
     }
 
     public Class getColumnClass( int column ) {
-    	System.out.println(getValueAt(0, column).getClass());
     	return getValueAt(0, column).getClass();
 
     }
