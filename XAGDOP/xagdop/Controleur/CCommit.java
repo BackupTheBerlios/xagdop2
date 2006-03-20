@@ -176,7 +176,7 @@ public class CCommit{
 			{
 				dp.delToUpdate(pathToRoot);
 			}
-			
+/*			
 			//On le rajoute dans les pog sans model
 			ArrayList pathDependantEpgFile = inp.getEpg();
 			//Initialisation du parcours
@@ -190,11 +190,11 @@ public class CCommit{
 					//On rajoute l'epg dans le dependence
 					sendEpgFile(toCommit,node,pathToRoot);
 				}
-				dp.addIeppToEpg(node.getProject().getName()+File.separator+pathDependantEpgFile.get(i),pathToRoot);
+//				dp.addIeppToEpg(node.getProject().getName()+File.separator+pathDependantEpgFile.get(i),pathToRoot);
 					
 			}
 	
-			
+*/			
 		
 			
 	
