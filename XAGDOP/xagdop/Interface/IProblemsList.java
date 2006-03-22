@@ -116,7 +116,7 @@ public class IProblemsList extends JFrame {
 		 */
 		public void init()
 		{
-			
+			int problNumber = 0;
 			
 			 //Initialisation des problemes
 	        problems = new ArrayList();
@@ -143,6 +143,7 @@ public class IProblemsList extends JFrame {
 						oneProblem[2] = (String)toUpdate.get(j);
 						oneProblem[3] = (String)data.get(i);
 						problems.add(oneProblem);
+						problNumber++;
 					}
 					//Recuperation de la liste des Creates
 					//ArrayListdp.getToUpdate
@@ -157,11 +158,23 @@ public class IProblemsList extends JFrame {
 						oneProblem[2] = (String)toCreate.get(j);
 						oneProblem[3] = (String)data.get(i);
 						problems.add(oneProblem);
+						problNumber++;
 					}
 					
 					
 					
 				}
+				
+				if (problNumber==0)
+				{
+					oneProblem = new Object[]{null,null,null,null};
+					oneProblem[0] = null;
+					oneProblem[1] = Bundle.getText("RAS");
+					oneProblem[2] = null;
+					oneProblem[3] = null;
+					problems.add(oneProblem);
+				}
+				
 				
 	    	} catch (XPathExpressionException e) {
 				// TODO Auto-generated catch block
