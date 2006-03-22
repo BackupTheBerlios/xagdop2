@@ -456,7 +456,7 @@ public class XAGDOP extends JFrame{
 			IProblemsList ipbl = new IProblemsList();
 			if (IProblemsList.problNumber == 0)
 			{
-				ErrorManager.getInstance().setErrMsg("Pas de problemes !");
+				ErrorManager.getInstance().setErrMsg(Bundle.getText("iproblemlist.nopb"));
 				ErrorManager.getInstance().display();
 			}
 			else
