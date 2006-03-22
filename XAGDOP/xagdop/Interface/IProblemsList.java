@@ -165,15 +165,14 @@ public class IProblemsList extends JFrame {
 					
 				}
 				
-				if (problNumber==0)
-				{
 					oneProblem = new Object[]{null,null,null,null};
 					oneProblem[0] = "";
-					oneProblem[1] = Bundle.getText("RAS");
+					oneProblem[1] = problNumber+" erreur(s) detectee(s)";
 					oneProblem[2] = "";
 					oneProblem[3] = "";
 					problems.add(oneProblem);
-				}
+					
+
 				
 				
 	    	} catch (XPathExpressionException e) {
