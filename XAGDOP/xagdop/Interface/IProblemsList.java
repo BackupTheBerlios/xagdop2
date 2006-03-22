@@ -167,12 +167,6 @@ public class IProblemsList extends JFrame {
 					
 				}
 				
-					oneProblem = new Object[]{null,null,null,null};
-					oneProblem[0] = "";
-					oneProblem[1] = problNumber+" "+Bundle.getText("iproblemlist.pb");
-					oneProblem[2] = "";
-					oneProblem[3] = "";
-					problems.add(oneProblem);
 					
 					
 				
