@@ -27,7 +27,6 @@ import org.tmatesoft.svn.core.SVNException;
 
 import xagdop.Parser.DependenciesParser;
 import xagdop.Parser.ProjectsParser;
-import xagdop.Util.ErrorManager;
 import xagdop.ressources.Bundle;
 
 
@@ -45,6 +44,8 @@ public class IProblemsList extends JFrame {
 	  private JPanel mainPanel;
 	  private JTable problemsTable;
 	  
+
+	static public int problNumber;
 	
 	public IProblemsList() {
         initComponents();
@@ -117,7 +118,7 @@ public class IProblemsList extends JFrame {
 		 */
 		public void init()
 		{
-			int problNumber = 0;
+			problNumber = 0;
 			
 			 //Initialisation des problemes
 	        problems = new ArrayList();
@@ -173,10 +174,7 @@ public class IProblemsList extends JFrame {
 					oneProblem[3] = "";
 					problems.add(oneProblem);
 					
-					if(problNumber==0)
-					{
-						throw new Exception();
-					}
+					
 				
 				
 	    	} catch (XPathExpressionException e) {
@@ -191,8 +189,7 @@ public class IProblemsList extends JFrame {
 			} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-					ErrorManager.getInstance().setErrMsg("Pas de problemes !");
-					ErrorManager.getInstance().display();
+				
 			}
 	    	
 			

@@ -454,7 +454,16 @@ public class XAGDOP extends JFrame{
 	class openIProblemsList implements ActionListener { 
 		public void actionPerformed (ActionEvent e)  {
 			IProblemsList ipbl = new IProblemsList();
-			ipbl.setVisible(true);
+			if (IProblemsList.problNumber == 0)
+			{
+				ErrorManager.getInstance().setErrMsg("Pas de problemes !");
+				ErrorManager.getInstance().display();
+			}
+			else
+			{
+				ipbl.setVisible(true);
+			}
+			
 			menuShowProblems.setSelected(true);
 			ipbl.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE) ;
 			ipbl.addWindowListener(new WindowAdapter()
