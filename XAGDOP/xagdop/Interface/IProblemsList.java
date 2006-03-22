@@ -168,10 +168,10 @@ public class IProblemsList extends JFrame {
 				if (problNumber==0)
 				{
 					oneProblem = new Object[]{null,null,null,null};
-					oneProblem[0] = null;
+					oneProblem[0] = "";
 					oneProblem[1] = Bundle.getText("RAS");
-					oneProblem[2] = null;
-					oneProblem[3] = null;
+					oneProblem[2] = "";
+					oneProblem[3] = "";
 					problems.add(oneProblem);
 				}
 				
