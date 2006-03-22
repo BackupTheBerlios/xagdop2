@@ -2,10 +2,6 @@ package xagdop.Thread;
 
 import java.util.ArrayList;
 
-import javax.xml.xpath.XPathExpressionException;
-
-import org.tmatesoft.svn.core.SVNException;
-
 import xagdop.Controleur.CCommit;
 import xagdop.Controleur.CTreeNode;
 import xagdop.Interface.IWaiting;

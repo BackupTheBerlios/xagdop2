@@ -37,7 +37,7 @@ public class IJPToggleTable extends JScrollPane
 		jt.getColumn("Version").setMaxWidth(50);
 		jt.getColumn("Auteur").setMaxWidth(80);
 		jt.getColumn("Date").setMaxWidth(80);
-		jt.getColumn("Récuperer").setMaxWidth(50);
+		jt.getColumn("Récuperer").setMaxWidth(70);
 		this.setBackground(Color.WHITE);
 		
 	}
@@ -60,7 +60,7 @@ public class IJPToggleTable extends JScrollPane
 		JButton button;
 				
 		public VersionTableCellEditor() {
-			button = new JButton(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/delete.jpg")));
+			button = new JButton(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/update11.jpg")));
 			button.addActionListener(this);
 		}
 		

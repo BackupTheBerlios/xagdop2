@@ -87,7 +87,7 @@ public class DirectoryModel extends AbstractTableModel {
         	return ((SVNLogEntry)infos.get(infos.size()-row-1)).getAuthor();
         	
         case 4:
-        	return new JButton(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/delete.jpg")));
+        	return new JButton(new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/update11.jpg")));
 
         default:
             return "";

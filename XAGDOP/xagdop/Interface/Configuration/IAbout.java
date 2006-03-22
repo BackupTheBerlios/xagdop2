@@ -3,7 +3,6 @@ package xagdop.Interface.Configuration;
 
 
 
-import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 

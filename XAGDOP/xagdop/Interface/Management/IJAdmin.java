@@ -22,7 +22,6 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.xml.xpath.XPathExpressionException;
-import javax.swing.UIManager;
 
 import org.tmatesoft.svn.core.SVNException;
 import org.w3c.dom.DOMException;
