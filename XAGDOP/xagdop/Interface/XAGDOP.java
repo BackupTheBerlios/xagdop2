@@ -89,7 +89,7 @@ public class XAGDOP extends JFrame{
 	protected JButton equipe;
 	protected JButton delProject;
 	protected JButton preferences;
-	protected JButton admin;
+	
 	
 	
 	
@@ -97,6 +97,7 @@ public class XAGDOP extends JFrame{
 	 * Initialisation of Menu
 	 * 
 	 */
+	
 	protected JMenu menuFile = new JMenu(Bundle.getText("main.menu.file"));
 	protected JMenuItem fileMenuQuit = new JMenuItem(Bundle.getText("main.menu.file.quit"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/quit.gif"))) ;
 	
@@ -109,6 +110,7 @@ public class XAGDOP extends JFrame{
 	
 	protected JMenu menuConf = new JMenu(Bundle.getText("main.menu.parameters"));
 	protected JMenuItem menuConfPreferences = new JMenuItem(Bundle.getText("main.menu.parameters.preferences"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/configure.png")));
+	protected JMenuItem menuAdmin = new JMenuItem(Bundle.getText("main.menu.parameters.administration"));;
 	
 	protected JMenu menuProjet = new JMenu(Bundle.getText("main.menu.project"));
 	protected JMenuItem menuProjetTeam = new JMenuItem(Bundle.getText("main.menu.project.team"), new ImageIcon(XAGDOP.class.getResource("/xagdop/ressources/Icon/equipe.jpeg")));
@@ -150,7 +152,7 @@ public class XAGDOP extends JFrame{
 		update = new JButton(new ImageIcon(imageURL));		
 		imageURL = XAGDOP.class.getResource("/xagdop/ressources/Icon/configure.png");
 		preferences = new JButton(new ImageIcon(imageURL));		
-		admin= new JButton("ADMIN");
+		//admin= new JButton("ADMIN");
 		
 		JPanel panel = (JPanel)this.getContentPane();
 		panel2 = new JPanel(new BorderLayout());
@@ -170,8 +172,8 @@ public class XAGDOP extends JFrame{
 		equipe.setToolTipText(Bundle.getText("main.menu.project.team"));
 		preferences.setMargin(new Insets(0,0,0,0));
 		preferences.setToolTipText(Bundle.getText("main.menu.parameters.preferences"));
-		admin.setMargin(new Insets(0,0,0,0));
-		admin.setToolTipText(Bundle.getText("ijadmin.title"));
+		/*admin.setMargin(new Insets(0,0,0,0));
+		admin.setToolTipText(Bundle.getText("ijadmin.title"));*/
 		
 		
 		update.addActionListener(new actionUpdate());
@@ -215,6 +217,7 @@ public class XAGDOP extends JFrame{
 		
 		menuConfPreferences.addActionListener(new openIPreferences());
 		menuConfPreferences.setMnemonic('P');
+		menuAdmin.addActionListener(new openIAdmin());
 		
 		
 		
@@ -250,6 +253,10 @@ public class XAGDOP extends JFrame{
 		menuHelp.add(menuHelpAbout);
 		menuHelp.add(menuHelpHelp);
 		menuConf.add(menuConfPreferences);
+		if (user.isAdmin()){
+			menuConf.add(menuAdmin);
+		}
+		
 		
 		
 		menuBar.add(menuFile);
@@ -273,7 +280,7 @@ public class XAGDOP extends JFrame{
 		
 		menuBar2.add(equipe);
 		//menuBar2.add(Box.createHorizontalStrut(5)) ;
-		menuBar2.add(admin);
+		//menuBar2.add(admin);
 		menuBar2.add(Box.createHorizontalStrut(15)) ;
 		
 		menuBar2.add(preferences);
@@ -320,7 +327,7 @@ public class XAGDOP extends JFrame{
 		//****************************
 		delProject.addActionListener(new delProject());
 		preferences.addActionListener(new openIPreferences());
-		admin.addActionListener(new openIAdmin());
+		//admin.addActionListener(new openIAdmin());
 		setTitle(Bundle.getText("main.title"));
 		setSize(700, 450);
 		
@@ -581,13 +588,7 @@ public class XAGDOP extends JFrame{
 			delProject.setEnabled(false);
 			menuProjetDelete.setEnabled(false);
 		}
-		if (user.isAdmin()){
-			admin.setEnabled(true);
-		}
-		else
-		{
-			admin.setEnabled(false);
-		}
+		
 		
 	}
 	
