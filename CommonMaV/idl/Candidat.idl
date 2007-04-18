@@ -1,0 +1,29 @@
+
+
+module MaV {
+	struct Candidat{
+		unsigned long id;
+		string nom;
+		string prenom;
+		unsigned long age;
+		string profession;
+	};
+	
+	struct Mandat{
+		unsigned long id;
+		string titre;
+		string annee;
+	};
+	
+	typedef sequence<Candidat> lc;
+	typedef sequence<Mandat> lm;
+	
+    interface ListeC {
+    	lc getAllCandidats();
+    	
+    	unsigned long getNbVotes(in unsigned long id);
+    	lm getMandats(in unsigned long id);
+    	unsigned long addCandidat(in Candidat c);
+    };
+};
+

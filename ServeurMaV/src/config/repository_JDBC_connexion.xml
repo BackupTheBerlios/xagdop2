@@ -1,0 +1,11 @@
+<JdbcConnectionDescriptor id="default">
+
+	<driver.name>com.mysql.jdbc.Driver</driver.name>
+
+	<url.protocol>jdbc</url.protocol>
+	<url.subprotocol>mysql</url.subprotocol>
+	<url.dbalias>//localhost/mav</url.dbalias>
+	<user.name>claire</user.name>
+	<user.passwd>claire</user.passwd>
+
+</JdbcConnectionDescriptor>

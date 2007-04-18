@@ -1,0 +1,23 @@
+
+
+module MaV {
+
+    struct Electeur {
+		unsigned long insee;
+		string nom;
+		string prenom;
+		string bureau;
+		string canton;
+		string circ;
+		string dept;
+    };
+    
+    interface Votant{
+    	//Permet de tester son bureau de vote, et ses infos
+    	Electeur verifierElecteur(in unsigned long insee, in unsigned long code);
+    	
+    	boolean aDejaVote(in unsigned long insee);
+		void votePour(in unsigned long id, in unsigned long insee);
+		
+    };
+};
