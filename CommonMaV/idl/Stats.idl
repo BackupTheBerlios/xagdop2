@@ -1,0 +1,11 @@
+module MaV {
+interface Stats {
+
+       	unsigned long getNbVotes(in unsigned long id);
+    	unsigned long getNbVotesParBureau(in unsigned long idB, in unsigned long id);
+    	unsigned long getNbVotesParCanton(in unsigned long idCa, in unsigned long id);
+    	unsigned long getNbVotesParCirc(in unsigned long idCi, in unsigned long id);
+    	unsigned long getNbVotesParDept(in unsigned long idD, in unsigned long id);
+    };
+    
+};

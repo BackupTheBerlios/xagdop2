@@ -58,7 +58,6 @@ create table candidat(
 	prenom CHAR(40) not null,
 	age BIGINT(2) not null,
 	profession CHAR(40) not null,
-	nbVotes BIGINT(10) default 0 not null,
 	primary key (idCandidat)
 );
 
@@ -76,6 +75,23 @@ create table brigue(
 	foreign key (idMandat) references mandat(idMandat),
 	foreign key (idCandidat) references candidat(idCandidat)
 );
+
+create table vote(
+	idCandidat 	BIGINT(10) not null,
+	idBureau BIGINT(5) not null,
+	nbVotes BIGINT(10) default 0 not null,
+	primary key (idBureau, idCandidat),
+	foreign key (idBureau) references bureau(idBureau),
+	foreign key (idCandidat) references candidat(idCandidat)
+);
+
+create table admin(
+	idAdmin BIGINT(5) not null,
+	login 	char(8) not null,
+	password char(10) not null,
+	primary key (idAdmin)
+)
+
 
 insert into candidat (nom, prenom, age, profession) values ("Bla", "Plop", 10, "Bebe");
 insert into candidat (nom, prenom, age, profession) values ("Mamie", "Moujeau", 100, "Retraite");

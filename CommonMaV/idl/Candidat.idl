@@ -20,10 +20,9 @@ module MaV {
 	
     interface ListeC {
     	lc getAllCandidats();
-    	
-    	unsigned long getNbVotes(in unsigned long id);
+    	void deleteCandidat(in unsigned long id);
     	lm getMandats(in unsigned long id);
-    	unsigned long addCandidat(in Candidat c);
+    	boolean saveCandidat(in Candidat c);
     };
 };
 

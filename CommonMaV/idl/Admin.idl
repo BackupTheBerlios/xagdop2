@@ -1,0 +1,10 @@
+
+
+module MaV {	
+    interface Admin {
+    	void deleteAdmin(in unsigned long id);
+    	boolean verifLogin(in string login, in string pwd);
+    	boolean saveAdmin(in string login, in string pwd);
+    };
+};
+

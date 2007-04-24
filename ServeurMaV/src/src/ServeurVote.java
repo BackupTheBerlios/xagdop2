@@ -5,9 +5,6 @@ import org.omg.CosNaming.NameComponent;
 import org.omg.CosNaming.NamingContext;
 import org.omg.CosNaming.NamingContextHelper;
 
-import MaV.ListeC;
-import MaV.ListeCHelper;
-
 /**
  */
 public class ServeurVote {
@@ -27,6 +24,9 @@ public static void main(String[] args) {
             VotantImpl voteRef = new VotantImpl();
             orb.connect(voteRef);
             
+            StatsImpl statRef = new StatsImpl();
+            orb.connect(statRef);
+            
             org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
             NamingContext ncRef = NamingContextHelper.narrow(objRef);
              
@@ -37,6 +37,10 @@ public static void main(String[] args) {
             nc = new NameComponent("Votant", "");
             NameComponent pathv[] = {nc};
             ncRef.rebind(pathv, voteRef);
+            
+            nc = new NameComponent("Stats", "");
+            NameComponent paths[] = {nc};
+            ncRef.rebind(paths, voteRef);
             
 //          wait for invocations from clients
             java.lang.Object sync = new java.lang.Object();

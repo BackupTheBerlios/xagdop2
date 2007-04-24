@@ -18,6 +18,7 @@ module MaV {
     	
     	boolean aDejaVote(in unsigned long insee);
 		void votePour(in unsigned long id, in unsigned long insee);
-		
+		void deleteElecteur(in unsigned long id);
+    	boolean saveElecteur(in Electeur e);
     };
 };

@@ -14,7 +14,7 @@ public class ClientVote {
 
 	public static void main(String args[])
 	{
-		testClient();
+		//testClient();
 		new CandidatManagement();
 	}
 
@@ -25,8 +25,7 @@ public class ClientVote {
 			listeCref = UtilORB.getListeC();
 			listeCref.getAllCandidats();
 			listeCref.getMandats(1);
-			int nb = listeCref.getNbVotes(1);
-			System.out.println("Nb : " + nb); 
+		
 
 			Votant votantRef = UtilORB.getVotant();
 			votantRef.aDejaVote(123);

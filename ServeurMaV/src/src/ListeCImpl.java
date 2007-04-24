@@ -10,7 +10,7 @@ import MaV.Mandat;
 
 public class ListeCImpl extends MaV._ListeCImplBase  {
 
-	public int addCandidat(Candidat c) {
+	public boolean saveCandidat(Candidat c) {
 		// TODO Auto-generated method stub
 		ArrayList cols = new ArrayList();
 		ArrayList values = new ArrayList();
@@ -24,8 +24,13 @@ public class ListeCImpl extends MaV._ListeCImplBase  {
 		values.add(c.prenom);
 		values.add(new Integer(c.age));
 		values.add(c.profession);
-		return DBUtils.insert("candidat", cols, values);
-
+		DBUtils.insert("candidat", cols, values);
+		
+		/** TODO a refaire, voir note Claire *
+		 * 
+		 */
+		
+		return true;
 	}
 
 	public Candidat[] getAllCandidats() {
@@ -109,6 +114,11 @@ public class ListeCImpl extends MaV._ListeCImplBase  {
 		}
 		return result;
 
+	}
+
+	public void deleteCandidat(int id) {
+		// TODO Auto-generated method stub
+		
 	}
 
 
