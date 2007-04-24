@@ -1,0 +1,63 @@
+<project name="MaV" default="makeAllIDLs" basedir=".">
+		
+	<!-- Directory for the idl generate -->
+	<property name="idlj.executable" value="idlj"/>
+	<property name="targetedClient" value="${basedir}/../ClientMaV/generate/client"/>
+	<property name="targetedServer" value="${basedir}/../ServeurMaV/generate/server"/>
+		
+	<!--- The following target allow the compilation of the idl for the diferent client of Baghera -->
+	
+	<target name="manageMaVClientIDLs" description="Compile module MaV for clients">
+		 <apply executable="${idlj.executable}" resolveExecutable="true">
+	      				<arg line="-fclient "/>
+	      				<arg line="-oldImplBase"/>
+	      				<arg line="-emitALL -keep "/>
+	      				<arg line="-td ${targetedClient} "/>
+		      		 	<arg line="-J-Xmx256m"/>
+	      				<fileset dir="${basedir}/idl/">
+							<include name="**/*.idl"/>
+						</fileset>
+		</apply>
+	</target>
+	
+	
+		
+	<!--- The following target allow the compilation of the idl for the server Baghera -->
+	
+	<target name="manageMaVServerIDLs" description="Compile module MaV for server">
+		 <apply executable="${idlj.executable}" resolveExecutable="true">
+	      				<arg line="-fallTie "/>
+	      				<arg line="-oldImplBase"/>
+	      				<arg line="-emitALL -keep "/>
+	      				<arg line="-td ${targetedServer}"/>
+		      		 	<arg line="-J-Xmx256m"/>
+	      				<fileset dir="${basedir}/idl/">
+							<include name="**/*.idl"/>
+						</fileset>
+		</apply>
+	</target>
+	
+	<!--
+		#########################################################
+		#########################################################
+	                    Génération complète de la release
+		#########################################################
+		#########################################################
+	-->
+	
+	
+	<target name="makeAllIDLs" depends="">
+		<antcall target="manageMaVServerIDLs"/>
+		<antcall target="manageMaVClientIDLs"/>
+	</target>
+	
+	<target name="help">
+		<echo>
+			Usage : build {module} 
+			Module possibles :
+					manageMaVServerIDLs
+					manageMaVClientIDLs
+					makeAllIDLs
+		</echo>
+	</target>
+</project>
