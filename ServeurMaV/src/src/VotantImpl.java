@@ -93,4 +93,37 @@ public class VotantImpl extends _VotantImplBase {
 		}
 	}
 
+	public void deleteElecteur(int id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+
+	public boolean saveElecteur(Electeur e) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean exists(int insee, int code) {
+		// TODO Auto-generated method stub
+		boolean res = false;
+		
+		String query = "SELECT COUNT(*) " +
+		"  FROM electeur e" +
+		"  WHERE insee = " + insee + " and code = " + code; 
+		ResultSet rs = DBUtils.select(query);
+			
+		try {
+			if(rs.next()){
+				if(rs.getInt(1)>0)
+				res = true;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
+	}
+
 }
