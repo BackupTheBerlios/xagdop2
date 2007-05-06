@@ -15,7 +15,7 @@ module MaV {
     interface Votant{
     	//Permet de tester son bureau de vote, et ses infos
     	Electeur verifierElecteur(in unsigned long insee, in unsigned long code);
-    	
+    	boolean exists(in unsigned long insee, in unsigned long code);
     	boolean aDejaVote(in unsigned long insee);
 		void votePour(in unsigned long id, in unsigned long insee);
 		void deleteElecteur(in unsigned long id);
