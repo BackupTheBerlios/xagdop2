@@ -15,7 +15,8 @@ public class ClientVote {
 	public static void main(String args[])
 	{
 		//testClient();
-		new CandidatManagement();
+		//new CandidatManagement();
+		new Login();
 	}
 
 	public static void testClient()
@@ -29,7 +30,7 @@ public class ClientVote {
 
 			Votant votantRef = UtilORB.getVotant();
 			votantRef.aDejaVote(123);
-			votantRef.verifierElecteur(123, 456);
+			votantRef.verifierElecteur(123,456);
 			votantRef.votePour(2, 123);
 		} catch (NotFound e) {
 			// TODO Auto-generated catch block
