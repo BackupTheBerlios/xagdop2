@@ -3,7 +3,10 @@ package uiVote;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -66,13 +69,13 @@ public class EffectuerVote extends JFrame {
 		c = this.getContentPane();
 		
 		//placement des différents éléments
-		c.setLayout(new GridLayout(3,1));
-		
+		c.setLayout(new GridBagLayout());
 
 		
 		// première ligne
 		introduction = new JLabel("Bonjour X, veuillez procéder au vote s'il vous plait");
-		c.add(introduction);
+		c.add(introduction, new GridBagConstraints(1, 1, 1, 1, 1.0, 0.0
+				,GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
 		
 		// deuxième ligne
 		Container deuxiemeLigne = new Container();
@@ -87,7 +90,8 @@ public class EffectuerVote extends JFrame {
 		//Voter.setEnabled(false);
 		deuxiemeLigne.add(Voter);
 		
-		c.add(deuxiemeLigne);
+		c.add(deuxiemeLigne, new GridBagConstraints(1, 2, 2, 2, 2.0, 2.0
+				,GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
 		
 		
 
@@ -113,7 +117,8 @@ public class EffectuerVote extends JFrame {
 			troisiemeLigne.add(info);
 		}
 		
-		c.add(troisiemeLigne);
+		c.add(troisiemeLigne, new GridBagConstraints(1, 5, 5, 5, 0.0, 2.0
+				,GridBagConstraints.SOUTH, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
 	
 		
 	
