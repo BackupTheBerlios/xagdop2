@@ -23,7 +23,7 @@ import controller.MaVSearchable;
  * @see
  * @Copyrigth Astek
  */
-public class AstekList extends JList implements ListDataListener, KeyListener, ListSelectionListener {
+public class MaVList extends JList implements ListDataListener, KeyListener, ListSelectionListener {
 
 
     // Attribute
@@ -38,14 +38,14 @@ public class AstekList extends JList implements ListDataListener, KeyListener, L
     protected boolean bDefaultAscendentOrder = true;
 
     
-    public AstekList(){
+    public MaVList(){
     	super();
     }
     
     /**
      * Constructor
      */
-    public AstekList(MaVListModel mySortableListModel_) {
+    public MaVList(MaVListModel mySortableListModel_) {
 
         // Call Parent
         super(mySortableListModel_);
