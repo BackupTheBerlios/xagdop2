@@ -1,4 +1,4 @@
-package uiVote;
+package ui.uiVote;
 
 import java.awt.Color;
 import java.awt.Container;
@@ -7,12 +7,15 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
+import controller.CandidatListener;
+import controller.EffectuerVoteListener;
+
 
 public class EffectuerVote extends JFrame {
 
@@ -22,7 +25,7 @@ public class EffectuerVote extends JFrame {
 	// Nombre de candidats
 	private int nbCandidats = 5;
 	
-	// Nom de l'électeur
+	// Nom de l'ï¿½lecteur
 	private String nomVotant = "Nicolas Ricard";
 	
 	// Listeners
@@ -66,24 +69,24 @@ public class EffectuerVote extends JFrame {
 		Container c;
 	
 		
-		//Définition de la fenetre elle meme
+		//Dï¿½finition de la fenetre elle meme
 		this.setBounds(10,10,300,300);
 		this.setSize(new Dimension(650, 350)); 
 		this.setResizable(false);
 		
-		//Création des composants et insertion dans la fenêtre
+		//Crï¿½ation des composants et insertion dans la fenï¿½tre
 		c = this.getContentPane();
 		
-		//placement des différents éléments
+		//placement des diffï¿½rents ï¿½lï¿½ments
 		c.setLayout(new GridBagLayout());
 
 		
-		// première ligne
-		introduction = new JLabel("Bonjour "+nomVotant+", veuillez procéder au vote s'il vous plait");
+		// premiï¿½re ligne
+		introduction = new JLabel("Bonjour "+nomVotant+", veuillez procï¿½der au vote s'il vous plait");
 		c.add(introduction, new GridBagConstraints(1, 1, 1, 1, 1.0, 0.0
 				,GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
 		
-		// deuxième ligne
+		// deuxiï¿½me ligne
 		Container deuxiemeLigne = new Container();
 		deuxiemeLigne.setLayout(new GridLayout(1,2));
 		
@@ -91,7 +94,7 @@ public class EffectuerVote extends JFrame {
 		candidatSelectionne.setText("...");
 		deuxiemeLigne.add(candidatSelectionne);
 		
-		Voter = new JButton("Votez définitivement pour ce candidat");
+		Voter = new JButton("Votez dï¿½finitivement pour ce candidat");
 		Voter.setBackground(Color.ORANGE); 
 		//Voter.setEnabled(false);
 		deuxiemeLigne.add(Voter);
@@ -107,7 +110,7 @@ public class EffectuerVote extends JFrame {
 		
 		Color couleurTexte;
 		for (int i=0;i<nbCandidats;i++) {
-			JButton candidat = new JButton("Candidat N°"+(i+1));
+			JButton candidat = new JButton("Candidat Nï¿½"+(i+1));
 			
 			candidatListener = new CandidatListener(this,candidat.getText());
 			candidat.addActionListener(candidatListener);
@@ -137,5 +140,7 @@ public class EffectuerVote extends JFrame {
 		setVisible(true);
 	}
 	
-	
+	public void setCandidatSelectionne(String nom){
+		candidatSelectionne.setText(nom);
+	}
 }

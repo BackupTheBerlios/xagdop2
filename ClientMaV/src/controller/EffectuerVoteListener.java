@@ -1,7 +1,9 @@
-package uiVote;
+package controller;
 
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+
+import ui.uiVote.EffectuerVote;
 
 public class EffectuerVoteListener implements WindowListener {
 	
@@ -22,7 +24,7 @@ public class EffectuerVoteListener implements WindowListener {
 	}
 
 	public void windowClosing(WindowEvent arg0) {
-		System.exit(0); // Arrêt de l'application
+		System.exit(0); // Arrï¿½t de l'application
 	}
 
 	public void windowDeactivated(WindowEvent arg0) {

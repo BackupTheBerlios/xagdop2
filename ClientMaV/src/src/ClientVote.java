@@ -4,8 +4,9 @@ import org.omg.CosNaming.NamingContextPackage.CannotProceed;
 import org.omg.CosNaming.NamingContextPackage.InvalidName;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
-import uiLogin.Login;
-import uiManagement.CandidatManagement;
+import src.util.UtilORB;
+import ui.main.MainFrame;
+import ui.uiManagement.CandidatManagement;
 import MaV.ListeC;
 import MaV.Votant;
 
@@ -15,8 +16,15 @@ public class ClientVote {
 	public static void main(String args[])
 	{
 		//testClient();
-		//new CandidatManagement();
-		new Login();
+		new CandidatManagement();
+		//new Login();
+		/*try {
+			MainFrame myFrame = new MainFrame();
+			myFrame.setVisible(true);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
 	}
 
 	public static void testClient()

@@ -1,4 +1,4 @@
-package src;
+package src.util;
 
 import org.omg.CORBA.ORB;
 import org.omg.CosNaming.NameComponent;

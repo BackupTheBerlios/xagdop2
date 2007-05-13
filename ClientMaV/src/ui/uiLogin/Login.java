@@ -1,4 +1,4 @@
-package uiLogin;
+package ui.uiLogin;
 
 import java.awt.Dimension;
 import java.awt.Point;
@@ -16,7 +16,7 @@ import org.omg.CosNaming.NamingContextPackage.CannotProceed;
 import org.omg.CosNaming.NamingContextPackage.InvalidName;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
-import src.UtilORB;
+import src.util.UtilORB;
 import MaV.Votant;
 
 public class Login extends JFrame{
