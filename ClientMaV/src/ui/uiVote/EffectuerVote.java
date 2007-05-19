@@ -23,9 +23,9 @@ public class EffectuerVote extends JFrame {
 	private static final long serialVersionUID = -3066723065684758861L;
 
 	// Nombre de candidats
-	private int nbCandidats = 5;
+	private int nbCandidats = 7;
 	
-	// Nom de l'�lecteur
+	// Nom de l electeur
 	private String nomVotant = "Nicolas Ricard";
 	
 	// Listeners
@@ -69,24 +69,24 @@ public class EffectuerVote extends JFrame {
 		Container c;
 	
 		
-		//D�finition de la fenetre elle meme
+		//Definition de la fenetre elle meme
 		this.setBounds(10,10,300,300);
 		this.setSize(new Dimension(650, 350)); 
 		this.setResizable(false);
 		
-		//Cr�ation des composants et insertion dans la fen�tre
+		//Creation des composants et insertion dans la fen�tre
 		c = this.getContentPane();
 		
-		//placement des diff�rents �l�ments
+		//placement des differents elements
 		c.setLayout(new GridBagLayout());
 
 		
-		// premi�re ligne
-		introduction = new JLabel("Bonjour "+nomVotant+", veuillez proc�der au vote s'il vous plait");
+		// premiere ligne
+		introduction = new JLabel("Bonjour "+nomVotant+", veuillez proceder au vote s'il vous plait");
 		c.add(introduction, new GridBagConstraints(1, 1, 1, 1, 1.0, 0.0
 				,GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
 		
-		// deuxi�me ligne
+		// deuxieme ligne
 		Container deuxiemeLigne = new Container();
 		deuxiemeLigne.setLayout(new GridLayout(1,2));
 		
@@ -94,7 +94,7 @@ public class EffectuerVote extends JFrame {
 		candidatSelectionne.setText("...");
 		deuxiemeLigne.add(candidatSelectionne);
 		
-		Voter = new JButton("Votez d�finitivement pour ce candidat");
+		Voter = new JButton("Votez definitivement pour ce candidat");
 		Voter.setBackground(Color.ORANGE); 
 		//Voter.setEnabled(false);
 		deuxiemeLigne.add(Voter);
@@ -110,12 +110,12 @@ public class EffectuerVote extends JFrame {
 		
 		Color couleurTexte;
 		for (int i=0;i<nbCandidats;i++) {
-			JButton candidat = new JButton("Candidat N�"+(i+1));
+			JButton candidat = new JButton("Candidat Numero "+(i+1));
 			
 			candidatListener = new CandidatListener(this,candidat.getText());
 			candidat.addActionListener(candidatListener);
 			
-			JButton info = new JButton("Plus d'informations sur ce candidat");
+			JButton info = new JButton("Plus d informations sur ce candidat");
 			
 			if (i%2!=0)
 				couleurTexte = Color.CYAN.darker();

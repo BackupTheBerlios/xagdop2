@@ -11,9 +11,9 @@ import MaV.Mandat;
 public class ListeCImpl extends MaV._ListeCImplBase  {
 
 	public boolean saveCandidat(Candidat c) {
-		// TODO Auto-generated method stub
 		ArrayList cols = new ArrayList();
 		ArrayList values = new ArrayList();
+
 
 		cols.add("nom");
 		cols.add("prenom");
@@ -24,11 +24,22 @@ public class ListeCImpl extends MaV._ListeCImplBase  {
 		values.add(c.prenom);
 		values.add(new Integer(c.age));
 		values.add(c.profession);
-		DBUtils.insert("candidat", cols, values);
 		
-		/** TODO a refaire, voir note Claire *
-		 * 
-		 */
+		// si pas d'id, alors création
+		if (c.id==0) {
+			DBUtils.insert("candidat", cols, values);
+
+			/** TODO Nico créer une ligne correspondante dans la table vote, sinon le mettre à jour.
+			 * 
+			 */
+			
+		}
+		// sinon, mise à jour
+		else {
+			DBUtils.update("candidat", cols, values, "idCandidat = " + c.id);
+		}
+		
+		
 		
 		return true;
 	}
