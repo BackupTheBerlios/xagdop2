@@ -11,35 +11,34 @@ import MaV.Mandat;
 public class ListeCImpl extends MaV._ListeCImplBase  {
 
 	public boolean saveCandidat(Candidat c) {
+		// TODO Auto-generated method stub
 		ArrayList cols = new ArrayList();
 		ArrayList values = new ArrayList();
-
 
 		cols.add("nom");
 		cols.add("prenom");
 		cols.add("age");
 		cols.add("profession");
 
-		values.add(c.nom);
-		values.add(c.prenom);
-		values.add(new Integer(c.age));
-		values.add(c.profession);
+		values.add(c.nom());
+		values.add(c.prenom());
+		values.add(new Integer(c.age()));
+		values.add(c.profession());
+		DBUtils.insert("candidat", cols, values);
 		
-		// si pas d'id, alors création
-		if (c.id==0) {
+			// si pas d'id, alors crï¿½ation
+		if (c.id()==0) {
 			DBUtils.insert("candidat", cols, values);
 
-			/** TODO Nico créer une ligne correspondante dans la table vote, sinon le mettre à jour.
+			/** TODO Nico crï¿½er une ligne correspondante dans la table vote, sinon le mettre ï¿½ jour.
 			 * 
 			 */
 			
 		}
-		// sinon, mise à jour
+		// sinon, mise ï¿½ jour
 		else {
-			DBUtils.update("candidat", cols, values, "idCandidat = " + c.id);
+			DBUtils.update("candidat", cols, values, "idCandidat = " + c.id());
 		}
-		
-		
 		
 		return true;
 	}
@@ -63,7 +62,12 @@ public class ListeCImpl extends MaV._ListeCImplBase  {
 
 			int i = 0;
 			while(rs.next()){
-				ca = new Candidat(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5));
+				ca = new CandidatImpl();
+				ca.id(rs.getInt(1));
+				ca.nom(rs.getString(2));
+				ca.prenom(rs.getString(3));
+				ca.age(rs.getInt(4));
+				ca.profession(rs.getString(5));
 				result[i] = ca;
 				i++;
 			}

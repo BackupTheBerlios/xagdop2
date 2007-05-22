@@ -8,6 +8,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.List;
+import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -17,6 +18,20 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import org.omg.CosNaming.NamingContextPackage.CannotProceed;
+import org.omg.CosNaming.NamingContextPackage.InvalidName;
+import org.omg.CosNaming.NamingContextPackage.NotFound;
+
+import MaV.ListeC;
+import MaV._CandidatStub;
+
+import src.util.ArrayListStorageContainer;
+import src.util.UtilORB;
+import ui.util.MaVList;
+import controller.MaVComparator;
+import controller.MaVListModel;
+import controller.MaVSearchable;
+
 public class CandidatManagement extends JFrame {
 
 	/**
@@ -25,8 +40,9 @@ public class CandidatManagement extends JFrame {
 	private static final long serialVersionUID = 8598685457321999040L;
 	private JPanel jContentPane = null;
 	private JPanel jPanelAge = null;
+	private JPanel jPanelImage = null;
 	private Button bAdd = null;
-	private List listCandidat = null;  //  @jve:decl-index=0:visual-constraint="613,10"
+	private MaVList listCandidat = null;  //  @jve:decl-index=0:visual-constraint="613,10"
 	private Button bDel = null;
 	private Button bQuit = null;
 	private JPanel jPanel = null;  //  @jve:decl-index=0:visual-constraint="443,13"
@@ -36,7 +52,7 @@ public class CandidatManagement extends JFrame {
 	private JLabel lPrenom = null;
 	private JLabel lAge = null;
 	private JLabel lProfession = null;
-	private List listMandats = null;
+	private MaVList listMandats = null;
 	private JTextField jtNom = null;
 	private JTextField jtPrenom = null;
 	private JTextField jtAge = null;
@@ -51,10 +67,16 @@ public class CandidatManagement extends JFrame {
 	private JScrollPane jScrollPane_List = new JScrollPane(
 			JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 			JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-	
+
 	private JScrollPane jScrollPaneMandat = new JScrollPane(
 			JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 			JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+	private MaVListModel jListModelList = new MaVListModel();
+
+	private String strOrderAttribute = "";
+	private MaVComparator myComparator = null;
+
 	/**
 	 * This method initializes 
 	 * 
@@ -63,17 +85,24 @@ public class CandidatManagement extends JFrame {
 		super();
 		initialize();
 	}
+	public CandidatManagement(MaVComparator mc, MaVSearchable ms, ArrayListStorageContainer list ) {
+		super();
+		initialize();
+		setComparator( mc, "");
+		setSearchable( ms, "");
+		setLists(list);
+	}
 
 	/**
 	 * This method initializes this
 	 * 
 	 */
 	private void initialize() {
-        this.setSize(new Dimension(660, 490));
-        this.setPreferredSize(new Dimension(660, 490));
-        this.setContentPane(getJContentPane());
-        this.setTitle("Edition des candidats");
-        this.setMinimumSize(new Dimension(320,240));
+		this.setSize(new Dimension(660, 490));
+		this.setPreferredSize(new Dimension(660, 490));
+		this.setContentPane(getJContentPane());
+		this.setTitle("Edition des candidats");
+		this.setMinimumSize(new Dimension(320,240));
 		setVisible(true);
 	}
 
@@ -135,11 +164,38 @@ public class CandidatManagement extends JFrame {
 			jContentPane.add(getButton1(), gridBagConstraints3);
 			jContentPane.add(getButton2(), gridBagConstraints4);
 			jContentPane.add(getJPanel(), gridBagConstraints7);
+			jContentPane.add(getJPanelImage(), gridBagConstraints7);
 			jContentPane.add(getJTextField4(), gridBagConstraints17);
+			getJPanel().setVisible(false);
+			listCandidat.addMouseListener(new java.awt.event.MouseAdapter() {
+				public void mouseClicked(java.awt.event.MouseEvent e) {
+					if (e.getClickCount() == 1) {
+						//((PanelCompany)getJPanelEdit()).set((ECSSCompany)listOfCompany.getModel().getElementAt(index));
+						if(listCandidat.getSelectedIndex() == -1){
+							getJPanelImage().setVisible(true);
+							getJPanel().setVisible(false);
+						}else{
+							getJPanelImage().setVisible(false);
+							getJPanel().setVisible(true);
+							completePanel(listCandidat.getSelectedIndex());
+						}
+					}
+				}
+			});
 		}
 		return jContentPane;
 	}
 
+
+	private JPanel getJPanelImage() {
+		if (jPanelImage == null) {
+			jPanelImage = new JPanel();
+			jPanel.setPreferredSize(new Dimension(450,250));
+			jPanel.setSize(new Dimension(416, 406));
+			jPanel.setMinimumSize(new Dimension(240, 280));
+		}
+		return jPanelImage;
+	}
 	/**
 	 * This method initializes button	
 	 * 	
@@ -160,8 +216,9 @@ public class CandidatManagement extends JFrame {
 	 */
 	private JScrollPane getList() {
 		if (listCandidat == null) {
-			listCandidat = new List();
-			listCandidat.setPreferredSize(new Dimension(120,230));
+			listCandidat = new MaVList(jListModelList);
+			listCandidat.setSize(new Dimension(120,230));
+			listCandidat.setMaximumSize(new Dimension(120,230));
 			jScrollPane_List.getViewport().add(listCandidat);
 		}
 		return jScrollPane_List;
@@ -193,7 +250,7 @@ public class CandidatManagement extends JFrame {
 		return bQuit;
 	}
 
-	
+
 	private JPanel getJPanelAge() {
 		if (jPanelAge == null) {
 			jPanelAge = new JPanel();
@@ -205,7 +262,7 @@ public class CandidatManagement extends JFrame {
 		}
 		return jPanelAge;
 	}
-	
+
 	/**
 	 * This method initializes jPanel
 	 * 	
@@ -362,7 +419,7 @@ public class CandidatManagement extends JFrame {
 	 */
 	private JScrollPane getList1() {
 		if (listMandats == null) {
-			listMandats = new List();
+			listMandats = new MaVList(new MaVListModel());
 			jScrollPaneMandat.getViewport().add(listMandats);
 		}
 		return jScrollPaneMandat;
@@ -482,9 +539,68 @@ public class CandidatManagement extends JFrame {
 	private JTextField getJTextField4() {
 		if (jTextField == null) {
 			jTextField = new JTextField();
+			jTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+				public void keyReleased(KeyEvent e) {
+					jTextField_FindLeftPersonList_keyReleased(e);
+				}
+			});
 		}
 		return jTextField;
 	}
 
+
+	public void setComparator(MaVComparator myComparator_,
+			String strOrderAttribute_) {
+		myComparator = myComparator_;
+		strOrderAttribute = strOrderAttribute_;
+	}
+
+	public void setLists(ArrayListStorageContainer _list){
+		jListModelList.setData(_list);
+		//jListModel_List.setData(ListOfPersonSmart.getInstance().getAllPersons());
+		jListModelList.getData().addDataListListener(jListModelList);
+		if (myComparator != null) {
+			jListModelList.sort(myComparator, strOrderAttribute,
+					myComparator.getOrder());
+		}
+	}
+
+
+	public void setSearchable(MaVSearchable mySearchableDelegationObject_,
+			String strSearchAttribute_) {
+
+		listCandidat.setSearchDelegationObject(mySearchableDelegationObject_,
+				strSearchAttribute_);
+	}
+
+
+	private void jTextField_FindLeftPersonList_keyReleased(KeyEvent e) {
+		listCandidat.searchText(jTextField.getText());
+	}
+
+	public void completePanel(int index){
+		id.setText(Integer.toString(((_CandidatStub)jListModelList.getElementAt(index)).id()));
+		jtNom.setText(((_CandidatStub)jListModelList.getElementAt(index)).nom());
+		jtPrenom.setText(((_CandidatStub)jListModelList.getElementAt(index)).prenom());
+		jtAge.setText(Integer.toString(((_CandidatStub)jListModelList.getElementAt(index)).age()));
+		jtProfession.setText(((_CandidatStub)jListModelList.getElementAt(index)).profession());
 	
+		try {
+			ListeC listeCref = UtilORB.getListeC();
+			((MaVListModel)listMandats.getModel()).setData(new ArrayListStorageContainer(listeCref.getMandats(Integer.parseInt(id.getText()))));
+		} catch (NotFound e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CannotProceed e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidName e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+
 }  //  @jve:decl-index=0:visual-constraint="10,10"

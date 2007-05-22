@@ -8,6 +8,7 @@ import src.util.ArrayListStorageContainer;
 import src.util.StorageContainer;
 import ui.util.DataListEvent;
 import ui.util.DataListListener;
+import MaV._CandidatStub;
 
 
 
@@ -16,9 +17,7 @@ import ui.util.DataListListener;
  *
  * <i>DataListListener</i> compatible.
  * Provide <i>sort()</i> method.
- *
- * @see
- * @Copyrigth Astek
+
  */
 public class MaVListModel
     extends AbstractListModel
@@ -108,9 +107,9 @@ public class MaVListModel
         {
             myObject = myStorageContainer.get(nIndex_);
         }
-
+        //System.out.println(myObject.getClass());
         // Return it
-        return myObject;
+        return myObject;//((_CandidatStub)myObject)._toString();
     }
 
     /**

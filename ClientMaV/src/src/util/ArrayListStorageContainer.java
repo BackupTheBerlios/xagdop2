@@ -55,6 +55,14 @@ public class ArrayListStorageContainer
 		super();
 		addAll(array_);
 	}
+	
+	public ArrayListStorageContainer(Object[] array_)
+	{
+		super();
+		for(int i = 0; i< array_.length; i++){
+			add(array_[i]);
+		}
+	}
 
 	/**
 	 * Constructor with array substract

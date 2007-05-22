@@ -1,12 +1,7 @@
-/*--- formatted by Jindent 2.1, (www.c-lab.de/~jindent) ---*/
 
 package controller;
 
-/**
- * This interface describes a class that will be indicates if
- * his representative view start with a string
- * @author AUBERT Marc-Jean,STOLF Yannick
- */
+
 public interface Searchable {
 
     /**

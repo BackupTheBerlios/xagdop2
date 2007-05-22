@@ -27,6 +27,9 @@ public static void main(String[] args) {
             StatsImpl statRef = new StatsImpl();
             orb.connect(statRef);
             
+            CandidatImpl candRef = new CandidatImpl();
+            orb.connect(statRef);
+            
             org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
             NamingContext ncRef = NamingContextHelper.narrow(objRef);
              
@@ -40,7 +43,11 @@ public static void main(String[] args) {
             
             nc = new NameComponent("Stats", "");
             NameComponent paths[] = {nc};
-            ncRef.rebind(paths, voteRef);
+            ncRef.rebind(paths, statRef);
+            
+            nc = new NameComponent("Candidat", "");
+            NameComponent pathc[] = {nc};
+            ncRef.rebind(pathc, candRef);
             
 //          wait for invocations from clients
             java.lang.Object sync = new java.lang.Object();
