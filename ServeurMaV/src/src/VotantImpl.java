@@ -66,7 +66,7 @@ public class VotantImpl extends _VotantImplBase {
 	}
 
 	public void votePour(int id, int insee) {
-		// TODO Auto-generated method stub
+		// TODO A refaire avec la nouvelle base
 		
 		if(!this.aDejaVote(insee)){
 		

@@ -3,20 +3,24 @@ package ui.uiLogin;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.text.NumberFormat;
 
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import javax.swing.JTextField;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
 
 import org.omg.CosNaming.NamingContextPackage.CannotProceed;
 import org.omg.CosNaming.NamingContextPackage.InvalidName;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
 import src.util.UtilORB;
+import ui.uiVote.EffectuerVote;
 import MaV.Votant;
 
 public class Login extends JFrame{
@@ -29,7 +33,7 @@ public class Login extends JFrame{
 	private JLabel jLabel = null;
 	private JLabel jLabel1 = null;
 	private JLabel jLabel2 = null;
-	private JTextField insee = null;
+	private JFormattedTextField insee = null;
 	private JLabel jLabel3 = null;
 	private JButton valider = null;
 	private JPasswordField code = null;
@@ -43,7 +47,7 @@ public class Login extends JFrame{
 	 * 
 	 */
 	private void initialize() {
-        this.setSize(new Dimension(347, 238));
+        this.setSize(new Dimension(362, 229));
         this.setLocation(new Point(500, 250));
         this.setResizable(false);
         this.setMaximumSize(new Dimension(11, 30));
@@ -93,11 +97,18 @@ public class Login extends JFrame{
 	 * 	
 	 * @return javax.swing.JTextField	
 	 */
-	private JTextField getInsee() {
+	private JFormattedTextField getInsee() {
 		if (insee == null) {
-			insee = new JTextField();
+			NumberFormat nf = NumberFormat.getIntegerInstance();
+			NumberFormatter intFormatter = new NumberFormatter(nf);
+			nf.setParseIntegerOnly(true);
+			nf.setGroupingUsed(false);
+			intFormatter.setFormat(nf);
+			insee = new JFormattedTextField();
+			insee.setFormatterFactory(new DefaultFormatterFactory(intFormatter));
 			insee.setBounds(new Rectangle(148, 89, 169, 24));
 			insee.setName("insee");
+			
 		}
 		return insee;
 	}
@@ -115,20 +126,32 @@ public class Login extends JFrame{
 			valider.setText("Valider");
 			valider.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-				
-					int i = (new Integer(getInsee().getText())).intValue();
-					int c = (new Integer(new String(getCode().getPassword())).intValue());
+					int i = 0;
+					int c = 0;
+					
+					if(!getInsee().getText().equals(""))
+						i = (new Integer(getInsee().getText())).intValue();
+					
+					String sc = new String(getCode().getPassword());
+					
+					if(!sc.equals("") && sc.matches("[0-9]+"))
+						c = new Integer(sc).intValue();
+					
 					System.out.println("Numero Insee : " + i); 
 					System.out.println("Code : " + c); 
 					try {
 						Votant v = UtilORB.getVotant();
+						
 						boolean el = v.exists(i, c);
+						
 						if(!el){
 							JOptionPane.showMessageDialog(null, "Electeur inconnu! Vérifier le numéro INSEE et le code indiqué.", "Electeur inconnu.", 1);
 						}
-						else
+						else{
 							System.out.println("OK");
-						
+							setVisible(false);
+							new EffectuerVote();
+						}
 					} catch (NotFound e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();

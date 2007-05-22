@@ -1,7 +1,8 @@
 package controller;
 
-import MaV.Candidat;
-import MaV._CandidatStub;
+import src.util.Candidat;
+
+
 
 
 /**
@@ -17,7 +18,7 @@ public class CandidatSearchable implements MaVSearchable
         try
         {
             // Test if start with
-            return ((_CandidatStub) value).nom().toLowerCase().startsWith(strValue.toLowerCase());
+            return ((Candidat) value).getCand().nom().toLowerCase().startsWith(strValue.toLowerCase());
 
         } catch (Throwable th)
         {

@@ -24,22 +24,21 @@ public class ListeCImpl extends MaV._ListeCImplBase  {
 		values.add(c.prenom());
 		values.add(new Integer(c.age()));
 		values.add(c.profession());
-		DBUtils.insert("candidat", cols, values);
-		
-			// si pas d'id, alors cr�ation
+
+		// si pas d'id, alors cr�ation
 		if (c.id()==0) {
 			DBUtils.insert("candidat", cols, values);
 
 			/** TODO Nico cr�er une ligne correspondante dans la table vote, sinon le mettre � jour.
 			 * 
 			 */
-			
+
 		}
 		// sinon, mise � jour
 		else {
 			DBUtils.update("candidat", cols, values, "idCandidat = " + c.id());
 		}
-		
+
 		return true;
 	}
 
@@ -87,9 +86,11 @@ public class ListeCImpl extends MaV._ListeCImplBase  {
 		int nb = -1;
 		ResultSet rs = DBUtils.select(query);
 		try {
-			rs.next();
-			nb = rs.getInt(1);
-			rs.close();
+			if(rs!=null){
+				rs.next();
+				nb = rs.getInt(1);
+				rs.close();
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -101,31 +102,37 @@ public class ListeCImpl extends MaV._ListeCImplBase  {
 		Mandat ma;
 		Mandat[] result = null;
 
-		String query = "SELECT m.idMandat, m.titre, m.annee FROM mandat m , brigue b WHERE b.idCandidat = " + id + " AND m.idMandat = b.idMandat"; 
+		String query = "SELECT m.idMandat, m.titre, m.anneeD, m.anneeF FROM mandat m , brigue b WHERE b.idCandidat = " + id + " AND m.idMandat = b.idMandat"; 
 		//System.out.println(query);
 		ResultSet rs = DBUtils.select(query);
-		int taille = 0;
+		if(rs!=null){
+			int taille = 0;
 
-		try {			
-			while(rs.next())
-			{
-				taille++;
+			try {			
+				while(rs.next())
+				{
+					taille++;
+				}
+				rs.beforeFirst();
+
+				result = new Mandat[taille];
+
+				int i = 0;
+
+				while(rs.next()){
+					if(rs.getString(4)==null)
+						ma = new Mandat(rs.getInt(1), rs.getString(2), rs.getString(3), "");
+					else
+						ma = new Mandat(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
+					result[i] = ma;
+					i++;
+				}
+				rs.close();
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			rs.beforeFirst();
-
-			result = new Mandat[taille];
-
-			int i = 0;
-			while(rs.next()){
-				ma = new Mandat(rs.getInt(1), rs.getString(2), rs.getString(3));
-				result[i] = ma;
-				i++;
-			}
-			rs.close();
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		return result;
 
@@ -133,7 +140,7 @@ public class ListeCImpl extends MaV._ListeCImplBase  {
 
 	public void deleteCandidat(int id) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 

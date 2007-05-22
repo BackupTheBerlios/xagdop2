@@ -13,7 +13,8 @@ module MaV {
 	struct Mandat{
 		unsigned long id;
 		string titre;
-		string annee;
+		string anneeD;
+		string anneeF;
 	};
 	
 	typedef sequence<Candidat> lc;

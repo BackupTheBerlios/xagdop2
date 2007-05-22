@@ -7,7 +7,8 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.List;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
@@ -22,12 +23,14 @@ import org.omg.CosNaming.NamingContextPackage.CannotProceed;
 import org.omg.CosNaming.NamingContextPackage.InvalidName;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
-import MaV.ListeC;
-import MaV._CandidatStub;
-
 import src.util.ArrayListStorageContainer;
+import src.util.Candidat;
+import src.util.MandatProxy;
 import src.util.UtilORB;
 import ui.util.MaVList;
+import MaV.ListeC;
+import MaV.Mandat;
+import MaV._CandidatStub;
 import controller.MaVComparator;
 import controller.MaVListModel;
 import controller.MaVSearchable;
@@ -163,9 +166,11 @@ public class CandidatManagement extends JFrame {
 			jContentPane.add(getList(), gridBagConstraints2);
 			jContentPane.add(getButton1(), gridBagConstraints3);
 			jContentPane.add(getButton2(), gridBagConstraints4);
-			jContentPane.add(getJPanel(), gridBagConstraints7);
 			jContentPane.add(getJPanelImage(), gridBagConstraints7);
+			jContentPane.add(getJPanel(), gridBagConstraints7);
+			
 			jContentPane.add(getJTextField4(), gridBagConstraints17);
+			getJPanelImage().setVisible(true);
 			getJPanel().setVisible(false);
 			listCandidat.addMouseListener(new java.awt.event.MouseAdapter() {
 				public void mouseClicked(java.awt.event.MouseEvent e) {
@@ -190,9 +195,9 @@ public class CandidatManagement extends JFrame {
 	private JPanel getJPanelImage() {
 		if (jPanelImage == null) {
 			jPanelImage = new JPanel();
-			jPanel.setPreferredSize(new Dimension(450,250));
-			jPanel.setSize(new Dimension(416, 406));
-			jPanel.setMinimumSize(new Dimension(240, 280));
+			jPanelImage.setPreferredSize(new Dimension(450,250));
+			jPanelImage.setSize(new Dimension(416, 406));
+			jPanelImage.setMinimumSize(new Dimension(240, 280));
 		}
 		return jPanelImage;
 	}
@@ -220,6 +225,8 @@ public class CandidatManagement extends JFrame {
 			listCandidat.setSize(new Dimension(120,230));
 			listCandidat.setMaximumSize(new Dimension(120,230));
 			jScrollPane_List.getViewport().add(listCandidat);
+			jScrollPane_List.setPreferredSize(new Dimension(120,230));
+			jScrollPane_List.setSize(new Dimension(120,230));
 		}
 		return jScrollPane_List;
 	}
@@ -527,6 +534,27 @@ public class CandidatManagement extends JFrame {
 		if (button == null) {
 			button = new Button();
 			button.setLabel("Enregistrer Candidat");
+			button.addActionListener(new ActionListener(){
+
+				public void actionPerformed(ActionEvent arg0) {
+					_CandidatStub cand = ((Candidat) ((MaVListModel)listCandidat.getModel()).getElementAt(listCandidat.getSelectedIndex())).getCand();
+					cand.nom(jtNom.getText());
+					try {
+						ListeC listeCref = UtilORB.getListeC();
+						listeCref.saveCandidat(cand);
+					} catch (NotFound e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (CannotProceed e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (InvalidName e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
+			});
 		}
 		return button;
 	}
@@ -556,7 +584,11 @@ public class CandidatManagement extends JFrame {
 	}
 
 	public void setLists(ArrayListStorageContainer _list){
-		jListModelList.setData(_list);
+		ArrayListStorageContainer _listTmp = new ArrayListStorageContainer();
+		for(int i = 0 ; i < _list.size(); i++){
+			_listTmp.add(new Candidat((_CandidatStub)_list.get(i)));
+		}
+		jListModelList.setData(_listTmp);
 		//jListModel_List.setData(ListOfPersonSmart.getInstance().getAllPersons());
 		jListModelList.getData().addDataListListener(jListModelList);
 		if (myComparator != null) {
@@ -579,15 +611,23 @@ public class CandidatManagement extends JFrame {
 	}
 
 	public void completePanel(int index){
-		id.setText(Integer.toString(((_CandidatStub)jListModelList.getElementAt(index)).id()));
-		jtNom.setText(((_CandidatStub)jListModelList.getElementAt(index)).nom());
-		jtPrenom.setText(((_CandidatStub)jListModelList.getElementAt(index)).prenom());
-		jtAge.setText(Integer.toString(((_CandidatStub)jListModelList.getElementAt(index)).age()));
-		jtProfession.setText(((_CandidatStub)jListModelList.getElementAt(index)).profession());
+		id.setText(Integer.toString((((Candidat)jListModelList.getElementAt(index))).getCand().id()));
+		jtNom.setText((((Candidat)jListModelList.getElementAt(index))).getCand().nom());
+		jtPrenom.setText((((Candidat)jListModelList.getElementAt(index))).getCand().prenom());
+		jtAge.setText(Integer.toString((((Candidat)jListModelList.getElementAt(index))).getCand().age()));
+		jtProfession.setText((((Candidat)jListModelList.getElementAt(index))).getCand().profession());
 	
 		try {
 			ListeC listeCref = UtilORB.getListeC();
-			((MaVListModel)listMandats.getModel()).setData(new ArrayListStorageContainer(listeCref.getMandats(Integer.parseInt(id.getText()))));
+			Mandat[] mandats = listeCref.getMandats(new Integer(id.getText()));
+			ArrayListStorageContainer lsc = new ArrayListStorageContainer();
+			for(int i=0; i < mandats.length; i++){
+				MandatProxy mp = new MandatProxy(mandats[i]);
+				lsc.add(mp);
+				
+			}
+			
+			((MaVListModel)listMandats.getModel()).setData(lsc);
 		} catch (NotFound e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -1,15 +1,13 @@
 package src;
 
-import javax.swing.ListCellRenderer;
-
 import org.omg.CosNaming.NamingContextPackage.CannotProceed;
 import org.omg.CosNaming.NamingContextPackage.InvalidName;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
 import src.util.ArrayListStorageContainer;
 import src.util.UtilORB;
+import ui.uiLogin.Login;
 import ui.uiManagement.CandidatManagement;
-import MaV.Candidat;
 import MaV.ListeC;
 import MaV.Votant;
 import controller.CandidatComparator;
@@ -20,7 +18,17 @@ public class ClientVote {
 
 	public static void main(String args[])
 	{
-		testClient();
+		//testClient();
+		//new CandidatManagement();
+		new Login();
+		/*try {
+			MainFrame myFrame = new MainFrame();
+			myFrame.setVisible(true);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+		//testClient();
 		
 		/*test.add(new Candidat(1,"bla","blabla",21,"Escroc"));
 		test.add(new Candidat(2,"Malcor","blabla",21,"maire"));
@@ -46,12 +54,13 @@ public class ClientVote {
 			listeCref.getAllCandidats();
 			listeCref.getMandats(1);
 			ArrayListStorageContainer test = new ArrayListStorageContainer(listeCref.getAllCandidats());
+			
 			new CandidatManagement(new CandidatComparator(),new CandidatSearchable(), test);
 			
 			Votant votantRef = UtilORB.getVotant();
 			votantRef.aDejaVote(123);
 			votantRef.verifierElecteur(123,456);
-			votantRef.votePour(2, 123);
+			//votantRef.votePour(2, 123);
 		} catch (NotFound e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

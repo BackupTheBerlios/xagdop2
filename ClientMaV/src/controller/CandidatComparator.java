@@ -1,6 +1,6 @@
 package controller;
 
-import MaV.Candidat;
+import src.util.Candidat;
 import MaV._CandidatStub;
 
 
@@ -31,7 +31,7 @@ public class CandidatComparator implements MaVComparator
      */
     public int compare(Object o1, Object o2)
     {
-        return ((_CandidatStub) o1).nom().compareToIgnoreCase(((_CandidatStub) o2).nom());
+        return ((Candidat) o1).getCand().nom().compareToIgnoreCase(((Candidat) o2).getCand().nom());
 
     }
     

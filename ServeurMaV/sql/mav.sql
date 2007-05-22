@@ -1,7 +1,21 @@
 drop database if exists mav;
 create database mav;
 
+
 use mav;
+
+drop table if exists bureau cascade;
+drop table if exists brigue cascade;
+drop table if exists candidat cascade;
+drop table if exists canton cascade;
+drop table if exists circonscription cascade;
+drop table if exists dept cascade;
+drop table if exists electeur cascade;
+drop table if exists lieu cascade;
+drop table if exists mandat cascade;
+drop table if exists vote cascade;
+
+
 
 create table bureau(
 	idBureau BIGINT(5) not null auto_increment,
@@ -56,7 +70,7 @@ create table candidat(
 	idCandidat BIGINT(10) not null auto_increment,
 	nom CHAR(40) not null,
 	prenom CHAR(40) not null,
-	age BIGINT(2) not null,
+	age BIGINT(3) not null,
 	profession CHAR(40) not null,
 	primary key (idCandidat)
 );
@@ -64,7 +78,8 @@ create table candidat(
 create table mandat(
 	idMandat BIGINT(10) not null auto_increment,
 	titre CHAR(40) not null,
-	annee CHAR(4) not null,
+	anneeD CHAR(4) not null,
+	anneeF CHAR(4),
 	primary key (idMandat)
 );
 
@@ -90,15 +105,16 @@ create table admin(
 	login 	char(8) not null,
 	password char(10) not null,
 	primary key (idAdmin)
-)
+);
 
 
-insert into candidat (nom, prenom, age, profession) values ("Bla", "Plop", 10, "Bebe");
+
 insert into candidat (nom, prenom, age, profession) values ("Mamie", "Moujeau", 100, "Retraite");
+insert into candidat (nom, prenom, age, profession) values ("Blabla", "Plop", 10, "Bebe");
 
-insert into mandat (titre, annee) values ("Maire de Toulouse", "2003");
-insert into mandat (titre, annee) values ("Maire de Paris", "2003");
-insert into mandat (titre, annee) values ("Maire de Lyon", "2005");
+insert into mandat (titre, anneeD, anneeF) values ("Maire de Toulouse", "2003","2005");
+insert into mandat (titre, anneeD) values ("Maire de Paris", "2003");
+insert into mandat (titre, anneeD) values ("Maire de Lyon", "2005");
 
 insert into brigue(idMandat, idCandidat) values (1,1);
 insert into brigue(idMandat, idCandidat) values (2,1);
