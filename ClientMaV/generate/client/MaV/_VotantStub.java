@@ -160,4 +160,23 @@ public class _VotantStub extends org.omg.CORBA.portable.ObjectImpl implements Ma
      String str = org.omg.CORBA.ORB.init (args, props).object_to_string (this);
      s.writeUTF (str);
   }
+
+	public String getNom(int insee) {
+		 org.omg.CORBA.portable.InputStream $in = null;
+	     try {
+	         org.omg.CORBA.portable.OutputStream $out = _request ("getNom", true);
+	         $out.write_ulong (insee);
+	         $in = _invoke ($out);
+	         String $result = $in.read_string();
+	         return $result;
+	     } catch (org.omg.CORBA.portable.ApplicationException $ex) {
+	         $in = $ex.getInputStream ();
+	         String _id = $ex.getId ();
+	         throw new org.omg.CORBA.MARSHAL (_id);
+	     } catch (org.omg.CORBA.portable.RemarshalException $rm) {
+	         return getNom (insee);
+	     } finally {
+	         _releaseReply ($in);
+	     }
+	}
 } // class _VotantStub

@@ -125,5 +125,27 @@ public class VotantImpl extends _VotantImplBase {
 		}
 		return res;
 	}
+	
+	public String getNom(int insee) {
+		String nom = "";
+		
+		String query = "SELECT e.nom " +
+		"  FROM electeur e" +
+		"  WHERE insee = " + insee; 
+		ResultSet rs = DBUtils.select(query);
+			
+		if (rs!=null) {
+			try {
+				if(rs.next()){
+					nom = rs.getString(1);
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return nom;
+	}
 
 }

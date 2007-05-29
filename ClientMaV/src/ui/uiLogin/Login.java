@@ -150,7 +150,7 @@ public class Login extends JFrame{
 						else{
 							System.out.println("OK");
 							setVisible(false);
-							new EffectuerVote();
+							new EffectuerVote(i);
 						}
 					} catch (NotFound e1) {
 						// TODO Auto-generated catch block

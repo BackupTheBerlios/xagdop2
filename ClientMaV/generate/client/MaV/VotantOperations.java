@@ -18,4 +18,6 @@ public interface VotantOperations
   void votePour (int id, int insee);
   void deleteElecteur (int id);
   boolean saveElecteur (MaV.Electeur e);
+  String getNom(int insee);
+  
 } // interface VotantOperations

@@ -13,6 +13,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import org.omg.CosNaming.NamingContextPackage.CannotProceed;
+import org.omg.CosNaming.NamingContextPackage.InvalidName;
+import org.omg.CosNaming.NamingContextPackage.NotFound;
+
+import src.util.UtilORB;
+import MaV.Votant;
+
 import controller.CandidatListener;
 import controller.EffectuerVoteListener;
 
@@ -26,7 +33,9 @@ public class EffectuerVote extends JFrame {
 	private int nbCandidats = 7;
 	
 	// Nom de l electeur
-	private String nomVotant = "Nicolas Ricard";
+	private String nomVotant = "";
+	// Insee electeur
+	private int numINSEEVotant = 0;
 	
 	// Listeners
 	EffectuerVoteListener effectuerVoteListener;
@@ -42,12 +51,29 @@ public class EffectuerVote extends JFrame {
 	
 	
 	/**
-	 * This method initializes 
-	 * 
+	 * Creer la fenetre qui permet de voter
+	 * @param numInsee
 	 */
-	public EffectuerVote() {
+	public EffectuerVote(int numInsee) {
 		super();
 		initialize();
+		
+		numINSEEVotant = numInsee;
+		
+		Votant v;
+		try {
+			v = UtilORB.getVotant();
+			nomVotant = v.getNom(numInsee);
+		} catch (NotFound e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CannotProceed e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidName e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		EffectuerVoteListener ef = new EffectuerVoteListener(this);
 		this.addWindowListener(ef);
@@ -55,7 +81,7 @@ public class EffectuerVote extends JFrame {
 	}
 	
 	public static void main(String[] args) {
-		EffectuerVote toto = new EffectuerVote();
+		EffectuerVote toto = new EffectuerVote(1);
 		System.out.println("bou");
 	}
 	
