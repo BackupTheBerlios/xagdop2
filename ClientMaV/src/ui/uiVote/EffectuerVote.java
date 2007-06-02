@@ -118,6 +118,7 @@ public class EffectuerVote extends JFrame {
 		
 		candidatSelectionne = new JTextField();
 		candidatSelectionne.setText("...");
+		candidatSelectionne.setEditable(false);
 		deuxiemeLigne.add(candidatSelectionne);
 		
 		Voter = new JButton("Votez definitivement pour ce candidat");
