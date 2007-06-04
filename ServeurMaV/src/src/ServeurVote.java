@@ -45,9 +45,9 @@ public static void main(String[] args) {
             NameComponent paths[] = {nc};
             ncRef.rebind(paths, statRef);
             
-            nc = new NameComponent("Candidat", "");
+           /* nc = new NameComponent("Candidat", "");
             NameComponent pathc[] = {nc};
-            ncRef.rebind(pathc, candRef);
+            ncRef.rebind(pathc, candRef);*/
             
 //          wait for invocations from clients
             java.lang.Object sync = new java.lang.Object();

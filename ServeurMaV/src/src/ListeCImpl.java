@@ -20,13 +20,13 @@ public class ListeCImpl extends MaV._ListeCImplBase  {
 		cols.add("age");
 		cols.add("profession");
 
-		values.add(c.nom());
-		values.add(c.prenom());
-		values.add(new Integer(c.age()));
-		values.add(c.profession());
+		values.add(c.nom);
+		values.add(c.prenom);
+		values.add(new Integer(c.age));
+		values.add(c.profession);
 
 		// si pas d'id, alors cr�ation
-		if (c.id()==0) {
+		if (c.id == 0) {
 			DBUtils.insert("candidat", cols, values);
 
 			/** TODO Nico cr�er une ligne correspondante dans la table vote, sinon le mettre � jour.
@@ -36,7 +36,7 @@ public class ListeCImpl extends MaV._ListeCImplBase  {
 		}
 		// sinon, mise � jour
 		else {
-			DBUtils.update("candidat", cols, values, "idCandidat = " + c.id());
+			DBUtils.update("candidat", cols, values, "idCandidat = " + c.id);
 		}
 
 		return true;
@@ -61,12 +61,12 @@ public class ListeCImpl extends MaV._ListeCImplBase  {
 
 			int i = 0;
 			while(rs.next()){
-				ca = new CandidatImpl();
-				ca.id(rs.getInt(1));
-				ca.nom(rs.getString(2));
-				ca.prenom(rs.getString(3));
-				ca.age(rs.getInt(4));
-				ca.profession(rs.getString(5));
+				ca = new Candidat();
+				ca.id = rs.getInt(1);
+				ca.nom= rs.getString(2);
+				ca.prenom = rs.getString(3);
+				ca.age= rs.getInt(4);
+				ca.profession = rs.getString(5);
 				result[i] = ca;
 				i++;
 			}

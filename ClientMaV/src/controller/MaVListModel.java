@@ -8,7 +8,6 @@ import src.util.ArrayListStorageContainer;
 import src.util.StorageContainer;
 import ui.util.DataListEvent;
 import ui.util.DataListListener;
-import MaV._CandidatStub;
 
 
 

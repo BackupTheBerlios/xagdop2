@@ -4,7 +4,6 @@
 package src.util;
 
 import MaV.Mandat;
-import MaV._CandidatStub;
 
 /**
  * @author claire

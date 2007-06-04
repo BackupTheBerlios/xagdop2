@@ -1,13 +1,12 @@
 
 
 module MaV {
-    interface Candidat{
-			attribute unsigned long id;
-			attribute string nom;
-			attribute string prenom;
-			attribute unsigned long age;
-			attribute string profession;
-			string toString();
+    struct Candidat{
+			unsigned long id;
+			string nom;
+			string prenom;
+			unsigned long age;
+			string profession;
 	};
 	
 	struct Mandat{

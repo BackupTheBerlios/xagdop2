@@ -18,9 +18,9 @@ public class ClientVote {
 
 	public static void main(String args[])
 	{
-		//testClient();
+		testClient();
 		//new CandidatManagement();
-		new Login();
+		//new Login();
 		/*try {
 			MainFrame myFrame = new MainFrame();
 			myFrame.setVisible(true);

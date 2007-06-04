@@ -1,5 +1,5 @@
 package src;
-public class CandidatImpl extends MaV._CandidatImplBase  {
+public class CandidatImpl   {
 	int id;
 	String nom;
 	String prenom;
