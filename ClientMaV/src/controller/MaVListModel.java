@@ -106,9 +106,21 @@ public class MaVListModel
         {
             myObject = myStorageContainer.get(nIndex_);
         }
-        //System.out.println(myObject.getClass());
-        // Return it
-        return myObject;//((_CandidatStub)myObject)._toString();
+        return myObject;
+    }
+    
+    public void removeElement(Object objToRemove){
+    	if(myStorageContainer.remove(objToRemove)){
+    		fireContentsChanged(this, 0, getSize());
+    	}
+    }
+    
+    public void addElement(Object objToAdd){
+    	int previousSize = getSize();
+    	
+    	if(myStorageContainer.add(objToAdd)){
+    		fireContentsChanged(this, previousSize, getSize());
+    	}
     }
 
     /**

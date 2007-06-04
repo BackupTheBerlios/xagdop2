@@ -5,9 +5,10 @@
 	<property name="targetedClient" value="${basedir}/../ClientMaV/generate/client"/>
 	<property name="targetedServer" value="${basedir}/../ServeurMaV/generate/server"/>
 		
-	<!--- The following target allow the compilation of the idl for the diferent client of Baghera -->
+	<!--- The following target allow the compilation of the idl for the differents clients of MaV -->
 	
 	<target name="manageMaVClientIDLs" description="Compile module MaV for clients">
+		<delete dir="${targetedClient}"></delete>
 		 <apply executable="${idlj.executable}" resolveExecutable="true">
 	      				<arg line="-fclient "/>
 	      				<arg line="-oldImplBase"/>
@@ -22,9 +23,10 @@
 	
 	
 		
-	<!--- The following target allow the compilation of the idl for the server Baghera -->
+	<!--- The following target allow the compilation of the idl for the server MaV -->
 	
 	<target name="manageMaVServerIDLs" description="Compile module MaV for server">
+		<delete dir="${targetedServer}"></delete>
 		 <apply executable="${idlj.executable}" resolveExecutable="true">
 	      				<arg line="-fallTie "/>
 	      				<arg line="-oldImplBase"/>

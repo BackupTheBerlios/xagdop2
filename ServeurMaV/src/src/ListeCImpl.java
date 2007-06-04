@@ -5,13 +5,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import MaV.Candidat;
-import MaV.Mandat;
 
 
 public class ListeCImpl extends MaV._ListeCImplBase  {
 
 	public boolean saveCandidat(Candidat c) {
-		// TODO Auto-generated method stub
 		ArrayList cols = new ArrayList();
 		ArrayList values = new ArrayList();
 
@@ -20,31 +18,19 @@ public class ListeCImpl extends MaV._ListeCImplBase  {
 		cols.add("age");
 		cols.add("profession");
 
-		values.add(c.nom);
-		values.add(c.prenom);
-		values.add(new Integer(c.age));
-		values.add(c.profession);
+		values.add(c.nom());
+		values.add(c.prenom());
+		values.add(new Integer(c.age()));
+		values.add(c.profession());
 
-		// si pas d'id, alors cr�ation
-		if (c.id == 0) {
-			DBUtils.insert("candidat", cols, values);
-
-			/** TODO Nico cr�er une ligne correspondante dans la table vote, sinon le mettre � jour.
-			 * 
-			 */
-
-		}
-		// sinon, mise � jour
-		else {
-			DBUtils.update("candidat", cols, values, "idCandidat = " + c.id);
-		}
+		
+		DBUtils.update("candidat", cols, values, "idCandidat = " + c.id());
 
 		return true;
 	}
 
 	public Candidat[] getAllCandidats() {
-
-		Candidat ca;
+		CandidatImpl ca;
 		Candidat[] result = null;
 
 		String query = "SELECT * FROM candidat"; 
@@ -61,12 +47,12 @@ public class ListeCImpl extends MaV._ListeCImplBase  {
 
 			int i = 0;
 			while(rs.next()){
-				ca = new Candidat();
-				ca.id = rs.getInt(1);
-				ca.nom= rs.getString(2);
-				ca.prenom = rs.getString(3);
-				ca.age= rs.getInt(4);
-				ca.profession = rs.getString(5);
+				ca = new CandidatImpl();
+				ca.id(rs.getInt(1));
+				ca.nom(rs.getString(2));
+				ca.prenom(rs.getString(3));
+				ca.age(rs.getInt(4));
+				ca.profession(rs.getString(5));
 				result[i] = ca;
 				i++;
 			}
@@ -98,49 +84,54 @@ public class ListeCImpl extends MaV._ListeCImplBase  {
 		return nb;
 	}
 
-	public Mandat[] getMandats(int id) {
-		Mandat ma;
-		Mandat[] result = null;
 
-		String query = "SELECT m.idMandat, m.titre, m.anneeD, m.anneeF FROM mandat m , brigue b WHERE b.idCandidat = " + id + " AND m.idMandat = b.idMandat"; 
-		//System.out.println(query);
-		ResultSet rs = DBUtils.select(query);
-		if(rs!=null){
-			int taille = 0;
-
-			try {			
-				while(rs.next())
-				{
-					taille++;
-				}
-				rs.beforeFirst();
-
-				result = new Mandat[taille];
-
-				int i = 0;
-
-				while(rs.next()){
-					if(rs.getString(4)==null)
-						ma = new Mandat(rs.getInt(1), rs.getString(2), rs.getString(3), "");
-					else
-						ma = new Mandat(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
-					result[i] = ma;
-					i++;
-				}
-				rs.close();
-
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return result;
-
-	}
 
 	public void deleteCandidat(int id) {
-		// TODO Auto-generated method stub
+		DBUtils.delete("candidat", "idCandidat="+id);
+	}
 
+	public Candidat createCandidat(String nom, String prenom, int age, String profession) {
+
+
+		ArrayList cols = new ArrayList();
+		ArrayList values = new ArrayList();
+
+		cols.add("nom");
+		cols.add("prenom");
+		cols.add("age");
+		cols.add("profession");
+
+		values.add(nom);
+		values.add(prenom);
+		values.add(new Integer(age));
+		values.add(profession);
+
+		// si pas d'id, alors cr�ation
+		DBUtils.insert("candidat", cols, values);
+		/** TODO Nico cr�er une ligne correspondante dans la table vote, sinon le mettre � jour.
+		 * 
+		 */
+
+
+		String query = "SELECT * FROM candidat where idCandidat=LAST_INSERT_ID()"; 
+		ResultSet rs = DBUtils.select(query);
+		CandidatImpl ca = null;
+		try {			
+			rs.next();
+			ca = new CandidatImpl();
+			ca.id(rs.getInt(1));
+			ca.nom(rs.getString(2));
+			ca.prenom(rs.getString(3));
+			ca.age(rs.getInt(4));
+			ca.profession(rs.getString(5));
+
+			rs.close();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ca;
 	}
 
 

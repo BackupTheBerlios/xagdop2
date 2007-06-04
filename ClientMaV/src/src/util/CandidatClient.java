@@ -8,6 +8,7 @@ import org.omg.CosNaming.NamingContextPackage.InvalidName;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
 import MaV.Candidat;
+import MaV.ListeC;
 
 /**
  * @author claire
@@ -21,11 +22,10 @@ public class CandidatClient {
 		candTmp = cand ;
 	}
 	
-	public CandidatClient(int id){
-		candTmp = new Candidat() ;
+	public CandidatClient(String nom, String prenom, int age, String profession){
 		try {
-			candTmp.id = id;
-			UtilORB.getListeC().saveCandidat(candTmp);
+			ListeC listCand = UtilORB.getListeC();
+			candTmp = listCand.createCandidat(nom, prenom, age, profession);
 		} catch (NotFound e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -43,7 +43,7 @@ public class CandidatClient {
 		if(candTmp==null)
 			return null;
 		
-		return candTmp.nom + " " + candTmp.prenom;
+		return candTmp.nom() + " " + candTmp.prenom();
 	}
 	
 	public Candidat getCand(){

@@ -18,7 +18,7 @@ public class CandidatSearchable implements MaVSearchable
         try
         {
             // Test if start with
-            return ((CandidatClient) value).getCand().nom.toLowerCase().startsWith(strValue.toLowerCase());
+            return ((CandidatClient) value).getCand().nom().toLowerCase().startsWith(strValue.toLowerCase());
 
         } catch (Throwable th)
         {

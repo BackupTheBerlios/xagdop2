@@ -29,8 +29,6 @@ import src.util.CandidatClient;
 import src.util.MandatProxy;
 import src.util.UtilORB;
 import ui.util.MaVList;
-import MaV.Candidat;
-import MaV.ListeC;
 import MaV.Mandat;
 import controller.MaVListModel;
 
@@ -63,7 +61,8 @@ public class CandidatPanel extends JPanel {
 	private JButton bDelMandat = null;
 	private JButton bEditMandat = null;
 	private Button button = null;
-
+	private CandidatClient cand = null;
+	
 
 	private JScrollPane jScrollPaneMandat = new JScrollPane(
 			JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -344,11 +343,16 @@ public class CandidatPanel extends JPanel {
 			button.addActionListener(new ActionListener(){
 
 				public void actionPerformed(ActionEvent arg0) {
-					Candidat cand = ((CandidatClient) ((MaVListModel)listCandidat.getModel()).getElementAt(listCandidat.getSelectedIndex())).getCand();
-					cand.nom =jtNom.getText();
+					cand.getCand().nom(jtNom.getText());
+					cand.getCand().prenom(jtPrenom.getText());
+					cand.getCand().profession(jtProfession.getText());
+					if(!jtAge.getText().equals(""))
+						cand.getCand().age(Integer.parseInt(jtAge.getText()));
+					else
+						cand.getCand().age(-1);
+					
 					try {
-						ListeC listeCref = UtilORB.getListeC();
-						listeCref.saveCandidat(cand);
+						UtilORB.getListeC().saveCandidat(cand.getCand());
 					} catch (NotFound e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -360,6 +364,7 @@ public class CandidatPanel extends JPanel {
 						e.printStackTrace();
 					}
 				}
+				
 
 			});
 		}
@@ -367,38 +372,29 @@ public class CandidatPanel extends JPanel {
 	}
 
 
-	public void completePanel(CandidatClient cand){
-		id.setText(Integer.toString(cand.getCand().id));
-		jtNom.setText(cand.getCand().nom);
-		jtPrenom.setText(cand.getCand().prenom);
-		jtAge.setText(Integer.toString(cand.getCand().age));
-		jtProfession.setText(cand.getCand().profession);
+	public void completePanel(CandidatClient _cand){
+		cand = _cand;
+		id.setText(Integer.toString(_cand.getCand().id()));
+		jtNom.setText(_cand.getCand().nom());
+		jtPrenom.setText(_cand.getCand().prenom());
+		if(_cand.getCand().age()!=-1)
+			jtAge.setText(Integer.toString(_cand.getCand().age()));
+		else
+			jtAge.setText("");
+		jtProfession.setText(_cand.getCand().profession());
 
-		try {
-			ListeC listeCref = UtilORB.getListeC();
-			Mandat[] mandats = listeCref.getMandats(Integer.parseInt(id.getText()));
-			ArrayListStorageContainer lsc = new ArrayListStorageContainer();
-			for(int i=0; i < mandats.length; i++){
-				MandatProxy mp = new MandatProxy(mandats[i]);
-				lsc.add(mp);
+		Mandat[] mandats = _cand.getCand().getMandats();
+		ArrayListStorageContainer lsc = new ArrayListStorageContainer();
+		for(int i=0; i < mandats.length; i++){
+			MandatProxy mp = new MandatProxy(mandats[i]);
+			lsc.add(mp);
 
-			}
-
-			((MaVListModel)listMandats.getModel()).setData(lsc);
-		} catch (NotFound e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (CannotProceed e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvalidName e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-
+		
+		((MaVListModel)listMandats.getModel()).setData(lsc);
 
 	}
-	
+
 	public void setEditable(boolean bEditable){
 		jtNom.setEditable(bEditable);
 		jtPrenom.setEditable(bEditable);
@@ -408,7 +404,18 @@ public class CandidatPanel extends JPanel {
 		getJButton1().setVisible(bEditable);
 		getJButton2().setText("Détails Mandat");
 		getButton3().setVisible(bEditable);
-		
+
 	}
-	
+
+	public void clearPanel(){
+		id.setText("");
+		jtNom.setText("");
+		jtPrenom.setText("");
+		jtAge.setText("");
+		jtProfession.setText("");
+		ArrayListStorageContainer lsc = new ArrayListStorageContainer();
+		lsc.clear();
+		((MaVListModel)listMandats.getModel()).setData(lsc);
+	}
+
 }

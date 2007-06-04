@@ -14,10 +14,17 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import org.omg.CosNaming.NamingContextPackage.CannotProceed;
+import org.omg.CosNaming.NamingContextPackage.InvalidName;
+import org.omg.CosNaming.NamingContextPackage.NotFound;
+
 import src.util.ArrayListStorageContainer;
 import src.util.CandidatClient;
+import src.util.MessageDialogBox;
+import src.util.UtilORB;
 import ui.util.MaVList;
 import MaV.Candidat;
+import MaV.ListeC;
 import controller.MaVComparator;
 import controller.MaVListModel;
 import controller.MaVSearchable;
@@ -67,7 +74,7 @@ public class CandidatManagement extends JFrame {
 	 * 
 	 */
 	private void initialize() {
-		
+
 		this.setContentPane(getJContentPane());
 		this.setTitle("Edition des candidats");
 		this.setMinimumSize(new Dimension(320,240));
@@ -138,21 +145,7 @@ public class CandidatManagement extends JFrame {
 			jContentPane.add(getJTextField4(), gridBagConstraints17);
 			getJPanelImage().setVisible(true);
 			getJPanel().setVisible(false);
-			listCandidat.addMouseListener(new java.awt.event.MouseAdapter() {
-				public void mouseClicked(java.awt.event.MouseEvent e) {
-					if (e.getClickCount() == 1) {
-						//((PanelCompany)getJPanelEdit()).set((ECSSCompany)listOfCompany.getModel().getElementAt(index));
-						if(listCandidat.getSelectedIndex() == -1){
-							getJPanelImage().setVisible(true);
-							getJPanel().setVisible(false);
-						}else{
-							getJPanel().completePanel((((CandidatClient)jListModelList.getElementAt(listCandidat.getSelectedIndex()))));
-							getJPanelImage().setVisible(false);
-							getJPanel().setVisible(true);
-						}
-					}
-				}
-			});
+
 		}
 		return jContentPane;
 	}
@@ -177,15 +170,14 @@ public class CandidatManagement extends JFrame {
 
 				public void actionPerformed(ActionEvent e) {
 					listCandidat.setSelectedIndex(-1);
-					int id = 1;
-					for(int i =0; i < listCandidat.getList().size(); i++){
-						if(((CandidatClient)listCandidat.getList().get(i)).getCand().id > id){
-							id =((CandidatClient)listCandidat.getList().get(i)).getCand().id;
-						}
-					}
-					getJPanel().completePanel(new CandidatClient(++id));
+					CandidatClient cand = new CandidatClient("", "", -1, "");
+					jListModelList.addElement(cand);
+					jListModelList.sort(myComparator, "", true);
+					getJPanel().completePanel(cand);
+					getJPanelImage().setVisible(false);
+					getJPanel().setVisible(true);
 				}
-				
+
 			});
 			bAdd.setLabel("Ajouter");
 		}
@@ -200,6 +192,21 @@ public class CandidatManagement extends JFrame {
 	private JScrollPane getList() {
 		if (listCandidat == null) {
 			listCandidat = new MaVList(jListModelList);
+			listCandidat.addMouseListener(new java.awt.event.MouseAdapter() {
+				public void mouseClicked(java.awt.event.MouseEvent e) {
+					if (e.getClickCount() == 1) {
+						//((PanelCompany)getJPanelEdit()).set((ECSSCompany)listOfCompany.getModel().getElementAt(index));
+						if(listCandidat.getSelectedIndex() == -1){
+							getJPanelImage().setVisible(true);
+							getJPanel().setVisible(false);
+						}else{
+							getJPanel().completePanel((((CandidatClient)jListModelList.getElementAt(listCandidat.getSelectedIndex()))));
+							getJPanelImage().setVisible(false);
+							getJPanel().setVisible(true);
+						}
+					}
+				}
+			});
 			jScrollPane_List.getViewport().add(listCandidat);
 			//jScrollPane_List.setPreferredSize(new Dimension(120,230));
 		}
@@ -214,9 +221,44 @@ public class CandidatManagement extends JFrame {
 	private Button getButton1() {
 		if (bDel == null) {
 			bDel = new Button();
+			bDel.addActionListener(new ActionListener(){
+
+				public void actionPerformed(ActionEvent e) {
+					if(listCandidat.getSelectedIndex() != -1){
+						if(askConfirmation()){
+							CandidatClient tmp = (CandidatClient)jListModelList.getElementAt(listCandidat.getSelectedIndex());
+							getJPanelImage().setVisible(true);
+							getJPanel().setVisible(false);
+							try {
+								ListeC listCand = UtilORB.getListeC();
+								listCand.deleteCandidat(tmp.getCand().id());
+								jListModelList.removeElement(tmp);
+							} catch (NotFound e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							} catch (CannotProceed e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							} catch (InvalidName e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							//listCand
+						}
+					}
+				}
+			});
+
 			bDel.setLabel("Supprimer");
 		}
 		return bDel;
+	}
+
+	private boolean askConfirmation(){
+		if(MessageDialogBox.showConfirmDialog(this, "Confirmation", "Etes-vous sur de vouloir supprimer ce candidat ?")){
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -227,13 +269,19 @@ public class CandidatManagement extends JFrame {
 	private Button getButton2() {
 		if (bQuit == null) {
 			bQuit = new Button();
+			bQuit.addActionListener(new ActionListener(){
+
+				public void actionPerformed(ActionEvent e) {
+					dispose();
+				}
+			});
 			bQuit.setLabel("Quitter");
 		}
 		return bQuit;
 	}
 
 
-	
+
 
 	/**
 	 * This method initializes jPanel
@@ -243,11 +291,12 @@ public class CandidatManagement extends JFrame {
 	private CandidatPanel getJPanel() {
 		if (jPanel == null) {
 			jPanel = new CandidatPanel();
+			jPanelImage.setPreferredSize(new Dimension(450,250));
 		}
 		return jPanel;
 	}
 
-	
+
 
 	/**
 	 * This method initializes jTextField	

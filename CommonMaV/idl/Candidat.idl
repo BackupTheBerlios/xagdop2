@@ -1,13 +1,7 @@
 
 
 module MaV {
-    struct Candidat{
-			unsigned long id;
-			string nom;
-			string prenom;
-			unsigned long age;
-			string profession;
-	};
+    
 	
 	struct Mandat{
 		unsigned long id;
@@ -16,14 +10,25 @@ module MaV {
 		string anneeF;
 	};
 	
-	typedef sequence<Candidat> lc;
 	typedef sequence<Mandat> lm;
+	
+	interface Candidat{
+			attribute unsigned long id;
+			attribute string nom;
+			attribute string prenom;
+			attribute unsigned long age;
+			attribute string profession;
+			lm getMandats();
+			Mandat createMandat(in string titre, in string anneeD, in string anneeF); 
+	};
+	
+	typedef sequence<Candidat> lc;
 	
     interface ListeC {
     	lc getAllCandidats();
     	void deleteCandidat(in unsigned long id);
-    	lm getMandats(in unsigned long id);
     	boolean saveCandidat(in Candidat c);
+    	Candidat createCandidat(in string nom, in string prenom, in unsigned long age,in string profession); 
     };
     
    

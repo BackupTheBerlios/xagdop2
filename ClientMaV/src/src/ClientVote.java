@@ -52,7 +52,7 @@ public class ClientVote {
 		try {
 			listeCref = UtilORB.getListeC();
 			listeCref.getAllCandidats();
-			listeCref.getMandats(1);
+			//listeCref.getMandats(1);
 			ArrayListStorageContainer test = new ArrayListStorageContainer(listeCref.getAllCandidats());
 			
 			new CandidatManagement(new CandidatComparator(),new CandidatSearchable(), test);

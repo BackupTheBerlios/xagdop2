@@ -173,6 +173,24 @@ public class DBUtils
 		return ok;
 
 	}
+	
+	public static int delete(String table, String condition){
+		PreparedStatement pstm;
+		int ok = -1;
+
+		String query = "DELETE FROM " + table + " WHERE "+condition;
+		try {
+			//System.out.println(query);
+			pstm = getConnection().prepareStatement(query);
+			ok = pstm.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return ok;
+		
+	}
 
 	public  static Connection getConnection()
 	{
