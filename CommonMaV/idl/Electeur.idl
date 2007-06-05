@@ -6,10 +6,19 @@ module MaV {
 		unsigned long insee;
 		string nom;
 		string prenom;
-		string bureau;
-		string canton;
-		string circ;
-		string dept;
+		unsigned long bureau;
+    };
+    
+    struct Stats {
+    	unsigned long idCandidat;
+    	unsigned long idBureau;
+    	unsigned long nbVotes;
+    };
+    
+    typedef sequence<Stats> lstats;
+    
+    interface VoteCallBack{
+    	void callback(in lstats s);
     };
     
     interface Votant{
@@ -17,8 +26,11 @@ module MaV {
     	Electeur verifierElecteur(in unsigned long insee, in unsigned long code);
     	boolean exists(in unsigned long insee, in unsigned long code);
     	boolean aDejaVote(in unsigned long insee);
-		void votePour(in unsigned long id, in unsigned long insee);
+		void votePour2(in unsigned long id, in unsigned long insee, in VoteCallBack objCallBack);
+		void votePour(in unsigned long id, in unsigned long insee, in unsigned long idBureau);
 		void deleteElecteur(in unsigned long id);
     	boolean saveElecteur(in Electeur e);
     };
+    
+    
 };

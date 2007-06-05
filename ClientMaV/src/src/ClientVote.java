@@ -8,8 +8,10 @@ import src.util.ArrayListStorageContainer;
 import src.util.UtilORB;
 import ui.uiLogin.Login;
 import ui.uiManagement.CandidatManagement;
+import ui.uiStats.uiStats;
 import MaV.ListeC;
 import MaV.Votant;
+import MaV._VoteCallBackStub;
 import controller.CandidatComparator;
 import controller.CandidatSearchable;
 
@@ -18,6 +20,7 @@ public class ClientVote {
 
 	public static void main(String args[])
 	{
+		//new uiStats();
 		testClient();
 		//new CandidatManagement();
 		//new Login();

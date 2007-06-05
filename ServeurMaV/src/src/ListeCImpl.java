@@ -67,16 +67,14 @@ public class ListeCImpl extends MaV._ListeCImplBase  {
 
 
 	public int getNbVotes(int id) {
-		String query = "SELECT nbVotes FROM candidat WHERE idCandidat = " + id ; 
-		//System.out.println(query);
+		String query = "SELECT sum(nbVotes) FROM vote WHERE idCandidat = " + id + " group by idCandidat"; 
+		System.out.println(query);
 		int nb = -1;
 		ResultSet rs = DBUtils.select(query);
 		try {
-			if(rs!=null){
-				rs.next();
+			if (rs.next())
 				nb = rs.getInt(1);
-				rs.close();
-			}
+			rs.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -108,11 +106,6 @@ public class ListeCImpl extends MaV._ListeCImplBase  {
 
 		// si pas d'id, alors cr�ation
 		DBUtils.insert("candidat", cols, values);
-		/** TODO Nico cr�er une ligne correspondante dans la table vote, sinon le mettre � jour.
-		 * 
-		 */
-
-
 		String query = "SELECT * FROM candidat where idCandidat=LAST_INSERT_ID()"; 
 		ResultSet rs = DBUtils.select(query);
 		CandidatImpl ca = null;
@@ -126,6 +119,31 @@ public class ListeCImpl extends MaV._ListeCImplBase  {
 			ca.profession(rs.getString(5));
 
 			rs.close();
+			
+
+			String requete = "SELECT idBureau FROM bureau";
+
+			ResultSet rq = DBUtils.select(requete);
+			
+			ArrayList colsInsertVote = new ArrayList();
+			ArrayList valuesInsertVote = new ArrayList();
+
+			colsInsertVote.add("idCandidat");
+			colsInsertVote.add("idBureau");
+			colsInsertVote.add("nbVotes");
+				
+			while (rq.next()) {	
+				int idBureau = rq.getInt(1);
+				valuesInsertVote = new ArrayList();
+				valuesInsertVote.add(new Integer(ca.id()));
+				valuesInsertVote.add(new Integer(idBureau));
+				valuesInsertVote.add(new Integer(0));
+				DBUtils.insert("vote", colsInsertVote, valuesInsertVote);
+			}
+
+			rq.close();
+
+
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

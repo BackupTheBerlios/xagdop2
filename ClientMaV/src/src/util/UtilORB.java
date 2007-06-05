@@ -8,6 +8,7 @@ import org.omg.CosNaming.NamingContextPackage.CannotProceed;
 import org.omg.CosNaming.NamingContextPackage.InvalidName;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
+import src.VoteCallBackImpl;
 import MaV.ListeC;
 import MaV.ListeCHelper;
 import MaV.Votant;
@@ -48,6 +49,10 @@ public class UtilORB {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			//Pour le callback
+			VoteCallBackImpl voteImpl = new VoteCallBackImpl();
+			orb.connect(voteImpl);
             
 		}
 		return ncRef;

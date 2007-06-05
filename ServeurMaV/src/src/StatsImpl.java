@@ -1,8 +1,8 @@
 package src;
 
-import MaV._StatsImplBase;
+import MaV._StatistiquesImplBase;
 
-public class StatsImpl extends _StatsImplBase {
+public class StatsImpl extends _StatistiquesImplBase {
 
 	public int getNbVotes(int id) {
 		// TODO Auto-generated method stub
@@ -28,5 +28,6 @@ public class StatsImpl extends _StatsImplBase {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
 
 }

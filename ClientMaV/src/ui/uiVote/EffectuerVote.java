@@ -18,10 +18,13 @@ import org.omg.CosNaming.NamingContextPackage.InvalidName;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
 import src.util.UtilORB;
+import MaV.Candidat;
+import MaV.Electeur;
+import MaV.ListeC;
 import MaV.Votant;
-
 import controller.CandidatListener;
 import controller.EffectuerVoteListener;
+import controller.VotezListener;
 
 
 public class EffectuerVote extends JFrame {
@@ -30,23 +33,27 @@ public class EffectuerVote extends JFrame {
 	private static final long serialVersionUID = -3066723065684758861L;
 
 	// Nombre de candidats
-	private int nbCandidats = 7;
+	private int nbCandidats = 0;
 	
 	// Nom de l electeur
 	private String nomVotant = "";
 	// Insee electeur
 	private int numINSEEVotant = 0;
+	private int codeVotant = 0;
+	private Electeur electeur = null;
 	
-	// Listeners
-	EffectuerVoteListener effectuerVoteListener;
-	CandidatListener candidatListener;
+	private int idCandidatSelectionne = 0;
+	
+	Candidat[] tableauCandidats = null;
+	
+
 	
 	//annonce introduction
 	JLabel introduction;
 	// Candidat selectionne
 	JTextField candidatSelectionne;
 	// Vote
-	JButton Voter;
+	JButton voter;
 
 	
 	
@@ -54,16 +61,21 @@ public class EffectuerVote extends JFrame {
 	 * Creer la fenetre qui permet de voter
 	 * @param numInsee
 	 */
-	public EffectuerVote(int numInsee) {
+	public EffectuerVote(int numInsee, int code) {
 		super();
-		initialize();
 		
 		numINSEEVotant = numInsee;
+		codeVotant = code;
 		
 		Votant v;
 		try {
 			v = UtilORB.getVotant();
-			nomVotant = v.getNom(numInsee);
+			electeur = v.verifierElecteur(numInsee,codeVotant);
+			nomVotant = electeur.prenom + " " + electeur.nom;
+			
+			ListeC listeCandidats = UtilORB.getListeC();	
+			tableauCandidats = listeCandidats.getAllCandidats();
+			
 		} catch (NotFound e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -75,16 +87,18 @@ public class EffectuerVote extends JFrame {
 			e.printStackTrace();
 		}
 		
+		initialize();
 		EffectuerVoteListener ef = new EffectuerVoteListener(this);
 		this.addWindowListener(ef);
 
 	}
 	
+	/*
 	public static void main(String[] args) {
-		EffectuerVote toto = new EffectuerVote(1);
+		EffectuerVote toto = new EffectuerVote(1,1);
 		System.out.println("bou");
 	}
-	
+	*/
 
 	/**
 	 * This method initializes this
@@ -121,10 +135,13 @@ public class EffectuerVote extends JFrame {
 		candidatSelectionne.setEditable(false);
 		deuxiemeLigne.add(candidatSelectionne);
 		
-		Voter = new JButton("Votez definitivement pour ce candidat");
-		Voter.setBackground(Color.ORANGE); 
+		voter = new JButton("Votez definitivement pour ce candidat");
+		voter.setBackground(Color.ORANGE); 
+		
+		voter.addActionListener(new VotezListener(this,numINSEEVotant));
+		
 		//Voter.setEnabled(false);
-		deuxiemeLigne.add(Voter);
+		deuxiemeLigne.add(voter);
 		
 		c.add(deuxiemeLigne, new GridBagConstraints(1, 2, 2, 2, 2.0, 2.0
 				,GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
@@ -134,13 +151,15 @@ public class EffectuerVote extends JFrame {
 		// troisieme ligne
 		Container troisiemeLigne = new Container();
 		troisiemeLigne.setLayout(new GridLayout(nbCandidats,2));
+
+		Candidat candidat = null;
 		
 		Color couleurTexte;
-		for (int i=0;i<nbCandidats;i++) {
-			JButton candidat = new JButton("Candidat Numero "+(i+1));
+		for (int i=0;i<tableauCandidats.length;i++) {
+			candidat = tableauCandidats[i];
+			JButton candButton = new JButton(candidat.prenom() + " " + candidat.nom());
 			
-			candidatListener = new CandidatListener(this,candidat.getText());
-			candidat.addActionListener(candidatListener);
+			candButton.addActionListener(new CandidatListener(this,candButton.getText(),candidat.id()));
 			
 			JButton info = new JButton("Plus d informations sur ce candidat");
 			
@@ -149,10 +168,10 @@ public class EffectuerVote extends JFrame {
 			else
 				couleurTexte = Color.BLUE.darker();
 			
-			candidat.setForeground(couleurTexte); 
+			candButton.setForeground(couleurTexte); 
 			info.setForeground(couleurTexte); 
 			
-			troisiemeLigne.add(candidat);
+			troisiemeLigne.add(candButton);
 			
 			troisiemeLigne.add(info);
 		}
@@ -169,5 +188,21 @@ public class EffectuerVote extends JFrame {
 	
 	public void setCandidatSelectionne(String nom){
 		candidatSelectionne.setText(nom);
+	}
+
+	public int getIdCandidatSelectionne() {
+		return idCandidatSelectionne;
+	}
+
+	public void setIdCandidatSelectionne(int idCandidatSelectionne) {
+		this.idCandidatSelectionne = idCandidatSelectionne;
+	}
+
+	public Electeur getElecteur() {
+		return electeur;
+	}
+
+	public void setElecteur(Electeur electeur) {
+		this.electeur = electeur;
 	}
 }

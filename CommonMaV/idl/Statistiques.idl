@@ -1,5 +1,5 @@
 module MaV {
-interface Stats {
+interface Statistiques {
 
        	unsigned long getNbVotes(in unsigned long id);
     	unsigned long getNbVotesParBureau(in unsigned long idB, in unsigned long id);
