@@ -63,7 +63,7 @@ public class EffectuerVote extends JFrame {
 		Votant v;
 		try {
 			v = UtilORB.getVotant();
-			nomVotant = v.getNom(numInsee);
+	//		nomVotant = v.getNom(numInsee);
 		} catch (NotFound e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

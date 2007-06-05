@@ -303,6 +303,14 @@ public class CandidatPanel extends JPanel {
 	private JButton getJButton() {
 		if (bAddMandat == null) {
 			bAddMandat = new JButton("Ajouter Mandat");
+			bAddMandat.addActionListener(new ActionListener(){
+
+				public void actionPerformed(ActionEvent arg0) {
+					MandatManagement mm = new MandatManagement();
+					mm.setVisible(true);
+				}
+				
+			});
 		}
 		return bAddMandat;
 	}

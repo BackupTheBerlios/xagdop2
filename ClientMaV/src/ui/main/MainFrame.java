@@ -15,12 +15,6 @@ import javax.swing.border.CompoundBorder;
 
 import ui.util.toolbar.ToolBar;
 
-
-
-
-/**
- * @author rossignol Fenetre principale de BAGHERA DOC
- */
 public class MainFrame extends JFrame implements
 		MouseListener
 		{
