@@ -9,6 +9,9 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,12 +19,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import controller.MaVListModel;
-
 import src.util.CandidatClient;
 import src.util.MandatProxy;
 import src.util.MessageDialogBox;
 import ui.util.dtpicker.DTPicker;
+import controller.MaVListModel;
 
 /**
  * @author nephos
@@ -39,8 +41,9 @@ public class MandatManagement extends JFrame{
 	private JPanel jPanel = null;  //  @jve:decl-index=0:visual-constraint="10,302"
 	private JButton jButton = null;
 	private JButton jButton1 = null;
-	CandidatClient cand;
-	 MaVListModel model;
+	private CandidatClient cand;
+	private MaVListModel model;
+	private MandatProxy mand = null;
 	/**
 	 * This method initializes jFrame	
 	 * 	
@@ -53,7 +56,35 @@ public class MandatManagement extends JFrame{
 		initialize();
 
 	}
-	
+
+	public  MandatManagement(CandidatClient _cand, MaVListModel _model, int mandat) {
+		super();
+		cand = _cand;
+		model = _model;
+		mand = (MandatProxy) model.getElementAt(mandat);
+		initialize();
+		setValue();
+	}
+
+	private void setValue() {
+		jtTitre.setText(mand.getMand().titre());
+		Calendar cal = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+		try {
+			cal.setTime(sdf.parse(mand.getMand().anneeD()));
+			dtDebut.setDate(cal);
+			if(!mand.getMand().anneeF().equals("")){
+				cal.setTime(sdf.parse(mand.getMand().anneeF()));
+				dtFin.setDate(cal);
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+
+	}
+
 	private void initialize() {
 		setSize(new Dimension(402, 285));
 		setTitle("Mandat");
@@ -138,7 +169,7 @@ public class MandatManagement extends JFrame{
 		}
 		return lTitre;
 	}
-	
+
 	private JLabel getDateDebut() {
 		if (lDateDebut == null) {
 			lDateDebut = new JLabel();
@@ -146,7 +177,7 @@ public class MandatManagement extends JFrame{
 		}
 		return lDateDebut;
 	}
-	
+
 	private JLabel getDateFin() {
 		if (lDateFin == null) {
 			lDateFin = new JLabel();
@@ -154,21 +185,21 @@ public class MandatManagement extends JFrame{
 		}
 		return lDateFin;
 	}
-	
+
 	private JTextField getJtTitre() {
 		if (jtTitre == null) {
 			jtTitre = new JTextField();
 		}
 		return jtTitre;
 	}
-	
+
 	private DTPicker getDTDebut(){
 		if (dtDebut == null) {
 			dtDebut = new DTPicker();
 		}
 		return dtDebut;
 	}
-	
+
 	private DTPicker getDTFin(){
 		if (dtFin == null) {
 			dtFin = new DTPicker();
@@ -216,16 +247,23 @@ public class MandatManagement extends JFrame{
 
 				public void actionPerformed(ActionEvent arg0) {
 					if(verifField()){
-						model.addElement(new MandatProxy(cand.getCand().createMandat(jtTitre.getText(), dtDebut.getValue(), dtFin.getValue())));
+						if(mand!=null){
+							mand.getMand().titre(jtTitre.getText());
+							mand.getMand().anneeD(dtDebut.getValue());
+							mand.getMand().anneeF(dtFin.getValue());
+							mand.getMand().saveMandat();
+						}else{
+							model.addElement(new MandatProxy(cand.getCand().createMandat(jtTitre.getText(), dtDebut.getValue(), dtFin.getValue())));
+						}
 						dispose();
 					}
 				}
-				
+
 			});
 		}
 		return jButton;
 	}
-	
+
 	private boolean verifField(){
 		boolean ok = false;
 		if(jtTitre.getText().trim().equals("")){
@@ -249,7 +287,7 @@ public class MandatManagement extends JFrame{
 				public void actionPerformed(ActionEvent arg0) {
 					dispose();
 				}
-				
+
 			});
 			//jButton1.setAlignmentX(Component.CENTER_ALIGNMENT);
 		}

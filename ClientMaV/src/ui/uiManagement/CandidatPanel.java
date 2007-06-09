@@ -68,15 +68,22 @@ public class CandidatPanel extends JPanel {
 	private Button button = null;
 	private CandidatClient cand = null;
 	private MaVListModel model;
-
+	private JFrame parent ;
 
 	private JScrollPane jScrollPaneMandat = new JScrollPane(
 			JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 			JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-	public CandidatPanel( MaVListModel _model) {
+	public CandidatPanel(JFrame _parent, MaVListModel _model) {
 		super();
 		model = _model;
+		parent = _parent;
+		initialize();
+	}
+
+	public CandidatPanel(JFrame _parent){
+		super();
+		parent = _parent;
 		initialize();
 	}
 
@@ -260,8 +267,10 @@ public class CandidatPanel extends JPanel {
 
 				public void keyPressed(KeyEvent e) {}
 				public void keyReleased(KeyEvent e) {
-					cand.getCand().nom(jtNom.getText());
-					model.maj(model.getIndex(cand));
+					if(model!=null){
+						cand.getCand().nom(jtNom.getText());
+						model.maj(model.getIndex(cand));
+					}
 				}
 				public void keyTyped(KeyEvent e) {}
 			});
@@ -284,8 +293,10 @@ public class CandidatPanel extends JPanel {
 
 				public void keyPressed(KeyEvent e) {}
 				public void keyReleased(KeyEvent e) {
-					cand.getCand().prenom(jtPrenom.getText());
-					model.maj(model.getIndex(cand));
+					if(model!=null){
+						cand.getCand().prenom(jtPrenom.getText());
+						model.maj(model.getIndex(cand));
+					}
 				}
 				public void keyTyped(KeyEvent e) {}
 			});
@@ -356,7 +367,7 @@ public class CandidatPanel extends JPanel {
 						if(askConfirmation()){
 							MandatProxy tmp = (MandatProxy) ((MaVListModel)listMandats.getModel()).getElementAt(listMandats.getSelectedIndex());
 							((MaVListModel)listMandats.getModel()).removeElement(tmp);
-							cand.getCand().removeMandat(tmp.getMand().id);
+							cand.getCand().removeMandat(tmp.getMand().id());
 						}
 					}
 				}
@@ -364,9 +375,10 @@ public class CandidatPanel extends JPanel {
 		}
 		return bDelMandat;
 	}
-	
+
 	private boolean askConfirmation(){
-		if(MessageDialogBox.showConfirmDialog((JFrame)this.getParent(), "Confirmation", "Etes-vous sur de vouloir supprimer ce mandat ?")){
+		//System.out.println(get);
+		if(MessageDialogBox.showConfirmDialog(parent, "Confirmation", "Etes-vous sur de vouloir supprimer ce mandat ?")){
 			return true;
 		}
 		return false;
@@ -380,6 +392,14 @@ public class CandidatPanel extends JPanel {
 	private JButton getJButton2() {
 		if (bEditMandat == null) {
 			bEditMandat = new JButton("Editer Mandat");
+			bEditMandat.addActionListener(new ActionListener(){
+
+				public void actionPerformed(ActionEvent arg0) {
+					MandatManagement mm = new MandatManagement(cand, (MaVListModel) listMandats.getModel(),listMandats.getSelectedIndex());
+					mm.setVisible(true);
+				}
+
+			});
 		}
 		return bEditMandat;
 	}
@@ -406,6 +426,7 @@ public class CandidatPanel extends JPanel {
 
 					try {
 						UtilORB.getListeC().saveCandidat(cand.getCand());
+						MessageDialogBox.showMessageDialog(parent, "Enregistrement ok", "L'enregistrement s'est correctement éffectué");
 					} catch (NotFound e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

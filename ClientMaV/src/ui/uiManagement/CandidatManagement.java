@@ -290,7 +290,7 @@ public class CandidatManagement extends JFrame {
 	 */
 	private CandidatPanel getJPanel() {
 		if (jPanel == null) {
-			jPanel = new CandidatPanel((MaVListModel) listCandidat.getModel());
+			jPanel = new CandidatPanel(this,(MaVListModel) listCandidat.getModel());
 			jPanelImage.setPreferredSize(new Dimension(450,250));
 		}
 		return jPanel;

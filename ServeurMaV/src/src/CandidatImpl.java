@@ -77,7 +77,7 @@ public class CandidatImpl  extends _CandidatImplBase {
 		Mandat mand = null;
 		try {
 			rs.next();
-			mand = new Mandat(rs.getInt(1),titre,anneeD,anneeF);
+			mand = new MandatImpl(rs.getInt(1),titre,anneeD,anneeF);
 			cols.clear();
 			values.clear();
 			cols.add("idMandat");
@@ -117,9 +117,9 @@ public class CandidatImpl  extends _CandidatImplBase {
 
 				while(rs.next()){
 					if(rs.getString(4)==null)
-						ma = new Mandat(rs.getInt(1), rs.getString(2), rs.getString(3), "");
+						ma = new MandatImpl(rs.getInt(1), rs.getString(2), rs.getString(3), "");
 					else
-						ma = new Mandat(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
+						ma = new MandatImpl(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
 					result[i] = ma;
 					i++;
 				}

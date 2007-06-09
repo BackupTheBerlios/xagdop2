@@ -3,11 +3,12 @@
 module MaV {
     
 	
-	struct Mandat{
-		unsigned long id;
-		string titre;
-		string anneeD;
-		string anneeF;
+	interface Mandat{
+		attribute unsigned long id;
+		attribute string titre;
+		attribute string anneeD;
+		attribute string anneeF;
+		void saveMandat(); 
 	};
 	
 	typedef sequence<Mandat> lm;

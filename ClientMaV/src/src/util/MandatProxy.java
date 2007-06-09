@@ -19,10 +19,10 @@ public class MandatProxy {
 	public String toString(){
 		if(mandTmp==null)
 			return null;
-		 if(mandTmp.anneeF.equals("")){
-			 return mandTmp.anneeD + " : " + mandTmp.titre ;
+		 if(mandTmp.anneeF().equals("")){
+			 return mandTmp.anneeD() + " : " + mandTmp.titre() ;
 		 }else{
-			 return mandTmp.anneeD + "-" + mandTmp.anneeF + " : "  + mandTmp.titre ;
+			 return mandTmp.anneeD() + "-" + mandTmp.anneeF() + " : "  + mandTmp.titre() ;
 		 }
 		
 	}
