@@ -20,6 +20,7 @@ module MaV {
 			attribute string profession;
 			lm getMandats();
 			Mandat createMandat(in string titre, in string anneeD, in string anneeF); 
+			void removeMandat(in unsigned long idMandat);
 	};
 	
 	typedef sequence<Candidat> lc;
