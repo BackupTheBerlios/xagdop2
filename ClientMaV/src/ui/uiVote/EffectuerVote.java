@@ -131,7 +131,7 @@ public class EffectuerVote extends JFrame {
 		deuxiemeLigne.setLayout(new GridLayout(1,2));
 		
 		candidatSelectionne = new JTextField();
-		candidatSelectionne.setText("...");
+		candidatSelectionne.setText("");
 		candidatSelectionne.setEditable(false);
 		deuxiemeLigne.add(candidatSelectionne);
 		
@@ -204,5 +204,13 @@ public class EffectuerVote extends JFrame {
 
 	public void setElecteur(Electeur electeur) {
 		this.electeur = electeur;
+	}
+
+	public JTextField getCandidatSelectionne() {
+		return candidatSelectionne;
+	}
+
+	public void setCandidatSelectionne(JTextField candidatSelectionne) {
+		this.candidatSelectionne = candidatSelectionne;
 	}
 }

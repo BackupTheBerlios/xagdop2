@@ -25,27 +25,29 @@ public class VotezListener implements ActionListener {
 	public void actionPerformed (ActionEvent e) {
          //Invoked when an action occurs. 
 		idCandidat = fen.getIdCandidatSelectionne();
-		try {
-			Votant v = UtilORB.getVotant();
-			//v.votePour(idCandidat, inseeElecteur, new VoteCallBackImpl());
-			/** TODO 
-			 * Decommenter quand le call back fonctionnera
-			 * Et supprimer la ligne d'en dessous
-			 */
-			v.votePour(idCandidat, inseeElecteur, fen.getElecteur().bureau);
-			MessageDialogBox.showMessageDialog(fen, "Vote pris en compte", "Merci d'avoir voté");
-			fen.dispose();
-			new Login();
-		} catch (NotFound e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (CannotProceed e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (InvalidName e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 		
+		if (MessageDialogBox.showConfirmDialog(fen, "Demande de confirmation", "Etes-vous certain de voter en faveur de "+fen.getCandidatSelectionne().getText())) {
+			try {
+				Votant v = UtilORB.getVotant();
+				//v.votePour(idCandidat, inseeElecteur, new VoteCallBackImpl());
+				/** TODO 
+				 * Decommenter quand le call back fonctionnera
+				 * Et supprimer la ligne d'en dessous
+				 */
+				v.votePour(idCandidat, inseeElecteur, fen.getElecteur().bureau);
+				MessageDialogBox.showMessageDialog(fen, "Vote pris en compte", "Merci d'avoir voté");
+				fen.dispose();
+				new Login();
+			} catch (NotFound e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (CannotProceed e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (InvalidName e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
 	}
 }
