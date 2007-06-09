@@ -3,23 +3,25 @@
  */
 package ui.uiManagement;
 
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import controller.MaVListModel;
+
+import src.util.CandidatClient;
+import src.util.MandatProxy;
+import src.util.MessageDialogBox;
 import ui.util.dtpicker.DTPicker;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * @author nephos
@@ -37,13 +39,17 @@ public class MandatManagement extends JFrame{
 	private JPanel jPanel = null;  //  @jve:decl-index=0:visual-constraint="10,302"
 	private JButton jButton = null;
 	private JButton jButton1 = null;
+	CandidatClient cand;
+	 MaVListModel model;
 	/**
 	 * This method initializes jFrame	
 	 * 	
 	 * @return javax.swing.JFrame	
 	 */
-	public  MandatManagement() {
+	public  MandatManagement(CandidatClient _cand, MaVListModel _model) {
 		super();
+		cand = _cand;
+		model = _model;
 		initialize();
 
 	}
@@ -113,8 +119,8 @@ public class MandatManagement extends JFrame{
 			jContentPane.add(getDateFin(), gridBagConstraints1);
 			jContentPane.add(getDateDebut(), gridBagConstraints2);
 			jContentPane.add(getJtTitre(), gridBagConstraints3);
-			jContentPane.add(getDTFin(), gridBagConstraints4);
-			jContentPane.add(getDTDebut(), gridBagConstraints5);
+			jContentPane.add(getDTDebut(), gridBagConstraints4);
+			jContentPane.add(getDTFin(), gridBagConstraints5);
 			jContentPane.add(getJPanel(), gridBagConstraints21);
 		}
 		return jContentPane;
@@ -206,9 +212,28 @@ public class MandatManagement extends JFrame{
 	private JButton getJButton() {
 		if (jButton == null) {
 			jButton = new JButton("Valider");
-			//jButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+			jButton.addActionListener(new ActionListener(){
+
+				public void actionPerformed(ActionEvent arg0) {
+					if(verifField()){
+						model.addElement(new MandatProxy(cand.getCand().createMandat(jtTitre.getText(), dtDebut.getValue(), dtFin.getValue())));
+						dispose();
+					}
+				}
+				
+			});
 		}
 		return jButton;
+	}
+	
+	private boolean verifField(){
+		boolean ok = false;
+		if(jtTitre.getText().trim().equals("")){
+			MessageDialogBox.showErrorDialog(this, "Titre invalide", "Le titre du mandat est obligatoire !");
+		}else{
+			ok = true;
+		}
+		return ok;
 	}
 
 	/**

@@ -122,6 +122,18 @@ public class MaVListModel
     		fireContentsChanged(this, previousSize, getSize());
     	}
     }
+    
+    public void maj(int index){
+    	fireContentsChanged(this, index, index);
+    }
+    
+    public int getIndex(Object obj){
+    	int index = -1;
+    	if(null != myStorageContainer && myStorageContainer.contains(obj)){
+    		index = myStorageContainer.indexOf(obj);
+    	}
+    	return index;
+    }
 
     /**
      * Get size of storage

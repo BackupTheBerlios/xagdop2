@@ -12,13 +12,17 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ListCellRenderer;
 
 import org.omg.CosNaming.NamingContextPackage.CannotProceed;
 import org.omg.CosNaming.NamingContextPackage.InvalidName;
@@ -27,8 +31,10 @@ import org.omg.CosNaming.NamingContextPackage.NotFound;
 import src.util.ArrayListStorageContainer;
 import src.util.CandidatClient;
 import src.util.MandatProxy;
+import src.util.MessageDialogBox;
 import src.util.UtilORB;
 import ui.util.MaVList;
+import MaV.ListeC;
 import MaV.Mandat;
 import controller.MaVListModel;
 
@@ -43,7 +49,6 @@ public class CandidatPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel jPanelAge = null;
-	private MaVList listCandidat = null;  //  @jve:decl-index=0:visual-constraint="613,10"
 	private JLabel lId = null;
 	private JLabel lNom = null;
 	private JLabel id = null;
@@ -62,14 +67,16 @@ public class CandidatPanel extends JPanel {
 	private JButton bEditMandat = null;
 	private Button button = null;
 	private CandidatClient cand = null;
-	
+	private MaVListModel model;
+
 
 	private JScrollPane jScrollPaneMandat = new JScrollPane(
 			JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 			JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-	public CandidatPanel() {
+	public CandidatPanel( MaVListModel _model) {
 		super();
+		model = _model;
 		initialize();
 	}
 
@@ -249,6 +256,16 @@ public class CandidatPanel extends JPanel {
 			jtNom = new JTextField();
 			jtNom.setPreferredSize(new Dimension(180, 19));
 			jtNom.setMinimumSize(new Dimension(180, 19));
+			jtNom.addKeyListener(new KeyListener(){
+
+				public void keyPressed(KeyEvent e) {}
+				public void keyReleased(KeyEvent e) {
+					cand.getCand().nom(jtNom.getText());
+					model.maj(model.getIndex(cand));
+				}
+				public void keyTyped(KeyEvent e) {}
+			});
+
 		}
 		return jtNom;
 	}
@@ -263,6 +280,15 @@ public class CandidatPanel extends JPanel {
 			jtPrenom = new JTextField();
 			jtPrenom.setPreferredSize(new Dimension(180, 19));
 			jtPrenom.setMinimumSize(new Dimension(180, 19));
+			jtPrenom.addKeyListener(new KeyListener(){
+
+				public void keyPressed(KeyEvent e) {}
+				public void keyReleased(KeyEvent e) {
+					cand.getCand().prenom(jtPrenom.getText());
+					model.maj(model.getIndex(cand));
+				}
+				public void keyTyped(KeyEvent e) {}
+			});
 		}
 		return jtPrenom;
 	}
@@ -306,10 +332,10 @@ public class CandidatPanel extends JPanel {
 			bAddMandat.addActionListener(new ActionListener(){
 
 				public void actionPerformed(ActionEvent arg0) {
-					MandatManagement mm = new MandatManagement();
+					MandatManagement mm = new MandatManagement(cand, (MaVListModel) listMandats.getModel());
 					mm.setVisible(true);
 				}
-				
+
 			});
 		}
 		return bAddMandat;
@@ -323,8 +349,27 @@ public class CandidatPanel extends JPanel {
 	private JButton getJButton1() {
 		if (bDelMandat == null) {
 			bDelMandat = new JButton("Supprimer Mandat");
+			bDelMandat.addActionListener(new ActionListener(){
+
+				public void actionPerformed(ActionEvent e) {
+					if(listMandats.getSelectedIndex() != -1){
+						if(askConfirmation()){
+							MandatProxy tmp = (MandatProxy) ((MaVListModel)listMandats.getModel()).getElementAt(listMandats.getSelectedIndex());
+							((MaVListModel)listMandats.getModel()).removeElement(tmp);
+							cand.getCand().removeMandat(tmp.getMand().id);
+						}
+					}
+				}
+			});
 		}
 		return bDelMandat;
+	}
+	
+	private boolean askConfirmation(){
+		if(MessageDialogBox.showConfirmDialog((JFrame)this.getParent(), "Confirmation", "Etes-vous sur de vouloir supprimer ce mandat ?")){
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -358,7 +403,7 @@ public class CandidatPanel extends JPanel {
 						cand.getCand().age(Integer.parseInt(jtAge.getText()));
 					else
 						cand.getCand().age(-1);
-					
+
 					try {
 						UtilORB.getListeC().saveCandidat(cand.getCand());
 					} catch (NotFound e) {
@@ -372,7 +417,7 @@ public class CandidatPanel extends JPanel {
 						e.printStackTrace();
 					}
 				}
-				
+
 
 			});
 		}
@@ -396,9 +441,8 @@ public class CandidatPanel extends JPanel {
 		for(int i=0; i < mandats.length; i++){
 			MandatProxy mp = new MandatProxy(mandats[i]);
 			lsc.add(mp);
-
 		}
-		
+
 		((MaVListModel)listMandats.getModel()).setData(lsc);
 
 	}
