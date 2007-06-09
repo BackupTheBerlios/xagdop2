@@ -18,11 +18,13 @@ import org.omg.CosNaming.NamingContextPackage.InvalidName;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
 import src.util.UtilORB;
+import ui.uiManagement.CandidatPanel;
 import MaV.Candidat;
 import MaV.Electeur;
 import MaV.ListeC;
 import MaV.Votant;
 import controller.CandidatListener;
+import controller.DetailCandidatListener;
 import controller.EffectuerVoteListener;
 import controller.VotezListener;
 
@@ -54,6 +56,8 @@ public class EffectuerVote extends JFrame {
 	JTextField candidatSelectionne;
 	// Vote
 	JButton voter;
+	
+	private CandidatPanel jPanel = null;
 
 	
 	
@@ -162,6 +166,7 @@ public class EffectuerVote extends JFrame {
 			candButton.addActionListener(new CandidatListener(this,candButton.getText(),candidat.id()));
 			
 			JButton info = new JButton("Plus d informations sur ce candidat");
+			info.addActionListener(new DetailCandidatListener(this,candidat));
 			
 			if (i%2!=0)
 				couleurTexte = Color.CYAN.darker();
@@ -212,5 +217,13 @@ public class EffectuerVote extends JFrame {
 
 	public void setCandidatSelectionne(JTextField candidatSelectionne) {
 		this.candidatSelectionne = candidatSelectionne;
+	}
+
+	public CandidatPanel getJPanel() {
+		return jPanel;
+	}
+
+	public void setJPanel(CandidatPanel panel) {
+		jPanel = panel;
 	}
 }
