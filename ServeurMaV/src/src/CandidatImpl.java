@@ -2,6 +2,7 @@ package src;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import MaV.Mandat;
 import MaV._CandidatImplBase;
@@ -58,8 +59,39 @@ public class CandidatImpl  extends _CandidatImplBase {
 	}
 
 	public Mandat createMandat(String titre, String anneeD, String anneeF) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList cols = new ArrayList();
+		ArrayList values = new ArrayList();
+
+		cols.add("titre");
+		cols.add("anneeD");
+		cols.add("anneeF");
+
+		values.add(titre);
+		values.add(anneeD);
+		values.add(anneeF);
+
+		// si pas d'id, alors cr�ation
+		DBUtils.insert("mandat", cols, values);
+		String query = "SELECT LAST_INSERT_ID()";
+		ResultSet rs = DBUtils.select(query);
+		Mandat mand = null;
+		try {
+			rs.next();
+			mand = new Mandat(rs.getInt(1),titre,anneeD,anneeF);
+			cols.clear();
+			values.clear();
+			cols.add("idMandat");
+			cols.add("idCandidat");
+			
+			values.add(new Integer(rs.getInt(1)));
+			values.add(new Integer(id));
+			DBUtils.insert("brigue", cols, values);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return mand;
 	}
 
 	public Mandat[] getMandats() {
@@ -100,6 +132,11 @@ public class CandidatImpl  extends _CandidatImplBase {
 		}
 		return result;
 
+	}
+
+	public void removeMandat(int idMandat) {
+		DBUtils.delete("mandat", "idMandat="+idMandat);
+		
 	}
 
 }
