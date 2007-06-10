@@ -126,3 +126,7 @@ insert into circonscription(nom) values("UPS");
 insert into dept(idDept, nom) values (31, "Haute Garonne");
 insert into lieu(idBureau, idCanton, idCirconscription, idDept) values(1,1,1,31);
 insert into electeur(insee, code, nom, prenom, idBureau) values (123, 456, "moi", "non", 1);
+
+insert into vote (idCandidat, idBureau, nbVotes) values(1,1,0);
+insert into vote (idCandidat, idBureau, nbVotes) values(2,1,0);
+
