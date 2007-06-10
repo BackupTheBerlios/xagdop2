@@ -22,6 +22,7 @@ module MaV {
 			lm getMandats();
 			Mandat createMandat(in string titre, in string anneeD, in string anneeF); 
 			void removeMandat(in unsigned long idMandat);
+			
 	};
 	
 	typedef sequence<Candidat> lc;
@@ -31,6 +32,7 @@ module MaV {
     	void deleteCandidat(in unsigned long id);
     	boolean saveCandidat(in Candidat c);
     	Candidat createCandidat(in string nom, in string prenom, in unsigned long age,in string profession); 
+    	string getNomCandidat(in unsigned long idCandidat);
     };
     
    

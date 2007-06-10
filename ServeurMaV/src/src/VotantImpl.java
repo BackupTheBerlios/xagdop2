@@ -4,12 +4,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import MaV.Candidat;
 import MaV.Electeur;
 import MaV.Stats;
-import MaV.VoteCallBack;
+import MaV.StatsCallBack;
 import MaV._VotantImplBase;
 
 public class VotantImpl extends _VotantImplBase {
+
 
 	/**
 	 * 
@@ -150,10 +152,9 @@ public class VotantImpl extends _VotantImplBase {
 		return nom;
 	}
 
-	public void votePour(int id, int insee, VoteCallBack objCallBack) {
-		// TODO Auto-generated method stub
-		// TODO A refaire avec la nouvelle base
 
+	public void votePour2(int id, int insee, int bureau, StatsCallBack objCallBack) {
+		// TODO Auto-generated method stub
 		if(!this.aDejaVote(insee)){
 
 			ListeCImpl lcand = new ListeCImpl();
@@ -165,7 +166,7 @@ public class VotantImpl extends _VotantImplBase {
 			ArrayList val = new ArrayList();
 			val.add(new Integer(nbV));
 
-			DBUtils.update("candidat",cols , val, "idCandidat = " + id);
+			DBUtils.update("vote",cols , val, "idCandidat = " + id);
 
 			cols.clear();
 			cols.add("aVote");
@@ -175,17 +176,39 @@ public class VotantImpl extends _VotantImplBase {
 			DBUtils.update("electeur",cols , val, "insee = " + insee);
 		}
 		else{
-			System.out.println("A deja voté!!");
+			System.out.println("A déjà voté!!");
 		}
 
-		//notification du vote aux clients
-		Stats[] s = {};
+//		notification du vote aux clients
+
+		//Recuperation du nombre de votes par candidat
+		StatsImpl statsI = new StatsImpl();
+		ListeCImpl lca = new ListeCImpl();
+		Candidat[] ca = lca.getAllCandidats();
+		
+		/*
+		 * Structure de Stats : 
+		 * idCandidat 	: int
+		 * idBureau		: int
+		 * nbVotes		: int
+		 */
+		
+		/** TODO 
+		 * Pour l'instant, total des votes pour chaque candidat, à modifier pour des stats plus précises
+		 */
+		int l = ca.length;
+		Stats[] s = new Stats[l];
+		for(int i=0; i<ca.length;i++)
+		{
+			Stats tmp = new Stats();
+			tmp.idCandidat = ca[i].id();
+			tmp.nbVotes = statsI.getNbVotes(ca[i].id());
+			tmp.idBureau = 1;
+			//System.out.println(tmp.nbVotes + "  "+ tmp.idCandidat);
+			s[i] = tmp;
+		}
+		
 		objCallBack.callback(s);
-	}
-
-	public void votePour2(int id, int insee, VoteCallBack objCallBack) {
-		// TODO Auto-generated method stub
-
 	}
 
 }

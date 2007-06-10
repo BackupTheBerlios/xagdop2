@@ -137,8 +137,8 @@ public class Login extends JFrame{
 					if(!sc.equals("") && sc.matches("[0-9]+"))
 						c = new Integer(sc).intValue();
 					
-					System.out.println("Numero Insee : " + i); 
-					System.out.println("Code : " + c); 
+					//System.out.println("Numero Insee : " + i); 
+					//System.out.println("Code : " + c); 
 					try {
 						Votant v = UtilORB.getVotant();
 						
@@ -148,7 +148,7 @@ public class Login extends JFrame{
 							JOptionPane.showMessageDialog(null, "Electeur inconnu! Vérifier le numéro INSEE et le code indiqué.", "Electeur inconnu.", 1);
 						}
 						else{
-							System.out.println("OK");
+							//System.out.println("OK");
 							setVisible(false);
 							new EffectuerVote(i,c);
 						}

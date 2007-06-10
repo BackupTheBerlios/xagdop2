@@ -139,4 +139,6 @@ public class CandidatImpl  extends _CandidatImplBase {
 		
 	}
 
+	
+
 }

@@ -8,9 +8,11 @@ import org.omg.CosNaming.NamingContextPackage.CannotProceed;
 import org.omg.CosNaming.NamingContextPackage.InvalidName;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
-import src.VoteCallBackImpl;
+import src.StatsCallBackImpl;
 import MaV.ListeC;
 import MaV.ListeCHelper;
+import MaV.Statistiques;
+import MaV.StatistiquesHelper;
 import MaV.Votant;
 import MaV.VotantHelper;
 
@@ -34,6 +36,14 @@ public class UtilORB {
 		
 	}
 	
+	public static Statistiques getStats() throws NotFound, CannotProceed, InvalidName{
+//  	 bind the Object Reference in Naming
+       NameComponent nc = new NameComponent("Stats", "");
+       NameComponent path[] = {nc};
+       return StatistiquesHelper.narrow(getNamingContext().resolve(path));
+		
+	}
+	
 	private static NamingContext getNamingContext()
 	{
 		if(ncRef==null)
@@ -51,7 +61,7 @@ public class UtilORB {
 			}
 			
 			//Pour le callback
-			VoteCallBackImpl voteImpl = new VoteCallBackImpl();
+			StatsCallBackImpl voteImpl = new StatsCallBackImpl();
 			orb.connect(voteImpl);
             
 		}

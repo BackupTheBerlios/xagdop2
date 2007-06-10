@@ -9,6 +9,11 @@ import MaV.Candidat;
 
 public class ListeCImpl extends MaV._ListeCImplBase  {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public boolean saveCandidat(Candidat c) {
 		ArrayList cols = new ArrayList();
 		ArrayList values = new ArrayList();
@@ -150,6 +155,18 @@ public class ListeCImpl extends MaV._ListeCImplBase  {
 			e.printStackTrace();
 		}
 		return ca;
+	}
+
+	public String getNomCandidat(int idCandidat) {
+		// TODO Auto-generated method stub
+		String nom = "";
+		Candidat[] ca = getAllCandidats();
+		for(int i=0; i<ca.length; i++){
+			if(ca[i].id() == idCandidat)
+				nom = ca[i].nom();
+		}
+		
+		return nom;
 	}
 
 

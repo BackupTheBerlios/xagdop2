@@ -4,7 +4,7 @@ package ui.uiStats;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridBagLayout;
 
 import javax.swing.JFrame;
@@ -18,13 +18,9 @@ import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.labels.ItemLabelAnchor;
 import org.jfree.chart.labels.ItemLabelPosition;
 import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.plot.IntervalMarker;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
-import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.ui.Layer;
-import org.jfree.ui.RectangleAnchor;
 import org.jfree.ui.TextAnchor;
 
 public class uiStats extends JFrame {
@@ -33,15 +29,24 @@ public class uiStats extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JPanel jPanel = null;
-
+	private JPanel jPanel;
+	private static uiStats instance = null;
+	private ChartPanel cPanel = null;
+	
 	/**
 	 * This method initializes 
 	 * 
 	 */
-	public uiStats() {
+	private uiStats() {
 		super();
 		initialize();
+		instance = this;
+	}
+	
+	public static uiStats getInstance(){
+		if(instance == null)
+			instance = new uiStats();
+		return instance;
 	}
 
 	/**
@@ -54,6 +59,8 @@ public class uiStats extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setName("stats");
 		this.setTitle("Statistiques");
+		
+		createStats();
 		this.setVisible(true);
 
 	}
@@ -64,35 +71,18 @@ public class uiStats extends JFrame {
 	 * @return javax.swing.JPanel	
 	 */
 	private JPanel getJPanel() {
-		if (jPanel == null) {
+		if(jPanel == null){
 			jPanel = new JPanel();
 			jPanel.setLayout(new GridBagLayout());
-
-			ChartPanel cPanel = new ChartPanel(createChart());
-			cPanel.setPreferredSize(new Dimension(600,600));
-			jPanel.add(cPanel);
 		}
 		return jPanel;
 	}
 
-	public DefaultCategoryDataset createStatsDataSet()
+	
+	public JFreeChart createChart(DefaultCategoryDataset data)
 	{
-		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-		int nbVotes = 10;
-
-		dataset.addValue(13.0, "BAYROU", "François Bayrou");
-		dataset.addValue(26.0, "ROYALE", "Ségolène Royale");   		   
-		dataset.addValue(10.0, "LE PEN", "Jean Marie Le Pen");   
-		dataset.addValue(5.0, "BESANCENOT", "Olivier Besancenot");   
-		dataset.addValue(29.0, "SARKOZY", "Nicolas Sarkozy");
-		dataset.addValue(2.0, "LAGUILLER", "Arlette Laguiller");   
-
-		return dataset;
-	}
-
-	public JFreeChart createChart()
-	{
-		JFreeChart chart = ChartFactory.createBarChart("Résultats des élections", "Candidats", "Votes", createStatsDataSet(), PlotOrientation.VERTICAL, true, true, false);
+		
+		JFreeChart chart = ChartFactory.createBarChart("Résultats des élections", "Candidats", "Votes", data, PlotOrientation.VERTICAL, true, true, false);
 
 		chart.setBackgroundPaint(Color.white);
 
@@ -123,11 +113,23 @@ public class uiStats extends JFrame {
 		renderer.setPositiveItemLabelPositionFallback(p2);
 		CategoryAxis domainAxis = plot.getDomainAxis();
 		domainAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
-
-
+		
 		return chart;
 	}
 
-
+	public void createStats(){
+		//if(cPanel == null)
+		
+		getJPanel().removeAll();
+		
+		cPanel = new ChartPanel(createChart(DataSet.getInstance().getDataSet()));
+		
+		getJPanel().add(cPanel);
+		
+		getJPanel().updateUI();
+		
+		cPanel.setPreferredSize(new Dimension(600,600));
+		
+	}
 
 }  //  @jve:decl-index=0:visual-constraint="10,10"

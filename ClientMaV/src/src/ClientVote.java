@@ -1,29 +1,17 @@
 package src;
 
-import org.omg.CosNaming.NamingContextPackage.CannotProceed;
-import org.omg.CosNaming.NamingContextPackage.InvalidName;
-import org.omg.CosNaming.NamingContextPackage.NotFound;
-
-import src.util.ArrayListStorageContainer;
-import src.util.UtilORB;
 import ui.uiLogin.Login;
-import ui.uiManagement.CandidatManagement;
 import ui.uiStats.uiStats;
-import MaV.ListeC;
-import MaV.Votant;
-import MaV._VoteCallBackStub;
-import controller.CandidatComparator;
-import controller.CandidatSearchable;
 
 public class ClientVote {
 
 
 	public static void main(String args[])
 	{
-		//new uiStats();
-		testClient();
+		//uiStats.getInstance();
+		//testClient();
 		//new CandidatManagement();
-		//new Login();
+		new Login();
 		/*try {
 			MainFrame myFrame = new MainFrame();
 			myFrame.setVisible(true);
@@ -48,7 +36,7 @@ public class ClientVote {
 			e.printStackTrace();
 		}*/
 	}
-
+/*
 	public static void testClient()
 	{
 		ListeC listeCref;
@@ -78,6 +66,6 @@ public class ClientVote {
 
 	}
 
-
+*/
 
 }

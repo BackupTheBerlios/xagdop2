@@ -1,5 +1,3 @@
-
-
 module MaV {
 
     struct Electeur {
@@ -10,23 +8,23 @@ module MaV {
     };
     
     struct Stats {
-    	unsigned long idCandidat;
-    	unsigned long idBureau;
-    	unsigned long nbVotes;
-    };
-    
-    typedef sequence<Stats> lstats;
-    
-    interface VoteCallBack{
-    	void callback(in lstats s);
-    };
+		unsigned long idCandidat;
+		unsigned long idBureau;
+		unsigned long nbVotes;
+	};
+
+	typedef sequence<Stats> lstats;
+
+	interface StatsCallBack{
+		void callback(in lstats s);
+	};
     
     interface Votant{
     	//Permet de tester son bureau de vote, et ses infos
     	Electeur verifierElecteur(in unsigned long insee, in unsigned long code);
     	boolean exists(in unsigned long insee, in unsigned long code);
     	boolean aDejaVote(in unsigned long insee);
-		void votePour2(in unsigned long id, in unsigned long insee, in VoteCallBack objCallBack);
+		void votePour2(in unsigned long id, in unsigned long insee, in unsigned long idBureau, in StatsCallBack objCallBack);
 		void votePour(in unsigned long id, in unsigned long insee, in unsigned long idBureau);
 		void deleteElecteur(in unsigned long id);
     	boolean saveElecteur(in Electeur e);
