@@ -1,5 +1,6 @@
 package src;
 
+import src.util.UtilORB;
 import ui.uiStats.uiStats;
 
 public class ClientStat {
@@ -10,8 +11,11 @@ public class ClientStat {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		//new uiStats();
+//		Pour le callback
+		UtilORB.registerStats();
+		
 		uiStats.getInstance();
+		
 	}
 	
 

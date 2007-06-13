@@ -54,9 +54,7 @@ public class DBUtils
 					try {
 						ReadDbConfig rdc = ReadDbConfig.getInstance();
 						Class.forName("com.mysql.jdbc.Driver").newInstance();
-						//System.out.println("URL : " + rdc.getUrl());
-						//System.out.println("Login : " + rdc.getReadOnlyLogin());
-						//System.out.println("Passwd : " + rdc.getReadOnlyPassword());
+						
 						conn = DriverManager.getConnection(rdc.getUrl(), rdc.getReadOnlyLogin(), rdc.getReadOnlyPassword());
 
 

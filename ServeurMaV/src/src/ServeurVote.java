@@ -24,7 +24,7 @@ public static void main(String[] args) {
             VotantImpl voteRef = new VotantImpl();
             orb.connect(voteRef);
             
-            StatsImpl statRef = new StatsImpl();
+            StatsImpl statRef = StatsImpl.getInstance();
             orb.connect(statRef);
             
             CandidatImpl candRef = new CandidatImpl();

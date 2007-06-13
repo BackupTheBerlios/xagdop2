@@ -10,7 +10,6 @@ import org.omg.CosNaming.NamingContextPackage.NotFound;
 
 import src.util.UtilORB;
 import ui.uiStats.DataSet;
-import MaV.Candidat;
 import MaV.ListeC;
 import MaV.Stats;
 import MaV._StatsCallBackImplBase;
@@ -27,6 +26,8 @@ public class StatsCallBackImpl extends _StatsCallBackImplBase{
 	 */
 	private static final long serialVersionUID = 2951748864844209358L;
 
+
+	
 	public void callback(Stats[] s) {
 		// TODO Auto-generated method stub
 		

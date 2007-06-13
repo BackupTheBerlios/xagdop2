@@ -35,7 +35,9 @@ public class VotezListener implements ActionListener {
 						+ fen.getCandidatSelectionne().getText())) {
 			try {
 				Votant v = UtilORB.getVotant();
-				v.votePour2(idCandidat, inseeElecteur,fen.getElecteur().bureau, new StatsCallBackImpl());
+				
+				v.votePour2(idCandidat, inseeElecteur,fen.getElecteur().bureau);
+				
 				/**
 				 * TODO Decommenter quand le call back fonctionnera Et supprimer
 				 * la ligne d'en dessous

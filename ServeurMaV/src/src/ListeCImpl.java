@@ -73,7 +73,7 @@ public class ListeCImpl extends MaV._ListeCImplBase  {
 
 	public int getNbVotes(int id) {
 		String query = "SELECT sum(nbVotes) FROM vote WHERE idCandidat = " + id + " group by idCandidat"; 
-		System.out.println(query);
+		//System.out.println(query);
 		int nb = -1;
 		ResultSet rs = DBUtils.select(query);
 		try {

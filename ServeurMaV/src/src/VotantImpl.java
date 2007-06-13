@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import MaV.Candidat;
 import MaV.Electeur;
 import MaV.Stats;
-import MaV.StatsCallBack;
 import MaV._VotantImplBase;
 
 public class VotantImpl extends _VotantImplBase {
@@ -21,12 +20,12 @@ public class VotantImpl extends _VotantImplBase {
 	public boolean aDejaVote(int insee) {
 		// TODO Auto-generated method stub
 		String query = "SELECT aVote FROM electeur WHERE insee = " + insee ; 
-		//System.out.println(query);
+		
 		boolean ok = false;
 		ResultSet rs = DBUtils.select(query);
 		try {
-			rs.next();
-			ok = rs.getBoolean(1);
+			if(rs.next())
+				ok = rs.getBoolean(1);
 			rs.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -40,12 +39,12 @@ public class VotantImpl extends _VotantImplBase {
 		// TODO Auto-generated method stub
 		Electeur votant = null;
 
-		String query = "SELECT e.nom,e.prenom, b.idBureau" +
+		String query = "SELECT e.nom,e.prenom, b.idBureau, e.code" +
 		"  FROM electeur e, bureau b, canton ca, circonscription ci,dept d, lieu l" +
 		"  WHERE insee = " + insee + " and code = " + code 
 		+" AND b.idBureau = e.idBureau AND l.idBureau = e.idBureau AND ca.idCanton = l.idCanton " +
 		" AND ci.idCirconscription = l.idCirconscription AND d.idDept = l.idDept"; 
-		//System.out.println(query);
+		
 		ResultSet rs = DBUtils.select(query);
 		int taille = 0;
 		try {			
@@ -59,7 +58,7 @@ public class VotantImpl extends _VotantImplBase {
 
 			rs.beforeFirst();
 			rs.next();
-			votant = new Electeur(insee, rs.getString(1),rs.getString(2), rs.getInt(3) );
+			votant = new Electeur(insee, rs.getString(1),rs.getString(2), rs.getInt(3), rs.getInt(4) );
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -101,8 +100,6 @@ public class VotantImpl extends _VotantImplBase {
 		// TODO Auto-generated method stub
 
 	}
-
-
 
 	public boolean saveElecteur(Electeur e) {
 		// TODO Auto-generated method stub
@@ -153,7 +150,7 @@ public class VotantImpl extends _VotantImplBase {
 	}
 
 
-	public void votePour2(int id, int insee, int bureau, StatsCallBack objCallBack) {
+	public void votePour2(int id, int insee, int bureau) {
 		// TODO Auto-generated method stub
 		if(!this.aDejaVote(insee)){
 
@@ -182,7 +179,7 @@ public class VotantImpl extends _VotantImplBase {
 //		notification du vote aux clients
 
 		//Recuperation du nombre de votes par candidat
-		StatsImpl statsI = new StatsImpl();
+		StatsImpl statsI = StatsImpl.getInstance();
 		ListeCImpl lca = new ListeCImpl();
 		Candidat[] ca = lca.getAllCandidats();
 		
@@ -208,7 +205,11 @@ public class VotantImpl extends _VotantImplBase {
 			s[i] = tmp;
 		}
 		
-		objCallBack.callback(s);
+		for (int i=0; i<statsI.getListe().size(); i++){
+			statsI.getListe().get(i).callback(s);
+		}
 	}
+
+	
 
 }

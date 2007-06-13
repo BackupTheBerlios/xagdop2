@@ -1,5 +1,24 @@
 module MaV {
-interface Statistiques {
+	
+	 struct Stats {
+			unsigned long idCandidat;
+			unsigned long idBureau;
+			unsigned long nbVotes;
+		};
+
+	
+	typedef sequence<Stats> lstats;
+	
+	interface StatsCallBack{
+		
+		void callback(in lstats s);
+	};
+	
+	
+	interface Statistiques {
+		void enregistrerClientsStats(in StatsCallBack obj);
+		
+		void deleteClientsStats(in StatsCallBack obj);
 
        	unsigned long getNbVotes(in unsigned long id);
     	unsigned long getNbVotesParBureau(in unsigned long idB, in unsigned long id);

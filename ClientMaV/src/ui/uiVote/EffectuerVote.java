@@ -180,6 +180,12 @@ public class EffectuerVote extends JFrame {
 			
 			troisiemeLigne.add(info);
 		}
+		JButton candButton = new JButton("blanc");
+		
+		candButton.addActionListener(new CandidatListener(this,candButton.getText(),0));
+		
+		troisiemeLigne.add(candButton);
+		
 		
 		c.add(troisiemeLigne, new GridBagConstraints(1, 5, 5, 5, 0.0, 2.0
 				,GridBagConstraints.SOUTH, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));

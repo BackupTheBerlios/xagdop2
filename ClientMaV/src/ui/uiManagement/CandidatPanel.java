@@ -475,7 +475,7 @@ public class CandidatPanel extends JPanel {
 		jtProfession.setEditable(bEditable);
 		getJButton().setVisible(bEditable);
 		getJButton1().setVisible(bEditable);
-		getJButton2().setText("Détails Mandat");
+		getJButton2().setVisible(bEditable);
 		getButton3().setVisible(bEditable);
 
 	}

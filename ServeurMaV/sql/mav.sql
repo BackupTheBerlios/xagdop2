@@ -14,7 +14,7 @@ drop table if exists electeur cascade;
 drop table if exists lieu cascade;
 drop table if exists mandat cascade;
 drop table if exists vote cascade;
-
+drop table if exists admin cascade;
 
 
 create table bureau(

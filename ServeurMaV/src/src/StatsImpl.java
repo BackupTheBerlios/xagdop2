@@ -2,7 +2,9 @@ package src;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
+import MaV.StatsCallBack;
 import MaV._StatistiquesImplBase;
 
 public class StatsImpl extends _StatistiquesImplBase {
@@ -11,8 +13,18 @@ public class StatsImpl extends _StatistiquesImplBase {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	private ArrayList<StatsCallBack> liste = new ArrayList<StatsCallBack>();
+	private static StatsImpl instance = null;
 	
+	private StatsImpl(){
+		
+	}
+	
+	public static StatsImpl getInstance(){
+		if(instance == null)
+			instance = new StatsImpl();
+		return instance;
+	}
 	
 	public int getNbVotes(int id) {
 		// TODO Auto-generated method stub
@@ -55,6 +67,22 @@ public class StatsImpl extends _StatistiquesImplBase {
 	public int getNbVotesParDept(int idD, int id) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	public void enregistrerClientsStats(StatsCallBack obj) {
+		// TODO Auto-generated method stub
+		liste.add(obj);
+	}
+
+	public ArrayList<StatsCallBack> getListe() {
+		return liste;
+	}
+
+	public void deleteClientsStats(StatsCallBack obj) {
+		// TODO Auto-generated method stub
+		System.out.println(liste.contains(obj));
+		System.out.println("ICI");
+		liste.remove(obj);
 	}
 
 

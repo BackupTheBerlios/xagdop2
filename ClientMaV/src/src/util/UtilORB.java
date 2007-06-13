@@ -19,6 +19,8 @@ import MaV.VotantHelper;
 public class UtilORB {
 
 	private static NamingContext ncRef = null;
+	private static StatsCallBackImpl statImpl = null;
+	private static int nbInstances = 0;
 	
 	public static Votant getVotant() throws NotFound, CannotProceed, InvalidName{
 //      bind the Object Reference in Naming
@@ -44,6 +46,52 @@ public class UtilORB {
 		
 	}
 	
+	public static void registerStats(){
+		String[] arg = {"-ORBInitialPort","2000"};
+		ORB orb = ORB.init(arg, null);
+		
+		if(statImpl == null){
+			statImpl = new StatsCallBackImpl();
+			orb.connect(statImpl);
+			try {
+				
+				UtilORB.getStats().enregistrerClientsStats(statImpl);
+			} catch (NotFound e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (CannotProceed e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvalidName e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		
+		nbInstances ++;
+	}
+	
+	public static void unregisterStats(){
+		
+		nbInstances--;
+		if(nbInstances == 0)
+			try {
+				
+				getStats().deleteClientsStats(statImpl);
+			} catch (NotFound e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (CannotProceed e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvalidName e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+	}
+	
 	private static NamingContext getNamingContext()
 	{
 		if(ncRef==null)
@@ -59,10 +107,6 @@ public class UtilORB {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			//Pour le callback
-			StatsCallBackImpl voteImpl = new StatsCallBackImpl();
-			orb.connect(voteImpl);
             
 		}
 		return ncRef;
