@@ -39,6 +39,34 @@
 		</apply>
 	</target>
 	
+	
+	<target name="manageMaVClientStatsIDLs" description="Compile module MaV for server">
+			 <apply executable="${idlj.executable}" resolveExecutable="true">
+		      				<arg line="-fallTie "/>
+		      				<arg line="-oldImplBase"/>
+		      				<arg line="-emitALL -keep "/>
+		      				<arg line="-td ${targetedClient}"/>
+			      		 	<arg line="-J-Xmx256m"/>
+		      				<fileset dir="${basedir}/idl/">
+		      					<include name="**/Statistiques.idl"/>
+							</fileset>
+			</apply>
+		</target>
+	
+	<target name="manageMaVServerStatsIDLs" description="Compile module MaV for clients">
+			 <apply executable="${idlj.executable}" resolveExecutable="true">
+		      				<arg line="-fclient "/>
+		      				<arg line="-oldImplBase"/>
+		      				<arg line="-emitALL -keep "/>
+		      				<arg line="-td ${targetedServer} "/>
+			      		 	<arg line="-J-Xmx256m"/>
+		      				<fileset dir="${basedir}/idl/">
+		      					<include name="**/Statistiques.idl"/>
+							</fileset>
+			</apply>
+		</target>
+	
+	
 	<!--
 		#########################################################
 		#########################################################
@@ -51,6 +79,8 @@
 	<target name="makeAllIDLs" depends="">
 		<antcall target="manageMaVServerIDLs"/>
 		<antcall target="manageMaVClientIDLs"/>
+		<antcall target="manageMaVServerStatsIDLs"/>
+		<antcall target="manageMaVClientStatsIDLs"/>
 	</target>
 	
 	<target name="help">
