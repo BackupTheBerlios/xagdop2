@@ -111,6 +111,13 @@ create table admin(
 
 insert into candidat (nom, prenom, age, profession) values ("Mamie", "Moujeau", 100, "Retraite");
 insert into candidat (nom, prenom, age, profession) values ("Blabla", "Plop", 10, "Bebe");
+insert into candidat (nom, prenom, age, profession) values ("Segolene", "Royal", 47, "Mère au foyer");
+insert into candidat (nom, prenom, age, profession) values ("Nicolas", "Sarkozy", 47, "Veut devenir président");
+insert into candidat (nom, prenom, age, profession) values ("François", "Bayrou", 52, "Centriste");
+insert into candidat (nom, prenom, age, profession) values ("Jean-Marie", "Le Pen", 78, "Fasciste");
+insert into candidat (nom, prenom, age, profession) values ("Olivier", "Besansnot", 28, "Kroustchev");
+insert into candidat (nom, prenom, age, profession) values ("Miaou", "Le Chat", 24, "Moi");
+
 
 insert into mandat (titre, anneeD, anneeF) values ("Maire de Toulouse", "27/01/2003","19/11/2005");
 insert into mandat (titre, anneeD) values ("Maire de Paris", "10/02/2003");
