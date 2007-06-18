@@ -8,6 +8,7 @@ module MaV {
 		unsigned long code;
     };
     
+    typedef sequence<Electeur> le;
       
     interface Votant{
     	//Permet de tester son bureau de vote, et ses infos
@@ -17,7 +18,9 @@ module MaV {
 		void votePour2(in unsigned long id, in unsigned long insee, in unsigned long idBureau);
 		void votePour(in unsigned long id, in unsigned long insee, in unsigned long idBureau);
 		void deleteElecteur(in unsigned long id);
-    	boolean saveElecteur(in Electeur e);
+    	void saveElecteur(in Electeur e);
+    	void createElecteur(in Electeur e);
+    	le getAllElecteur();
     };
     
     

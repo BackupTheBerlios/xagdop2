@@ -20,7 +20,7 @@ public class VotantImpl extends _VotantImplBase {
 	public boolean aDejaVote(int insee) {
 		// TODO Auto-generated method stub
 		String query = "SELECT aVote FROM electeur WHERE insee = " + insee ; 
-		
+
 		boolean ok = false;
 		ResultSet rs = DBUtils.select(query);
 		try {
@@ -44,7 +44,7 @@ public class VotantImpl extends _VotantImplBase {
 		"  WHERE insee = " + insee + " and code = " + code 
 		+" AND b.idBureau = e.idBureau AND l.idBureau = e.idBureau AND ca.idCanton = l.idCanton " +
 		" AND ci.idCirconscription = l.idCirconscription AND d.idDept = l.idDept"; 
-		
+
 		ResultSet rs = DBUtils.select(query);
 		int taille = 0;
 		try {			
@@ -52,7 +52,7 @@ public class VotantImpl extends _VotantImplBase {
 			{
 				taille++;
 			}
-
+			
 			if (taille != 1)
 				return null;
 
@@ -101,9 +101,8 @@ public class VotantImpl extends _VotantImplBase {
 
 	}
 
-	public boolean saveElecteur(Electeur e) {
+	public void saveElecteur(Electeur e) {
 		// TODO Auto-generated method stub
-		return false;
 	}
 
 	public boolean exists(int insee, int code) {
@@ -182,14 +181,14 @@ public class VotantImpl extends _VotantImplBase {
 		StatsImpl statsI = StatsImpl.getInstance();
 		ListeCImpl lca = new ListeCImpl();
 		Candidat[] ca = lca.getAllCandidats();
-		
+
 		/*
 		 * Structure de Stats : 
 		 * idCandidat 	: int
 		 * idBureau		: int
 		 * nbVotes		: int
 		 */
-		
+
 		/** TODO 
 		 * Pour l'instant, total des votes pour chaque candidat, à modifier pour des stats plus précises
 		 */
@@ -204,12 +203,53 @@ public class VotantImpl extends _VotantImplBase {
 			//System.out.println(tmp.nbVotes + "  "+ tmp.idCandidat);
 			s[i] = tmp;
 		}
-		
+
 		for (int i=0; i<statsI.getListe().size(); i++){
 			statsI.getListe().get(i).callback(s);
 		}
 	}
 
-	
+	public void createElecteur(Electeur e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public Electeur[] getAllElecteur() {
+		Electeur el = null;
+		Electeur[] result = null;
+
+		String query = "SELECT * FROM electeur"; 
+		ResultSet rs = DBUtils.select(query);
+		int taille = 0;
+
+		try {			
+			while(rs.next()){
+				taille++;
+			}
+			rs.beforeFirst();
+
+			result = new Electeur[taille];
+			System.out.println(taille);
+			int i = 0;
+			while(rs.next()){
+				el = new Electeur();
+				el.insee = rs.getInt(1);
+				el.code =rs.getInt(2);
+				el.nom = rs.getString(3);
+				el.prenom = rs.getString(4);
+				el.bureau = rs.getInt(6);
+				result[i] = el;
+				i++;
+			}
+			rs.close();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+
 
 }

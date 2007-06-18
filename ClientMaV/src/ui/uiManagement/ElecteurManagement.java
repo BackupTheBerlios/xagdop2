@@ -1,20 +1,33 @@
 package ui.uiManagement;
 
-import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.List;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+
+import src.util.ArrayListStorageContainer;
+import src.util.CandidatClient;
+import src.util.ElecteurClient;
+import src.util.MandatProxy;
+import src.util.MessageDialogBox;
+import ui.util.MaVList;
+import MaV.Electeur;
+import MaV.Mandat;
+import controller.MaVComparator;
+import controller.MaVListModel;
+import controller.MaVSearchable;
 /**
  * @author nephos
  *
@@ -26,29 +39,31 @@ public class ElecteurManagement extends JFrame {
 	 */
 	private static final long serialVersionUID = 8598685457321999040L;
 	private JPanel jContentPane = null;
-	private JPanel jPanelAge = null;
 	private Button bAdd = null;
-	private List listCandidat = null;  //  @jve:decl-index=0:visual-constraint="613,10"
+	private MaVList listElecteur = null;  //  @jve:decl-index=0:visual-constraint="613,10"
 	private Button bDel = null;
 	private Button bQuit = null;
 	private JPanel jPanel = null;  //  @jve:decl-index=0:visual-constraint="443,13"
-	private JLabel lId = null;
+	private JLabel lInsee = null;
 	private JLabel lNom = null;
-	private JLabel id = null;
+	private JLabel insee = null;
 	private JLabel lPrenom = null;
-	private JLabel lAge = null;
-	private JLabel lProfession = null;
-	private List listMandats = null;
 	private JTextField jtNom = null;
 	private JTextField jtPrenom = null;
-	private JTextField jtAge = null;
-	private JTextField jtProfession = null;
-	private JLabel lMandats = null;
-	private JLabel lAns = null;
-	private JButton bAddMandat = null;
-	private JButton bDelMandat = null;
-	private JButton bEditMandat = null;
 	private Button button = null;
+	private JTextField jTextField = null;
+	private JScrollPane jScrollPane_List = new JScrollPane(
+			JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+			JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+
+	private MaVListModel jListModelList = new MaVListModel();
+
+	private String strOrderAttribute = "";
+	private MaVComparator myComparator = null;
+	private JPanel jPanelImage;
+	private ElecteurClient elect = null ;
+
 	/**
 	 * This method initializes 
 	 * 
@@ -56,6 +71,13 @@ public class ElecteurManagement extends JFrame {
 	public ElecteurManagement() {
 		super();
 		initialize();
+	}
+	public ElecteurManagement(MaVComparator mc, MaVSearchable ms, ArrayListStorageContainer list ) {
+		super();
+		initialize();
+		setComparator( mc, "");
+		setSearchable( ms, "");
+		setLists(list);
 	}
 
 	/**
@@ -66,7 +88,7 @@ public class ElecteurManagement extends JFrame {
 		this.setSize(new Dimension(640, 420));
 		this.setPreferredSize(new Dimension(640, 420));
 		this.setContentPane(getJContentPane());
-		this.setTitle("Edition des candidats");
+		this.setTitle("Edition des Electeurs");
 		this.setMinimumSize(new Dimension(320,240));
 		setVisible(true);
 	}
@@ -78,6 +100,16 @@ public class ElecteurManagement extends JFrame {
 	 */
 	private JPanel getJContentPane() {
 		if (jContentPane == null) {
+
+			GridBagConstraints gridBagConstraints17 = new GridBagConstraints();
+			gridBagConstraints17.fill = GridBagConstraints.HORIZONTAL;
+			gridBagConstraints17.gridy = 0;
+			gridBagConstraints17.weightx = 1.0;
+			gridBagConstraints17.gridwidth = 2;
+			gridBagConstraints17.gridx = 0;
+			gridBagConstraints17.insets = new Insets(5, 5, 5, 5);
+
+
 			GridBagConstraints gridBagConstraints7 = new GridBagConstraints();
 			gridBagConstraints7.gridx = 2;
 			gridBagConstraints7.fill = GridBagConstraints.BOTH;
@@ -85,45 +117,69 @@ public class ElecteurManagement extends JFrame {
 			gridBagConstraints7.weighty = 1.0;
 			gridBagConstraints7.insets = new Insets(5, 5, 5, 5);
 			gridBagConstraints7.gridy = 0;
+			gridBagConstraints7.gridheight=2;
+
+
 			GridBagConstraints gridBagConstraints4 = new GridBagConstraints();
 			gridBagConstraints4.gridx = 2;
 			gridBagConstraints4.anchor = GridBagConstraints.EAST;
 			gridBagConstraints4.insets = new Insets(5, 5, 5, 5);
 			gridBagConstraints4.weightx = 1.0;
-			gridBagConstraints4.gridy = 1;
+			gridBagConstraints4.gridy = 2;
+
+
 			GridBagConstraints gridBagConstraints3 = new GridBagConstraints();
 			gridBagConstraints3.gridx = 1;
 			gridBagConstraints3.anchor = GridBagConstraints.WEST;
 			gridBagConstraints3.insets = new Insets(5, 5, 5, 5);
-			gridBagConstraints3.gridy = 1;
+			gridBagConstraints3.gridy = 2;
+
+
 			GridBagConstraints gridBagConstraints2 = new GridBagConstraints();
 			gridBagConstraints2.fill = GridBagConstraints.BOTH;
-			gridBagConstraints2.gridy = 0;
+			gridBagConstraints2.gridy = 1;
 			gridBagConstraints2.weightx = 0.0;
 			gridBagConstraints2.weighty = 1.0;
 			gridBagConstraints2.anchor = GridBagConstraints.WEST;
 			gridBagConstraints2.insets = new Insets(5, 5, 5, 5);
 			gridBagConstraints2.gridwidth = 2;
 			gridBagConstraints2.gridx = 0;
+			
+			
 			GridBagConstraints gridBagConstraints = new GridBagConstraints();
 			gridBagConstraints.gridx = 0;
 			gridBagConstraints.gridheight = 1;
 			gridBagConstraints.gridwidth = 1;
 			gridBagConstraints.fill = GridBagConstraints.NONE;
 			gridBagConstraints.insets = new Insets(5, 5, 5, 5);
-			gridBagConstraints.gridy = 1;
+			gridBagConstraints.gridy = 2;
 			jContentPane = new JPanel();
 			jContentPane.setLayout(new GridBagLayout());
+
+			jContentPane.add(getJTextField4(), gridBagConstraints17);
 			jContentPane.add(getButton(), gridBagConstraints);
 			jContentPane.add(getList(), gridBagConstraints2);
 			jContentPane.add(getButton1(), gridBagConstraints3);
 			jContentPane.add(getButton2(), gridBagConstraints4);
 			jContentPane.add(getJPanel(), gridBagConstraints7);
-			//getJPanel().setVisible(false);
+
 			jContentPane.setMinimumSize(new Dimension(200,320));
 		}
 		return jContentPane;
 	}
+
+	private JTextField getJTextField4() {
+		if (jTextField == null) {
+			jTextField = new JTextField();
+			jTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+				public void keyReleased(KeyEvent e) {
+					jTextField_FindLeftPersonList_keyReleased(e);
+				}
+			});
+		}
+		return jTextField;
+	}
+
 
 	/**
 	 * This method initializes button	
@@ -134,6 +190,21 @@ public class ElecteurManagement extends JFrame {
 		if (bAdd == null) {
 			bAdd = new Button();
 			bAdd.setLabel("Ajouter");
+			bAdd.addActionListener(new ActionListener(){
+
+				public void actionPerformed(ActionEvent e) {
+					listElecteur.setSelectedIndex(-1);
+					//CandidatClient cand = new CandidatClient("", "", -1, "");
+					//jListModelList.addElement(cand);
+					jListModelList.sort(myComparator, "", true);
+					//getJPanel().completePanel(cand);
+					getJPanelImage().setVisible(false);
+					getJPanel().setVisible(true);
+				}
+
+			});
+			bAdd.setLabel("Ajouter");
+
 		}
 		return bAdd;
 	}
@@ -143,11 +214,28 @@ public class ElecteurManagement extends JFrame {
 	 * 	
 	 * @return java.awt.List	
 	 */
-	private List getList() {
-		if (listCandidat == null) {
-			listCandidat = new List();
+	private JScrollPane getList() {
+		if (listElecteur == null) {
+			listElecteur = new MaVList(jListModelList);
+			listElecteur.addMouseListener(new java.awt.event.MouseAdapter() {
+				public void mouseClicked(java.awt.event.MouseEvent e) {
+					if (e.getClickCount() == 1) {
+						//((PanelCompany)getJPanelEdit()).set((ECSSCompany)listOfCompany.getModel().getElementAt(index));
+						if(listElecteur.getSelectedIndex() == -1){
+							getJPanelImage().setVisible(true);
+							getJPanel().setVisible(false);
+						}else{
+							completePanel((((ElecteurClient)jListModelList.getElementAt(listElecteur.getSelectedIndex()))));
+							getJPanelImage().setVisible(false);
+							getJPanel().setVisible(true);
+						}
+					}
+				}
+			});
+			jScrollPane_List.getViewport().add(listElecteur);
+			//jScrollPane_List.setPreferredSize(new Dimension(120,230));
 		}
-		return listCandidat;
+		return jScrollPane_List;
 	}
 
 	/**
@@ -159,6 +247,17 @@ public class ElecteurManagement extends JFrame {
 		if (bDel == null) {
 			bDel = new Button();
 			bDel.setLabel("Supprimer");
+			bDel.addActionListener(new ActionListener(){
+
+				public void actionPerformed(ActionEvent e) {
+					if(listElecteur.getSelectedIndex() != -1){
+						if(askConfirmation()){
+							getJPanelImage().setVisible(true);
+							getJPanel().setVisible(false);
+						}
+					}
+				}
+			});
 		}
 		return bDel;
 	}
@@ -176,19 +275,13 @@ public class ElecteurManagement extends JFrame {
 		return bQuit;
 	}
 
-
-	private JPanel getJPanelAge() {
-		if (jPanelAge == null) {
-			jPanelAge = new JPanel();
-			jPanelAge.setLayout(new BorderLayout());
-			lAns = new JLabel();
-			lAns.setText(" ans");
-			jPanelAge.add(getJTextField2(),BorderLayout.WEST);
-			jPanelAge.add(lAns,BorderLayout.CENTER);
+	private JPanel getJPanelImage() {
+		if (jPanelImage == null) {
+			jPanelImage = new JPanel();
+			jPanelImage.setPreferredSize(new Dimension(450,250));
 		}
-		return jPanelAge;
+		return jPanelImage;
 	}
-
 	/**
 	 * This method initializes jPanel
 	 * 	
@@ -223,8 +316,6 @@ public class ElecteurManagement extends JFrame {
 			gridBagConstraints16.insets = new Insets(15, 5, 5, 5);
 			gridBagConstraints16.anchor = GridBagConstraints.WEST;
 			gridBagConstraints16.gridy = 5;
-			lMandats = new JLabel();
-			lMandats.setText("Mandats éffectués :");
 			GridBagConstraints gridBagConstraints15 = new GridBagConstraints();
 			gridBagConstraints15.fill = GridBagConstraints.VERTICAL;
 			gridBagConstraints15.gridy = 4;
@@ -272,16 +363,12 @@ public class ElecteurManagement extends JFrame {
 			gridBagConstraints10.anchor = GridBagConstraints.EAST;
 			gridBagConstraints10.gridwidth = 1;
 			gridBagConstraints10.gridy = 4;
-			lProfession = new JLabel();
-			lProfession.setText("Profession : ");
 			GridBagConstraints gridBagConstraints9 = new GridBagConstraints();
 			gridBagConstraints9.gridx = 0;
 			gridBagConstraints9.insets = new Insets(5, 5, 5, 5);
 			gridBagConstraints9.anchor = GridBagConstraints.EAST;
 			gridBagConstraints9.gridwidth = 1;
 			gridBagConstraints9.gridy = 3;
-			lAge = new JLabel();
-			lAge.setText("Age : ");
 			GridBagConstraints gridBagConstraints8 = new GridBagConstraints();
 			gridBagConstraints8.gridx = 0;
 			gridBagConstraints8.anchor = GridBagConstraints.EAST;
@@ -295,7 +382,7 @@ public class ElecteurManagement extends JFrame {
 			gridBagConstraints6.insets = new Insets(5, 5, 5, 5);
 			gridBagConstraints6.anchor = GridBagConstraints.WEST;
 			gridBagConstraints6.gridy = 0;
-			id = new JLabel();
+			insee = new JLabel();
 			GridBagConstraints gridBagConstraints5 = new GridBagConstraints();
 			gridBagConstraints5.gridx = 0;
 			gridBagConstraints5.insets = new Insets(5, 5, 5, 5);
@@ -310,44 +397,25 @@ public class ElecteurManagement extends JFrame {
 			gridBagConstraints1.anchor = GridBagConstraints.EAST;
 			gridBagConstraints1.gridwidth = 1;
 			gridBagConstraints1.gridy = 0;
-			lId = new JLabel();
-			lId.setText("Id candidat : ");
+			lInsee = new JLabel();
+			lInsee.setText("N° Insee : ");
 			jPanel = new JPanel();
 			jPanel.setLayout(new GridBagLayout());
 			jPanel.setSize(new Dimension(416, 406));
-			jPanel.add(lId, gridBagConstraints1);
+			jPanel.add(lInsee, gridBagConstraints1);
 			jPanel.add(lNom, gridBagConstraints5);
-			jPanel.add(id, gridBagConstraints6);
+			jPanel.add(insee, gridBagConstraints6);
 			jPanel.add(lPrenom, gridBagConstraints8);
-			jPanel.add(lAge, gridBagConstraints9);
-			jPanel.add(lProfession, gridBagConstraints10);
-			jPanel.add(getList1(), gridBagConstraints11);
-			jPanel.add(lMandats, gridBagConstraints16);
-			jPanel.add(getJButton(), gridBagConstraints18);
-			jPanel.add(getJButton1(), gridBagConstraints19);
-			jPanel.add(getJButton2(), gridBagConstraints20);
 			jPanel.add(getButton3(), gridBagConstraints22);
 			jPanel.setMinimumSize(new Dimension(240, 280));
 			jPanel.add(getJTextField(), gridBagConstraints12);
 			jPanel.add(getJTextField1(), gridBagConstraints13);
-			jPanel.add(getJPanelAge(), gridBagConstraints14);
-			jPanel.add(getJTextField3(), gridBagConstraints15);
 			jPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		}
 		return jPanel;
 	}
 
-	/**
-	 * This method initializes list1	
-	 * 	
-	 * @return java.awt.List	
-	 */
-	private List getList1() {
-		if (listMandats == null) {
-			listMandats = new List();
-		}
-		return listMandats;
-	}
+
 
 	/**
 	 * This method initializes jTextField	
@@ -377,70 +445,7 @@ public class ElecteurManagement extends JFrame {
 		return jtPrenom;
 	}
 
-	/**
-	 * This method initializes jTextField2	
-	 * 	
-	 * @return javax.swing.JTextField	
-	 */
-	private JTextField getJTextField2() {
-		if (jtAge == null) {
-			jtAge = new JTextField();
-			jtAge.setPreferredSize(new Dimension(61, 19));
-			jtAge.setMinimumSize(new Dimension(61, 19));
-		}
-		return jtAge;
-	}
 
-	/**
-	 * This method initializes jTextField3	
-	 * 	
-	 * @return javax.swing.JTextField	
-	 */
-	private JTextField getJTextField3() {
-		if (jtProfession == null) {
-			jtProfession = new JTextField();
-			jtProfession.setPreferredSize(new Dimension(180, 19));
-			jtProfession.setMinimumSize(new Dimension(180, 19));
-		}
-		return jtProfession;
-	}
-
-	/**
-	 * This method initializes jButton	
-	 * 	
-	 * @return javax.swing.JButton	
-	 */
-	private JButton getJButton() {
-		if (bAddMandat == null) {
-			bAddMandat = new JButton("Ajouter Mandat");
-			//bAddMandat.setLabel();
-		}
-		return bAddMandat;
-	}
-
-	/**
-	 * This method initializes jButton1	
-	 * 	
-	 * @return javax.swing.JButton	
-	 */
-	private JButton getJButton1() {
-		if (bDelMandat == null) {
-			bDelMandat = new JButton("Supprimer Mandat");
-		}
-		return bDelMandat;
-	}
-
-	/**
-	 * This method initializes jButton2	
-	 * 	
-	 * @return javax.swing.JButton	
-	 */
-	private JButton getJButton2() {
-		if (bEditMandat == null) {
-			bEditMandat = new JButton("Editer Mandat");
-		}
-		return bEditMandat;
-	}
 
 	/**
 	 * This method initializes button	
@@ -450,9 +455,58 @@ public class ElecteurManagement extends JFrame {
 	private Button getButton3() {
 		if (button == null) {
 			button = new Button();
-			button.setLabel("Enregistrer Candidat");
+			button.setLabel("Enregistrer Electeur");
 		}
 		return button;
+	}
+
+
+	public void setComparator(MaVComparator myComparator_,
+			String strOrderAttribute_) {
+		myComparator = myComparator_;
+		strOrderAttribute = strOrderAttribute_;
+	}
+
+	public void setLists(ArrayListStorageContainer _list){
+		ArrayListStorageContainer _listTmp = new ArrayListStorageContainer();
+		for(int i = 0 ; i < _list.size(); i++){
+			_listTmp.add(new ElecteurClient((Electeur)_list.get(i)));
+		}
+		jListModelList.setData(_listTmp);
+		//jListModel_List.setData(ListOfPersonSmart.getInstance().getAllPersons());
+		jListModelList.getData().addDataListListener(jListModelList);
+		if (myComparator != null) {
+			jListModelList.sort(myComparator, strOrderAttribute,
+					myComparator.getOrder());
+		}
+	}
+
+
+	public void setSearchable(MaVSearchable mySearchableDelegationObject_,
+			String strSearchAttribute_) {
+
+		listElecteur.setSearchDelegationObject(mySearchableDelegationObject_,
+				strSearchAttribute_);
+	}
+
+
+	private void jTextField_FindLeftPersonList_keyReleased(KeyEvent e) {
+		listElecteur.searchText(jTextField.getText());
+	}
+
+	private boolean askConfirmation(){
+		if(MessageDialogBox.showConfirmDialog(this, "Confirmation", "Etes-vous sur de vouloir supprimer ce candidat ?")){
+			return true;
+		}
+		return false;
+	}
+	
+	public void completePanel(ElecteurClient _elect){
+		elect = _elect;
+		insee.setText(Integer.toString(_elect.getElect().insee));
+		jtNom.setText(_elect.getElect().nom);
+		jtPrenom.setText(_elect.getElect().prenom);
+	
 	}
 
 

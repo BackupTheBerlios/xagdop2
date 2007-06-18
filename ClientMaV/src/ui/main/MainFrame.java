@@ -2,9 +2,11 @@ package ui.main;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -13,49 +15,63 @@ import javax.swing.JMenuBar;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 
+import org.omg.CosNaming.NamingContextPackage.CannotProceed;
+import org.omg.CosNaming.NamingContextPackage.InvalidName;
+import org.omg.CosNaming.NamingContextPackage.NotFound;
+
+import src.util.ArrayListStorageContainer;
+import src.util.UtilORB;
+import ui.uiManagement.CandidatManagement;
+import ui.uiManagement.ElecteurManagement;
 import ui.util.toolbar.ToolBar;
+import MaV.ListeC;
+import MaV.Votant;
+import controller.CandidatComparator;
+import controller.CandidatSearchable;
+import controller.ElecteurComparator;
+import controller.ElecteurSearchable;
 
 public class MainFrame extends JFrame implements
-		MouseListener
-		{
+MouseListener
+{
 
 	/************************************* BORDER **************************/
 	/***********************************************************************/
 	/**image**/
 	public static final ImageIcon MAV_BORDER =
-        new ImageIcon(
-            MainFrame.class.getResource(
-                "/images/" + "mav.gif"));
-	
+		new ImageIcon(
+				MainFrame.class.getResource(
+						"/images/" + "mav.gif"));
+
 	ImageBorder imgborder = new ImageBorder(MAV_BORDER.getImage(),
 			ImageBorder.WEST,
 			ImageBorder.BOTTOM);	
 	Border _border = new CompoundBorder(LightBorder.createRaisedBorder(),
-    new CompoundBorder(imgborder, LightBorder.createLoweredBorder()));
-	
+			new CompoundBorder(imgborder, LightBorder.createLoweredBorder()));
+
 	/** *********************************** MENU BAR ***********************/
 	/***********************************************************************/
 	private JMenuBar _jMenuBar = new JMenuBar();
-	
+
 	/** ************************** ------> Menu FICHIER ******************** */
 	private JMenu _mnuFichier = new JMenu();
-	
+
 	/** ************************** ------> Menu Edition ******************** */
-	private JMenu _mnuEdit = new JMenu();
-	
+	//private JMenu _mnuEdit = new JMenu();
+
 	/** ************************** ------> Menu Datapackage ******************** */
-	private JMenu _mnuDatapackage = new JMenu();
-	
+	//private JMenu _mnuDatapackage = new JMenu();
+
 	/** ************************** ------> Menu Tools ******************** */
 	private JMenu _mnuTools = new JMenu();
-	
+
 	/** ************************** ------> Menu Help ******************** */
 	private JMenu _mnuHelp = new JMenu();
-	
+
 	/** *********************************** TOOLBAR  ************************/
 	/************************************************************************/
 	private ToolBar _jToolBar = new ToolBar();
-	
+
 	/** ********** New datapackage ******/
 //	private CreateDatapackage _newData = new CreateDatapackage();
 	/** ********** Open datapackage ******/
@@ -74,25 +90,81 @@ public class MainFrame extends JFrame implements
 	//private ShowPropDatapackage _showPropData = new ShowPropDatapackage();
 	/** ********** Edit properties datapackage ******/
 	//private EditPropDatapackage _editPropData = new EditPropDatapackage();
-	
-	
+
+
 	/** Action Fenetre "� propos" (Manu aide) */
 	/*private AboutAbstractAction _myActionAbout = new AboutAbstractAction() {
 		public void actionPerformed(ActionEvent e) {
 			new AstekAboutDialogBox(); 
 		}
+	};*/
+	private AbstractAction _myCandidat = new AbstractAction("Gerer Candidat") {
+		public void actionPerformed(ActionEvent e) {
+
+			ListeC listeCref;
+			try {
+				listeCref = UtilORB.getListeC();
+				listeCref.getAllCandidats();
+				//listeCref.getMandats(1);
+				ArrayListStorageContainer test = new ArrayListStorageContainer(listeCref.getAllCandidats());
+
+				new CandidatManagement(new CandidatComparator(),new CandidatSearchable(), test);
+
+			} catch (NotFound e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (CannotProceed e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (InvalidName e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		
+
+
+		}
 	};
 	
+	
+	private AbstractAction _myElecteur = new AbstractAction("Gerer Electeur") {
+		public void actionPerformed(ActionEvent e) {
+
+			Votant listeCref;
+			try {
+				listeCref = UtilORB.getVotant();
+				
+				//listeCref.getMandats(1);
+				ArrayListStorageContainer test = new ArrayListStorageContainer(listeCref.getAllElecteur());
+
+				new ElecteurManagement(new ElecteurComparator(),new ElecteurSearchable(), test);
+
+			} catch (NotFound e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (CannotProceed e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (InvalidName e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		
+
+
+		}
+	};
+
 	/**
-     * Icone de Smart
-     */
-    public static final ImageIcon SMART_ICON =
-        new ImageIcon(
-            MainFrame.class.getResource(
-                "/images/" + "smart.gif"));
-	
+	 * Icone de Smart
+	 */
+	public static final ImageIcon SMART_ICON =
+		new ImageIcon(
+				MainFrame.class.getResource(
+						"/images/" + "smart.gif"));
+
 	/** Log */
-	
+
 
 
 	/**
@@ -100,13 +172,13 @@ public class MainFrame extends JFrame implements
 	 */
 	public MainFrame() throws Exception {
 		super();
-		this.setIconImage(SMART_ICON.getImage());
+		//this.setIconImage(SMART_ICON.getImage());
 		this.setTitle("MaV");
 
 		// Component Construction
 		try {
 			init();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}	
@@ -129,16 +201,18 @@ public class MainFrame extends JFrame implements
 		this.setJMenuBar(_jMenuBar);
 		//add Fichier menu
 		_mnuFichier.setText("Fichier");
+		_mnuFichier.add(_myCandidat);
+		_mnuFichier.add(_myElecteur);
 		_mnuFichier.setMnemonic('f');
 		_jMenuBar.add(_mnuFichier);
 		//add Edit menu
-		_mnuEdit.setText("Edit");
-		_mnuEdit.setMnemonic('e');
-		_jMenuBar.add(_mnuEdit);
+		//_mnuEdit.setText("Edit");
+		//_mnuEdit.setMnemonic('e');
+		//_jMenuBar.add(_mnuEdit);
 		//add Datapackage
-		_mnuDatapackage.setText("Datapackage");
+		/*_mnuDatapackage.setText("Datapackage");
 		_mnuDatapackage.setMnemonic('d');
-		_jMenuBar.add(_mnuDatapackage);
+		_jMenuBar.add(_mnuDatapackage);*/
 		//add Tools
 		_mnuTools.setText("Tools");
 		_mnuTools.setMnemonic('T');
@@ -148,9 +222,9 @@ public class MainFrame extends JFrame implements
 		_mnuHelp.setMnemonic('?');
 		//_mnuHelp.add(_myActionAbout);
 		_jMenuBar.add(_mnuHelp);
-		
+
 		/////////TOOL BAR //////////////////////
-	/*	_jToolBar.add(_newData);
+		/*	_jToolBar.add(_newData);
 		_jToolBar.add(_openData);
 		_jToolBar.add(_saveData);
 		_jToolBar.add(new AstekToolBarSeparator(JSeparator.VERTICAL));
@@ -161,8 +235,8 @@ public class MainFrame extends JFrame implements
 		_jToolBar.add(new AstekToolBarSeparator(JSeparator.VERTICAL));
 		_jToolBar.add(_showPropData);
 		_jToolBar.add(_editPropData);			*/
-		
-		
+
+
 		//add tool bar
 		this.getContentPane().add(_jToolBar, BorderLayout.NORTH);	
 		//add border 
@@ -171,34 +245,34 @@ public class MainFrame extends JFrame implements
 		this.setSize(new Dimension(800,600));
 	}
 
-	
+
 	public void refreshLabels() {
 		this.setTitle("MaV");		
 	}
 
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
